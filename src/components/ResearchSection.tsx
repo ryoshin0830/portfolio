@@ -106,9 +106,9 @@ const ResearchSection = () => {
     <section
       id="research"
       className="py-20 bg-slate-50 dark:bg-slate-800"
-      data-oid="87mi9by"
+      data-oid="eas:xb0"
     >
-      <div className="container mx-auto px-4" data-oid="r_k3eyk">
+      <div className="container mx-auto px-4" data-oid="5-rt261">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -116,17 +116,17 @@ const ResearchSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="5kewm_i"
+          data-oid="pbxr-d0"
         >
           <h2
             className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4"
-            data-oid="hq9nvhj"
+            data-oid=".gv_v2w"
           >
             {t("title")}
           </h2>
           <p
             className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="6wfccbx"
+            data-oid="s1xx85p"
           >
             {t("subtitle")}
           </p>
@@ -139,17 +139,17 @@ const ResearchSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          data-oid="xl-o05n"
+          data-oid="ckhyfr3"
         >
           <h3
             className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center"
-            data-oid="e4msmho"
+            data-oid="89wf7mu"
           >
             {t("projects")}
           </h3>
           <div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            data-oid="wlbllc3"
+            data-oid="krdqshe"
           >
             {projects.map((project, index) => {
               const colors = getColorClasses(project.color);
@@ -161,34 +161,34 @@ const ResearchSection = () => {
                   variants={itemVariants}
                   className={`p-6 rounded-xl border ${colors.bg} ${colors.border} hover:shadow-lg transition-all duration-300 group`}
                   whileHover={{ scale: 1.02 }}
-                  data-oid="5e5nq6b"
+                  data-oid="5mf61:m"
                 >
-                  <div className="flex items-center mb-4" data-oid="b3471gw">
+                  <div className="flex items-center mb-4" data-oid="31zna3l">
                     <div
                       className={`p-3 rounded-lg ${colors.accent} text-white mr-4`}
-                      data-oid="c1040m7"
+                      data-oid="q7h5:2h"
                     >
-                      <IconComponent size={24} data-oid="t:3kkun" />
+                      <IconComponent size={24} data-oid="9ev0yxw" />
                     </div>
                     <h4
                       className="text-xl font-bold text-slate-800 dark:text-white"
-                      data-oid="o7lyivw"
+                      data-oid="t79svwe"
                     >
                       {t(project.titleKey)}
                     </h4>
                   </div>
                   <p
                     className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed"
-                    data-oid="-4ttms2"
+                    data-oid="fdnb2xi"
                   >
                     {t(project.descriptionKey)}
                   </p>
-                  <div className="flex flex-wrap gap-2" data-oid="ipdsdmc">
+                  <div className="flex flex-wrap gap-2" data-oid="93s22te">
                     {project.technologies.map((tech, techIndex) => (
                       <span
                         key={techIndex}
                         className="px-3 py-1 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-full border border-slate-200 dark:border-slate-600"
-                        data-oid="yojcpun"
+                        data-oid="anqakiq"
                       >
                         {tech}
                       </span>
@@ -206,34 +206,34 @@ const ResearchSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="-n1ud5l"
+          data-oid="f864n-_"
         >
           <h3
             className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center"
-            data-oid="e_o5yyh"
+            data-oid="h8gghae"
           >
             {t("publications")}
           </h3>
-          <div className="max-w-4xl mx-auto" data-oid="qu-a-wa">
+          <div className="max-w-4xl mx-auto" data-oid="6-hi2yc">
             <div
               className="grid grid-cols-1 md:grid-cols-2 gap-6"
-              data-oid="y78ehze"
+              data-oid="3ro.0dh"
             >
               {/* Peer-Reviewed Papers */}
-              <div data-oid="9at3jfd">
+              <div data-oid="gjt3h-f">
                 <h4
                   className="text-xl font-semibold text-slate-800 dark:text-white mb-6 flex items-center"
-                  data-oid="0q7o7cp"
+                  data-oid="-iffus6"
                 >
                   <FileText
                     className="mr-2 text-blue-600"
                     size={20}
-                    data-oid="muap.em"
+                    data-oid="y:ec:6b"
                   />
 
                   {t("peerReviewedPapers")}
                 </h4>
-                <div className="space-y-4" data-oid="_nm-nbk">
+                <div className="space-y-4" data-oid="8bby9c8">
                   {peerReviewedPapers.map((paper, index) => (
                     <motion.div
                       key={index}
@@ -242,34 +242,34 @@ const ResearchSection = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                       viewport={{ once: true }}
-                      data-oid="ammis55"
+                      data-oid="cm3b_b8"
                     >
                       <div
                         className="flex items-start justify-between mb-2"
-                        data-oid="qty_1py"
+                        data-oid="xwiwb1f"
                       >
                         <span
                           className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded"
-                          data-oid="0f8-o-."
+                          data-oid="ytl34a9"
                         >
                           {paper.year}
                         </span>
                       </div>
                       <h5
                         className="font-medium text-slate-800 dark:text-white mb-2 leading-snug"
-                        data-oid="fvkt:8r"
+                        data-oid="89o:-iv"
                       >
                         {paper.title}
                       </h5>
                       <p
                         className="text-sm text-slate-600 dark:text-slate-400 mb-1"
-                        data-oid="d15o7qz"
+                        data-oid="azbvvef"
                       >
                         {paper.authors}
                       </p>
                       <p
                         className="text-sm text-slate-500 dark:text-slate-500"
-                        data-oid="a6qscjf"
+                        data-oid="0w5ikct"
                       >
                         {paper.journal}
                         {paper.volume && `, ${paper.volume}`}
@@ -281,20 +281,20 @@ const ResearchSection = () => {
               </div>
 
               {/* Conference Presentations */}
-              <div data-oid="lt6xif5">
+              <div data-oid="336pfh3">
                 <h4
                   className="text-xl font-semibold text-slate-800 dark:text-white mb-6 flex items-center"
-                  data-oid="kth:mu7"
+                  data-oid="r1rvvd9"
                 >
                   <BookOpen
                     className="mr-2 text-green-600"
                     size={20}
-                    data-oid="beczshr"
+                    data-oid="v8dg1uo"
                   />
 
                   {t("conferencePresentations")}
                 </h4>
-                <div className="space-y-4" data-oid="jjp4c-:">
+                <div className="space-y-4" data-oid="04kxtkt">
                   {conferencePresentations.map((paper, index) => (
                     <motion.div
                       key={index}
@@ -303,34 +303,34 @@ const ResearchSection = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.1 }}
                       viewport={{ once: true }}
-                      data-oid="o.rv-ko"
+                      data-oid="0v14:ri"
                     >
                       <div
                         className="flex items-start justify-between mb-2"
-                        data-oid="skjyy3:"
+                        data-oid="mb463-x"
                       >
                         <span
                           className="text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded"
-                          data-oid="ebo2e-i"
+                          data-oid="0.319xl"
                         >
                           {paper.year}
                         </span>
                       </div>
                       <h5
                         className="font-medium text-slate-800 dark:text-white mb-2 leading-snug"
-                        data-oid="9w3sexq"
+                        data-oid="qtji_zu"
                       >
                         {paper.title}
                       </h5>
                       <p
                         className="text-sm text-slate-600 dark:text-slate-400 mb-1"
-                        data-oid="vsnug0i"
+                        data-oid="7rba-em"
                       >
                         {paper.authors}
                       </p>
                       <p
                         className="text-sm text-slate-500 dark:text-slate-500"
-                        data-oid="48eka8h"
+                        data-oid="cgllf8_"
                       >
                         {paper.conference}
                       </p>

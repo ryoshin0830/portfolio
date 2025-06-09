@@ -167,9 +167,9 @@ const SkillsSection = () => {
     <section
       id="skills"
       className="py-20 bg-white dark:bg-slate-900"
-      data-oid="aoxt_ot"
+      data-oid=".6dfhpe"
     >
-      <div className="container mx-auto px-4" data-oid="_q5dxda">
+      <div className="container mx-auto px-4" data-oid="r16qf:n">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -177,17 +177,17 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="d_s.1tf"
+          data-oid="_3r1ftb"
         >
           <h2
             className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4"
-            data-oid="c5k39l9"
+            data-oid="mrbvkkh"
           >
             {t("title")}
           </h2>
           <p
             className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="80hqs2v"
+            data-oid="1obo9w5"
           >
             {t("subtitle")}
           </p>
@@ -200,11 +200,11 @@ const SkillsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          data-oid="tounxc-"
+          data-oid="qlijc.r"
         >
           <div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            data-oid="wuaj::5"
+            data-oid="h1v1-70"
           >
             {skillCategories.map((category, categoryIndex) => {
               const IconComponent = category.icon;
@@ -214,24 +214,24 @@ const SkillsSection = () => {
                   key={categoryIndex}
                   variants={itemVariants}
                   className="bg-slate-50 dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
-                  data-oid=".rzi3a9"
+                  data-oid="wh.t::n"
                 >
-                  <div className="flex items-center mb-6" data-oid="ywtfyw2">
+                  <div className="flex items-center mb-6" data-oid="3o6bue1">
                     <div
                       className={`p-3 rounded-lg ${getColorClasses(category.color)} text-white mr-4`}
-                      data-oid="idqejgj"
+                      data-oid="1otxkv:"
                     >
-                      <IconComponent size={24} data-oid="7tid55u" />
+                      <IconComponent size={24} data-oid="4zmks8h" />
                     </div>
                     <h3
                       className="text-xl font-bold text-slate-800 dark:text-white"
-                      data-oid="r4zb22."
+                      data-oid="ceh:cvd"
                     >
                       {t(category.titleKey)}
                     </h3>
                   </div>
 
-                  <div className="space-y-4" data-oid="c_n68m:">
+                  <div className="space-y-4" data-oid="0-38pw-">
                     {category.skills.map((skill, skillIndex) => {
                       const SkillIcon = skill.icon;
 
@@ -239,39 +239,39 @@ const SkillsSection = () => {
                         <div
                           key={skillIndex}
                           className="space-y-2"
-                          data-oid="n67g3b6"
+                          data-oid="08oq_n1"
                         >
                           <div
                             className="flex items-center justify-between"
-                            data-oid="y:2i_f1"
+                            data-oid="m60a6_v"
                           >
                             <div
                               className="flex items-center space-x-3"
-                              data-oid="wjgu520"
+                              data-oid="knk9si2"
                             >
                               <SkillIcon
                                 size={20}
                                 style={{ color: skill.color }}
-                                data-oid="d0iogso"
+                                data-oid=".rylg4i"
                               />
 
                               <span
                                 className="text-slate-700 dark:text-slate-300 font-medium"
-                                data-oid="m9k5xza"
+                                data-oid="908q_wt"
                               >
                                 {skill.name}
                               </span>
                             </div>
                             <span
                               className="text-sm text-slate-500 dark:text-slate-400"
-                              data-oid="r9:h-59"
+                              data-oid="2om51ui"
                             >
                               {skill.level}%
                             </span>
                           </div>
                           <div
                             className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"
-                            data-oid="-4kg:ni"
+                            data-oid="1kviot8"
                           >
                             <motion.div
                               className="h-2 rounded-full"
@@ -283,7 +283,7 @@ const SkillsSection = () => {
                                 delay: skillIndex * 0.1,
                               }}
                               viewport={{ once: true }}
-                              data-oid="5bmjl9n"
+                              data-oid="ddmj8_k"
                             />
                           </div>
                         </div>
@@ -302,25 +302,25 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="nz2w::0"
+          data-oid="nc:sts3"
         >
           <h3
             className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center flex items-center justify-center"
-            data-oid="-btv55_"
+            data-oid="ubj9hz4"
           >
             <Globe
               className="mr-3 text-blue-600"
               size={32}
-              data-oid="700xjv9"
+              data-oid="n_8vr:4"
             />
 
             {t("languages")}
           </h3>
 
-          <div className="max-w-4xl mx-auto" data-oid="i0p4qwi">
+          <div className="max-w-4xl mx-auto" data-oid="veeus3h">
             <div
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              data-oid="pmtz:4y"
+              data-oid="onp6-.p"
             >
               {languages.map((language, index) => (
                 <motion.div
@@ -331,45 +331,45 @@ const SkillsSection = () => {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
-                  data-oid="mgi_3f_"
+                  data-oid="jgnrsbv"
                 >
-                  <div className="text-4xl mb-4" data-oid="enhp9-j">
+                  <div className="text-4xl mb-4" data-oid="alpnte6">
                     {language.flag}
                   </div>
                   <h4
                     className="text-xl font-bold text-slate-800 dark:text-white mb-2"
-                    data-oid="u1ql5gr"
+                    data-oid="wg.95eh"
                   >
                     {language.name}
                   </h4>
                   <p
                     className="text-sm text-slate-600 dark:text-slate-400 mb-4"
-                    data-oid="c5wv.s:"
+                    data-oid="qxfuozf"
                   >
                     {language.description}
                   </p>
 
-                  <div className="space-y-2" data-oid="22mfe1t">
+                  <div className="space-y-2" data-oid="ieqx6v-">
                     <div
                       className="flex justify-between items-center"
-                      data-oid="0z50unn"
+                      data-oid="yf-.s.l"
                     >
                       <span
                         className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                        data-oid="tmrw1.d"
+                        data-oid="3vtz1lj"
                       >
                         習熟度
                       </span>
                       <span
                         className="text-sm text-slate-500 dark:text-slate-400"
-                        data-oid="ncc_d29"
+                        data-oid="sfvuioh"
                       >
                         {language.level}%
                       </span>
                     </div>
                     <div
                       className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2"
-                      data-oid="6rrhd02"
+                      data-oid="a.kw2ou"
                     >
                       <motion.div
                         className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
@@ -377,7 +377,7 @@ const SkillsSection = () => {
                         whileInView={{ width: `${language.level}%` }}
                         transition={{ duration: 1, delay: index * 0.2 }}
                         viewport={{ once: true }}
-                        data-oid="8894of8"
+                        data-oid="-583aoa"
                       />
                     </div>
                   </div>

@@ -160,9 +160,9 @@ const ProjectsSection = () => {
     <section
       id="projects"
       className="py-20 bg-slate-50 dark:bg-slate-800"
-      data-oid="t.3od::"
+      data-oid="zbed2j0"
     >
-      <div className="container mx-auto px-4" data-oid="i_9jjt5">
+      <div className="container mx-auto px-4" data-oid="ww3mrys">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -170,17 +170,17 @@ const ProjectsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="k64t9sf"
+          data-oid="88st:pt"
         >
           <h2
             className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4"
-            data-oid="4gk0d4t"
+            data-oid="1.5bjme"
           >
             {t("title")}
           </h2>
           <p
             className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="0tsto3g"
+            data-oid="x7k5m8a"
           >
             {t("subtitle")}
           </p>
@@ -193,7 +193,7 @@ const ProjectsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          data-oid="_83cf23"
+          data-oid="2xp57we"
         >
           {projects.map((project, index) => {
             const colors = getColorClasses(project.color);
@@ -206,40 +206,40 @@ const ProjectsSection = () => {
                 variants={itemVariants}
                 className={`p-6 rounded-xl border ${colors.bg} ${colors.border} hover:shadow-lg transition-all duration-300 group`}
                 whileHover={{ scale: 1.02 }}
-                data-oid="l5s74_9"
+                data-oid="qezfn:f"
               >
                 {/* Header */}
                 <div
                   className="flex items-start justify-between mb-4"
-                  data-oid="31ohw1t"
+                  data-oid="8oli7.:"
                 >
-                  <div className="flex items-center" data-oid="7plbk.b">
+                  <div className="flex items-center" data-oid="59gvf3y">
                     <div
                       className={`p-3 rounded-lg ${colors.accent} text-white mr-4`}
-                      data-oid="0fy38x0"
+                      data-oid="r_2mnlj"
                     >
-                      <IconComponent size={24} data-oid="bhvc:e0" />
+                      <IconComponent size={24} data-oid="4gv_gjk" />
                     </div>
-                    <div data-oid="-6cbmfg">
+                    <div data-oid="ci212v_">
                       <h3
                         className="text-xl font-bold text-slate-800 dark:text-white mb-1"
-                        data-oid="aj-31bu"
+                        data-oid="gasol1k"
                       >
                         {project.title}
                       </h3>
                       <div
                         className="flex items-center space-x-2"
-                        data-oid="4xntgoz"
+                        data-oid="tn-96-y"
                       >
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${statusBadge.color}`}
-                          data-oid="6ot6upq"
+                          data-oid="vrecme."
                         >
                           {statusBadge.label}
                         </span>
                         <span
                           className="text-sm text-slate-500 dark:text-slate-400"
-                          data-oid="yfvsk42"
+                          data-oid="mi06uxu"
                         >
                           {project.year}
                         </span>
@@ -249,7 +249,7 @@ const ProjectsSection = () => {
 
                   {/* Links */}
                   {project.links && (
-                    <div className="flex space-x-2" data-oid="ay5yhs8">
+                    <div className="flex space-x-2" data-oid="j4bgofz">
                       {project.links.live && (
                         <motion.a
                           href={project.links.live}
@@ -258,9 +258,9 @@ const ProjectsSection = () => {
                           className={`p-2 rounded-lg ${colors.text} hover:bg-white dark:hover:bg-slate-700 transition-colors duration-200`}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          data-oid="m-cpbpy"
+                          data-oid="hr3n67z"
                         >
-                          <ExternalLink size={18} data-oid="5_plt9s" />
+                          <ExternalLink size={18} data-oid="myc9hc:" />
                         </motion.a>
                       )}
                     </div>
@@ -270,29 +270,29 @@ const ProjectsSection = () => {
                 {/* Description */}
                 <p
                   className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed"
-                  data-oid=":6wvk2y"
+                  data-oid=":_sokt7"
                 >
                   {project.description}
                 </p>
 
                 {/* Features */}
-                <div className="mb-4" data-oid=":o8qm7b">
+                <div className="mb-4" data-oid="6soppjl">
                   <h4
                     className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
-                    data-oid="gkh_vf0"
+                    data-oid="7c5:pf1"
                   >
                     主な機能・特徴
                   </h4>
-                  <ul className="space-y-1" data-oid="wetr.70">
+                  <ul className="space-y-1" data-oid="ogp038a">
                     {project.features.map((feature, featureIndex) => (
                       <li
                         key={featureIndex}
                         className="text-sm text-slate-600 dark:text-slate-400 flex items-center"
-                        data-oid="hj21x:m"
+                        data-oid="345:ttf"
                       >
                         <span
                           className={`w-1.5 h-1.5 ${colors.accent} rounded-full mr-2`}
-                          data-oid="fomq7qe"
+                          data-oid="vmfsz:r"
                         />
 
                         {feature}
@@ -302,14 +302,14 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* Technologies */}
-                <div data-oid="oirg-0z">
+                <div data-oid="nko:t.c">
                   <h4
                     className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3"
-                    data-oid="cxvpyqu"
+                    data-oid="hzc1qiq"
                   >
                     技術スタック
                   </h4>
-                  <div className="flex flex-wrap gap-3" data-oid="4zv-rfh">
+                  <div className="flex flex-wrap gap-3" data-oid="-9a33kw">
                     {project.technologies.map((tech, techIndex) => {
                       const TechIcon = tech.icon;
                       return (
@@ -317,12 +317,12 @@ const ProjectsSection = () => {
                           key={techIndex}
                           className="flex items-center space-x-2 px-3 py-2 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600"
                           whileHover={{ scale: 1.05 }}
-                          data-oid="nx5gm82"
+                          data-oid="j9-6t:s"
                         >
-                          <TechIcon size={16} data-oid="bhwptyl" />
+                          <TechIcon size={16} data-oid="xa24nb5" />
                           <span
                             className="text-sm text-slate-700 dark:text-slate-300 font-medium"
-                            data-oid="29bjeeu"
+                            data-oid="qjpxf2t"
                           >
                             {tech.name}
                           </span>

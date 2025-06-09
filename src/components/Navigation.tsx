@@ -75,19 +75,19 @@ const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      data-oid="411p9zs"
+      data-oid="bmk1b14"
     >
-      <div className="container mx-auto px-4" data-oid="tn3nnon">
+      <div className="container mx-auto px-4" data-oid="_e0gmd7">
         <div
           className="flex items-center justify-between h-16"
-          data-oid=":soxb78"
+          data-oid=".bh:slt"
         >
           {/* Logo */}
           <motion.div
             className="flex items-center space-x-3"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            data-oid="z:zxyy:"
+            data-oid="s:s-:3s"
           >
             <Image
               src="/logo.png"
@@ -95,19 +95,19 @@ const Navigation = () => {
               width={40}
               height={40}
               className="rounded-full"
-              data-oid="dzq59eu"
+              data-oid="wbjcqd0"
             />
 
-            <div className="hidden sm:block" data-oid="h5i1uh4">
+            <div className="hidden sm:block" data-oid="-1-4rza">
               <h1
                 className="text-lg font-bold text-slate-800 dark:text-white"
-                data-oid="ckrhzmw"
+                data-oid="u2st1f_"
               >
                 梁震
               </h1>
               <p
                 className="text-xs text-slate-600 dark:text-slate-400"
-                data-oid="7z7s5qt"
+                data-oid="5t8h4_."
               >
                 RYO SHIN
               </p>
@@ -117,7 +117,7 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div
             className="hidden md:flex items-center space-x-8"
-            data-oid="lgkmxk8"
+            data-oid="bszlk3s"
           >
             {navItems.map((item) => (
               <motion.button
@@ -126,7 +126,7 @@ const Navigation = () => {
                 className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 font-medium"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                data-oid="1p-toup"
+                data-oid="bnb03e."
               >
                 {t(item.key)}
               </motion.button>
@@ -134,24 +134,24 @@ const Navigation = () => {
           </div>
 
           {/* Language Selector & Mobile Menu */}
-          <div className="flex items-center space-x-4" data-oid="csbzhpp">
+          <div className="flex items-center space-x-4" data-oid=":30my37">
             {/* Language Selector */}
-            <div className="relative" data-oid="hjeanio">
+            <div className="relative" data-oid="-3hun2f">
               <motion.button
                 onClick={() => setShowLangMenu(!showLangMenu)}
                 className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors duration-200"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                data-oid="_wj2.:l"
+                data-oid="s__ge1g"
               >
-                <Globe size={16} data-oid="koxy6b_" />
-                <span className="text-sm font-medium" data-oid="wi3e2zt">
+                <Globe size={16} data-oid="u7qibrc" />
+                <span className="text-sm font-medium" data-oid="nhryu_-">
                   {languages.find((lang) => lang.code === locale)?.flag}
                 </span>
-                <ChevronDown size={14} data-oid=":cmymfe" />
+                <ChevronDown size={14} data-oid=".dv8q5y" />
               </motion.button>
 
-              <AnimatePresence data-oid="6dq_314">
+              <AnimatePresence data-oid="0k1d4d9">
                 {showLangMenu && (
                   <motion.div
                     className="absolute top-full right-0 mt-2 py-2 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 z-60"
@@ -159,7 +159,7 @@ const Navigation = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.2 }}
-                    data-oid="4v8dsy2"
+                    data-oid="1w88q-s"
                   >
                     {languages.map((lang) => (
                       <button
@@ -170,9 +170,9 @@ const Navigation = () => {
                             ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
                             : "text-slate-700 dark:text-slate-300"
                         }`}
-                        data-oid="rh949jk"
+                        data-oid="hra7:26"
                       >
-                        <span className="mr-2" data-oid="ojuv3.t">
+                        <span className="mr-2" data-oid="4xhwx55">
                           {lang.flag}
                         </span>
                         {lang.name}
@@ -189,19 +189,19 @@ const Navigation = () => {
               className="md:hidden p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              data-oid="9pv9ihm"
+              data-oid="7lnfmhl"
             >
               {isOpen ? (
-                <X size={20} data-oid="0t_i3xx" />
+                <X size={20} data-oid="a6slyy5" />
               ) : (
-                <Menu size={20} data-oid="04i7lek" />
+                <Menu size={20} data-oid="_1omhd-" />
               )}
             </motion.button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <AnimatePresence data-oid="px-v7wd">
+        <AnimatePresence data-oid="0wnv00t">
           {isOpen && (
             <motion.div
               className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-900 shadow-lg border-t border-slate-200 dark:border-slate-700 z-60"
@@ -209,9 +209,9 @@ const Navigation = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              data-oid="2nu_8no"
+              data-oid="bzbmzll"
             >
-              <div className="py-4" data-oid=":945vts">
+              <div className="py-4" data-oid="tysw16j">
                 {navItems.map((item, index) => (
                   <motion.button
                     key={item.key}
@@ -220,7 +220,7 @@ const Navigation = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    data-oid="ncrhh9r"
+                    data-oid="re_a7sn"
                   >
                     {t(item.key)}
                   </motion.button>

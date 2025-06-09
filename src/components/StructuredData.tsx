@@ -150,7 +150,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getPersonData()),
         }}
-        data-oid="e.o0lvf"
+        data-oid="u5hej1f"
       />
 
       <script
@@ -158,7 +158,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getWebsiteData()),
         }}
-        data-oid="hnlf89l"
+        data-oid="11g7sq5"
       />
     </>
   );
