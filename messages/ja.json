@@ -8,7 +8,8 @@
     "gallery": "ギャラリー",
     "contact": "お問い合わせ",
     "scrollToNext": "次のセクション：",
-    "scrollToPrevious": "前のセクション："
+    "scrollToPrevious": "前のセクション：",
+    "navigating": "遷移中..."
   },
   "languages": {
     "ja": "日本語",

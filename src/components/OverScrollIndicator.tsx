@@ -9,17 +9,21 @@ interface OverScrollIndicatorProps {
   progress: number; // 0-1の進行度
   direction: 'up' | 'down';
   targetSectionName?: string;
+  isNavigating: boolean;
 }
 
-const OverScrollIndicator = ({ isVisible, progress, direction, targetSectionName }: OverScrollIndicatorProps) => {
+const OverScrollIndicator = ({ isVisible, progress, direction, targetSectionName, isNavigating }: OverScrollIndicatorProps) => {
   const t = useTranslations('nav');
   
   const isGoingUp = direction === 'up';
   const ArrowIcon = isGoingUp ? ChevronUp : ArrowRight;
 
+  // 遷移可能かどうかのチェック
+  const canNavigate = targetSectionName !== undefined;
+
   return (
     <AnimatePresence>
-      {isVisible && (
+      {isVisible && canNavigate && (
         <>
           {/* プログレスバー */}
           <motion.div
@@ -31,7 +35,7 @@ const OverScrollIndicator = ({ isVisible, progress, direction, targetSectionName
             exit={{ opacity: 0, y: isGoingUp ? -20 : 20 }}
             transition={{ duration: 0.3 }}
           >
-            <div className={`relative h-2 bg-gradient-to-r ${
+            <div className={`relative h-3 bg-gradient-to-r ${
               isGoingUp 
                 ? 'from-green-500/20 to-emerald-500/20' 
                 : 'from-blue-500/20 to-purple-500/20'
@@ -47,89 +51,140 @@ const OverScrollIndicator = ({ isVisible, progress, direction, targetSectionName
                 }}
                 transition={{ duration: 0.1 }}
               />
-              <div className={`absolute inset-0 opacity-50 animate-pulse ${
-                isGoingUp 
-                  ? 'bg-gradient-to-r from-green-400 to-emerald-400' 
-                  : 'bg-gradient-to-r from-blue-400 to-purple-400'
-              }`} />
+              {/* プログレス輝きエフェクト */}
+              <motion.div
+                className={`absolute top-0 h-full w-20 ${
+                  isGoingUp 
+                    ? 'bg-gradient-to-r from-transparent via-green-300/50 to-transparent'
+                    : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
+                }`}
+                animate={{
+                  x: ['-100px', `${progress * 100}%`],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
             </div>
           </motion.div>
 
           {/* 中央メッセージ */}
           <motion.div
             className={`fixed left-1/2 transform -translate-x-1/2 z-50 ${
-              isGoingUp ? 'top-20' : 'bottom-20'
+              isGoingUp ? 'top-24' : 'bottom-24'
             }`}
             initial={{ opacity: 0, scale: 0.8, y: isGoingUp ? -20 : 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: isGoingUp ? -20 : 20 }}
             transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
           >
-            <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl px-6 py-4 shadow-2xl border border-slate-200/50 dark:border-slate-700/50">
-              <div className="flex items-center gap-3">
+            <div className={`bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-2xl px-8 py-6 shadow-2xl border-2 ${
+              isGoingUp 
+                ? 'border-green-200/50 dark:border-green-700/50' 
+                : 'border-blue-200/50 dark:border-blue-700/50'
+            }`}>
+              <div className="flex items-center gap-4">
+                {/* 左側アイコン */}
                 <motion.div
-                  animate={{ 
+                  animate={isNavigating ? {
+                    rotate: [0, 360],
+                    scale: [1, 1.2, 1],
+                  } : { 
                     y: isGoingUp ? [0, 8, 0] : [0, -8, 0],
                     rotate: [0, 5, -5, 0]
                   }}
-                  transition={{ 
+                  transition={isNavigating ? {
+                    duration: 1,
+                    ease: "easeInOut",
+                  } : { 
                     duration: 1.5, 
                     repeat: Infinity, 
                     ease: "easeInOut" 
                   }}
                 >
-                  <ArrowIcon size={24} className={isGoingUp ? "text-green-500" : "text-blue-500"} />
+                  <ArrowIcon size={28} className={isGoingUp ? "text-green-500" : "text-blue-500"} />
                 </motion.div>
                 
+                {/* 中央コンテンツ */}
                 <div className="text-center">
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    {targetSectionName ? (
-                      <>
-                        {isGoingUp ? t('scrollToPrevious') : t('scrollToNext')} <span className={`font-semibold ${
-                          isGoingUp ? 'text-green-500' : 'text-blue-500'
-                        }`}>{t(targetSectionName)}</span>
-                      </>
+                  <motion.p 
+                    className="text-base font-semibold text-slate-700 dark:text-slate-300 mb-2"
+                    animate={isNavigating ? { scale: [1, 1.05, 1] } : {}}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {isNavigating ? (
+                      <span className={`${isGoingUp ? 'text-green-600' : 'text-blue-600'} dark:${isGoingUp ? 'text-green-400' : 'text-blue-400'}`}>
+                        {t('navigating')}
+                      </span>
                     ) : (
-                      isGoingUp ? 'Going back...' : 'Continue scrolling...'
+                      <>
+                        {isGoingUp ? t('scrollToPrevious') : t('scrollToNext')} 
+                        <span className={`font-bold ${
+                          isGoingUp ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'
+                        }`}>
+                          {t(targetSectionName)}
+                        </span>
+                      </>
                     )}
-                  </p>
-                  <div className="flex items-center justify-center gap-2 mt-1">
-                    <motion.div
-                      className={`w-2 h-2 rounded-full ${
-                        isGoingUp ? 'bg-green-500' : 'bg-blue-500'
-                      }`}
-                      animate={{ scale: [1, 1.5, 1] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0 }}
-                    />
-                    <motion.div
-                      className={`w-2 h-2 rounded-full ${
-                        isGoingUp ? 'bg-emerald-500' : 'bg-purple-500'
-                      }`}
-                      animate={{ scale: [1, 1.5, 1] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
-                    />
-                    <motion.div
-                      className={`w-2 h-2 rounded-full ${
-                        isGoingUp ? 'bg-green-500' : 'bg-blue-500'
-                      }`}
-                      animate={{ scale: [1, 1.5, 1] }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
-                    />
+                  </motion.p>
+                  
+                  {/* プログレス表示 */}
+                  <div className="flex items-center justify-center gap-1 mb-2">
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      {Math.round(progress * 100)}%
+                    </span>
+                  </div>
+                  
+                  {/* パルス効果またはローディング */}
+                  <div className="flex items-center justify-center gap-2">
+                    {isNavigating ? (
+                      // ローディングスピナー
+                      <motion.div
+                        className={`w-6 h-6 border-2 border-t-transparent rounded-full ${
+                          isGoingUp 
+                            ? 'border-green-500' 
+                            : 'border-blue-500'
+                        }`}
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
+                    ) : (
+                      // パルス効果
+                      [0, 0.2, 0.4].map((delay, i) => (
+                        <motion.div
+                          key={i}
+                          className={`w-2 h-2 rounded-full ${
+                            isGoingUp ? 'bg-green-500' : 'bg-blue-500'
+                          }`}
+                          animate={{ scale: [1, 1.5, 1], opacity: [0.7, 1, 0.7] }}
+                          transition={{ duration: 1.5, repeat: Infinity, delay }}
+                        />
+                      ))
+                    )}
                   </div>
                 </div>
 
+                {/* 右側アイコン */}
                 <motion.div
-                  animate={{ 
+                  animate={isNavigating ? {
+                    x: isGoingUp ? [-10, 0] : [10, 0],
+                    opacity: [0.5, 1],
+                  } : { 
                     x: isGoingUp ? [0, -5, 0] : [0, 5, 0],
                     y: isGoingUp ? [0, -3, 0] : [0, 0, 0]
                   }}
-                  transition={{ 
+                  transition={isNavigating ? {
+                    duration: 0.8,
+                    ease: "easeOut",
+                  } : { 
                     duration: 1.2, 
                     repeat: Infinity, 
                     ease: "easeInOut" 
                   }}
                 >
-                  <ArrowIcon size={20} className={isGoingUp ? "text-emerald-500" : "text-purple-500"} />
+                  <ArrowIcon size={24} className={isGoingUp ? "text-emerald-500" : "text-purple-500"} />
                 </motion.div>
               </div>
             </div>
@@ -143,10 +198,10 @@ const OverScrollIndicator = ({ isVisible, progress, direction, targetSectionName
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {[...Array(8)].map((_, i) => (
+              {[...Array(12)].map((_, i) => (
                 <motion.div
                   key={i}
-                  className={`absolute w-4 h-4 rounded-full ${
+                  className={`absolute w-6 h-6 rounded-full ${
                     isGoingUp 
                       ? 'bg-gradient-to-r from-green-400 to-emerald-400' 
                       : 'bg-gradient-to-r from-blue-400 to-purple-400'
@@ -159,16 +214,18 @@ const OverScrollIndicator = ({ isVisible, progress, direction, targetSectionName
                     scale: 0,
                     x: 0,
                     y: 0,
+                    opacity: 1,
                   }}
                   animate={{
-                    scale: [0, 1, 0],
-                    x: Math.cos((i * Math.PI * 2) / 8) * 100,
-                    y: Math.sin((i * Math.PI * 2) / 8) * 100,
+                    scale: [0, 1.5, 0],
+                    x: Math.cos((i * Math.PI * 2) / 12) * 150,
+                    y: Math.sin((i * Math.PI * 2) / 12) * 150,
+                    opacity: [1, 1, 0],
                   }}
                   transition={{
-                    duration: 0.8,
+                    duration: 1.2,
                     ease: "easeOut",
-                    delay: i * 0.1,
+                    delay: i * 0.08,
                   }}
                 />
               ))}

@@ -21,6 +21,7 @@ const ScrollableLayout = ({ children }: ScrollableLayoutProps) => {
         progress={overScrollState.progress}
         direction={overScrollState.direction}
         targetSectionName={targetSection}
+        isNavigating={overScrollState.isNavigating}
       />
     </div>
   );

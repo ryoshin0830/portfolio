@@ -8,7 +8,8 @@
     "gallery": "画廊",
     "contact": "联系",
     "scrollToNext": "下一节：",
-    "scrollToPrevious": "上一节："
+    "scrollToPrevious": "上一节：",
+    "navigating": "正在跳转..."
   },
   "languages": {
     "ja": "日本語",
