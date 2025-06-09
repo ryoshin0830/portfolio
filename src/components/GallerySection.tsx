@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { X, ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Camera, Image as ImageIcon, Filter } from "lucide-react";
 import Image from "next/image";
 
 const GallerySection = () => {
@@ -77,245 +77,166 @@ const GallerySection = () => {
     }
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.6 },
-    },
-  };
 
   return (
-    <section
-      id="gallery"
-      className="py-20 bg-white dark:bg-slate-900"
-      data-oid="_lpo-q."
-    >
-      <div className="container mx-auto px-4" data-oid="2y4.q_4">
+    <section id="gallery" className="pt-32 pb-24 bg-gradient-to-b from-white via-slate-50/30 to-white dark:from-slate-900 dark:via-slate-950/30 dark:to-slate-900">
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          data-oid="yke0:wh"
-        >
-          <h2
-            className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4 flex items-center justify-center"
-            data-oid="pvilm8h"
-          >
-            <Camera
-              className="mr-4 text-blue-600"
-              size={40}
-              data-oid="50p6eky"
-            />
-
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 rounded-full text-sm font-medium mb-6">
+            <ImageIcon size={16} />
+            Photo Gallery
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
-          <p
-            className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="i08tulc"
-          >
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </div>
 
         {/* Category Filter */}
-        <motion.div
-          className="flex flex-wrap justify-center gap-4 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          data-oid="mk4lgk2"
-        >
-          {categories.map((category) => (
-            <motion.button
-              key={category.key}
-              onClick={() => setActiveCategory(category.key)}
-              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-                activeCategory === category.key
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              data-oid="gcdnc1a"
-            >
-              {category.labelKey ? t(category.labelKey) : category.label}
-            </motion.button>
-          ))}
-        </motion.div>
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
+            <div className="p-2 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg shadow-lg">
+              <Filter className="text-white" size={20} />
+            </div>
+            <span className="font-bold text-slate-800 dark:text-white">カテゴリーフィルター</span>
+          </div>
+          
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category) => (
+              <button
+                key={category.key}
+                onClick={() => setActiveCategory(category.key)}
+                className={`relative px-8 py-4 rounded-2xl font-semibold transition-all duration-200 ${
+                  activeCategory === category.key
+                    ? "text-white shadow-xl bg-gradient-to-r from-blue-600 to-purple-600"
+                    : "bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 shadow-lg hover:shadow-xl"
+                }`}
+              >
+                <span className="relative z-10">
+                  {category.labelKey ? t(category.labelKey) : category.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Image Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          key={activeCategory} // Re-animate when category changes
-          data-oid="wq5:ve9"
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          key={activeCategory}
         >
           {filteredImages.map((image, index) => (
-            <motion.div
+            <div
               key={`${activeCategory}-${index}`}
-              variants={itemVariants}
-              className="group cursor-pointer"
+              className="group cursor-pointer transition-transform duration-200 hover:-translate-y-2"
               onClick={() => openModal(index)}
-              whileHover={{ scale: 1.02 }}
-              layout
-              data-oid="0xs1f-8"
             >
-              <div
-                className="relative aspect-square overflow-hidden rounded-xl shadow-lg"
-                data-oid="gk8s2no"
-              >
+              <div className="relative aspect-square overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-200 border-4 border-white dark:border-slate-800">
                 <Image
                   src={image.src}
                   alt={image.alt}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  data-oid="-3_i9y9"
                 />
 
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  data-oid="t4osq75"
-                />
-
-                <div
-                  className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  data-oid="_shdr2n"
-                >
-                  <h3 className="font-semibold mb-1" data-oid="ajnpz6k">
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-200" />
+                
+                {/* Hover content */}
+                <div className="absolute inset-0 flex flex-col justify-end p-6 text-white opacity-0 group-hover:opacity-100 transition-all duration-200 transform translate-y-4 group-hover:translate-y-0">
+                  <h3 className="text-xl font-bold mb-2">
                     {t(image.titleKey)}
                   </h3>
-                  <p className="text-sm text-slate-200" data-oid="se-ekoh">
+                  <p className="text-sm text-slate-200 leading-relaxed">
                     {image.description}
                   </p>
                 </div>
+                
+                {/* Floating camera icon */}
+                <div className="absolute top-4 right-4 p-3 bg-white/20 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200">
+                  <Camera size={20} className="text-white" />
+                </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Modal */}
-        <AnimatePresence data-oid="wlwnux9">
+        <AnimatePresence>
           {selectedImage !== null && (
-            <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm transition-opacity duration-200"
               onClick={closeModal}
-              data-oid=".agksa-"
             >
-              <div
-                className="relative max-w-4xl max-h-[90vh] mx-4"
-                data-oid="1k0t3l9"
-              >
-                {/* Close Button */}
-                <motion.button
-                  className="absolute -top-12 right-0 text-white hover:text-slate-300 transition-colors duration-200"
+              <div className="relative max-w-6xl max-h-[90vh] mx-4">
+                {/* Modern close button */}
+                <button
+                  className="absolute -top-16 right-0 p-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-200 shadow-xl"
                   onClick={closeModal}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  data-oid="3pr3tv1"
                 >
-                  <X size={32} data-oid="620h6o-" />
-                </motion.button>
+                  <X size={24} />
+                </button>
 
-                {/* Navigation Buttons */}
+                {/* Modern navigation buttons */}
                 {filteredImages.length > 1 && (
                   <>
-                    <motion.button
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-slate-300 transition-colors duration-200 bg-black/50 rounded-full p-2"
+                    <button
+                      className="absolute left-6 top-1/2 -translate-y-1/2 p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-200 shadow-xl"
                       onClick={(e) => {
                         e.stopPropagation();
                         prevImage();
                       }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      data-oid="0cicli7"
                     >
-                      <ChevronLeft size={24} data-oid="f-tqu:q" />
-                    </motion.button>
-                    <motion.button
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-slate-300 transition-colors duration-200 bg-black/50 rounded-full p-2"
+                      <ChevronLeft size={28} />
+                    </button>
+                    <button
+                      className="absolute right-6 top-1/2 -translate-y-1/2 p-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-200 shadow-xl"
                       onClick={(e) => {
                         e.stopPropagation();
                         nextImage();
                       }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      data-oid="w.54c_7"
                     >
-                      <ChevronRight size={24} data-oid="-iwrj7v" />
-                    </motion.button>
+                      <ChevronRight size={28} />
+                    </button>
                   </>
                 )}
 
-                {/* Image */}
-                <motion.div
-                  className="relative"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                {/* Image container */}
+                <div
+                  className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden shadow-2xl"
                   onClick={(e) => e.stopPropagation()}
-                  data-oid="ym-i_5x"
                 >
                   <Image
                     src={filteredImages[selectedImage].src}
                     alt={filteredImages[selectedImage].alt}
-                    width={800}
-                    height={600}
-                    className="rounded-lg shadow-2xl max-h-[70vh] w-auto object-contain"
-                    data-oid="s.hjc79"
+                    width={1000}
+                    height={700}
+                    className="w-auto h-auto max-h-[70vh] object-contain"
                   />
 
-                  {/* Image Info */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg"
-                    data-oid="itvd-6b"
-                  >
-                    <h3
-                      className="text-white text-xl font-semibold mb-2"
-                      data-oid="1clwilb"
-                    >
+                  {/* Modern image info overlay */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-8 backdrop-blur-sm">
+                    <h3 className="text-white text-2xl font-bold mb-3">
                       {t(filteredImages[selectedImage].titleKey)}
                     </h3>
-                    <p className="text-slate-200" data-oid="6b-f9l5">
+                    <p className="text-slate-200 text-lg leading-relaxed">
                       {filteredImages[selectedImage].description}
                     </p>
                   </div>
-                </motion.div>
+                </div>
 
-                {/* Image Counter */}
+                {/* Modern image counter */}
                 {filteredImages.length > 1 && (
-                  <div
-                    className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-white text-sm"
-                    data-oid="emjia:l"
-                  >
-                    {selectedImage + 1} / {filteredImages.length}
+                  <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-sm font-medium shadow-xl">
+                    {selectedImage + 1} of {filteredImages.length}
                   </div>
                 )}
               </div>
-            </motion.div>
+            </div>
           )}
         </AnimatePresence>
       </div>

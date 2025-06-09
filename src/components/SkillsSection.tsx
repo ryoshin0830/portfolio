@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
   Code,
@@ -10,6 +9,8 @@ import {
   Cloud,
   Brain,
   Globe,
+  Zap,
+  TrendingUp,
 } from "lucide-react";
 import {
   SiJavascript,
@@ -125,24 +126,6 @@ const SkillsSection = () => {
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
 
   const getColorClasses = (color: string) => {
     switch (color) {
@@ -164,154 +147,154 @@ const SkillsSection = () => {
   };
 
   return (
-    <section id="skills" className="py-20 bg-white dark:bg-slate-900">
-      <div className="container mx-auto px-4">
+    <section id="skills" className="pt-32 pb-24 bg-gradient-to-b from-white via-slate-50/30 to-white dark:from-slate-900 dark:via-slate-950/30 dark:to-slate-900">
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium mb-6">
+            <Zap size={16} />
+            Technical Expertise
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </div>
 
         {/* Technical Skills */}
-        <motion.div
-          className="mb-20"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mb-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {skillCategories.map((category, categoryIndex) => {
               const IconComponent = category.icon;
 
               return (
-                <motion.div
+                <div
                   key={categoryIndex}
-                  variants={itemVariants}
-                  className="bg-slate-50 dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
+                  className="group relative overflow-hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
                 >
-                  <div className="flex items-center mb-6">
-                    <div
-                      className={`p-3 rounded-lg ${getColorClasses(category.color)} text-white mr-4`}
-                    >
-                      <IconComponent size={24} />
+                  {/* Background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center mb-8">
+                      <div className={`p-4 rounded-2xl ${getColorClasses(category.color)} text-white mr-4 shadow-lg transition-transform duration-200`}>
+                        <IconComponent size={28} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-slate-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                        {t(category.titleKey)}
+                      </h3>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-800 dark:text-white">
-                      {t(category.titleKey)}
-                    </h3>
-                  </div>
 
-                  <div className="space-y-4">
-                    {category.skills.map((skill, skillIndex) => {
-                      const SkillIcon = skill.icon;
+                    <div className="space-y-6">
+                      {category.skills.map((skill, skillIndex) => {
+                        const SkillIcon = skill.icon;
 
-                      return (
-                        <div key={skillIndex} className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-3">
-                              <SkillIcon
-                                size={20}
-                                style={{ color: skill.color }}
-                              />
-
-                              <span className="text-slate-700 dark:text-slate-300 font-medium">
-                                {skill.name}
+                        return (
+                          <div 
+                            key={skillIndex} 
+                            className="space-y-3"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-4">
+                                <div className="p-2 bg-white dark:bg-slate-700 rounded-xl shadow-md">
+                                  <SkillIcon
+                                    size={24}
+                                    style={{ color: skill.color }}
+                                  />
+                                </div>
+                                <span className="text-slate-700 dark:text-slate-300 font-semibold text-lg">
+                                  {skill.name}
+                                </span>
+                              </div>
+                              <span className="text-sm font-bold text-slate-500 dark:text-slate-400 px-3 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">
+                                {skill.level}%
                               </span>
                             </div>
-                            <span className="text-sm text-slate-500 dark:text-slate-400">
-                              {skill.level}%
-                            </span>
+                            
+                            <div className="relative w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
+                              <div
+                                className="h-full rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
+                                style={{ 
+                                  background: `linear-gradient(90deg, ${skill.color}99, ${skill.color})`,
+                                  width: `${skill.level}%`
+                                }}
+                              >
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                              </div>
+                            </div>
                           </div>
-                          <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                            <motion.div
-                              className="h-2 rounded-full"
-                              style={{ backgroundColor: skill.color }}
-                              initial={{ width: 0 }}
-                              whileInView={{ width: `${skill.level}%` }}
-                              transition={{
-                                duration: 1,
-                                delay: skillIndex * 0.1,
-                              }}
-                              viewport={{ once: true }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
         {/* Language Skills */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center flex items-center justify-center">
-            <Globe className="mr-3 text-blue-600" size={32} />
+        <div>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
+              <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-lg">
+                <Globe className="text-white" size={20} />
+              </div>
+              <span className="font-bold text-slate-800 dark:text-white">{t("languages")}</span>
+            </div>
+          </div>
 
-            {t("languages")}
-          </h3>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {languages.map((language, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className="text-center p-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-xl border border-slate-200 dark:border-slate-600"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.02 }}
+                  className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
                 >
-                  <div className="text-4xl mb-4">{language.flag}</div>
-                  <h4 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
-                    {language.name}
-                  </h4>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
-                    {language.description}
-                  </p>
-
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                        習熟度
-                      </span>
-                      <span className="text-sm text-slate-500 dark:text-slate-400">
-                        {language.level}%
-                      </span>
+                  {/* Background gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-emerald-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                  
+                  <div className="relative z-10 text-center">
+                    <div className="text-6xl mb-6 filter drop-shadow-lg">
+                      {language.flag}
                     </div>
-                    <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2">
-                      <motion.div
-                        className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${language.level}%` }}
-                        transition={{ duration: 1, delay: index * 0.2 }}
-                        viewport={{ once: true }}
-                      />
+                    
+                    <h4 className="text-2xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                      {language.name}
+                    </h4>
+                    
+                    <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                      {language.description}
+                    </p>
+
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                          <TrendingUp size={16} />
+                          習熟度
+                        </span>
+                        <span className="font-bold text-lg text-slate-800 dark:text-white px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                          {language.level}%
+                        </span>
+                      </div>
+                      
+                      <div className="relative w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
+                          style={{ width: `${language.level}%` }}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

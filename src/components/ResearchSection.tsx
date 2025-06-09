@@ -1,8 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Brain, FileText, Users, Lightbulb, BookOpen } from "lucide-react";
+import { Brain, FileText, Users, Lightbulb, BookOpen, Microscope } from "lucide-react";
 
 const ResearchSection = () => {
   const t = useTranslations("research");
@@ -50,24 +49,6 @@ const ResearchSection = () => {
     conference: string;
   }>;
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
 
   const getColorClasses = (color: string) => {
     switch (color) {
@@ -103,32 +84,24 @@ const ResearchSection = () => {
   };
 
   return (
-    <section id="research" className="py-20 bg-slate-50 dark:bg-slate-800">
-      <div className="container mx-auto px-4">
+    <section id="research" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium mb-6">
+            <Microscope size={16} />
+            Academic Research
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </div>
 
         {/* Research Projects */}
-        <motion.div
-          className="mb-20"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
+        <div className="mb-20">
           <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
             {t("projects")}
           </h3>
@@ -138,11 +111,9 @@ const ResearchSection = () => {
               const IconComponent = project.icon;
 
               return (
-                <motion.div
+                <div
                   key={index}
-                  variants={itemVariants}
-                  className={`p-6 rounded-xl border ${colors.bg} ${colors.border} hover:shadow-lg transition-all duration-300 group`}
-                  whileHover={{ scale: 1.02 }}
+                  className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
                 >
                   <div className="flex items-center mb-4">
                     <div
@@ -167,19 +138,14 @@ const ResearchSection = () => {
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
         {/* Publications */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
+        <div>
           <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
             {t("publications")}
           </h3>
@@ -194,13 +160,9 @@ const ResearchSection = () => {
                 </h4>
                 <div className="space-y-4">
                   {peerReviewedPapers.map((paper, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      className="p-4 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 hover:shadow-md transition-all duration-300"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      viewport={{ once: true }}
+                      className="p-4 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded">
@@ -218,7 +180,7 @@ const ResearchSection = () => {
                         {paper.volume && `, ${paper.volume}`}
                         {paper.pages && `, ${paper.pages}`}
                       </p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -232,13 +194,9 @@ const ResearchSection = () => {
                 </h4>
                 <div className="space-y-4">
                   {conferencePresentations.map((paper, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      className="p-4 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 hover:shadow-md transition-all duration-300"
-                      initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      viewport={{ once: true }}
+                      className="p-4 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 hover:shadow-md transition-all duration-200"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <span className="text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded">
@@ -254,13 +212,13 @@ const ResearchSection = () => {
                       <p className="text-sm text-slate-500 dark:text-slate-500">
                         {paper.conference}
                       </p>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

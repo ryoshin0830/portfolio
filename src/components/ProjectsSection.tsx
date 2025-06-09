@@ -1,8 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { ExternalLink, Smartphone, Globe, Brain, BookOpen } from "lucide-react";
+import { ExternalLink, Smartphone, Globe, Brain, BookOpen, Rocket, Star } from "lucide-react";
 import {
   SiReact as SiReactnative,
   SiSwift,
@@ -68,24 +67,6 @@ const ProjectsSection = () => {
     };
   });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
 
   const getColorClasses = (color: string) => {
     switch (color) {
@@ -157,141 +138,129 @@ const ProjectsSection = () => {
   };
 
   return (
-    <section id="projects" className="py-20 bg-slate-50 dark:bg-slate-800">
-      <div className="container mx-auto px-4">
+    <section id="projects" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
+      <div className="container mx-auto px-6">
         {/* Header */}
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium mb-6">
+            <Rocket size={16} />
+            Featured Projects
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </div>
 
         {/* Projects Grid */}
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {projects.map((project, index) => {
             const colors = getColorClasses(project.color);
             const IconComponent = project.icon;
             const statusBadge = getStatusBadge(project.status);
 
             return (
-              <motion.div
+              <div
                 key={index}
-                variants={itemVariants}
-                className={`p-6 rounded-xl border ${colors.bg} ${colors.border} hover:shadow-lg transition-all duration-300 group`}
-                whileHover={{ scale: 1.02 }}
+                className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
               >
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center">
-                    <div
-                      className={`p-3 rounded-lg ${colors.accent} text-white mr-4`}
-                    >
-                      <IconComponent size={24} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-1">
-                        {project.title}
-                      </h3>
-                      <div className="flex items-center space-x-2">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${statusBadge.color}`}
-                        >
-                          {statusBadge.label}
-                        </span>
-                        <span className="text-sm text-slate-500 dark:text-slate-400">
-                          {project.year}
-                        </span>
+                {/* Background gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                
+                <div className="relative z-10">
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="flex items-start gap-4">
+                      <div className={`p-4 rounded-2xl ${colors.accent} text-white shadow-lg transition-transform duration-200`}>
+                        <IconComponent size={28} />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                          {project.title}
+                        </h3>
+                        <div className="flex items-center gap-3">
+                          <span className={`px-3 py-1 rounded-full text-sm font-bold ${statusBadge.color} shadow-md transition-transform duration-200`}>
+                            {statusBadge.label}
+                          </span>
+                          <span className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
+                            <Star size={14} />
+                            {project.year}
+                          </span>
+                        </div>
                       </div>
                     </div>
+
+                    {/* Links */}
+                    {project.links && (
+                      <div className="flex gap-2">
+                        {project.links.live && (
+                          <a
+                            href={project.links.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-3 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-blue-600 dark:text-blue-400"
+                          >
+                            <ExternalLink size={20} />
+                          </a>
+                        )}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Links */}
-                  {project.links && (
-                    <div className="flex space-x-2">
-                      {project.links.live && (
-                        <motion.a
-                          href={project.links.live}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`p-2 rounded-lg ${colors.text} hover:bg-white dark:hover:bg-slate-700 transition-colors duration-200`}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
+                  {/* Description */}
+                  <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed text-lg">
+                    {project.description}
+                  </p>
+
+                  {/* Features */}
+                  <div className="mb-6">
+                    <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                      主な機能・特徴
+                    </h4>
+                    <ul className="space-y-3">
+                      {project.features.map((feature, featureIndex) => (
+                        <li
+                          key={featureIndex}
+                          className="text-slate-600 dark:text-slate-400 flex items-start gap-3"
                         >
-                          <ExternalLink size={18} />
-                        </motion.a>
-                      )}
+                          <div className={`w-3 h-3 ${colors.accent} rounded-full mt-1.5 flex-shrink-0 shadow-md`} />
+                          <span className="font-medium">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Technologies */}
+                  <div>
+                    <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
+                      技術スタック
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {project.technologies.map((tech, techIndex) => {
+                        const TechIcon = tech.icon;
+                        return (
+                          <div
+                            key={techIndex}
+                            className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                          >
+                            <TechIcon size={18} />
+                            <span className="text-sm text-slate-700 dark:text-slate-300 font-semibold">
+                              {tech.name}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
-                  )}
-                </div>
-
-                {/* Description */}
-                <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-
-                {/* Features */}
-                <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                    主な機能・特徴
-                  </h4>
-                  <ul className="space-y-1">
-                    {project.features.map((feature, featureIndex) => (
-                      <li
-                        key={featureIndex}
-                        className="text-sm text-slate-600 dark:text-slate-400 flex items-center"
-                      >
-                        <span
-                          className={`w-1.5 h-1.5 ${colors.accent} rounded-full mr-2`}
-                        />
-
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Technologies */}
-                <div>
-                  <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
-                    技術スタック
-                  </h4>
-                  <div className="flex flex-wrap gap-3">
-                    {project.technologies.map((tech, techIndex) => {
-                      const TechIcon = tech.icon;
-                      return (
-                        <motion.div
-                          key={techIndex}
-                          className="flex items-center space-x-2 px-3 py-2 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600"
-                          whileHover={{ scale: 1.05 }}
-                        >
-                          <TechIcon size={16} />
-                          <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">
-                            {tech.name}
-                          </span>
-                        </motion.div>
-                      );
-                    })}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

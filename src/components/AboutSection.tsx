@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import {
   Briefcase,
@@ -9,30 +8,13 @@ import {
   Users,
   Calendar,
   MapPin,
+  Target,
 } from "lucide-react";
 import Image from "next/image";
 
 const AboutSection = () => {
   const t = useTranslations("about");
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
 
   const fields = t.raw("fields") as string[];
   const timelineEvents = t.raw("timelineEvents") as Array<{
@@ -42,380 +24,242 @@ const AboutSection = () => {
   }>;
 
   return (
-    <section
-      id="about"
-      className="py-20 bg-white dark:bg-slate-900"
-      data-oid="jv-nk4d"
-    >
-      <div className="container mx-auto px-4" data-oid="-5-.yo9">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          data-oid="jjr5rxu"
-        >
-          <h2
-            className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4"
-            data-oid="zrt_gwe"
-          >
+    <section id="about" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/50 to-white dark:from-slate-950/50 dark:to-slate-900">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-20">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-6">
+            <Target size={16} />
+            About Me
+          </div>
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
-          <p
-            className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="mg2yisn"
-          >
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </div>
 
-        <div
-          className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20"
-          data-oid="ngpt1mw"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24">
           {/* Profile Image */}
-          <motion.div
-            className="flex justify-center lg:justify-end"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            data-oid="fwh_l8o"
-          >
-            <div className="relative" data-oid="-lpbek4">
-              <div
-                className="w-80 h-80 relative rounded-2xl overflow-hidden shadow-2xl"
-                data-oid="cjto_af"
-              >
+          <div className="flex justify-center lg:justify-end">
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl blur-2xl opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+              <div className="relative w-96 h-96 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 dark:border-slate-800/20 backdrop-blur-sm">
                 <Image
                   src="/lab.jpeg"
                   alt="Research Activity"
                   fill
-                  className="object-cover"
-                  data-oid="k:zy2zz"
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"
-                  data-oid="tiuz6q1"
-                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
               </div>
-              {/* Floating badges */}
-              <motion.div
-                className="absolute -top-4 -right-4 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg"
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                data-oid="86xdil3"
-              >
-                PhD Student
-              </motion.div>
-              <motion.div
-                className="absolute -bottom-4 -left-4 bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg"
-                animate={{ y: [0, 5, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity }}
-                data-oid="o6jer.3"
-              >
-                CEO
-              </motion.div>
+              
+              {/* Modern floating badges */}
+              <div className="absolute -top-6 -right-6 px-6 py-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-blue-200/50 dark:border-blue-700/50 rounded-2xl shadow-xl">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-bold text-slate-800 dark:text-white">PhD Student</span>
+                </div>
+              </div>
+              
+              <div className="absolute -bottom-6 -left-6 px-6 py-3 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl border border-purple-200/50 dark:border-purple-700/50 rounded-2xl shadow-xl">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-bold text-slate-800 dark:text-white">CEO</span>
+                </div>
+              </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Content */}
-          <motion.div
-            className="space-y-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            data-oid="d:t:pu0"
-          >
+          <div className="space-y-10">
             {/* Current Status */}
-            <motion.div variants={itemVariants} data-oid="ns7pzqx">
-              <h3
-                className="text-2xl font-bold text-slate-800 dark:text-white mb-4 flex items-center"
-                data-oid="ozlk4ty"
-              >
-                <Building
-                  className="mr-3 text-blue-600"
-                  size={24}
-                  data-oid="onzw4f7"
-                />
-
-                {t("currentStatus")}
-              </h3>
-              <div className="space-y-3" data-oid="mee_2eb">
-                <div
-                  className="flex items-center space-x-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
-                  data-oid="c7_67wr"
-                >
-                  <Image
-                    src="/kyoto-u.png"
-                    alt="Kyoto University"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                    data-oid="3..r_gc"
-                  />
-
-                  <div data-oid="hca3wiy">
-                    <p
-                      className="font-medium text-slate-800 dark:text-white"
-                      data-oid="ak8--t."
-                    >
-                      {t("kyotoUniversity")}
-                    </p>
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg">
+                  <Building className="text-white" size={24} />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-800 dark:text-white">
+                  {t("currentStatus")}
+                </h3>
+              </div>
+              
+              <div className="space-y-4">
+                <div className="group p-6 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-blue-200/30 dark:border-blue-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:border-blue-300 dark:hover:border-blue-600">
+                  <div className="flex items-center gap-4">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-blue-500 rounded-full blur-md opacity-30" />
+                      <Image
+                        src="/kyoto-u.png"
+                        alt="Kyoto University"
+                        width={48}
+                        height={48}
+                        className="relative rounded-full border-2 border-white dark:border-slate-700 shadow-lg"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg text-slate-800 dark:text-white">
+                        {t("kyotoUniversity")}
+                      </p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Graduate School</p>
+                    </div>
                   </div>
                 </div>
-                <div
-                  className="flex items-center space-x-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg"
-                  data-oid="us-db9."
-                >
-                  <Briefcase
-                    className="text-purple-600"
-                    size={24}
-                    data-oid="l.5dt2p"
-                  />
-
-                  <p
-                    className="font-medium text-slate-800 dark:text-white"
-                    data-oid="cm7xv-t"
-                  >
-                    {t("eastLinker")}
-                  </p>
+                
+                <div className="group p-6 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-purple-200/30 dark:border-purple-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:border-purple-300 dark:hover:border-purple-600">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl shadow-lg">
+                      <Briefcase className="text-white" size={24} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg text-slate-800 dark:text-white">
+                        {t("eastLinker")}
+                      </p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Business</p>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  className="flex items-center space-x-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg"
-                  data-oid="d:9u8ol"
-                >
-                  <Users
-                    className="text-green-600"
-                    size={24}
-                    data-oid="n_flyro"
-                  />
-
-                  <p
-                    className="font-medium text-slate-800 dark:text-white"
-                    data-oid="egkw8_a"
-                  >
-                    {t("japaneseTeacher")}
-                  </p>
+                
+                <div className="group p-6 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-emerald-200/30 dark:border-emerald-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:border-emerald-300 dark:hover:border-emerald-600">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl shadow-lg">
+                      <Users className="text-white" size={24} />
+                    </div>
+                    <div>
+                      <p className="font-bold text-lg text-slate-800 dark:text-white">
+                        {t("japaneseTeacher")}
+                      </p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">Education</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Specialization */}
-            <motion.div variants={itemVariants} data-oid="t3wgoqw">
-              <h3
-                className="text-2xl font-bold text-slate-800 dark:text-white mb-4 flex items-center"
-                data-oid="maz4odt"
-              >
-                <Star
-                  className="mr-3 text-yellow-600"
-                  size={24}
-                  data-oid="qwpv:-3"
-                />
-
-                {t("specialization")}
-              </h3>
-              <div className="grid grid-cols-1 gap-3" data-oid="61yzpbh">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl shadow-lg">
+                  <Star className="text-white" size={24} />
+                </div>
+                <h3 className="text-3xl font-bold text-slate-800 dark:text-white">
+                  {t("specialization")}
+                </h3>
+              </div>
+              
+              <div className="space-y-3">
                 {fields.map((field, index) => (
-                  <motion.div
+                  <div
                     key={index}
-                    className="p-4 bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 rounded-lg border-l-4 border-blue-500"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    data-oid="ghjpm3v"
+                    className="group p-5 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-xl border border-slate-200/30 dark:border-slate-700/30 shadow-lg hover:shadow-xl transition-all duration-200 hover:bg-white/80 dark:hover:bg-slate-800/80"
                   >
-                    <p
-                      className="text-slate-700 dark:text-slate-300 font-medium"
-                      data-oid="blw:xky"
-                    >
-                      {field}
-                    </p>
-                  </motion.div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full" />
+                      <p className="text-slate-700 dark:text-slate-300 font-semibold text-lg">
+                        {field}
+                      </p>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
 
         {/* Stats Section */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          data-oid="2xbe5g5"
-        >
-          <div className="text-center" data-oid="3yh63qs">
-            <motion.div
-              className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-              viewport={{ once: true }}
-              data-oid="yfz2li1"
-            >
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+          <div className="text-center p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-blue-200/30 dark:border-blue-700/30 shadow-xl hover:shadow-2xl transition-all duration-200">
+            <div className="text-5xl font-black bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-3">
               7+
-            </motion.div>
-            <p
-              className="text-slate-600 dark:text-slate-400 font-medium"
-              data-oid="7hp58iu"
-            >
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 font-bold text-sm">
               年間の教育経験
             </p>
           </div>
-          <div className="text-center" data-oid="9iqqnh2">
-            <motion.div
-              className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.3 }}
-              viewport={{ once: true }}
-              data-oid="oklb3fa"
-            >
+          
+          <div className="text-center p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-purple-200/30 dark:border-purple-700/30 shadow-xl hover:shadow-2xl transition-all duration-200">
+            <div className="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">
               5000+
-            </motion.div>
-            <p
-              className="text-slate-600 dark:text-slate-400 font-medium"
-              data-oid="_q8wh0h"
-            >
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 font-bold text-sm">
               指導時間
             </p>
           </div>
-          <div className="text-center" data-oid=".pdm9m1">
-            <motion.div
-              className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.4 }}
-              viewport={{ once: true }}
-              data-oid="wh4x0mi"
-            >
+          
+          <div className="text-center p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-emerald-200/30 dark:border-emerald-700/30 shadow-xl hover:shadow-2xl transition-all duration-200">
+            <div className="text-5xl font-black bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3">
               300+
-            </motion.div>
-            <p
-              className="text-slate-600 dark:text-slate-400 font-medium"
-              data-oid="7wwjh.u"
-            >
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 font-bold text-sm">
               指導学生数
             </p>
           </div>
-          <div className="text-center" data-oid="qxq65p6">
-            <motion.div
-              className="text-4xl font-bold text-red-600 dark:text-red-400 mb-2"
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
-              viewport={{ once: true }}
-              data-oid="pf_ui4n"
-            >
+          
+          <div className="text-center p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-3xl border border-rose-200/30 dark:border-rose-700/30 shadow-xl hover:shadow-2xl transition-all duration-200">
+            <div className="text-5xl font-black bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent mb-3">
               95%
-            </motion.div>
-            <p
-              className="text-slate-600 dark:text-slate-400 font-medium"
-              data-oid="kvj-56:"
-            >
+            </div>
+            <p className="text-slate-600 dark:text-slate-400 font-bold text-sm">
               JLPT合格率
             </p>
           </div>
-        </motion.div>
+        </div>
 
         {/* Timeline Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          data-oid="fmlyh1w"
-        >
-          <h3
-            className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center flex items-center justify-center"
-            data-oid="vm-xskn"
-          >
-            <Calendar
-              className="mr-3 text-blue-600"
-              size={32}
-              data-oid="jpr12tx"
-            />
+        <div>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
+              <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg">
+                <Calendar className="text-white" size={20} />
+              </div>
+              <span className="font-bold text-slate-800 dark:text-white">{t("timeline")}</span>
+            </div>
+          </div>
 
-            {t("timeline")}
-          </h3>
-
-          <div className="max-w-4xl mx-auto" data-oid="htn8ij2">
-            <div className="relative" data-oid="7drw13-">
-              {/* Timeline line */}
-              <div
-                className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-green-500"
-                data-oid="8ishmxl"
-              />
+          <div className="max-w-5xl mx-auto">
+            <div className="relative">
+              {/* Modern Timeline line */}
+              <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-emerald-500 rounded-full" />
 
               {timelineEvents.map((event, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className={`relative flex items-center mb-12 ${
+                  className={`relative flex items-center mb-16 ${
                     index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  data-oid="ym:sdne"
                 >
-                  {/* Timeline dot */}
-                  <div
-                    className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-blue-600 rounded-full border-4 border-white dark:border-slate-900 shadow-lg z-10"
-                    data-oid="5fkpd.t"
-                  />
+                  {/* Modern Timeline dot */}
+                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-6 h-6 bg-white dark:bg-slate-900 rounded-full border-4 border-blue-500 shadow-xl z-10">
+                    <div className="absolute inset-1 bg-blue-500 rounded-full" />
+                  </div>
 
                   {/* Content */}
-                  <div
-                    className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}
-                    data-oid="p7ljc.:"
-                  >
-                    <div
-                      className="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all duration-300"
-                      data-oid="4uqmumx"
-                    >
-                      <div
-                        className="flex items-center mb-3"
-                        data-oid="_byur3m"
-                      >
-                        <div
-                          className="bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full text-sm font-bold"
-                          data-oid="uxrm2nn"
-                        >
-                          {event.year}
+                  <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:pr-16" : "md:pl-16"}`}>
+                    <div className="group p-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/30 dark:border-slate-700/30 shadow-xl hover:shadow-2xl transition-all duration-200">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl shadow-lg">
+                          <span className="font-bold text-sm">{event.year}</span>
                         </div>
-                        <MapPin
-                          className="ml-3 text-slate-400"
-                          size={16}
-                          data-oid="yg1v7e1"
-                        />
+                        <div className="flex items-center gap-2 text-slate-400">
+                          <MapPin size={16} />
+                          <span className="text-sm">Experience</span>
+                        </div>
                       </div>
-                      <h4
-                        className="text-xl font-bold text-slate-800 dark:text-white mb-2"
-                        data-oid="ys8bzud"
-                      >
+                      
+                      <h4 className="text-2xl font-bold text-slate-800 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                         {event.title}
                       </h4>
-                      <p
-                        className="text-slate-600 dark:text-slate-400 leading-relaxed"
-                        data-oid="e_vunf5"
-                      >
+                      
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
                         {event.description}
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
