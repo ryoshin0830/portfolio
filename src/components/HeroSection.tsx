@@ -14,6 +14,18 @@ const HeroSection = () => {
   const names = ["梁 震", "りょう しん", "RYO SHIN", "LIANG ZHEN"];
   const roles = t.raw("roles") as string[];
 
+  // Email components (obfuscation)
+  const emailUser = "ryo.shin.j85";
+  const emailDomain = "kyoto-u.jp";
+
+  // Handler to construct mailto link at runtime
+  const handleEmailClick = () => {
+    const email = `${emailUser}@${emailDomain}`;
+    const subject = encodeURIComponent(t("email_subject"));
+    const body = encodeURIComponent(t("email_body"));
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  };
+
   useEffect(() => {
     const nameInterval = setInterval(() => {
       setCurrentNameIndex((prev) => (prev + 1) % names.length);
@@ -100,13 +112,13 @@ const HeroSection = () => {
           {/* Contact Section */}
           <div className="mb-20">
             {/* Primary Email CTA */}
-            <a
-              href="mailto:ryo.shin.j85@kyoto-u.jp"
+            <button
+              onClick={handleEmailClick}
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-8"
             >
               <Mail size={22} />
               <span>{t("connect")}</span>
-            </a>
+            </button>
 
             {/* Social Links */}
             <div className="flex items-center justify-center gap-4">

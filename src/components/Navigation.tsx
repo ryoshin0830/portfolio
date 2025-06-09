@@ -11,7 +11,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
-  const [activeSection, setActiveSection] = useState("hero");
+  const [activeSection, setActiveSection] = useState("home");
   const t = useTranslations("nav");
   const langT = useTranslations("languages");
 
@@ -63,35 +63,28 @@ const Navigation = () => {
   }, [getLanguageName, getFlag, locale]);
 
   const navItems = useMemo(() => [
-    { key: "home", href: "#hero", label: "Home" },
-    { key: "about", href: "#about", label: "About" },
-    { key: "research", href: "#research", label: "Research" },
-    { key: "skills", href: "#skills", label: "Skills" },
-    { key: "projects", href: "#projects", label: "Projects" },
-    { key: "gallery", href: "#gallery", label: "Gallery" },
+    { key: "home", path: "" },
+    { key: "about", path: "about" },
+    { key: "research", path: "research" },
+    { key: "skills", path: "skills" },
+    { key: "projects", path: "projects" },
+    { key: "gallery", path: "gallery" },
   ], []);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
-      const sections = navItems.map(item => item.href.substring(1));
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [navItems]);
+  }, []);
+
+  // Update active section based on current pathname
+  useEffect(() => {
+    const segments = pathname.split("/").filter(Boolean);
+    const routeSegment = segments[0] && ["ja","en","zh"].includes(segments[0]) ? segments[1] ?? "" : segments[0] ?? "";
+    setActiveSection(routeSegment === "" ? "home" : routeSegment);
+  }, [pathname]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -114,11 +107,9 @@ const Navigation = () => {
     setShowLangMenu(false);
   };
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const navigateTo = (path: string) => {
+    const fullPath = `/${locale}${path ? "/" + path : ""}`;
+    router.push(fullPath);
     setIsOpen(false);
   };
 
@@ -138,14 +129,14 @@ const Navigation = () => {
           {/* Logo */}
           <motion.div
             className="flex items-center gap-4 cursor-pointer"
-            onClick={() => scrollToSection("#hero")}
+            onClick={() => navigateTo("")}
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-md opacity-75" />
               <Image
-                src="/logo.png"
+                src="/logo.svg"
                 alt="Logo"
                 width={48}
                 height={48}
@@ -167,16 +158,16 @@ const Navigation = () => {
             {navItems.map((item) => (
               <motion.button
                 key={item.key}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => navigateTo(item.path)}
                 className={`relative px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  activeSection === item.href.substring(1)
+                  activeSection === (item.path || "home")
                     ? "text-white"
                     : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {activeSection === item.href.substring(1) && (
+                {activeSection === (item.path || "home") && (
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
                     layoutId="activeNavItem"
@@ -268,9 +259,9 @@ const Navigation = () => {
                 {navItems.map((item, index) => (
                   <motion.button
                     key={item.key}
-                    onClick={() => scrollToSection(item.href)}
+                    onClick={() => navigateTo(item.path)}
                     className={`block w-full text-left px-6 py-4 rounded-xl mb-2 font-semibold transition-all duration-300 ${
-                      activeSection === item.href.substring(1)
+                      activeSection === (item.path || "home")
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
                         : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                     }`}

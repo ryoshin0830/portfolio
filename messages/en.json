@@ -29,7 +29,9 @@
       "Full-Stack Developer"
     ],
     "connect": "Let's Connect",
-    "discover": "Discover More"
+    "discover": "Discover More",
+    "email_subject": "Inquiry from Portfolio Site",
+    "email_body": "Please include the following information:\n\n---\nName:\nMessage:\n---"
   },
   "about": {
     "title": "About Me",
