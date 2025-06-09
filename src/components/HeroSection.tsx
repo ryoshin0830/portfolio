@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { ArrowDown, Github, Twitter, Mail } from "lucide-react";
+import { Github, Twitter, Mail } from "lucide-react";
 import Image from "next/image";
 
 const HeroSection = () => {
@@ -39,13 +39,6 @@ const HeroSection = () => {
     }, 3500);
     return () => clearInterval(roleInterval);
   }, [roles.length]);
-
-  const scrollToNext = () => {
-    const aboutSection = document.querySelector("#about");
-    if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -148,19 +141,6 @@ const HeroSection = () => {
                 <Image src="/logo-only.svg" alt="Zenn" width={24} height={24} className="w-6 h-6" />
               </a>
             </div>
-          </div>
-
-          {/* Scroll Indicator */}
-          <div className="flex flex-col items-center gap-4 mt-2 mb-12">
-            <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-              {t("discover")}
-            </span>
-            <button
-              onClick={scrollToNext}
-              className="p-3 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-200"
-            >
-              <ArrowDown size={20} className="text-slate-600 dark:text-slate-400" />
-            </button>
           </div>
         </div>
       </div>

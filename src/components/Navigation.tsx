@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -133,13 +134,13 @@ const Navigation = () => {
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-md opacity-75" />
+            <div className="relative w-[36px] h-[36px]">
+              <div className="absolute inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-md opacity-70" />
               <Image
                 src="/logo.svg"
                 alt="Logo"
-                width={48}
-                height={48}
+                width={32}
+                height={32}
                 className="relative rounded-full border-2 border-white dark:border-slate-800 shadow-lg"
               />
             </div>
@@ -156,14 +157,9 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-2">
             {navItems.map((item) => (
-              <motion.button
+              <motion.div
                 key={item.key}
-                onClick={() => navigateTo(item.path)}
-                className={`relative px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  activeSection === (item.path || "home")
-                    ? "text-white"
-                    : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
-                }`}
+                className="relative"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -174,8 +170,18 @@ const Navigation = () => {
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">{t(item.key)}</span>
-              </motion.button>
+                <Link
+                  href={`/${locale}${item.path ? "/" + item.path : ""}`}
+                  className={`relative z-10 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                    activeSection === (item.path || "home")
+                      ? "text-white"
+                      : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {t(item.key)}
+                </Link>
+              </motion.div>
             ))}
           </div>
 
@@ -257,21 +263,25 @@ const Navigation = () => {
             >
               <div className="py-6 px-6">
                 {navItems.map((item, index) => (
-                  <motion.button
+                  <motion.div
                     key={item.key}
-                    onClick={() => navigateTo(item.path)}
-                    className={`block w-full text-left px-6 py-4 rounded-xl mb-2 font-semibold transition-all duration-300 ${
-                      activeSection === (item.path || "home")
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                        : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
-                    }`}
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ x: 4 }}
                   >
-                    {t(item.key)}
-                  </motion.button>
+                    <Link
+                      href={`/${locale}${item.path ? "/" + item.path : ""}`}
+                      className={`block w-full text-left px-6 py-4 rounded-xl mb-2 font-semibold transition-all duration-300 ${
+                        activeSection === (item.path || "home")
+                          ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
+                      }`}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {t(item.key)}
+                    </Link>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
