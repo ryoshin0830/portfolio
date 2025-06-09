@@ -100,9 +100,9 @@ const GallerySection = () => {
     <section
       id="gallery"
       className="py-20 bg-white dark:bg-slate-900"
-      data-oid="k:dbntt"
+      data-oid="_lpo-q."
     >
-      <div className="container mx-auto px-4" data-oid="9dkcldp">
+      <div className="container mx-auto px-4" data-oid="2y4.q_4">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -110,23 +110,23 @@ const GallerySection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="yshybm4"
+          data-oid="yke0:wh"
         >
           <h2
             className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4 flex items-center justify-center"
-            data-oid="fyw01ij"
+            data-oid="pvilm8h"
           >
             <Camera
               className="mr-4 text-blue-600"
               size={40}
-              data-oid="t87ns-i"
+              data-oid="50p6eky"
             />
 
             {t("title")}
           </h2>
           <p
             className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="zo2aew0"
+            data-oid="i08tulc"
           >
             {t("subtitle")}
           </p>
@@ -139,7 +139,7 @@ const GallerySection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          data-oid="zd5rzqq"
+          data-oid="mk4lgk2"
         >
           {categories.map((category) => (
             <motion.button
@@ -152,7 +152,7 @@ const GallerySection = () => {
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              data-oid="cwtxtcy"
+              data-oid="gcdnc1a"
             >
               {category.labelKey ? t(category.labelKey) : category.label}
             </motion.button>
@@ -167,7 +167,7 @@ const GallerySection = () => {
           whileInView="visible"
           viewport={{ once: true }}
           key={activeCategory} // Re-animate when category changes
-          data-oid="kx7a4c4"
+          data-oid="wq5:ve9"
         >
           {filteredImages.map((image, index) => (
             <motion.div
@@ -177,11 +177,11 @@ const GallerySection = () => {
               onClick={() => openModal(index)}
               whileHover={{ scale: 1.02 }}
               layout
-              data-oid="vq9l4ei"
+              data-oid="0xs1f-8"
             >
               <div
                 className="relative aspect-square overflow-hidden rounded-xl shadow-lg"
-                data-oid="ljlxv_u"
+                data-oid="gk8s2no"
               >
                 <Image
                   src={image.src}
@@ -189,22 +189,22 @@ const GallerySection = () => {
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-110"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  data-oid="qfokyfx"
+                  data-oid="-3_i9y9"
                 />
 
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  data-oid="5ihxl32"
+                  data-oid="t4osq75"
                 />
 
                 <div
                   className="absolute bottom-0 left-0 right-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  data-oid="r_pbcwr"
+                  data-oid="_shdr2n"
                 >
-                  <h3 className="font-semibold mb-1" data-oid="n3m48zk">
+                  <h3 className="font-semibold mb-1" data-oid="ajnpz6k">
                     {t(image.titleKey)}
                   </h3>
-                  <p className="text-sm text-slate-200" data-oid="t97:sqk">
+                  <p className="text-sm text-slate-200" data-oid="se-ekoh">
                     {image.description}
                   </p>
                 </div>
@@ -214,7 +214,7 @@ const GallerySection = () => {
         </motion.div>
 
         {/* Modal */}
-        <AnimatePresence data-oid="jp.rwag">
+        <AnimatePresence data-oid="wlwnux9">
           {selectedImage !== null && (
             <motion.div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
@@ -222,11 +222,11 @@ const GallerySection = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeModal}
-              data-oid=":616qpe"
+              data-oid=".agksa-"
             >
               <div
                 className="relative max-w-4xl max-h-[90vh] mx-4"
-                data-oid="belmb4a"
+                data-oid="1k0t3l9"
               >
                 {/* Close Button */}
                 <motion.button
@@ -234,9 +234,9 @@ const GallerySection = () => {
                   onClick={closeModal}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  data-oid="b:_r.h6"
+                  data-oid="3pr3tv1"
                 >
-                  <X size={32} data-oid="kg:oosp" />
+                  <X size={32} data-oid="620h6o-" />
                 </motion.button>
 
                 {/* Navigation Buttons */}
@@ -250,9 +250,9 @@ const GallerySection = () => {
                       }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      data-oid="o:orvv1"
+                      data-oid="0cicli7"
                     >
-                      <ChevronLeft size={24} data-oid="v5.idbg" />
+                      <ChevronLeft size={24} data-oid="f-tqu:q" />
                     </motion.button>
                     <motion.button
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-slate-300 transition-colors duration-200 bg-black/50 rounded-full p-2"
@@ -262,9 +262,9 @@ const GallerySection = () => {
                       }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
-                      data-oid="_k4t4:u"
+                      data-oid="w.54c_7"
                     >
-                      <ChevronRight size={24} data-oid="9n-jbn6" />
+                      <ChevronRight size={24} data-oid="-iwrj7v" />
                     </motion.button>
                   </>
                 )}
@@ -277,7 +277,7 @@ const GallerySection = () => {
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ duration: 0.3 }}
                   onClick={(e) => e.stopPropagation()}
-                  data-oid=":85cm6p"
+                  data-oid="ym-i_5x"
                 >
                   <Image
                     src={filteredImages[selectedImage].src}
@@ -285,21 +285,21 @@ const GallerySection = () => {
                     width={800}
                     height={600}
                     className="rounded-lg shadow-2xl max-h-[70vh] w-auto object-contain"
-                    data-oid="w8c_1xv"
+                    data-oid="s.hjc79"
                   />
 
                   {/* Image Info */}
                   <div
                     className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg"
-                    data-oid="sh9yvnh"
+                    data-oid="itvd-6b"
                   >
                     <h3
                       className="text-white text-xl font-semibold mb-2"
-                      data-oid="iuu3bjn"
+                      data-oid="1clwilb"
                     >
                       {t(filteredImages[selectedImage].titleKey)}
                     </h3>
-                    <p className="text-slate-200" data-oid="ontbqxh">
+                    <p className="text-slate-200" data-oid="6b-f9l5">
                       {filteredImages[selectedImage].description}
                     </p>
                   </div>
@@ -309,7 +309,7 @@ const GallerySection = () => {
                 {filteredImages.length > 1 && (
                   <div
                     className="absolute -bottom-12 left-1/2 -translate-x-1/2 text-white text-sm"
-                    data-oid="f64n_iw"
+                    data-oid="emjia:l"
                   >
                     {selectedImage + 1} / {filteredImages.length}
                   </div>

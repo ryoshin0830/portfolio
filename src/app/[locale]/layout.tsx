@@ -83,28 +83,28 @@ export default async function RootLayout({
   const messages = await getMessages({ locale: validLocale });
 
   return (
-    <html lang={validLocale} className="scroll-smooth" data-oid="7brpvbc">
-      <head data-oid="-x-tud.">
-        <StructuredData locale={validLocale} data-oid="qab13qo" />
+    <html lang={validLocale} className="scroll-smooth" data-oid="bphv6.8">
+      <head data-oid="8k2pgtd">
+        <StructuredData locale={validLocale} data-oid="lnhag03" />
       </head>
       <body
         className={`${inter.variable} ${notoSansJP.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900`}
-        data-oid="r8:8k6r"
+        data-oid="1ogajcn"
       >
-        <NextIntlClientProvider messages={messages} data-oid="9rbi0gs">
-          <Navigation data-oid="h1ymv_b" />
-          <main className="min-h-screen" data-oid="syv9y74">
+        <NextIntlClientProvider messages={messages} data-oid="q3ce1r0">
+          <Navigation data-oid="hk5vrem" />
+          <main className="min-h-screen" data-oid="cjsbd45">
             {children}
           </main>
-          <footer className="bg-slate-900 text-white py-8" data-oid="pgqnjvr">
+          <footer className="bg-slate-900 text-white py-8" data-oid="9d4m8i:">
             <div
               className="container mx-auto px-4 text-center"
-              data-oid="ybffrj."
+              data-oid="67z3cll"
             >
-              <p className="text-sm opacity-80" data-oid="u0_ohl6">
+              <p className="text-sm opacity-80" data-oid="lswazss">
                 © 2024 梁震（りょう しん）. All rights reserved.
               </p>
-              <p className="text-xs opacity-60 mt-2" data-oid="w280sog">
+              <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
                 Built with Next.js, TypeScript, and Tailwind CSS
               </p>
             </div>

@@ -164,12 +164,8 @@ const SkillsSection = () => {
   };
 
   return (
-    <section
-      id="skills"
-      className="py-20 bg-white dark:bg-slate-900"
-      data-oid=".6dfhpe"
-    >
-      <div className="container mx-auto px-4" data-oid="r16qf:n">
+    <section id="skills" className="py-20 bg-white dark:bg-slate-900">
+      <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -177,18 +173,11 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="_3r1ftb"
         >
-          <h2
-            className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4"
-            data-oid="mrbvkkh"
-          >
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
             {t("title")}
           </h2>
-          <p
-            className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="1obo9w5"
-          >
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -200,12 +189,8 @@ const SkillsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          data-oid="qlijc.r"
         >
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            data-oid="h1v1-70"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {skillCategories.map((category, categoryIndex) => {
               const IconComponent = category.icon;
 
@@ -214,65 +199,40 @@ const SkillsSection = () => {
                   key={categoryIndex}
                   variants={itemVariants}
                   className="bg-slate-50 dark:bg-slate-800 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300"
-                  data-oid="wh.t::n"
                 >
-                  <div className="flex items-center mb-6" data-oid="3o6bue1">
+                  <div className="flex items-center mb-6">
                     <div
                       className={`p-3 rounded-lg ${getColorClasses(category.color)} text-white mr-4`}
-                      data-oid="1otxkv:"
                     >
-                      <IconComponent size={24} data-oid="4zmks8h" />
+                      <IconComponent size={24} />
                     </div>
-                    <h3
-                      className="text-xl font-bold text-slate-800 dark:text-white"
-                      data-oid="ceh:cvd"
-                    >
+                    <h3 className="text-xl font-bold text-slate-800 dark:text-white">
                       {t(category.titleKey)}
                     </h3>
                   </div>
 
-                  <div className="space-y-4" data-oid="0-38pw-">
+                  <div className="space-y-4">
                     {category.skills.map((skill, skillIndex) => {
                       const SkillIcon = skill.icon;
 
                       return (
-                        <div
-                          key={skillIndex}
-                          className="space-y-2"
-                          data-oid="08oq_n1"
-                        >
-                          <div
-                            className="flex items-center justify-between"
-                            data-oid="m60a6_v"
-                          >
-                            <div
-                              className="flex items-center space-x-3"
-                              data-oid="knk9si2"
-                            >
+                        <div key={skillIndex} className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-3">
                               <SkillIcon
                                 size={20}
                                 style={{ color: skill.color }}
-                                data-oid=".rylg4i"
                               />
 
-                              <span
-                                className="text-slate-700 dark:text-slate-300 font-medium"
-                                data-oid="908q_wt"
-                              >
+                              <span className="text-slate-700 dark:text-slate-300 font-medium">
                                 {skill.name}
                               </span>
                             </div>
-                            <span
-                              className="text-sm text-slate-500 dark:text-slate-400"
-                              data-oid="2om51ui"
-                            >
+                            <span className="text-sm text-slate-500 dark:text-slate-400">
                               {skill.level}%
                             </span>
                           </div>
-                          <div
-                            className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"
-                            data-oid="1kviot8"
-                          >
+                          <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                             <motion.div
                               className="h-2 rounded-full"
                               style={{ backgroundColor: skill.color }}
@@ -283,7 +243,6 @@ const SkillsSection = () => {
                                 delay: skillIndex * 0.1,
                               }}
                               viewport={{ once: true }}
-                              data-oid="ddmj8_k"
                             />
                           </div>
                         </div>
@@ -302,26 +261,15 @@ const SkillsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="nc:sts3"
         >
-          <h3
-            className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center flex items-center justify-center"
-            data-oid="ubj9hz4"
-          >
-            <Globe
-              className="mr-3 text-blue-600"
-              size={32}
-              data-oid="n_8vr:4"
-            />
+          <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center flex items-center justify-center">
+            <Globe className="mr-3 text-blue-600" size={32} />
 
             {t("languages")}
           </h3>
 
-          <div className="max-w-4xl mx-auto" data-oid="veeus3h">
-            <div
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-              data-oid="onp6-.p"
-            >
+          <div className="max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {languages.map((language, index) => (
                 <motion.div
                   key={index}
@@ -331,53 +279,31 @@ const SkillsSection = () => {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
-                  data-oid="jgnrsbv"
                 >
-                  <div className="text-4xl mb-4" data-oid="alpnte6">
-                    {language.flag}
-                  </div>
-                  <h4
-                    className="text-xl font-bold text-slate-800 dark:text-white mb-2"
-                    data-oid="wg.95eh"
-                  >
+                  <div className="text-4xl mb-4">{language.flag}</div>
+                  <h4 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
                     {language.name}
                   </h4>
-                  <p
-                    className="text-sm text-slate-600 dark:text-slate-400 mb-4"
-                    data-oid="qxfuozf"
-                  >
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">
                     {language.description}
                   </p>
 
-                  <div className="space-y-2" data-oid="ieqx6v-">
-                    <div
-                      className="flex justify-between items-center"
-                      data-oid="yf-.s.l"
-                    >
-                      <span
-                        className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                        data-oid="3vtz1lj"
-                      >
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                         習熟度
                       </span>
-                      <span
-                        className="text-sm text-slate-500 dark:text-slate-400"
-                        data-oid="sfvuioh"
-                      >
+                      <span className="text-sm text-slate-500 dark:text-slate-400">
                         {language.level}%
                       </span>
                     </div>
-                    <div
-                      className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2"
-                      data-oid="a.kw2ou"
-                    >
+                    <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2">
                       <motion.div
                         className="h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
                         initial={{ width: 0 }}
                         whileInView={{ width: `${language.level}%` }}
                         transition={{ duration: 1, delay: index * 0.2 }}
                         viewport={{ once: true }}
-                        data-oid="-583aoa"
                       />
                     </div>
                   </div>

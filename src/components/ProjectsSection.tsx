@@ -157,12 +157,8 @@ const ProjectsSection = () => {
   };
 
   return (
-    <section
-      id="projects"
-      className="py-20 bg-slate-50 dark:bg-slate-800"
-      data-oid="zbed2j0"
-    >
-      <div className="container mx-auto px-4" data-oid="ww3mrys">
+    <section id="projects" className="py-20 bg-slate-50 dark:bg-slate-800">
+      <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
           className="text-center mb-16"
@@ -170,18 +166,11 @@ const ProjectsSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          data-oid="88st:pt"
         >
-          <h2
-            className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4"
-            data-oid="1.5bjme"
-          >
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 dark:text-white mb-4">
             {t("title")}
           </h2>
-          <p
-            className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto"
-            data-oid="x7k5m8a"
-          >
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
         </motion.div>
@@ -193,7 +182,6 @@ const ProjectsSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          data-oid="2xp57we"
         >
           {projects.map((project, index) => {
             const colors = getColorClasses(project.color);
@@ -206,41 +194,26 @@ const ProjectsSection = () => {
                 variants={itemVariants}
                 className={`p-6 rounded-xl border ${colors.bg} ${colors.border} hover:shadow-lg transition-all duration-300 group`}
                 whileHover={{ scale: 1.02 }}
-                data-oid="qezfn:f"
               >
                 {/* Header */}
-                <div
-                  className="flex items-start justify-between mb-4"
-                  data-oid="8oli7.:"
-                >
-                  <div className="flex items-center" data-oid="59gvf3y">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center">
                     <div
                       className={`p-3 rounded-lg ${colors.accent} text-white mr-4`}
-                      data-oid="r_2mnlj"
                     >
-                      <IconComponent size={24} data-oid="4gv_gjk" />
+                      <IconComponent size={24} />
                     </div>
-                    <div data-oid="ci212v_">
-                      <h3
-                        className="text-xl font-bold text-slate-800 dark:text-white mb-1"
-                        data-oid="gasol1k"
-                      >
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-1">
                         {project.title}
                       </h3>
-                      <div
-                        className="flex items-center space-x-2"
-                        data-oid="tn-96-y"
-                      >
+                      <div className="flex items-center space-x-2">
                         <span
                           className={`px-2 py-1 rounded-full text-xs font-medium ${statusBadge.color}`}
-                          data-oid="vrecme."
                         >
                           {statusBadge.label}
                         </span>
-                        <span
-                          className="text-sm text-slate-500 dark:text-slate-400"
-                          data-oid="mi06uxu"
-                        >
+                        <span className="text-sm text-slate-500 dark:text-slate-400">
                           {project.year}
                         </span>
                       </div>
@@ -249,7 +222,7 @@ const ProjectsSection = () => {
 
                   {/* Links */}
                   {project.links && (
-                    <div className="flex space-x-2" data-oid="j4bgofz">
+                    <div className="flex space-x-2">
                       {project.links.live && (
                         <motion.a
                           href={project.links.live}
@@ -258,9 +231,8 @@ const ProjectsSection = () => {
                           className={`p-2 rounded-lg ${colors.text} hover:bg-white dark:hover:bg-slate-700 transition-colors duration-200`}
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.95 }}
-                          data-oid="hr3n67z"
                         >
-                          <ExternalLink size={18} data-oid="myc9hc:" />
+                          <ExternalLink size={18} />
                         </motion.a>
                       )}
                     </div>
@@ -268,31 +240,23 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* Description */}
-                <p
-                  className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed"
-                  data-oid=":_sokt7"
-                >
+                <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
                   {project.description}
                 </p>
 
                 {/* Features */}
-                <div className="mb-4" data-oid="6soppjl">
-                  <h4
-                    className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2"
-                    data-oid="7c5:pf1"
-                  >
+                <div className="mb-4">
+                  <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                     主な機能・特徴
                   </h4>
-                  <ul className="space-y-1" data-oid="ogp038a">
+                  <ul className="space-y-1">
                     {project.features.map((feature, featureIndex) => (
                       <li
                         key={featureIndex}
                         className="text-sm text-slate-600 dark:text-slate-400 flex items-center"
-                        data-oid="345:ttf"
                       >
                         <span
                           className={`w-1.5 h-1.5 ${colors.accent} rounded-full mr-2`}
-                          data-oid="vmfsz:r"
                         />
 
                         {feature}
@@ -302,14 +266,11 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* Technologies */}
-                <div data-oid="nko:t.c">
-                  <h4
-                    className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3"
-                    data-oid="hzc1qiq"
-                  >
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
                     技術スタック
                   </h4>
-                  <div className="flex flex-wrap gap-3" data-oid="-9a33kw">
+                  <div className="flex flex-wrap gap-3">
                     {project.technologies.map((tech, techIndex) => {
                       const TechIcon = tech.icon;
                       return (
@@ -317,13 +278,9 @@ const ProjectsSection = () => {
                           key={techIndex}
                           className="flex items-center space-x-2 px-3 py-2 bg-white dark:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600"
                           whileHover={{ scale: 1.05 }}
-                          data-oid="j9-6t:s"
                         >
-                          <TechIcon size={16} data-oid="xa24nb5" />
-                          <span
-                            className="text-sm text-slate-700 dark:text-slate-300 font-medium"
-                            data-oid="qjpxf2t"
-                          >
+                          <TechIcon size={16} />
+                          <span className="text-sm text-slate-700 dark:text-slate-300 font-medium">
                             {tech.name}
                           </span>
                         </motion.div>
