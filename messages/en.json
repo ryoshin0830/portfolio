@@ -1,0 +1,236 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "research": "Research",
+    "skills": "Skills",
+    "projects": "Projects",
+    "gallery": "Gallery",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "LIANG ZHEN (RYO SHIN)",
+    "subtitle": "Creating technology that connects people beyond language barriers",
+    "description": "PhD Student at Kyoto University・CEO of EastLinker Inc.",
+    "roles": [
+      "Researcher",
+      "Entrepreneur",
+      "Japanese Teacher",
+      "Full-Stack Developer"
+    ]
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Bridging Foreign Language Education and AI Technology",
+    "education": "Education",
+    "experience": "Experience",
+    "specialization": "Specialization",
+    "timeline": "Life Timeline",
+    "currentStatus": "Current Position",
+    "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University",
+    "eastLinker": "CEO, EastLinker Inc.",
+    "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
+    "fields": [
+      "Foreign Language Education, Second Language Acquisition, Applied Linguistics",
+      "Large Language Model (LLM) Fine-tuning and Development",
+      "Machine Learning for Vocabulary Difficulty Prediction and Language Assessment",
+      "Educational Grammar and English for Academic Purposes"
+    ],
+    "timelineEvents": [
+      {
+        "year": "1997",
+        "title": "Birth",
+        "description": "Born in Beijing, China"
+      },
+      {
+        "year": "1999",
+        "title": "Move to Japan",
+        "description": "Moved to Yokohama with family. Started kindergarten and elementary school life in Japan"
+      },
+      {
+        "year": "2009",
+        "title": "Return to China",
+        "description": "Returned to Beijing and entered middle school"
+      },
+      {
+        "year": "2010",
+        "title": "Japan Permanent Residency",
+        "description": "Obtained permanent residency status in Japan"
+      },
+      {
+        "year": "2013",
+        "title": "High School",
+        "description": "Entered Beijing Yuetan Middle School High School Division"
+      },
+      {
+        "year": "2016",
+        "title": "University Admission",
+        "description": "Entered Capital University of Economics and Business, Information Systems Department"
+      },
+      {
+        "year": "2020",
+        "title": "University Graduation",
+        "description": "Graduated from Capital University of Economics and Business, Information Systems Department"
+      },
+      {
+        "year": "2021",
+        "title": "Return to Japan & Master's Program",
+        "description": "Moved to Kyoto. Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics"
+      },
+      {
+        "year": "2023",
+        "title": "Entrepreneurship & PhD Program",
+        "description": "Founded EastLinker Inc. Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'"
+      }
+    ]
+  },
+  "research": {
+    "title": "Research Activities",
+    "subtitle": "Innovating AI Technology in Language Education",
+    "projects": "Key Projects",
+    "publications": "Publications",
+    "peerReviewedPapers": "Peer-Reviewed Papers",
+    "conferencePresentations": "Conference Presentations",
+    "vocabularyDifficulty": {
+      "title": "Vocabulary Difficulty Estimation using LLMs",
+      "description": "Development of a system that predicts vocabulary difficulty by training large language models with known difficulty data. Joint research with National Institute for Japanese Language and Linguistics."
+    },
+    "originalLLM": {
+      "title": "Original LLM Development",
+      "description": "Research on developing education-specific large language models with novel architectures that overcome constraints of existing LLMs."
+    },
+    "teamDevelopment": {
+      "title": "Team Development Experience",
+      "description": "Led the development team for the English learning app 'LANDS', implementing unified development environments using Git and Docker."
+    },
+    "peerReviewedList": [
+      {
+        "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
+        "year": "2023",
+        "title": "Development and validation of an audio version of Japanese vocabulary size test for Chinese-Japanese bilinguals",
+        "journal": "Journal of Japanese Language Education",
+        "volume": "185",
+        "pages": "93–108"
+      },
+      {
+        "authors": "Vincent, N. H., Liang, Z., & Sasao, Y.",
+        "year": "2023",
+        "title": "Motion and memory in VR: The influence of VR control method on memorization of foreign language orthography",
+        "journal": "International Journal on Cybernetics & Informatics (IJCI)",
+        "volume": "12(1)",
+        "pages": "151–164"
+      },
+      {
+        "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
+        "year": "2022",
+        "title": "Use of subtitles in video content for Japanese language learning: From the perspective of language selection",
+        "journal": "Language and Culture Education Research",
+        "volume": "20",
+        "pages": "335–356"
+      }
+    ],
+    "conferencePresentationsList": [
+      {
+        "authors": "Nakano, T., Liang, Z., & Sasao, Y.",
+        "year": "2024",
+        "title": "Analysis of high-frequency collocations based on English proficiency test textbook corpus",
+        "conference": "JASELE 49th Fukuoka Research Conference"
+      },
+      {
+        "authors": "Liang, Z., & Sasao, Y.",
+        "year": "2024",
+        "title": "Can general language models predict vocabulary difficulty based on Japanese learner data?",
+        "conference": "Annual Meeting of the Association for Natural Language Processing 2024"
+      },
+      {
+        "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
+        "year": "2022",
+        "title": "Development and validation of an audio version of Japanese vocabulary size test for Chinese-Japanese bilinguals",
+        "conference": "Proceedings of the Autumn Conference of the Society for Teaching Japanese as a Foreign Language"
+      },
+      {
+        "authors": "Liang, Z., & Sasao, Y.",
+        "year": "2022",
+        "title": "Development and verification of an automatic choice generation program for Japanese vocabulary questions",
+        "conference": "Proceedings of the Spring Conference of the Society for Teaching Japanese as a Foreign Language"
+      }
+    ]
+  },
+  "skills": {
+    "title": "Skills & Technologies",
+    "subtitle": "From Full-Stack Development to Machine Learning",
+    "programming": "Programming Languages",
+    "frontend": "Frontend",
+    "backend": "Backend",
+    "database": "Database",
+    "mobile": "Mobile Development",
+    "infrastructure": "Infrastructure",
+    "cloud": "Cloud",
+    "ai": "AI & Machine Learning",
+    "languages": "Language Proficiency"
+  },
+  "projects": {
+    "title": "Project Portfolio",
+    "subtitle": "Practical Application Development",
+    "projectsList": [
+      {
+        "title": "Japanese Learning App",
+        "description": "Efficient Japanese vocabulary learning and listening practice mobile application",
+        "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
+        "features": [
+          "Cross-platform support with React Native and Swift",
+          "Flexible data modeling with MongoDB",
+          "Serverless processing on AliCloud"
+        ]
+      },
+      {
+        "title": "Vocabulary Profiler 'Matsunoha'",
+        "description": "Web tool for text analysis that determines word difficulty and visualizes vocabulary levels",
+        "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
+        "features": [
+          "Full-stack development with Next.js",
+          "MeCab morphological analysis on AWS Lambda",
+          "Robust code design with TypeScript"
+        ]
+      },
+      {
+        "title": "LandS English Learning App",
+        "description": "English learning application specialized in listening and speaking skills",
+        "technologies": ["Google Cloud Platform", "Swift", "Nginx", "MariaDB"],
+        "features": [
+          "Robust infrastructure based on Google Cloud",
+          "Native experience implementation with Swift",
+          "High-speed response with Nginx"
+        ]
+      },
+      {
+        "title": "LLM Analysis & Fine-tuning Research",
+        "description": "Research project for analyzing and customizing LLMs specialized for foreign language education",
+        "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
+        "features": [
+          "Large language model analysis with TensorFlow",
+          "LLM customization for foreign language education",
+          "Utilizing Transformers library"
+        ]
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Photo Gallery",
+    "subtitle": "Research, Business, and Daily Life",
+    "research": "Research",
+    "business": "Business",
+    "daily": "Daily Life",
+    "outdoor": "Outdoor Activities"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Feel free to get in touch",
+    "email": "Email",
+    "social": "Social & External Links"
+  },
+  "footer": {
+    "copyright": "© 2024 LIANG ZHEN (RYO SHIN). All rights reserved.",
+    "builtWith": "Built with Next.js, TypeScript, and Tailwind CSS"
+  }
+}

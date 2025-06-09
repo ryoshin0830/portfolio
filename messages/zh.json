@@ -1,0 +1,236 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我",
+    "research": "研究",
+    "skills": "技能",
+    "projects": "项目",
+    "gallery": "画廊",
+    "contact": "联系"
+  },
+  "hero": {
+    "title": "梁震",
+    "subtitle": "创造跨越语言障碍、连接人与人的技术",
+    "description": "京都大学博士生・EastLinker株式会社代表取締役",
+    "roles": [
+      "研究员",
+      "企业家",
+      "日语教师",
+      "全栈开发者"
+    ]
+  },
+  "about": {
+    "title": "关于我",
+    "subtitle": "外语教育学与AI技术的融合",
+    "education": "教育经历",
+    "experience": "工作经历",
+    "specialization": "专业领域",
+    "timeline": "人生时间线",
+    "currentStatus": "现状",
+    "kyotoUniversity": "京都大学人间环境学研究科 共生人间学专攻 博士课程",
+    "eastLinker": "EastLinker株式会社 代表取締役",
+    "japaneseTeacher": "新东方日语教师（7年，5000小时以上教学经验）",
+    "fields": [
+      "外语教育学・第二语言习得论・应用语言学",
+      "大规模语言模型（LLM）的微调・构建",
+      "使用机器学习的词汇难度预测・语言评估",
+      "教育语法及学术用途英语教育"
+    ],
+    "timelineEvents": [
+      {
+        "year": "1997",
+        "title": "出生",
+        "description": "在北京出生"
+      },
+      {
+        "year": "1999",
+        "title": "移居日本",
+        "description": "与家人一起移居横滨。开始在日本的幼儿园和小学生活"
+      },
+      {
+        "year": "2009",
+        "title": "回到中国",
+        "description": "回到北京，进入中学"
+      },
+      {
+        "year": "2010",
+        "title": "取得日本永住权",
+        "description": "取得日本永住许可"
+      },
+      {
+        "year": "2013",
+        "title": "高中入学",
+        "description": "进入北京市月坛中学高中部"
+      },
+      {
+        "year": "2016",
+        "title": "大学入学",
+        "description": "进入首都经济贸易大学信息系统学部"
+      },
+      {
+        "year": "2020",
+        "title": "大学毕业",
+        "description": "从首都经济贸易大学信息系统学部毕业"
+      },
+      {
+        "year": "2021",
+        "title": "再次来日・硕士课程入学",
+        "description": "移居京都。进入京都大学人间环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学"
+      },
+      {
+        "year": "2023",
+        "title": "创业・博士课程入学",
+        "description": "创立EastLinker株式会社。硕士课程毕业后，进入博士课程。博士论文主题：「外语教育中LLM的应用」"
+      }
+    ]
+  },
+  "research": {
+    "title": "研究活动",
+    "subtitle": "语言教育中AI技术的创新",
+    "projects": "主要项目",
+    "publications": "论文・发表",
+    "peerReviewedPapers": "同行评议论文",
+    "conferencePresentations": "会议发表",
+    "vocabularyDifficulty": {
+      "title": "使用LLM的词汇难度推定",
+      "description": "通过让大规模语言模型学习已知难度数据，开发预测新词汇难度的系统。与国立国语研究所的共同研究。"
+    },
+    "originalLLM": {
+      "title": "原创LLM构建",
+      "description": "开发教育特化的独自大规模语言模型。研究规避既有LLM制约的新架构。"
+    },
+    "teamDevelopment": {
+      "title": "团队开发经验",
+      "description": "作为英语学习应用「LANDS」的团队负责人，实现了使用Git和Docker的开发环境统一。"
+    },
+    "peerReviewedList": [
+      {
+        "authors": "彭悦, 梁震, 笹尾洋介",
+        "year": "2023",
+        "title": "日中双语者日语词汇量测试语音版的开发与验证",
+        "journal": "日语教育",
+        "volume": "185",
+        "pages": "93–108"
+      },
+      {
+        "authors": "Vincent, N. H., Liang, Z., & Sasao, Y.",
+        "year": "2023",
+        "title": "VR中的运动与记忆：VR控制方法对外语正字法记忆的影响",
+        "journal": "International Journal on Cybernetics & Informatics (IJCI)",
+        "volume": "12(1)",
+        "pages": "151–164"
+      },
+      {
+        "authors": "彭悦, 梁震, 笹尾洋介",
+        "year": "2022",
+        "title": "日语学习中影像作品字幕使用——从语言选择的视角",
+        "journal": "语言文化教育研究",
+        "volume": "20",
+        "pages": "335–356"
+      }
+    ],
+    "conferencePresentationsList": [
+      {
+        "authors": "中野珠悠・梁震・笹尾洋介",
+        "year": "2024",
+        "title": "基于英语检定教科书语料库的高频搭配分析",
+        "conference": "全国英语教育学会 JASELE 第49届福冈研究大会"
+      },
+      {
+        "authors": "梁震・笹尾洋介",
+        "year": "2024",
+        "title": "通用语言模型能否预测基于日语学习者数据的词汇难度",
+        "conference": "语言处理学会2024"
+      },
+      {
+        "authors": "彭悦・梁震・笹尾洋介",
+        "year": "2022",
+        "title": "日中双语者日语词汇量测试语音版的开发与验证",
+        "conference": "日语教育学会秋季大会论文集"
+      },
+      {
+        "authors": "梁震・笹尾洋介",
+        "year": "2022",
+        "title": "日语词汇问题选项自动生成程序的开发与验证",
+        "conference": "日语教育学会春季大会论文集"
+      }
+    ]
+  },
+  "skills": {
+    "title": "技能・技术",
+    "subtitle": "从全栈开发到机器学习",
+    "programming": "编程语言",
+    "frontend": "前端",
+    "backend": "后端",
+    "database": "数据库",
+    "mobile": "移动开发",
+    "infrastructure": "基础设施",
+    "cloud": "云计算",
+    "ai": "AI・机器学习",
+    "languages": "语言能力"
+  },
+  "projects": {
+    "title": "项目成果",
+    "subtitle": "实用应用程序开发",
+    "projectsList": [
+      {
+        "title": "日语学习应用",
+        "description": "提供高效日语词汇学习和听力练习的移动应用",
+        "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
+        "features": [
+          "React Native和Swift跨平台支持",
+          "MongoDB灵活数据建模",
+          "AliCloud无服务器处理"
+        ]
+      },
+      {
+        "title": "词汇分析器「松叶」",
+        "description": "文本分析工具，判定单词难度并可视化词汇水平",
+        "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
+        "features": [
+          "Next.js全栈开发",
+          "AWS Lambda上的MeCab形态素分析",
+          "TypeScript稳健代码设计"
+        ]
+      },
+      {
+        "title": "LandS英语学习应用",
+        "description": "专注于听力和口语技能的英语学习应用程序",
+        "technologies": ["Google Cloud Platform", "Swift", "Nginx", "MariaDB"],
+        "features": [
+          "基于Google Cloud的稳健基础设施",
+          "Swift原生体验实现",
+          "Nginx高速响应"
+        ]
+      },
+      {
+        "title": "LLM分析与微调研究",
+        "description": "专门针对外语教育的LLM分析与定制研究项目",
+        "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
+        "features": [
+          "TensorFlow大规模语言模型分析",
+          "外语教育LLM定制",
+          "Transformers库应用"
+        ]
+      }
+    ]
+  },
+  "gallery": {
+    "title": "照片画廊",
+    "subtitle": "研究・商务・日常生活",
+    "research": "研究活动",
+    "business": "商务",
+    "daily": "日常",
+    "outdoor": "户外活动"
+  },
+  "contact": {
+    "title": "联系方式",
+    "subtitle": "欢迎随时联系",
+    "email": "邮箱",
+    "social": "社交・外部链接"
+  },
+  "footer": {
+    "copyright": "© 2024 梁震. 保留所有权利。",
+    "builtWith": "使用Next.js、TypeScript、Tailwind CSS构建"
+  }
+}
