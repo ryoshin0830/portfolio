@@ -1,5 +1,10 @@
 import HeroSection from "@/components/HeroSection";
+import ScrollableLayout from "@/components/ScrollableLayout";
 
 export default function Home() {
-  return <HeroSection />;
+  return (
+    <ScrollableLayout>
+      <HeroSection />
+    </ScrollableLayout>
+  );
 }

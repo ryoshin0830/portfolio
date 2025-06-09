@@ -6,7 +6,9 @@
     "skills": "スキル",
     "projects": "プロジェクト",
     "gallery": "ギャラリー",
-    "contact": "お問い合わせ"
+    "contact": "お問い合わせ",
+    "scrollToNext": "次のセクション：",
+    "scrollToPrevious": "前のセクション："
   },
   "languages": {
     "ja": "日本語",

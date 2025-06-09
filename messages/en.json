@@ -6,7 +6,9 @@
     "skills": "Skills",
     "projects": "Projects",
     "gallery": "Gallery",
-    "contact": "Contact"
+    "contact": "Contact",
+    "scrollToNext": "Next Section:",
+    "scrollToPrevious": "Previous Section:"
   },
   "languages": {
     "ja": "Japanese",

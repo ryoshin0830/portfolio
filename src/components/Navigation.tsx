@@ -7,14 +7,17 @@ import { usePathname, useRouter, useParams } from "next/navigation";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
   const t = useTranslations("nav");
   const langT = useTranslations("languages");
+  
+  // スクロールナビゲーションのフック
+  const { currentSection } = useScrollNavigation();
 
   // Prefer the locale found in the current URL (e.g. /en, /ja, /zh) to avoid
   // situations where the context value lags behind after a client-side
@@ -80,12 +83,8 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Update active section based on current pathname
-  useEffect(() => {
-    const segments = pathname.split("/").filter(Boolean);
-    const routeSegment = segments[0] && ["ja","en","zh"].includes(segments[0]) ? segments[1] ?? "" : segments[0] ?? "";
-    setActiveSection(routeSegment === "" ? "home" : routeSegment);
-  }, [pathname]);
+  // アクティブセクションは useScrollNavigation から取得
+  const activeSection = currentSection === "" ? "home" : currentSection;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

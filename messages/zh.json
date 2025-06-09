@@ -6,7 +6,9 @@
     "skills": "技能",
     "projects": "项目",
     "gallery": "画廊",
-    "contact": "联系"
+    "contact": "联系",
+    "scrollToNext": "下一节：",
+    "scrollToPrevious": "上一节："
   },
   "languages": {
     "ja": "日本語",
