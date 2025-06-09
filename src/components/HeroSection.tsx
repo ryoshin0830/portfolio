@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { ArrowDown, Github, Twitter, Mail, ExternalLink } from "lucide-react";
+import { ArrowDown, Github, Twitter, Mail } from "lucide-react";
+import Image from "next/image";
 
 const HeroSection = () => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const t = useTranslations("hero");
 
-  const names = ["梁 震（りょう しん）", "RYO SHIN", "LIANG ZHEN"];
+  const names = ["梁 震", "りょう しん", "RYO SHIN", "LIANG ZHEN"];
   const roles = t.raw("roles") as string[];
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const HeroSection = () => {
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-8"
             >
               <Mail size={22} />
-              <span>Let&apos;s Connect</span>
+              <span>{t("connect")}</span>
             </a>
 
             {/* Social Links */}
@@ -126,20 +127,21 @@ const HeroSection = () => {
                 <Twitter size={24} className="text-blue-500" />
               </a>
               <a
-                href="https://matsunoha.eastlinker.com"
+                href="https://zenn.dev/ryoushin"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:border-emerald-300 dark:hover:border-emerald-600"
+                className="p-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:border-sky-300 dark:hover:border-sky-600"
               >
-                <ExternalLink size={24} className="text-emerald-600" />
+                {/* Zenn logo */}
+                <Image src="/logo-only.svg" alt="Zenn" width={24} height={24} className="w-6 h-6" />
               </a>
             </div>
           </div>
 
           {/* Scroll Indicator */}
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-4 mt-2 mb-12">
             <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-              Discover More
+              {t("discover")}
             </span>
             <button
               onClick={scrollToNext}

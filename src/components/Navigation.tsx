@@ -19,11 +19,10 @@ const Navigation = () => {
   // situations where the context value lags behind after a client-side
   // navigation. Fall back to the context-provided locale when the parameter
   // is absent.
-  const params = useParams();
-  const localeParam = Array.isArray((params as any)?.locale)
-    ? (params as any).locale[0]
-    : (params as any)?.locale;
-  const locale = (localeParam as string | undefined) || useLocale();
+  const params = useParams<{ locale?: string }>();
+  const defaultLocale = useLocale();
+  const localeParam = Array.isArray(params.locale) ? params.locale[0] : params.locale;
+  const locale: string = localeParam ?? defaultLocale;
   const pathname = usePathname();
   const router = useRouter();
 
