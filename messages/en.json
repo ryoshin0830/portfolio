@@ -8,6 +8,16 @@
     "gallery": "Gallery",
     "contact": "Contact"
   },
+  "languages": {
+    "ja": "Japanese",
+    "en": "English",
+    "zh": "Chinese"
+  },
+  "flags": {
+    "ja": "🇯🇵",
+    "en": "🇬🇧",
+    "zh": "🇨🇳"
+  },
   "hero": {
     "title": "LIANG ZHEN (RYO SHIN)",
     "subtitle": "Creating technology that connects people beyond language barriers",

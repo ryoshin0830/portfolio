@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useParams } from "next/navigation";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import Image from "next/image";
 
@@ -13,14 +13,55 @@ const Navigation = () => {
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
   const t = useTranslations("nav");
-  const locale = useLocale();
-  const pathname = usePathname();
+  const langT = useTranslations("languages");
 
-  const languages = [
-    { code: "ja", name: "日本語", flag: "🇯🇵" },
-    { code: "en", name: "English", flag: "🇺🇸" },
-    { code: "zh", name: "中文", flag: "🇨🇳" },
-  ];
+  // Prefer the locale found in the current URL (e.g. /en, /ja, /zh) to avoid
+  // situations where the context value lags behind after a client-side
+  // navigation. Fall back to the context-provided locale when the parameter
+  // is absent.
+  const params = useParams();
+  const localeParam = Array.isArray((params as any)?.locale)
+    ? (params as any).locale[0]
+    : (params as any)?.locale;
+  const locale = (localeParam as string | undefined) || useLocale();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // Define language names with proper fallback
+  const getLanguageName = useCallback((code: string): string => {
+    try {
+      const translated = langT(code);
+      // Check if translation is valid and not empty
+      if (translated && translated !== code) {
+        return translated;
+      }
+    } catch (error) {
+      console.warn(`Translation error for ${code}:`, error);
+    }
+    
+    // Fallback to hardcoded names
+    const fallbackNames = { ja: "日本語", en: "English", zh: "中文" };
+    return fallbackNames[code as keyof typeof fallbackNames] || code;
+  }, [langT]);
+
+  // Return the flag corresponding to each language code.
+  // This mapping is independent of the current locale, ensuring each language
+  // is always represented by the same emoji flag.
+  const getFlag = useCallback((code: string): string => {
+    const flagMap: Record<string, string> = { ja: "🇯🇵", en: "🇺🇸", zh: "🇨🇳" };
+    return flagMap[code] ?? "🌐";
+  }, []);
+
+  const languages = useMemo(() => {
+    console.log('Regenerating languages for locale:', locale);
+    const result = [
+      { code: "ja", name: getLanguageName("ja"), flag: getFlag("ja") },
+      { code: "en", name: getLanguageName("en"), flag: getFlag("en") },
+      { code: "zh", name: getLanguageName("zh"), flag: getFlag("zh") },
+    ];
+    console.log('Generated languages:', result);
+    return result;
+  }, [getLanguageName, getFlag, locale]);
 
   const navItems = useMemo(() => [
     { key: "home", href: "#hero", label: "Home" },
@@ -70,7 +111,7 @@ const Navigation = () => {
       segments.shift();
     }
     const newPath = `/${langCode}${segments.length > 0 ? "/" + segments.join("/") : ""}`;
-    window.location.href = newPath;
+    router.push(newPath);
     setShowLangMenu(false);
   };
 
