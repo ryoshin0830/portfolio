@@ -6,16 +6,14 @@ import { useInView } from "react-intersection-observer";
 import {
   Briefcase,
   Users,
-  Calendar,
-  Baby,
-  Plane,
-  Home,
-  GraduationCap,
-  School,
-  University,
-  Rocket,
   Sparkles,
+  University,
 } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const TimelineSection = dynamic(() => import("./TimelineSection"), {
+  ssr: false,
+});
 
 const AboutSection = () => {
   const t = useTranslations("about");
@@ -25,25 +23,6 @@ const AboutSection = () => {
   });
 
   const fields = t.raw("fields") as string[];
-  const timelineEvents = t.raw("timelineEvents") as Array<{
-    year: string;
-    title: string;
-    description: string;
-    icon?: string;
-  }>;
-
-  const getTimelineIcon = (icon?: string) => {
-    switch (icon) {
-      case "birth": return Baby;
-      case "plane": return Plane;
-      case "home": return Home;
-      case "school": return School;
-      case "university": return University;
-      case "graduation": return GraduationCap;
-      case "rocket": return Rocket;
-      default: return Calendar;
-    }
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -217,59 +196,8 @@ const AboutSection = () => {
             ))}
           </motion.div>
 
-          {/* Modern Timeline */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-12 text-center">
-              {t("timeline")}
-            </h3>
-            
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-8 md:left-1/2 transform md:-translate-x-px top-0 bottom-0 w-0.5 bg-gradient-to-b from-slate-300 via-slate-300 to-transparent dark:from-slate-700 dark:via-slate-700" />
-
-              {timelineEvents.map((event, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
-                  className={`relative flex items-center mb-12 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}
-                >
-                  {/* Timeline dot */}
-                  <div className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-4 h-4 bg-white dark:bg-slate-900 rounded-full border-2 border-slate-400 dark:border-slate-600 z-10" />
-
-                  {/* Content */}
-                  <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:pr-12 md:text-right" : "md:pl-12"}`}>
-                    <div className="inline-block">
-                      <div className={`flex items-center gap-3 mb-2 ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
-                        <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                          {event.year}
-                        </span>
-                        <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-lg">
-                          {(() => {
-                            const Icon = getTimelineIcon(event.icon);
-                            return <Icon className="text-slate-600 dark:text-slate-400" size={16} />;
-                          })()}
-                        </div>
-                      </div>
-                      <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
-                        {event.title}
-                      </h4>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">
-                        {event.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+          {/* Timeline Section */}
+          <TimelineSection />
         </div>
       </div>
     </section>

@@ -3,19 +3,7 @@
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Brain, FileText, Users, Lightbulb, BookOpen, Microscope, ExternalLink } from "lucide-react";
-
-interface Publication {
-  authors: string;
-  year: number;
-  title: string;
-  journal: string;
-  volume?: string;
-  pages?: string;
-  doi?: string;
-  link?: string;
-  type: "journal" | "conference";
-}
+import { Brain, Users, Lightbulb, Microscope, ExternalLink } from "lucide-react";
 
 const ResearchSection = () => {
   const t = useTranslations("research");

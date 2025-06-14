@@ -3,6 +3,11 @@
 import { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 
+interface TopSection {
+  entry: IntersectionObserverEntry;
+  top: number;
+}
+
 export function useScrollNavigation() {
   const params = useParams();
   const pathname = usePathname();
@@ -70,7 +75,7 @@ export function useScrollNavigation() {
     // Observerを作成
     const observerCallback: IntersectionObserverCallback = (entries) => {
       // 現在のビューポート内で最も上にあるセクションを検出
-      let topSection: { entry: IntersectionObserverEntry; top: number } | null = null;
+      let topSection: TopSection | null = null;
 
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -87,8 +92,9 @@ export function useScrollNavigation() {
       });
 
       // 最も適切なセクションを更新
-      if (topSection) {
-        const targetElement = topSection.entry.target as HTMLElement;
+      if (topSection !== null) {
+        const sectionData = topSection as TopSection;
+        const targetElement = sectionData.entry.target as HTMLElement;
         if (targetElement.id && targetElement.id !== currentSection) {
           setCurrentSection(targetElement.id);
           updateURL(targetElement.id);

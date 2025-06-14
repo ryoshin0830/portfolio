@@ -4,9 +4,10 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import { Menu, X, Globe, ChevronDown, MoreHorizontal } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, MoreHorizontal, Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ const Navigation = () => {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const t = useTranslations("nav");
   const langT = useTranslations("languages");
+  const { theme, toggleTheme } = useTheme();
   
   // スクロールナビゲーションのフック
   const { currentSection, scrollToSection } = useScrollNavigation();
@@ -248,7 +250,40 @@ const Navigation = () => {
           </div>
 
           {/* Right Side Controls */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <motion.button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle dark mode"
+            >
+              <AnimatePresence mode="wait">
+                {theme === "dark" ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <Sun size={20} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <Moon size={20} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+
             {/* Language Selector */}
             <div className="relative language-menu">
               <motion.button

@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* Define dark variant for Tailwind v4 */
+@media (--dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+@variant dark (&:is(:root.dark *));
+
 :root {
   --background: #fafafa;
   --foreground: #0a0a0a;
@@ -14,6 +23,19 @@
   --gradient-end: #764ba2;
 }
 
+:root.dark {
+  --background: #020817;
+  --foreground: #f8fafc;
+  --primary: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --secondary: #8b5cf6;
+  --accent: #06b6d4;
+  --muted: #1e293b;
+  --border: #334155;
+  --gradient-start: #667eea;
+  --gradient-end: #764ba2;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -22,7 +44,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #020817;
     --foreground: #f8fafc;
     --muted: #1e293b;

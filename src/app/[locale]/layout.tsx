@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Navigation from "@/components/Navigation";
 import StructuredData from "@/components/StructuredData";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { themeScript } from "../theme-script";
 import "../globals.css";
 import Script from "next/script";
 
@@ -109,6 +111,9 @@ export default async function RootLayout({
   return (
     <html lang={validLocale} className="scroll-smooth" data-oid="bphv6.8">
       <head data-oid="8k2pgtd">
+        {/* Theme script to prevent flash */}
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        
         {/* Preconnect for fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -136,23 +141,25 @@ export default async function RootLayout({
         data-oid="1ogajcn"
       >
         <NextIntlClientProvider messages={messages} data-oid="q3ce1r0">
-          <Navigation data-oid="hk5vrem" />
-          <main className="min-h-screen" data-oid="cjsbd45">
-            {children}
-          </main>
-          <footer className="bg-slate-900 text-white py-8" data-oid="9d4m8i:">
-            <div
-              className="container mx-auto px-4 text-center"
-              data-oid="67z3cll"
-            >
-              <p className="text-sm opacity-80" data-oid="lswazss">
-                © 2024 梁震（りょう しん）. All rights reserved.
-              </p>
-              <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
-                Built with Next.js, TypeScript, and Tailwind CSS
-              </p>
-            </div>
-          </footer>
+          <ThemeProvider>
+            <Navigation data-oid="hk5vrem" />
+            <main className="min-h-screen" data-oid="cjsbd45">
+              {children}
+            </main>
+            <footer className="bg-slate-900 text-white py-8" data-oid="9d4m8i:">
+              <div
+                className="container mx-auto px-4 text-center"
+                data-oid="67z3cll"
+              >
+                <p className="text-sm opacity-80" data-oid="lswazss">
+                  © 2024 梁震（りょう しん）. All rights reserved.
+                </p>
+                <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
+                  Built with Next.js, TypeScript, and Tailwind CSS
+                </p>
+              </div>
+            </footer>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>
