@@ -13,7 +13,6 @@ import {
   Rocket,
   Calendar,
   MapPin,
-  Briefcase,
 } from "lucide-react";
 import Image from "next/image";
 

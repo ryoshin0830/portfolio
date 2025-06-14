@@ -12,7 +12,11 @@
       "Bash(/opt/homebrew/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/arm64-darwin/rg \"z-[0-9]+\" src/ --type tsx -A 2 -B 2)",
       "Bash(grep:*)",
       "mcp__perplexity-ask__perplexity_ask",
-      "Bash(vercel deploy:*)"
+      "Bash(vercel deploy:*)",
+      "Bash(npx eslint:*)",
+      "Bash(vercel logs:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
