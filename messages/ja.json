@@ -224,6 +224,17 @@
     "subtitle": "実用的なアプリケーションの開発",
     "projectsList": [
       {
+        "title": "速読ゴリラ",
+        "description": "日本語学習者向けのインタラクティブな速読練習システム",
+        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "features": [
+          "初級から上級までレベル別のコンテンツ",
+          "リアルタイムの読書速度（WPM）と理解度測定",
+          "クイズ形式でのインタラクティブな学習",
+          "学習進捗の可視化と追跡"
+        ]
+      },
+      {
         "title": "日雨日語",
         "description": "効率的な日本語単語学習とリスニング練習を提供するモバイルアプリ",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],

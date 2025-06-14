@@ -15,6 +15,9 @@ import {
   SiGooglecloud,
   SiNginx,
   SiMariadb,
+  SiPostgresql,
+  SiTypescript,
+  SiTailwindcss,
 } from "react-icons/si";
 
 const ProjectsSection = () => {
@@ -43,27 +46,30 @@ const ProjectsSection = () => {
       return SiGooglecloud;
     if (lowerName.includes("nginx")) return SiNginx;
     if (lowerName.includes("maria")) return SiMariadb;
+    if (lowerName.includes("postgre")) return SiPostgresql;
+    if (lowerName.includes("typescript")) return SiTypescript;
+    if (lowerName.includes("tailwind")) return SiTailwindcss;
     return SiReactnative; // Default icon
   };
 
   const projects = projectsList.map((project, index) => {
-    const icons = [Smartphone, Globe, BookOpen, Brain];
-    const colors = ["blue", "green", "purple", "red"];
-    const statuses = ["completed", "active", "completed", "ongoing"];
-    const years = ["2022-2023", "2023-2024", "2021-2022", "2023-現在"];
+    const icons = [Globe, Smartphone, Globe, BookOpen, Brain];
+    const colors = ["purple", "blue", "green", "orange", "red"];
+    const statuses = ["ongoing", "completed", "active", "completed", "ongoing"];
+    const years = ["2025-現在", "2022-2023", "2023-2024", "2021-2022", "2023-現在"];
 
     return {
       ...project,
-      icon: icons[index],
-      color: colors[index],
-      status: statuses[index],
-      year: years[index],
+      icon: icons[index] || Globe,
+      color: colors[index] || "gray",
+      status: statuses[index] || "ongoing",
+      year: years[index] || "2024",
       technologies: project.technologies.map((tech) => ({
         name: tech,
         icon: getTechIcon(tech),
       })),
       links:
-        index === 1 ? { live: "https://matsunoha.eastlinker.com" } : undefined,
+        index === 2 ? { live: "https://matsunoha.eastlinker.com" } : undefined,
     };
   });
 
@@ -97,6 +103,13 @@ const ProjectsSection = () => {
           border: "border-red-200 dark:border-red-800",
           accent: "bg-red-600",
           text: "text-red-600 dark:text-red-400",
+        };
+      case "orange":
+        return {
+          bg: "bg-orange-50 dark:bg-orange-900/20",
+          border: "border-orange-200 dark:border-orange-800",
+          accent: "bg-orange-600",
+          text: "text-orange-600 dark:text-orange-400",
         };
       default:
         return {

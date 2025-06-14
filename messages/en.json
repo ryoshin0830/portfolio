@@ -224,6 +224,17 @@
     "subtitle": "Practical Application Development",
     "projectsList": [
       {
+        "title": "Sokudoku Gorilla",
+        "description": "Interactive speed reading practice system for Japanese learners",
+        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "features": [
+          "Level-based content from beginner to advanced",
+          "Real-time reading speed (WPM) and comprehension measurement",
+          "Interactive learning with quiz format",
+          "Progress visualization and tracking"
+        ]
+      },
+      {
         "title": "日雨日語 (Nichiu Nichigo)",
         "description": "Efficient Japanese vocabulary learning and listening practice mobile application",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],

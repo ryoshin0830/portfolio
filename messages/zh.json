@@ -224,6 +224,17 @@
     "subtitle": "实用应用程序开发",
     "projectsList": [
       {
+        "title": "速读大猩猩",
+        "description": "为日语学习者设计的互动式速读练习系统",
+        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "features": [
+          "从初级到高级的分级内容",
+          "实时测量阅读速度（WPM）和理解度",
+          "以测验形式进行互动学习",
+          "学习进度可视化和跟踪"
+        ]
+      },
+      {
         "title": "日雨日语",
         "description": "提供高效日语词汇学习和听力练习的移动应用",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
