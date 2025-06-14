@@ -98,9 +98,25 @@ const HeroSection = () => {
           </h2>
 
           {/* Description */}
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-16 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
             {t("description")}
           </p>
+
+          {/* Personal Details */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-16 text-sm md:text-base text-slate-600 dark:text-slate-400">
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
+              <span className="font-semibold">{t("birthDate")}</span>
+              <span className="text-slate-700 dark:text-slate-300">1997.08.30</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
+              <span className="font-semibold">{t("origin")}</span>
+              <span className="text-slate-700 dark:text-slate-300">{t("beijing")}</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
+              <span className="font-semibold">{t("current")}</span>
+              <span className="text-slate-700 dark:text-slate-300">{t("kyoto")}</span>
+            </div>
+          </div>
 
           {/* Contact Section */}
           <div className="mb-20">

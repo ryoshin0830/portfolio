@@ -3,8 +3,12 @@
     "home": "首页",
     "about": "关于我",
     "research": "研究",
+    "publications": "论文",
+    "teaching": "教学",
+    "certifications": "资格",
     "skills": "技能",
     "projects": "项目",
+    "blog": "博客",
     "gallery": "画廊",
     "contact": "联系",
     "scrollToNext": "下一节：",
@@ -34,7 +38,12 @@
     "connect": "联系我",
     "discover": "查看更多",
     "email_subject": "来自作品集网站的咨询",
-    "email_body": "请填写以下信息后发送：\n\n---\n姓名：\n内容：\n---"
+    "email_body": "请填写以下信息后发送：\n\n---\n姓名：\n内容：\n---",
+    "birthDate": "出生日期",
+    "origin": "出生地",
+    "beijing": "北京",
+    "current": "现居",
+    "kyoto": "京都"
   },
   "about": {
     "title": "关于我",
@@ -46,6 +55,7 @@
     "currentStatus": "现状",
     "kyotoUniversity": "京都大学人间环境学研究科 共生人间学专攻 博士课程",
     "eastLinker": "EastLinker株式会社 代表取締役",
+    "eastLinkerDescription": "2023年创立 - AI、系统开发、EdTech",
     "japaneseTeacher": "新东方日语教师（7年，5000小时以上教学经验）",
     "fields": [
       "外语教育学・第二语言习得论・应用语言学",
@@ -57,47 +67,56 @@
       {
         "year": "1997",
         "title": "出生",
-        "description": "在北京出生"
+        "description": "在北京出生",
+        "icon": "birth"
       },
       {
         "year": "1999",
         "title": "移居日本",
-        "description": "与家人一起移居横滨。开始在日本的幼儿园和小学生活"
+        "description": "与家人一起移居横滨。开始在日本的幼儿园和小学生活",
+        "icon": "plane"
       },
       {
         "year": "2009",
         "title": "回到中国",
-        "description": "回到北京，进入中学"
+        "description": "回到北京，进入中学",
+        "icon": "plane"
       },
       {
         "year": "2010",
         "title": "取得日本永住权",
-        "description": "取得日本永住许可"
+        "description": "取得日本永住许可",
+        "icon": "home"
       },
       {
         "year": "2013",
         "title": "高中入学",
-        "description": "进入北京市月坛中学高中部"
+        "description": "进入北京市月坛中学高中部",
+        "icon": "school"
       },
       {
         "year": "2016",
         "title": "大学入学",
-        "description": "进入首都经济贸易大学信息系统学部"
+        "description": "进入首都经济贸易大学信息系统学部",
+        "icon": "university"
       },
       {
         "year": "2020",
         "title": "大学毕业",
-        "description": "从首都经济贸易大学信息系统学部毕业"
+        "description": "从首都经济贸易大学信息系统学部毕业",
+        "icon": "graduation"
       },
       {
         "year": "2021",
         "title": "再次来日・硕士课程入学",
-        "description": "移居京都。进入京都大学人间环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学"
+        "description": "移居京都。进入京都大学人间环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学",
+        "icon": "plane"
       },
       {
         "year": "2023",
         "title": "创业・博士课程入学",
-        "description": "创立EastLinker株式会社。硕士课程毕业后，进入博士课程。博士论文主题：「外语教育中LLM的应用」"
+        "description": "创立EastLinker株式会社。硕士课程毕业后，进入博士课程。博士论文主题：「外语教育中LLM的应用」",
+        "icon": "rocket"
       }
     ]
   },
@@ -249,5 +268,111 @@
   "footer": {
     "copyright": "© 2024 梁震. 保留所有权利。",
     "builtWith": "使用Next.js、TypeScript、Tailwind CSS构建"
+  },
+  "publications": {
+    "title": "论文发表",
+    "viewPaper": "查看论文",
+    "totalPublications": "共 {{count}} 篇发表"
+  },
+  "scroll": {
+    "navigating": "正在跳转到{{section}}...",
+    "pullUp": "上拉跳转到{{section}}",
+    "pullDown": "下拉跳转到{{section}}",
+    "release": "松开跳转"
+  },
+  "certifications": {
+    "title": "资格证书",
+    "subtitle": "专业资格与成就",
+    "featured": "特色",
+    "continuousLearning": "致力于持续学习和专业发展",
+    "jlptN1": {
+      "title": "JLPT N1（满分）",
+      "description": "日本语能力测试 - 最高级别满分通过",
+      "date": "2020年"
+    },
+    "ict": {
+      "title": "ICT能力测试",
+      "description": "信息通信技术认证",
+      "date": "2019年"
+    },
+    "japaneseDrivers": {
+      "title": "日本驾照",
+      "description": "日本颁发的全种类驾驶执照",
+      "date": "2022年"
+    },
+    "chineseDrivers": {
+      "title": "中国驾照",
+      "description": "中国颁发的全种类驾驶执照",
+      "date": "2018年"
+    },
+    "cet4": {
+      "title": "大学英语四级",
+      "description": "中国大学生全国英语能力测试",
+      "date": "2018年"
+    }
+  },
+  "zennFeed": {
+    "title": "Zenn文章",
+    "subtitle": "技术博客分享",
+    "loading": "正在加载文章...",
+    "featured": "最新文章",
+    "readMore": "阅读更多",
+    "viewAllArticles": "在Zenn查看所有文章"
+  },
+  "teaching": {
+    "title": "教学经验",
+    "subtitle": "日语教育",
+    "perfectScore": "满分",
+    "perfectScoreDescription": "日语能力最高成就",
+    "yearsExperience": "年教学经验",
+    "teachingHours": "小时授课",
+    "studentsTotal": "名学生",
+    "passRate": "JLPT通过率",
+    "experienceTitle": "专业教学背景",
+    "newOriental": "新东方教育科技集团",
+    "experienceDescription": "作为新东方的资深日语讲师，我为从初学者到准备JLPT N1的高级学习者等各个级别的学生开发并提供了全面的日语课程。",
+    "achievements": "主要成就",
+    "achievement1": "开发原创教学材料和方法",
+    "achievement2": "保持95%的学生JLPT通过率",
+    "achievement3": "多次获得优秀讲师称号",
+    "specialties": "教学专长",
+    "specialty1": "JLPT N1-N5全级别考试准备",
+    "specialty2": "专业人士商务日语",
+    "specialty3": "会话流利度提升",
+    "coursesOffered": "课程设置",
+    "courses": {
+      "basic": {
+        "title": "基础日语课程",
+        "description": "为初学者设计的日语入门课程",
+        "features": [
+          "平假名和片假名掌握",
+          "基本语法句型",
+          "日常会话技能",
+          "文化理解"
+        ]
+      },
+      "jlpt": {
+        "title": "JLPT考试准备",
+        "description": "全级别JLPT考试综合准备课程",
+        "features": [
+          "目标词汇量构建",
+          "语法句型掌握",
+          "阅读理解策略",
+          "听力技能提升"
+        ]
+      },
+      "business": {
+        "title": "商务日语",
+        "description": "职场沟通专业日语课程",
+        "features": [
+          "商务礼仪和敬语",
+          "邮件和文件写作",
+          "会议和演示技巧",
+          "行业专业术语"
+        ]
+      }
+    },
+    "philosophyTitle": "教学理念",
+    "philosophyQuote": "语言学习不仅仅是记忆单词和语法，更是构建文化之间的桥梁，打开新机遇的大门。我的目标是让每一位学生的学习旅程既高效又愉快。"
   }
 }

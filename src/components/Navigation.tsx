@@ -70,8 +70,12 @@ const Navigation = () => {
     { key: "home", path: "" },
     { key: "about", path: "about" },
     { key: "research", path: "research" },
+    { key: "publications", path: "publications" },
+    { key: "teaching", path: "teaching" },
+    { key: "certifications", path: "certifications" },
     { key: "skills", path: "skills" },
     { key: "projects", path: "projects" },
+    { key: "blog", path: "blog" },
     { key: "gallery", path: "gallery" },
   ], []);
 

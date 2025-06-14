@@ -3,8 +3,12 @@
     "home": "Home",
     "about": "About",
     "research": "Research",
+    "publications": "Publications",
+    "teaching": "Teaching",
+    "certifications": "Certifications",
     "skills": "Skills",
     "projects": "Projects",
+    "blog": "Blog",
     "gallery": "Gallery",
     "contact": "Contact",
     "scrollToNext": "Next Section:",
@@ -34,7 +38,12 @@
     "connect": "Let's Connect",
     "discover": "Discover More",
     "email_subject": "Inquiry from Portfolio Site",
-    "email_body": "Please include the following information:\n\n---\nName:\nMessage:\n---"
+    "email_body": "Please include the following information:\n\n---\nName:\nMessage:\n---",
+    "birthDate": "Birth Date",
+    "origin": "Origin",
+    "beijing": "Beijing",
+    "current": "Current",
+    "kyoto": "Kyoto"
   },
   "about": {
     "title": "About Me",
@@ -46,6 +55,7 @@
     "currentStatus": "Current Position",
     "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University",
     "eastLinker": "CEO, EastLinker Inc.",
+    "eastLinkerDescription": "Founded 2023 - AI, System Development, EdTech",
     "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
     "fields": [
       "Foreign Language Education, Second Language Acquisition, Applied Linguistics",
@@ -57,47 +67,56 @@
       {
         "year": "1997",
         "title": "Birth",
-        "description": "Born in Beijing, China"
+        "description": "Born in Beijing, China",
+        "icon": "birth"
       },
       {
         "year": "1999",
         "title": "Move to Japan",
-        "description": "Moved to Yokohama with family. Started kindergarten and elementary school life in Japan"
+        "description": "Moved to Yokohama with family. Started kindergarten and elementary school life in Japan",
+        "icon": "plane"
       },
       {
         "year": "2009",
         "title": "Return to China",
-        "description": "Returned to Beijing and entered middle school"
+        "description": "Returned to Beijing and entered middle school",
+        "icon": "plane"
       },
       {
         "year": "2010",
         "title": "Japan Permanent Residency",
-        "description": "Obtained permanent residency status in Japan"
+        "description": "Obtained permanent residency status in Japan",
+        "icon": "home"
       },
       {
         "year": "2013",
         "title": "High School",
-        "description": "Entered Beijing Yuetan Middle School High School Division"
+        "description": "Entered Beijing Yuetan Middle School High School Division",
+        "icon": "school"
       },
       {
         "year": "2016",
         "title": "University Admission",
-        "description": "Entered Capital University of Economics and Business, Information Systems Department"
+        "description": "Entered Capital University of Economics and Business, Information Systems Department",
+        "icon": "university"
       },
       {
         "year": "2020",
         "title": "University Graduation",
-        "description": "Graduated from Capital University of Economics and Business, Information Systems Department"
+        "description": "Graduated from Capital University of Economics and Business, Information Systems Department",
+        "icon": "graduation"
       },
       {
         "year": "2021",
         "title": "Return to Japan & Master's Program",
-        "description": "Moved to Kyoto. Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics"
+        "description": "Moved to Kyoto. Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics",
+        "icon": "plane"
       },
       {
         "year": "2023",
         "title": "Entrepreneurship & PhD Program",
-        "description": "Founded EastLinker Inc. Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'"
+        "description": "Founded EastLinker Inc. Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'",
+        "icon": "rocket"
       }
     ]
   },
@@ -249,5 +268,111 @@
   "footer": {
     "copyright": "© 2024 LIANG ZHEN (RYO SHIN). All rights reserved.",
     "builtWith": "Built with Next.js, TypeScript, and Tailwind CSS"
+  },
+  "publications": {
+    "title": "Publications",
+    "viewPaper": "View Paper",
+    "totalPublications": "Total {{count}} publications"
+  },
+  "scroll": {
+    "navigating": "Navigating to {{section}}...",
+    "pullUp": "Pull up to {{section}}",
+    "pullDown": "Pull down to {{section}}",
+    "release": "Release to navigate"
+  },
+  "certifications": {
+    "title": "Certifications",
+    "subtitle": "Professional Qualifications & Achievements",
+    "featured": "Featured",
+    "continuousLearning": "Committed to continuous learning and professional development",
+    "jlptN1": {
+      "title": "JLPT N1 (Perfect Score)",
+      "description": "Japanese Language Proficiency Test - Highest level with perfect score",
+      "date": "2020"
+    },
+    "ict": {
+      "title": "ICT Proficiency Test",
+      "description": "Information and Communications Technology certification",
+      "date": "2019"
+    },
+    "japaneseDrivers": {
+      "title": "Japanese Driver's License",
+      "description": "Full driving license issued in Japan",
+      "date": "2022"
+    },
+    "chineseDrivers": {
+      "title": "Chinese Driver's License",
+      "description": "Full driving license issued in China",
+      "date": "2018"
+    },
+    "cet4": {
+      "title": "College English Test Level 4",
+      "description": "National English proficiency test for Chinese university students",
+      "date": "2018"
+    }
+  },
+  "zennFeed": {
+    "title": "Zenn Articles",
+    "subtitle": "Technical Blog Posts",
+    "loading": "Loading articles...",
+    "featured": "Latest Article",
+    "readMore": "Read More",
+    "viewAllArticles": "View All Articles on Zenn"
+  },
+  "teaching": {
+    "title": "Teaching Experience",
+    "subtitle": "Japanese Language Education",
+    "perfectScore": "Perfect Score",
+    "perfectScoreDescription": "Highest achievement in Japanese proficiency",
+    "yearsExperience": "Years of Experience",
+    "teachingHours": "Teaching Hours",
+    "studentsTotal": "Students Taught",
+    "passRate": "JLPT Pass Rate",
+    "experienceTitle": "Professional Teaching Background",
+    "newOriental": "New Oriental Education & Technology Group",
+    "experienceDescription": "As a senior Japanese language instructor at New Oriental, I have developed and delivered comprehensive Japanese language curricula for students at all levels, from beginners to advanced learners preparing for JLPT N1.",
+    "achievements": "Key Achievements",
+    "achievement1": "Developed original teaching materials and methods",
+    "achievement2": "Maintained 95% student JLPT pass rate",
+    "achievement3": "Recognized as Top Instructor multiple times",
+    "specialties": "Teaching Specialties",
+    "specialty1": "JLPT N1-N5 comprehensive preparation",
+    "specialty2": "Business Japanese for professionals",
+    "specialty3": "Conversational fluency development",
+    "coursesOffered": "Course Offerings",
+    "courses": {
+      "basic": {
+        "title": "Basic Japanese Course",
+        "description": "Foundation course for beginners starting their Japanese journey",
+        "features": [
+          "Hiragana and Katakana mastery",
+          "Essential grammar patterns",
+          "Daily conversation skills",
+          "Cultural understanding"
+        ]
+      },
+      "jlpt": {
+        "title": "JLPT Preparation",
+        "description": "Comprehensive test preparation for all JLPT levels",
+        "features": [
+          "Targeted vocabulary building",
+          "Grammar pattern mastery",
+          "Reading comprehension strategies",
+          "Listening skill enhancement"
+        ]
+      },
+      "business": {
+        "title": "Business Japanese",
+        "description": "Professional Japanese for workplace communication",
+        "features": [
+          "Business etiquette and keigo",
+          "Email and document writing",
+          "Meeting and presentation skills",
+          "Industry-specific terminology"
+        ]
+      }
+    },
+    "philosophyTitle": "Teaching Philosophy",
+    "philosophyQuote": "Language learning is not just about memorizing words and grammar; it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's journey both effective and enjoyable."
   }
 }

@@ -102,6 +102,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
       ],
 
       email: "ryo.shin.j85@kyoto-u.jp",
+      birthDate: "1997-08-30",
       birthPlace: {
         "@type": "Place",
         name: "Beijing, China",

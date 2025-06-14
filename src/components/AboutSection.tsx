@@ -7,8 +7,14 @@ import {
   Building,
   Users,
   Calendar,
-  MapPin,
   Target,
+  Baby,
+  Plane,
+  Home,
+  GraduationCap,
+  School,
+  University,
+  Rocket,
 } from "lucide-react";
 import Image from "next/image";
 
@@ -21,7 +27,21 @@ const AboutSection = () => {
     year: string;
     title: string;
     description: string;
+    icon?: string;
   }>;
+
+  const getTimelineIcon = (icon?: string) => {
+    switch (icon) {
+      case "birth": return Baby;
+      case "plane": return Plane;
+      case "home": return Home;
+      case "school": return School;
+      case "university": return University;
+      case "graduation": return GraduationCap;
+      case "rocket": return Rocket;
+      default: return Calendar;
+    }
+  };
 
   return (
     <section id="about" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/50 to-white dark:from-slate-950/50 dark:to-slate-900">
@@ -115,7 +135,7 @@ const AboutSection = () => {
                       <p className="font-bold text-lg text-slate-800 dark:text-white">
                         {t("eastLinker")}
                       </p>
-                      <p className="text-sm text-slate-600 dark:text-slate-400">Business</p>
+                      <p className="text-sm text-slate-600 dark:text-slate-400">{t("eastLinkerDescription")}</p>
                     </div>
                   </div>
                 </div>
@@ -237,12 +257,16 @@ const AboutSection = () => {
                   <div className={`flex-1 ml-20 md:ml-0 ${index % 2 === 0 ? "md:pr-16" : "md:pl-16"}`}>
                     <div className="group p-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl border border-slate-200/30 dark:border-slate-700/30 shadow-xl hover:shadow-2xl transition-all duration-200">
                       <div className="flex items-center gap-4 mb-4">
-                        <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl shadow-lg">
-                          <span className="font-bold text-sm">{event.year}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-slate-400">
-                          <MapPin size={16} />
-                          <span className="text-sm">Experience</span>
+                        <div className="flex items-center gap-3">
+                          <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg">
+                            {(() => {
+                              const Icon = getTimelineIcon(event.icon);
+                              return <Icon className="text-white" size={20} />;
+                            })()}
+                          </div>
+                          <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl shadow-lg">
+                            <span className="font-bold text-sm">{event.year}</span>
+                          </div>
                         </div>
                       </div>
                       
