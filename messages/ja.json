@@ -272,12 +272,12 @@
   "publications": {
     "title": "論文・学会発表",
     "viewPaper": "論文を見る",
-    "totalPublications": "合計 {{count}} 件の業績"
+    "totalPublications": "合計 {count} 件の業績"
   },
   "scroll": {
-    "navigating": "{{section}}へ遷移中...",
-    "pullUp": "{{section}}へ上にスワイプ",
-    "pullDown": "{{section}}へ下にスワイプ",
+    "navigating": "{section}へ遷移中...",
+    "pullUp": "{section}へ上にスワイプ",
+    "pullDown": "{section}へ下にスワイプ",
     "release": "離して遷移"
   },
   "certifications": {

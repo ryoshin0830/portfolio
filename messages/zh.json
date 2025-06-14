@@ -272,12 +272,12 @@
   "publications": {
     "title": "论文发表",
     "viewPaper": "查看论文",
-    "totalPublications": "共 {{count}} 篇发表"
+    "totalPublications": "共 {count} 篇发表"
   },
   "scroll": {
-    "navigating": "正在跳转到{{section}}...",
-    "pullUp": "上拉跳转到{{section}}",
-    "pullDown": "下拉跳转到{{section}}",
+    "navigating": "正在跳转到{section}...",
+    "pullUp": "上拉跳转到{section}",
+    "pullDown": "下拉跳转到{section}",
     "release": "松开跳转"
   },
   "certifications": {

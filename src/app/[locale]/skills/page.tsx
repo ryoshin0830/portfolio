@@ -1,14 +1,10 @@
-import dynamic from "next/dynamic";
-import ScrollableLayout from "@/components/ScrollableLayout";
+import { redirect } from "next/navigation";
 
-const SkillsSection = dynamic(() => import("@/components/SkillsSection"), {
-  loading: () => <div />,
-});
-
-export default function SkillsPage() {
-  return (
-    <ScrollableLayout>
-      <SkillsSection />
-    </ScrollableLayout>
-  );
+export default async function SkillsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}#skills`);
 } 

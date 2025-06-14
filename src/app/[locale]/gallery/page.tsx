@@ -1,14 +1,10 @@
-import dynamic from "next/dynamic";
-import ScrollableLayout from "@/components/ScrollableLayout";
+import { redirect } from "next/navigation";
 
-const GallerySection = dynamic(() => import("@/components/GallerySection"), {
-  loading: () => <div />,
-});
-
-export default function GalleryPage() {
-  return (
-    <ScrollableLayout>
-      <GallerySection />
-    </ScrollableLayout>
-  );
+export default async function GalleryPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}#gallery`);
 } 

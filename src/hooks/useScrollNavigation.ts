@@ -1,261 +1,162 @@
 "use client";
 
-import { useEffect, useCallback, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-
-const SECTION_ORDER = ['', 'about', 'research', 'skills', 'projects', 'gallery'];
+import { useEffect, useRef, useCallback, useMemo, useState } from "react";
+import { useParams, usePathname } from "next/navigation";
 
 export function useScrollNavigation() {
-  const router = useRouter();
+  const params = useParams();
   const pathname = usePathname();
-  const [overScrollState, setOverScrollState] = useState({
-    isVisible: false,
-    progress: 0,
-    direction: 'down' as 'up' | 'down',
-    isNavigating: false,
-  });
+  const locale = params.locale as string;
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sectionsRef = useRef<{ id: string; element: HTMLElement }[]>([]);
+  const isNavigatingRef = useRef(false);
+  const [currentSection, setCurrentSection] = useState("hero");
 
-  const getCurrentSection = useCallback((): string => {
-    const segments = pathname.split('/').filter(Boolean);
-    // segments[0] = locale, segments[1] = section
-    const routeSegment = segments.length > 1 ? segments[1] : '';
-    return routeSegment;
-  }, [pathname]);
+  // セクションのIDリスト
+  const sectionIds = useMemo(
+    () => [
+      "hero",
+      "about",
+      "research",
+      "publications",
+      "teaching",
+      "certifications",
+      "skills",
+      "projects",
+      "blog",
+      "gallery",
+    ],
+    []
+  );
 
-  const getNextSection = useCallback((current: string): string | undefined => {
-    const currentIndex = SECTION_ORDER.indexOf(current);
-    return currentIndex !== -1 && currentIndex < SECTION_ORDER.length - 1 
-      ? SECTION_ORDER[currentIndex + 1]
-      : undefined;
+  // URLを更新する関数
+  const updateURL = useCallback(
+    (sectionId: string) => {
+      // ナビゲーションクリックによる移動中はURL更新をスキップ
+      if (isNavigatingRef.current) return;
+
+      const newPath = sectionId === "hero" ? `/${locale}` : `/${locale}/${sectionId}`;
+      const currentPath = window.location.pathname;
+
+      // 現在のパスと異なる場合のみ更新
+      if (newPath !== currentPath) {
+        // Next.jsの内部状態を保持しながらURLを更新
+        window.history.replaceState(
+          { ...window.history.state, as: newPath, url: newPath },
+          "",
+          newPath
+        );
+      }
+    },
+    [locale]
+  );
+
+  // ナビゲーションクリック後の処理を管理
+  const handleNavigationEnd = useCallback(() => {
+    setTimeout(() => {
+      isNavigatingRef.current = false;
+    }, 1000);
   }, []);
 
-  const getPreviousSection = useCallback((current: string): string | undefined => {
-    const currentIndex = SECTION_ORDER.indexOf(current);
-    return currentIndex > 0 
-      ? SECTION_ORDER[currentIndex - 1]
-      : undefined;
-  }, []);
-
-  const navigateToSection = useCallback((section: string) => {
-    // パスからロケールを直接抽出（より確実な方法）
-    const segments = pathname.split('/').filter(Boolean);
-    const currentLocale = segments[0] || 'ja'; // デフォルトは日本語
-    
-    // パスから抽出したロケールを使用
-    const newPath = `/${currentLocale}${section ? `/${section}` : ''}`;
-    router.push(newPath);
-  }, [router, pathname]);
-
+  // Intersection Observerのセットアップ
   useEffect(() => {
-    let isNavigating = false;
-    let navigationTimeout: NodeJS.Timeout;
-    let isAtBottom = false;
-    let isAtTop = false;
-    let wheelDeltaY = 0;
-    let lastTouchY = 0;
-    let touchStartY = 0;
+    // セクション要素を収集
+    sectionsRef.current = sectionIds
+      .map((id) => {
+        const element = document.getElementById(id);
+        return element ? { id, element } : null;
+      })
+      .filter((item): item is { id: string; element: HTMLElement } => item !== null);
 
-    const handleScroll = () => {
-      if (isNavigating) return;
+    // Observerを作成
+    const observerCallback: IntersectionObserverCallback = (entries) => {
+      // 現在のビューポート内で最も上にあるセクションを検出
+      let topSection: { entry: IntersectionObserverEntry; top: number } | null = null;
 
-      const { scrollY, innerHeight } = window;
-      const { scrollHeight } = document.documentElement;
-      
-      // ページ底部に到達したかチェック（1px の余裕を持たせる）
-      const isCurrentlyAtBottom = scrollY + innerHeight >= scrollHeight - 1;
-      // ページ上部に到達したかチェック
-      const isCurrentlyAtTop = scrollY <= 1;
-      
-      if (isCurrentlyAtBottom && !isAtBottom) {
-        isAtBottom = true;
-        isAtTop = false;
-        console.log('Reached bottom of page');
-      } else if (isCurrentlyAtTop && !isAtTop) {
-        isAtTop = true;
-        isAtBottom = false;
-        console.log('Reached top of page');
-      } else if (!isCurrentlyAtBottom && !isCurrentlyAtTop) {
-        isAtBottom = false;
-        isAtTop = false;
-        wheelDeltaY = 0; // リセット
-        setOverScrollState({ isVisible: false, progress: 0, direction: 'down', isNavigating: false });
-      }
-    };
-
-    // PC用のwheelイベントハンドラ
-    const handleWheel = (event: WheelEvent) => {
-      handleScrollGesture(event.deltaY);
-    };
-
-    // モバイル用のtouchイベントハンドラ
-    const handleTouchStart = (event: TouchEvent) => {
-      if (event.touches.length === 1) {
-        touchStartY = event.touches[0].clientY;
-        lastTouchY = touchStartY;
-      }
-    };
-
-    const handleTouchMove = (event: TouchEvent) => {
-      if (isNavigating || event.touches.length !== 1) return;
-
-      const currentTouchY = event.touches[0].clientY;
-      const deltaY = lastTouchY - currentTouchY; // 正数で下向き、負数で上向き
-      lastTouchY = currentTouchY;
-
-      // モバイルでのオーバースクロール検知強化
-      const { scrollY, innerHeight } = window;
-      const { scrollHeight } = document.documentElement;
-      
-      const isCurrentlyAtBottom = scrollY + innerHeight >= scrollHeight - 5;
-      const isCurrentlyAtTop = scrollY <= 5;
-
-      // ページの境界でのタッチジェスチャーのみ処理
-      if ((isCurrentlyAtBottom && deltaY > 0) || (isCurrentlyAtTop && deltaY < 0)) {
-        // タッチの移動量が十分な場合のみ処理（モバイル用に感度調整）
-        if (Math.abs(deltaY) > 1) {
-          handleScrollGesture(deltaY * 2); // モバイル用に係数を調整
-        }
-      }
-    };
-
-    const handleTouchEnd = () => {
-      // タッチ終了時にリセット
-      lastTouchY = 0;
-      touchStartY = 0;
-    };
-
-    // 共通のスクロールジェスチャー処理
-    const handleScrollGesture = (deltaY: number) => {
-      if (isNavigating) return;
-
-      // 底部での下スクロール（次のセクション）
-      if (isAtBottom && deltaY > 0) {
-        const currentSection = getCurrentSection();
-        const nextSection = getNextSection(currentSection);
-        
-        // 次のセクションが存在する場合のみ処理
-        if (nextSection !== undefined) {
-          wheelDeltaY += deltaY;
-          const progress = Math.min(wheelDeltaY / 300, 1);
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const rect = entry.target.getBoundingClientRect();
+          const top = rect.top;
           
-          setOverScrollState({
-            isVisible: true,
-            progress: progress,
-            direction: 'down',
-            isNavigating: false,
-          });
-          
-          console.log('Down scroll - delta:', wheelDeltaY, 'Progress:', progress);
-          
-          if (wheelDeltaY > 300) {
-            isNavigating = true;
-            
-            setOverScrollState({
-              isVisible: true,
-              progress: 1,
-              direction: 'down',
-              isNavigating: true,
-            });
-            
-            console.log('Navigating to next:', nextSection);
-            
-            clearTimeout(navigationTimeout);
-            navigationTimeout = setTimeout(() => {
-              navigateToSection(nextSection);
-              
-              setTimeout(() => {
-                isNavigating = false;
-                isAtBottom = false;
-                wheelDeltaY = 0;
-                setOverScrollState({ isVisible: false, progress: 0, direction: 'down', isNavigating: false });
-              }, 1000);
-            }, 800);
+          // ビューポートの上半分にあるセクションを優先
+          if (top <= window.innerHeight / 2) {
+            if (!topSection || top > topSection.top) {
+              topSection = { entry, top };
+            }
           }
         }
-      }
-      // 上部での上スクロール（前のセクション）
-      else if (isAtTop && deltaY < 0) {
-        const currentSection = getCurrentSection();
-        const previousSection = getPreviousSection(currentSection);
-        
-        // 前のセクションが存在する場合のみ処理
-        if (previousSection !== undefined) {
-          wheelDeltaY += Math.abs(deltaY);
-          const progress = Math.min(wheelDeltaY / 300, 1);
-          
-          setOverScrollState({
-            isVisible: true,
-            progress: progress,
-            direction: 'up',
-            isNavigating: false,
-          });
-          
-          console.log('Up scroll - delta:', wheelDeltaY, 'Progress:', progress);
-          
-          if (wheelDeltaY > 300) {
-            isNavigating = true;
-            
-            setOverScrollState({
-              isVisible: true,
-              progress: 1,
-              direction: 'up',
-              isNavigating: true,
-            });
-            
-            console.log('Navigating to previous:', previousSection);
-            
-            clearTimeout(navigationTimeout);
-            navigationTimeout = setTimeout(() => {
-              navigateToSection(previousSection);
-              
-              setTimeout(() => {
-                isNavigating = false;
-                isAtTop = false;
-                wheelDeltaY = 0;
-                setOverScrollState({ isVisible: false, progress: 0, direction: 'up', isNavigating: false });
-              }, 1000);
-            }, 800);
-          }
+      });
+
+      // 最も適切なセクションを更新
+      if (topSection) {
+        const targetElement = topSection.entry.target as HTMLElement;
+        if (targetElement.id && targetElement.id !== currentSection) {
+          setCurrentSection(targetElement.id);
+          updateURL(targetElement.id);
         }
       }
     };
 
-    // スクロールイベントの最適化（throttle処理）
-    let ticking = false;
-    const optimizedScrollHandler = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
+    observerRef.current = new IntersectionObserver(
+      observerCallback,
+      {
+        root: null,
+        rootMargin: "-20% 0px -70% 0px", // ビューポート上部で検知
+        threshold: [0, 0.1, 0.5, 1.0],
       }
-    };
+    );
 
-    // PC用イベントリスナー
-    window.addEventListener('scroll', optimizedScrollHandler, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: true });
-    
-    // モバイル用タッチイベントリスナー
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    
+    // 各セクションを監視
+    sectionsRef.current.forEach(({ element }) => {
+      observerRef.current?.observe(element);
+    });
+
+    // クリーンアップ
     return () => {
-      window.removeEventListener('scroll', optimizedScrollHandler);
-      window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-      clearTimeout(navigationTimeout);
+      observerRef.current?.disconnect();
     };
-  }, [getCurrentSection, getNextSection, getPreviousSection, navigateToSection]);
+  }, [sectionIds, updateURL, currentSection]);
+
+  // 特定のセクションにスクロールする関数
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      isNavigatingRef.current = true;
+      setCurrentSection(sectionId);
+      
+      // 即座にURLを更新
+      const newPath = sectionId === "hero" ? `/${locale}` : `/${locale}/${sectionId}`;
+      window.history.replaceState(
+        { ...window.history.state, as: newPath, url: newPath },
+        "",
+        newPath
+      );
+      
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      handleNavigationEnd();
+    }
+  }, [locale, handleNavigationEnd]);
+
+  // 直接URLアクセス時の処理
+  useEffect(() => {
+    const pathParts = pathname.split("/");
+    const section = pathParts[pathParts.length - 1];
+
+    // セクションIDが存在する場合はそこにスクロール
+    if (section && sectionIds.includes(section)) {
+      setCurrentSection(section);
+      // ページ読み込み完了後にスクロール
+      setTimeout(() => {
+        scrollToSection(section);
+      }, 100);
+    } else if (section === locale || !section) {
+      setCurrentSection("hero");
+    }
+  }, [pathname, scrollToSection, sectionIds, locale]);
 
   return {
-    currentSection: getCurrentSection(),
-    nextSection: getNextSection(getCurrentSection()),
-    previousSection: getPreviousSection(getCurrentSection()),
-    navigateToSection,
-    overScrollState,
+    currentSection,
+    scrollToSection,
+    sectionIds,
   };
 }

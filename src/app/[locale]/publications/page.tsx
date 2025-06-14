@@ -1,9 +1,10 @@
-import PublicationsSection from "@/components/PublicationsSection";
+import { redirect } from "next/navigation";
 
-export default function PublicationsPage() {
-  return (
-    <div className="min-h-screen pt-16">
-      <PublicationsSection />
-    </div>
-  );
+export default async function PublicationsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}#publications`);
 }

@@ -1,9 +1,10 @@
-import TeachingSection from "@/components/TeachingSection";
+import { redirect } from "next/navigation";
 
-export default function TeachingPage() {
-  return (
-    <div className="min-h-screen pt-16">
-      <TeachingSection />
-    </div>
-  );
+export default async function TeachingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}#teaching`);
 }

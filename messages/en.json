@@ -272,12 +272,12 @@
   "publications": {
     "title": "Publications",
     "viewPaper": "View Paper",
-    "totalPublications": "Total {{count}} publications"
+    "totalPublications": "Total {count} publications"
   },
   "scroll": {
-    "navigating": "Navigating to {{section}}...",
-    "pullUp": "Pull up to {{section}}",
-    "pullDown": "Pull down to {{section}}",
+    "navigating": "Navigating to {section}...",
+    "pullUp": "Pull up to {section}",
+    "pullDown": "Pull down to {section}",
     "release": "Release to navigate"
   },
   "certifications": {

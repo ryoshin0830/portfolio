@@ -1,9 +1,10 @@
-import ZennFeed from "@/components/ZennFeed";
+import { redirect } from "next/navigation";
 
-export default function BlogPage() {
-  return (
-    <div className="min-h-screen pt-16">
-      <ZennFeed />
-    </div>
-  );
+export default async function BlogPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}#blog`);
 }

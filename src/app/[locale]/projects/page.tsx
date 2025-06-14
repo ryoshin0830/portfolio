@@ -1,14 +1,10 @@
-import dynamic from "next/dynamic";
-import ScrollableLayout from "@/components/ScrollableLayout";
+import { redirect } from "next/navigation";
 
-const ProjectsSection = dynamic(() => import("@/components/ProjectsSection"), {
-  loading: () => <div />,
-});
-
-export default function ProjectsPage() {
-  return (
-    <ScrollableLayout>
-      <ProjectsSection />
-    </ScrollableLayout>
-  );
+export default async function ProjectsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  redirect(`/${locale}#projects`);
 } 

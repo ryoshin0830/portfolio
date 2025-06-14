@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 
 const Navigation = () => {
@@ -17,7 +16,7 @@ const Navigation = () => {
   const langT = useTranslations("languages");
   
   // スクロールナビゲーションのフック
-  const { currentSection } = useScrollNavigation();
+  const { currentSection, scrollToSection } = useScrollNavigation();
 
   // Prefer the locale found in the current URL (e.g. /en, /ja, /zh) to avoid
   // situations where the context value lags behind after a client-side
@@ -67,16 +66,16 @@ const Navigation = () => {
   }, [getLanguageName, getFlag, locale]);
 
   const navItems = useMemo(() => [
-    { key: "home", path: "" },
-    { key: "about", path: "about" },
-    { key: "research", path: "research" },
-    { key: "publications", path: "publications" },
-    { key: "teaching", path: "teaching" },
-    { key: "certifications", path: "certifications" },
-    { key: "skills", path: "skills" },
-    { key: "projects", path: "projects" },
-    { key: "blog", path: "blog" },
-    { key: "gallery", path: "gallery" },
+    { key: "home", sectionId: "hero" },
+    { key: "about", sectionId: "about" },
+    { key: "research", sectionId: "research" },
+    { key: "publications", sectionId: "publications" },
+    { key: "teaching", sectionId: "teaching" },
+    { key: "certifications", sectionId: "certifications" },
+    { key: "skills", sectionId: "skills" },
+    { key: "projects", sectionId: "projects" },
+    { key: "blog", sectionId: "blog" },
+    { key: "gallery", sectionId: "gallery" },
   ], []);
 
   useEffect(() => {
@@ -88,7 +87,7 @@ const Navigation = () => {
   }, []);
 
   // アクティブセクションは useScrollNavigation から取得
-  const activeSection = currentSection === "" ? "home" : currentSection;
+  const activeSection = currentSection;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -111,9 +110,8 @@ const Navigation = () => {
     setShowLangMenu(false);
   };
 
-  const navigateTo = (path: string) => {
-    const fullPath = `/${locale}${path ? "/" + path : ""}`;
-    router.push(fullPath);
+  const navigateTo = (sectionId: string) => {
+    scrollToSection(sectionId);
     setIsOpen(false);
   };
 
@@ -133,7 +131,7 @@ const Navigation = () => {
           {/* Logo */}
           <motion.div
             className="flex items-center gap-4 cursor-pointer"
-            onClick={() => navigateTo("")}
+            onClick={() => navigateTo("hero")}
             whileHover={{ scale: 1.02 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
@@ -166,24 +164,23 @@ const Navigation = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {activeSection === (item.path || "home") && (
+                {activeSection === item.sectionId && (
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
                     layoutId="activeNavItem"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                <Link
-                  href={`/${locale}${item.path ? "/" + item.path : ""}`}
+                <button
                   className={`relative z-10 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                    activeSection === (item.path || "home")
+                    activeSection === item.sectionId
                       ? "text-white"
                       : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
                   }`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => navigateTo(item.sectionId)}
                 >
                   {t(item.key)}
-                </Link>
+                </button>
               </motion.div>
             ))}
           </div>
@@ -273,17 +270,16 @@ const Navigation = () => {
                     transition={{ delay: index * 0.1 }}
                     whileHover={{ x: 4 }}
                   >
-                    <Link
-                      href={`/${locale}${item.path ? "/" + item.path : ""}`}
+                    <button
                       className={`block w-full text-left px-6 py-4 rounded-xl mb-2 font-semibold transition-all duration-300 ${
-                        activeSection === (item.path || "home")
+                        activeSection === item.sectionId
                           ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
                           : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
                       }`}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => navigateTo(item.sectionId)}
                     >
                       {t(item.key)}
-                    </Link>
+                    </button>
                   </motion.div>
                 ))}
               </div>
