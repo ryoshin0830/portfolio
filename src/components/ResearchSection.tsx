@@ -33,7 +33,7 @@ const ResearchSection = () => {
       titleKey: "teamDevelopment.title",
       descriptionKey: "teamDevelopment.description",
       color: "green",
-      technologies: ["Swift", "Git", "Docker", "Team Leadership"],
+      technologies: ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"],
     },
   ];
 

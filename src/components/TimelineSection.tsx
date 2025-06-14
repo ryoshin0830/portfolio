@@ -200,8 +200,8 @@ const TimelineSection = () => {
           {eventsWithLocation.map((event, index) => {
             const Icon = getTimelineIcon(event.icon);
             const isPlaneEvent = event.icon === "plane";
-            const isKyotoEvent = event.title.includes("京都大学");
-            const isStartupEvent = event.icon === "rocket";
+            const isKyotoEvent = event.title.includes("京都大学") || event.title.includes("修士") || event.title.includes("博士");
+            const isStartupEvent = event.icon === "rocket" || event.title.includes("起業");
 
             return (
               <motion.div
@@ -258,49 +258,54 @@ const TimelineSection = () => {
                     : "left-0 right-1/2 transform origin-right"
                 }`} />
 
-                <div
-                  className={`relative p-6 lg:p-8 rounded-2xl border ${
-                    event.special 
+                <motion.div
+                  className={`relative p-6 lg:p-8 rounded-2xl border-2 ${
+                    isKyotoEvent 
+                      ? "border-blue-300 dark:border-blue-700 shadow-2xl shadow-blue-200/50 dark:shadow-blue-900/50" 
+                      : isStartupEvent
+                      ? "border-purple-300 dark:border-purple-700 shadow-2xl shadow-purple-200/50 dark:shadow-purple-900/50"
+                      : event.special 
                       ? "border-yellow-300 dark:border-yellow-700 shadow-2xl" 
                       : "border-slate-200 dark:border-slate-700 shadow-lg"
-                  } ${getCountryBg(event.location)} backdrop-blur-sm`}
+                  } ${getCountryBg(event.location)} backdrop-blur-sm overflow-hidden`}
+                  whileHover={{ 
+                    scale: 1.02,
+                    transition: { type: "spring", stiffness: 300 }
+                  }}
                 >
-                  {/* Special badge for important events */}
-                  {event.special && (
-                    <div className="absolute -top-3 -right-3 px-3 py-1 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold rounded-full shadow-lg">
-                      MILESTONE
-                    </div>
-                  )}
-
-                  {/* Kyoto University special design */}
+                  {/* Watermark logo for Kyoto University */}
                   {isKyotoEvent && (
-                    <div className="absolute top-4 right-4 w-16 h-16 opacity-20">
+                    <div className="absolute -top-6 -right-6 w-40 h-40 opacity-10 dark:opacity-5">
                       <Image
-                        src="/kyoto-u.png"
+                        src="/kyoto-u-logo.svg"
                         alt="Kyoto University"
-                        width={64}
-                        height={64}
-                        className="rounded-full"
+                        width={160}
+                        height={160}
                       />
                     </div>
                   )}
 
-                  {/* Startup special design */}
+                  {/* Watermark logo for EastLinker */}
                   {isStartupEvent && (
-                    <motion.div
-                      className="absolute top-4 right-4"
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    >
-                      <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 blur-xl" />
-                    </motion.div>
+                    <div className="absolute -top-6 -right-6 w-48 h-48 opacity-10 dark:opacity-5">
+                      <Image
+                        src="/eastlinker_logo.svg"
+                        alt="EastLinker Inc."
+                        width={192}
+                        height={192}
+                      />
+                    </div>
                   )}
 
                   <div className="flex items-start gap-4">
-                    {/* Icon with country gradient */}
-                    <div className={`p-3 bg-gradient-to-br ${getCountryColor(event.location)} rounded-xl shadow-lg`}>
+                    {/* Icon with unified design */}
+                    <motion.div 
+                      className={`p-3 bg-gradient-to-br ${getCountryColor(event.location)} rounded-xl shadow-lg`}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
                       <Icon className="text-white" size={24} />
-                    </div>
+                    </motion.div>
 
                     <div className="flex-1">
                       {/* Year and location */}
@@ -330,36 +335,9 @@ const TimelineSection = () => {
                         {event.description}
                       </p>
 
-                      {/* Special content for Kyoto University */}
-                      {isKyotoEvent && (
-                        <div className="mt-4 flex items-center gap-3">
-                          <Image
-                            src="/kyoto-u.png"
-                            alt="Kyoto University"
-                            width={32}
-                            height={32}
-                            className="rounded-full"
-                          />
-                          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                            Graduate School of Human and Environmental Studies
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Special content for startup */}
-                      {isStartupEvent && (
-                        <div className="mt-4 p-3 bg-white/50 dark:bg-slate-800/50 rounded-lg">
-                          <div className="flex items-center gap-2 text-sm">
-                            <Briefcase size={16} className="text-purple-600" />
-                            <span className="font-medium text-slate-700 dark:text-slate-300">
-                              EastLinker Inc. - AI & EdTech
-                            </span>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             );
           })}

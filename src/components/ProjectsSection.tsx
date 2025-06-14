@@ -69,6 +69,7 @@ const ProjectsSection = () => {
         icon: getTechIcon(tech),
       })),
       links:
+        index === 0 ? { live: "https://gorilla.eastlinker.com" } : 
         index === 2 ? { live: "https://matsunoha.eastlinker.com" } : undefined,
     };
   });
