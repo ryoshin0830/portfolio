@@ -2,14 +2,12 @@
 
 import { useEffect, useCallback, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useLocale } from 'next-intl';
 
 const SECTION_ORDER = ['', 'about', 'research', 'skills', 'projects', 'gallery'];
 
 export function useScrollNavigation() {
   const router = useRouter();
   const pathname = usePathname();
-  const locale = useLocale();
   const [overScrollState, setOverScrollState] = useState({
     isVisible: false,
     progress: 0,
@@ -19,6 +17,7 @@ export function useScrollNavigation() {
 
   const getCurrentSection = useCallback((): string => {
     const segments = pathname.split('/').filter(Boolean);
+    // segments[0] = locale, segments[1] = section
     const routeSegment = segments.length > 1 ? segments[1] : '';
     return routeSegment;
   }, [pathname]);
@@ -38,9 +37,14 @@ export function useScrollNavigation() {
   }, []);
 
   const navigateToSection = useCallback((section: string) => {
-    const newPath = `/${locale}${section ? `/${section}` : ''}`;
+    // パスからロケールを直接抽出（より確実な方法）
+    const segments = pathname.split('/').filter(Boolean);
+    const currentLocale = segments[0] || 'ja'; // デフォルトは日本語
+    
+    // パスから抽出したロケールを使用
+    const newPath = `/${currentLocale}${section ? `/${section}` : ''}`;
     router.push(newPath);
-  }, [router, locale]);
+  }, [router, pathname]);
 
   useEffect(() => {
     let isNavigating = false;

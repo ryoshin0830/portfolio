@@ -18,9 +18,9 @@ const notoSansJP = Noto_Sans_JP({
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
   const lang = ["en", "zh"].includes(locale) ? locale : "ja";
 
@@ -97,9 +97,9 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
 
   // Validate locale and provide default
   const validLocale =
