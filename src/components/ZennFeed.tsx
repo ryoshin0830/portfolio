@@ -35,7 +35,7 @@ export default function ZennFeed() {
       const data = await response.json();
       
       if (data.items) {
-        const formattedArticles: ZennArticle[] = data.items.slice(0, 6).map((item: { title: string; link: string; pubDate: string; description?: string; author?: string }) => ({
+        const formattedArticles: ZennArticle[] = data.items.slice(0, 7).map((item: { title: string; link: string; pubDate: string; description?: string; author?: string }) => ({
           title: item.title,
           link: item.link,
           pubDate: item.pubDate,
