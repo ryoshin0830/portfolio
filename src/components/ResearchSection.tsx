@@ -306,14 +306,6 @@ const ResearchSection = () => {
             ))}
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-center mt-8 text-gray-600 dark:text-gray-400"
-          >
-            {pubT("totalPublications", { count: publications.length })}
-          </motion.p>
         </motion.div>
       </div>
     </section>

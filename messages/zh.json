@@ -49,8 +49,9 @@
   "about": {
     "title": "关于我",
     "subtitle": "外语教育学与AI技术的融合",
-    "education": "教育经历",
-    "experience": "工作经历",
+    "education": "教育",
+    "experience": "经验",
+    "teaching": "教学",
     "specialization": "专业领域",
     "timeline": "人生时间线",
     "currentStatus": "现状",

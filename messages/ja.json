@@ -49,8 +49,9 @@
   "about": {
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",
-    "education": "教育経歴",
-    "experience": "職歴",
+    "education": "教育",
+    "experience": "経験",
+    "teaching": "教育活動",
     "specialization": "専門分野",
     "timeline": "人生のタイムライン",
     "currentStatus": "現在",
