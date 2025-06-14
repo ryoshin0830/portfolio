@@ -72,14 +72,13 @@ const Navigation = () => {
     { key: "research", sectionId: "research" },
     { key: "skills", sectionId: "skills" },
     { key: "projects", sectionId: "projects" },
-    { key: "gallery", sectionId: "gallery" },
+    { key: "blog", sectionId: "blog" },
   ], []);
 
   const secondaryNavItems = useMemo(() => [
-    { key: "publications", sectionId: "publications" },
-    { key: "teaching", sectionId: "teaching" },
     { key: "certifications", sectionId: "certifications" },
-    { key: "blog", sectionId: "blog" },
+    { key: "teaching", sectionId: "teaching" },
+    { key: "gallery", sectionId: "gallery" },
   ], []);
 
   const allNavItems = useMemo(() => [...primaryNavItems, ...secondaryNavItems], [primaryNavItems, secondaryNavItems]);
