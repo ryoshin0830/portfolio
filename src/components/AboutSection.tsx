@@ -168,33 +168,6 @@ const AboutSection = () => {
             </div>
           </motion.div>
 
-          {/* Minimalist Stats */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20"
-          >
-            {[
-              { value: "7+", label: "年間の教育経験", color: "from-blue-500 to-cyan-500" },
-              { value: "5000+", label: "指導時間", color: "from-purple-500 to-pink-500" },
-              { value: "300+", label: "指導学生数", color: "from-emerald-500 to-teal-500" },
-              { value: "95%", label: "JLPT合格率", color: "from-orange-500 to-red-500" },
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                className="text-center"
-              >
-                <div className={`text-4xl md:text-5xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
-                  {stat.value}
-                </div>
-                <p className="text-sm text-slate-600 dark:text-slate-400">
-                  {stat.label}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
 
           {/* Timeline Section */}
           <TimelineSection />

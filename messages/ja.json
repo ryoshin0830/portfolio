@@ -110,15 +110,27 @@
       },
       {
         "year": "2021",
-        "title": "再来日・修士課程入学",
-        "description": "京都へ移住。京都大学人間環境学研究科修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
+        "title": "再来日",
+        "description": "京都へ移住",
         "icon": "plane"
       },
       {
+        "year": "2021",
+        "title": "修士課程入学",
+        "description": "京都大学人間環境学研究科修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
+        "icon": "university"
+      },
+      {
         "year": "2023",
-        "title": "起業・博士課程入学",
-        "description": "株式会社EastLinker設立。修士課程修了後、博士課程に入学。博士論文テーマ：「外国語教育におけるLLMの応用」",
+        "title": "起業",
+        "description": "株式会社EastLinker設立",
         "icon": "rocket"
+      },
+      {
+        "year": "2023",
+        "title": "博士課程入学",
+        "description": "修士課程修了後、博士課程に入学。博士論文テーマ：「外国語教育におけるLLMの応用」",
+        "icon": "university"
       }
     ]
   },

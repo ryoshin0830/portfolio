@@ -110,15 +110,27 @@
       },
       {
         "year": "2021",
-        "title": "再次来日・硕士课程入学",
-        "description": "移居京都。进入京都大学人间环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学",
+        "title": "再次来日",
+        "description": "移居京都",
         "icon": "plane"
       },
       {
+        "year": "2021",
+        "title": "硕士课程入学",
+        "description": "进入京都大学人间环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学",
+        "icon": "university"
+      },
+      {
         "year": "2023",
-        "title": "创业・博士课程入学",
-        "description": "创立EastLinker株式会社。硕士课程毕业后，进入博士课程。博士论文主题：「外语教育中LLM的应用」",
+        "title": "创业",
+        "description": "创立EastLinker株式会社",
         "icon": "rocket"
+      },
+      {
+        "year": "2023",
+        "title": "博士课程入学",
+        "description": "硕士课程毕业后，进入博士课程。博士论文主题：「外语教育中LLM的应用」",
+        "icon": "university"
       }
     ]
   },

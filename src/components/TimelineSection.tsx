@@ -89,19 +89,6 @@ const TimelineSection = () => {
         {t("timeline")}
       </h3>
 
-      {/* Country indicators */}
-      <div className="absolute top-32 left-1/2 transform -translate-x-1/2 w-full max-w-6xl mx-auto hidden lg:block">
-        <div className="flex justify-between px-20">
-          <div className="text-center">
-            <div className="text-4xl mb-2">🇨🇳</div>
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">China</p>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl mb-2">🇯🇵</div>
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-400">Japan</p>
-          </div>
-        </div>
-      </div>
 
       <div className="relative max-w-5xl mx-auto mt-20">
         {/* Desktop flowing timeline paths */}

@@ -110,15 +110,27 @@
       },
       {
         "year": "2021",
-        "title": "Return to Japan & Master's Program",
-        "description": "Moved to Kyoto. Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics",
+        "title": "Return to Japan",
+        "description": "Moved to Kyoto",
         "icon": "plane"
       },
       {
+        "year": "2021",
+        "title": "Master's Program",
+        "description": "Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics",
+        "icon": "university"
+      },
+      {
         "year": "2023",
-        "title": "Entrepreneurship & PhD Program",
-        "description": "Founded EastLinker Inc. Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'",
+        "title": "Founded company",
+        "description": "Founded EastLinker Inc.",
         "icon": "rocket"
+      },
+      {
+        "year": "2023",
+        "title": "PhD Program",
+        "description": "Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'",
+        "icon": "university"
       }
     ]
   },
