@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 
@@ -12,6 +12,7 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
   const t = useTranslations("nav");
   const langT = useTranslations("languages");
   
@@ -65,18 +66,23 @@ const Navigation = () => {
     return result;
   }, [getLanguageName, getFlag, locale]);
 
-  const navItems = useMemo(() => [
+  const primaryNavItems = useMemo(() => [
     { key: "home", sectionId: "hero" },
     { key: "about", sectionId: "about" },
     { key: "research", sectionId: "research" },
+    { key: "skills", sectionId: "skills" },
+    { key: "projects", sectionId: "projects" },
+    { key: "gallery", sectionId: "gallery" },
+  ], []);
+
+  const secondaryNavItems = useMemo(() => [
     { key: "publications", sectionId: "publications" },
     { key: "teaching", sectionId: "teaching" },
     { key: "certifications", sectionId: "certifications" },
-    { key: "skills", sectionId: "skills" },
-    { key: "projects", sectionId: "projects" },
     { key: "blog", sectionId: "blog" },
-    { key: "gallery", sectionId: "gallery" },
   ], []);
+
+  const allNavItems = useMemo(() => [...primaryNavItems, ...secondaryNavItems], [primaryNavItems, secondaryNavItems]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -94,11 +100,14 @@ const Navigation = () => {
       if (showLangMenu && !(event.target as Element).closest('.language-menu')) {
         setShowLangMenu(false);
       }
+      if (showMoreMenu && !(event.target as Element).closest('.more-menu')) {
+        setShowMoreMenu(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showLangMenu]);
+  }, [showLangMenu, showMoreMenu]);
 
   const handleLanguageChange = (langCode: string) => {
     const segments = pathname.split("/").filter(Boolean);
@@ -157,7 +166,8 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-2">
-            {navItems.map((item) => (
+            {/* Primary Navigation Items */}
+            {primaryNavItems.map((item) => (
               <motion.div
                 key={item.key}
                 className="relative"
@@ -172,7 +182,7 @@ const Navigation = () => {
                   />
                 )}
                 <button
-                  className={`relative z-10 px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                  className={`relative z-10 px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
                     activeSection === item.sectionId
                       ? "text-white"
                       : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -183,6 +193,59 @@ const Navigation = () => {
                 </button>
               </motion.div>
             ))}
+
+            {/* More Menu */}
+            <div className="relative more-menu">
+              <motion.button
+                onClick={() => setShowMoreMenu(!showMoreMenu)}
+                className={`flex items-center gap-1 px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
+                  secondaryNavItems.some(item => activeSection === item.sectionId)
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+                    : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <MoreHorizontal size={18} />
+                <span>{t("more")}</span>
+                <ChevronDown 
+                  size={14} 
+                  className={`transition-transform duration-200 ${showMoreMenu ? 'rotate-180' : ''}`}
+                />
+              </motion.button>
+
+              <AnimatePresence>
+                {showMoreMenu && (
+                  <motion.div
+                    className="absolute top-full right-0 mt-2 py-2 w-56 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {secondaryNavItems.map((item) => (
+                      <motion.button
+                        key={item.key}
+                        onClick={() => {
+                          navigateTo(item.sectionId);
+                          setShowMoreMenu(false);
+                        }}
+                        className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                          activeSection === item.sectionId
+                            ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
+                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                        }`}
+                        whileHover={{ x: 4 }}
+                      >
+                        <span className="flex items-center gap-2">
+                          {t(item.key)}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* Right Side Controls */}
@@ -262,7 +325,7 @@ const Navigation = () => {
               transition={{ duration: 0.3 }}
             >
               <div className="py-6 px-6">
-                {navItems.map((item, index) => (
+                {allNavItems.map((item, index) => (
                   <motion.div
                     key={item.key}
                     initial={{ opacity: 0, x: -30 }}
