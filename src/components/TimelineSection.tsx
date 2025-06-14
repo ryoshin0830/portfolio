@@ -104,7 +104,7 @@ const TimelineSection = () => {
       </div>
 
       <div className="relative max-w-5xl mx-auto mt-20">
-        {/* Desktop zigzag timeline line */}
+        {/* Desktop flowing timeline paths */}
         <div className="absolute inset-0 hidden lg:block pointer-events-none">
           {eventsWithLocation.map((event, index) => {
             if (index === eventsWithLocation.length - 1) return null;
@@ -112,45 +112,97 @@ const TimelineSection = () => {
             const isEven = index % 2 === 0;
             const nextIsEven = (index + 1) % 2 === 0;
             
+            // Calculate actual spacing based on the timeline layout
+            // space-y-32 = 8rem = 128px between cards
+            // Each card is approximately 200-250px in height
+            const cardSpacing = 128; // tailwind space-y-32
+            const cardHeight = 220; // estimated card height
+            const totalSpacing = cardSpacing + cardHeight;
+            
+            // Position from center of current card to center of next card
+            const yStart = index * totalSpacing + (cardHeight / 2);
+            const yEnd = (index + 1) * totalSpacing + (cardHeight / 2);
+            
             return (
-              <motion.div
-                key={`line-${index}`}
-                className="absolute"
-                style={{
-                  top: `${(index * 280) + 140}px`,
-                  left: isEven ? '50%' : '0',
-                  right: isEven ? '0' : '50%',
-                  height: '280px',
+              <motion.svg
+                key={`flow-${index}`}
+                className="absolute w-full overflow-visible"
+                style={{ 
+                  top: `${yStart}px`, 
+                  height: `${yEnd - yStart}px` 
                 }}
+                viewBox="0 0 800 400"
+                preserveAspectRatio="none"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, delay: index * 0.05 }}
               >
-                <svg className="w-full h-full" preserveAspectRatio="none">
-                  <path
-                    d={isEven 
-                      ? `M 0 0 Q 50% 140 ${nextIsEven ? '0' : '100%'} 280`
-                      : `M 100% 0 Q 50% 140 ${nextIsEven ? '100%' : '0'} 280`
-                    }
-                    stroke="url(#gradient)"
-                    strokeWidth="2"
-                    fill="none"
-                    strokeDasharray="5 5"
-                  />
-                </svg>
-              </motion.div>
+                <defs>
+                  <linearGradient id={`flow-gradient-${index}`}>
+                    <stop offset="0%" stopColor={event.location === 'china' ? '#ef4444' : event.location === 'japan' ? '#3b82f6' : '#8b5cf6'} stopOpacity="0.3" />
+                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#ec4899" stopOpacity="0.3" />
+                  </linearGradient>
+                  <filter id={`glow-${index}`}>
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                
+                {/* Flowing path */}
+                <motion.path
+                  d={
+                    isEven
+                      ? nextIsEven
+                        ? "M 200 10 Q 150 200, 200 390" // 左→左 (gentle curve)
+                        : "M 200 10 Q 300 200, 600 390" // 左→右 (flowing S-curve)
+                      : nextIsEven
+                        ? "M 600 10 Q 500 200, 200 390" // 右→左 (flowing S-curve)
+                        : "M 600 10 Q 650 200, 600 390" // 右→右 (gentle curve)
+                  }
+                  stroke={`url(#flow-gradient-${index})`}
+                  strokeWidth="3"
+                  fill="none"
+                  filter={`url(#glow-${index})`}
+                  initial={{ pathLength: 0 }}
+                  whileInView={{ pathLength: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ 
+                    pathLength: { duration: 1.5, delay: index * 0.1, ease: "easeInOut" }
+                  }}
+                />
+                
+                {/* Flowing particles */}
+                {[...Array(3)].map((_, i) => (
+                  <motion.circle
+                    key={`particle-${index}-${i}`}
+                    r="2"
+                    fill={event.location === 'china' ? '#fbbf24' : '#60a5fa'}
+                    filter={`url(#glow-${index})`}
+                  >
+                    <animateMotion
+                      dur={`${3 + i}s`}
+                      repeatCount="indefinite"
+                      begin={`${i * 0.5}s`}
+                      path={
+                        isEven
+                          ? nextIsEven
+                            ? "M 200 10 Q 150 200, 200 390"
+                            : "M 200 10 Q 300 200, 600 390"
+                          : nextIsEven
+                            ? "M 600 10 Q 500 200, 200 390"
+                            : "M 600 10 Q 650 200, 600 390"
+                      }
+                    />
+                  </motion.circle>
+                ))}
+              </motion.svg>
             );
           })}
-          
-          <svg width="0" height="0">
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#3B82F6" />
-                <stop offset="50%" stopColor="#8B5CF6" />
-                <stop offset="100%" stopColor="#EC4899" />
-              </linearGradient>
-            </defs>
-          </svg>
         </div>
 
         {/* Mobile central line */}
@@ -205,12 +257,19 @@ const TimelineSection = () => {
                 {/* Mobile timeline dot */}
                 <div className="absolute -left-20 top-8 w-4 h-4 bg-white dark:bg-slate-900 rounded-full border-2 border-blue-400 shadow-lg lg:hidden z-10" />
 
-                {/* Desktop timeline dot */}
-                <div className={`absolute hidden lg:block w-6 h-6 bg-white dark:bg-slate-900 rounded-full border-3 shadow-lg z-10 ${
+                {/* Desktop timeline dot - positioned at card edge */}
+                <div className={`absolute hidden lg:block w-6 h-6 bg-white dark:bg-slate-900 rounded-full shadow-lg z-20 ${
                   index % 2 === 0 ? "-right-3 top-8" : "-left-3 top-8"
                 }`}>
-                  <div className={`absolute inset-1 bg-gradient-to-r ${getCountryColor(event.location)} rounded-full`} />
+                  <div className={`absolute inset-0.5 bg-gradient-to-r ${getCountryColor(event.location)} rounded-full`} />
                 </div>
+                
+                {/* Connecting line from dot to card */}
+                <div className={`absolute hidden lg:block top-11 h-px bg-slate-300 dark:bg-slate-600 ${
+                  index % 2 === 0 
+                    ? "left-1/2 right-0 transform origin-left" 
+                    : "left-0 right-1/2 transform origin-right"
+                }`} />
 
                 <div
                   className={`relative p-6 lg:p-8 rounded-2xl border ${

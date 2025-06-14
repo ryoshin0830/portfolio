@@ -109,7 +109,7 @@ export default async function RootLayout({
   const messages = await getMessages({ locale: validLocale });
 
   return (
-    <html lang={validLocale} className="scroll-smooth" data-oid="bphv6.8">
+    <html lang={validLocale} className="scroll-smooth" suppressHydrationWarning data-oid="bphv6.8">
       <head data-oid="8k2pgtd">
         {/* Theme script to prevent flash */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -138,6 +138,7 @@ export default async function RootLayout({
       </head>
       <body
         className={`${inter.variable} ${notoSansJP.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900`}
+        suppressHydrationWarning
         data-oid="1ogajcn"
       >
         <NextIntlClientProvider messages={messages} data-oid="q3ce1r0">

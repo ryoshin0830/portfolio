@@ -16,7 +16,7 @@ const Navigation = () => {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const t = useTranslations("nav");
   const langT = useTranslations("languages");
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
   
   // スクロールナビゲーションのフック
   const { currentSection, scrollToSection } = useScrollNavigation();
@@ -259,29 +259,33 @@ const Navigation = () => {
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle dark mode"
             >
-              <AnimatePresence mode="wait">
-                {theme === "dark" ? (
-                  <motion.div
-                    key="sun"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Sun size={20} />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="moon"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Moon size={20} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {mounted ? (
+                <AnimatePresence mode="wait">
+                  {theme === "dark" ? (
+                    <motion.div
+                      key="sun"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <Sun size={20} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="moon"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <Moon size={20} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              ) : (
+                <div className="w-5 h-5" />
+              )}
             </motion.button>
 
             {/* Language Selector */}

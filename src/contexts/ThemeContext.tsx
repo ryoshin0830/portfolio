@@ -7,29 +7,21 @@ type Theme = "light" | "dark";
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // Always start with light theme for SSR to prevent hydration mismatch
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // After mounting, sync with the actual theme from the DOM
+    const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+    setTheme(currentTheme);
     setMounted(true);
-    // Check for saved theme preference or default to 'light'
-    const savedTheme = localStorage.getItem("theme") as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
-    const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
-    setTheme(initialTheme);
-    
-    // Apply theme class to html element
-    if (initialTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
   }, []);
 
   const toggleTheme = () => {
@@ -45,13 +37,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Prevent flash of unstyled content
-  if (!mounted) {
-    return null;
-  }
+  // Pass mounted state to prevent theme-dependent animations from running during hydration
+  const value = { theme, toggleTheme, mounted };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
