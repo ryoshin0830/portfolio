@@ -224,7 +224,7 @@
     "subtitle": "实用应用程序开发",
     "projectsList": [
       {
-        "title": "日语学习应用",
+        "title": "日雨日语",
         "description": "提供高效日语词汇学习和听力练习的移动应用",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
         "features": [

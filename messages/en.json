@@ -224,7 +224,7 @@
     "subtitle": "Practical Application Development",
     "projectsList": [
       {
-        "title": "Japanese Learning App",
+        "title": "日雨日語 (Nichiu Nichigo)",
         "description": "Efficient Japanese vocabulary learning and listening practice mobile application",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
         "features": [
