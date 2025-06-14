@@ -16,7 +16,15 @@
       "Bash(npx eslint:*)",
       "Bash(vercel logs:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(vercel)",
+      "Bash(vercel build:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(cat:*)",
+      "Bash(curl:*)",
+      "Bash(npm run start:*)"
     ],
     "deny": []
   }

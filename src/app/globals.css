@@ -2,12 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Define dark variant for Tailwind v4 */
-@media (--dark) {
-  :root {
-    color-scheme: dark;
-  }
-}
-
 @variant dark (&:is(:root.dark *));
 
 :root {
