@@ -103,8 +103,15 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
 
-        {/* Favicon */}
+        {/* Favicon - PNG優先でGoogle検索結果での表示を確実にする */}
+        <link rel="icon" type="image/png" sizes="48x48" href="/logo_48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/logo_96.png" />
+        <link rel="shortcut icon" type="image/png" href="/logo_48.png" />
+        <link rel="apple-touch-icon" sizes="96x96" href="/logo_96.png" />
+        
+        {/* SVGファビコン（フォールバック） */}
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="mask-icon" href="/logo.svg" color="#000000" />
         <StructuredData locale={validLocale} data-oid="lnhag03" />
 
         {/* Google Analytics */}
