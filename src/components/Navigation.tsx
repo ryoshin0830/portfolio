@@ -346,14 +346,6 @@ const Navigation = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              zIndex: 9999
-            }}
           >
             {/* Close Button */}
             <div className="absolute top-8 right-8 z-[10000]">
