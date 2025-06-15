@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Brain, Users, Lightbulb, Microscope, ExternalLink } from "lucide-react";
+import { Microscope, ExternalLink } from "lucide-react";
 
 const ResearchSection = () => {
   const t = useTranslations("research");
@@ -13,29 +13,6 @@ const ResearchSection = () => {
     triggerOnce: true,
   });
 
-  const projects = [
-    {
-      icon: Brain,
-      titleKey: "vocabularyDifficulty.title",
-      descriptionKey: "vocabularyDifficulty.description",
-      color: "blue",
-      technologies: ["Python", "TensorFlow", "Natural Language Processing"],
-    },
-    {
-      icon: Lightbulb,
-      titleKey: "originalLLM.title",
-      descriptionKey: "originalLLM.description",
-      color: "purple",
-      technologies: ["PyTorch", "Transformers", "Custom Architecture"],
-    },
-    {
-      icon: Users,
-      titleKey: "teamDevelopment.title",
-      descriptionKey: "teamDevelopment.description",
-      color: "green",
-      technologies: ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"],
-    },
-  ];
 
   // Publications data
   const publications = [
@@ -100,38 +77,6 @@ const ResearchSection = () => {
   ];
 
 
-  const getColorClasses = (color: string) => {
-    switch (color) {
-      case "blue":
-        return {
-          bg: "bg-blue-50 dark:bg-blue-900/20",
-          border: "border-blue-200 dark:border-blue-800",
-          icon: "text-blue-600 dark:text-blue-400",
-          accent: "bg-blue-600",
-        };
-      case "purple":
-        return {
-          bg: "bg-purple-50 dark:bg-purple-900/20",
-          border: "border-purple-200 dark:border-purple-800",
-          icon: "text-purple-600 dark:text-purple-400",
-          accent: "bg-purple-600",
-        };
-      case "green":
-        return {
-          bg: "bg-green-50 dark:bg-green-900/20",
-          border: "border-green-200 dark:border-green-800",
-          icon: "text-green-600 dark:text-green-400",
-          accent: "bg-green-600",
-        };
-      default:
-        return {
-          bg: "bg-gray-50 dark:bg-gray-900/20",
-          border: "border-gray-200 dark:border-gray-800",
-          icon: "text-gray-600 dark:text-gray-400",
-          accent: "bg-gray-600",
-        };
-    }
-  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -171,49 +116,6 @@ const ResearchSection = () => {
           </p>
         </div>
 
-        {/* Research Projects */}
-        <div className="mb-20">
-          <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
-            {t("projects")}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => {
-              const colors = getColorClasses(project.color);
-              const IconComponent = project.icon;
-
-              return (
-                <div
-                  key={index}
-                  className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
-                >
-                  <div className="flex items-center mb-4">
-                    <div
-                      className={`p-3 rounded-lg ${colors.accent} text-white mr-4`}
-                    >
-                      <IconComponent size={24} />
-                    </div>
-                    <h4 className="text-xl font-bold text-slate-800 dark:text-white">
-                      {t(project.titleKey)}
-                    </h4>
-                  </div>
-                  <p className="text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">
-                    {t(project.descriptionKey)}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="px-3 py-1 bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm rounded-full border border-slate-200 dark:border-slate-600"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
 
         {/* Publications */}
         <motion.div

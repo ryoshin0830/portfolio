@@ -55,7 +55,7 @@
     "specialization": "Specialization",
     "timeline": "Life Timeline",
     "currentStatus": "Current Position",
-    "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University",
+    "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University, Department of Cognitive Science in Language",
     "eastLinker": "CEO, EastLinker Inc.",
     "eastLinkerDescription": "Founded 2023 - AI, System Development, EdTech",
     "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
@@ -143,18 +143,6 @@
     "conferencePresentations": "Conference Presentations",
     "academicResearch": "Academic Research",
     "doi": "DOI →",
-    "vocabularyDifficulty": {
-      "title": "Vocabulary Difficulty Estimation using LLMs",
-      "description": "Development of a system that predicts vocabulary difficulty by training large language models with known difficulty data. Joint research with National Institute for Japanese Language and Linguistics."
-    },
-    "originalLLM": {
-      "title": "Original LLM Development",
-      "description": "Research on developing education-specific large language models with novel architectures that overcome constraints of existing LLMs."
-    },
-    "teamDevelopment": {
-      "title": "Tech Leadership",
-      "description": "As founder of EastLinker Inc., spearheaded Agile development methodology implementation, CI/CD pipeline architecture, microservices design patterns, and DevOps culture cultivation. Comprehensive oversight from product management to technical architecture decisions."
-    },
     "peerReviewedList": [
       {
         "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
@@ -234,6 +222,42 @@
       "chineseLevel": "Native (Beijing)",
       "english": "English",
       "englishLevel": "CET Level 4 • Academic Writing"
+    },
+    "certifications": {
+      "title": "Certifications",
+      "subtitle": "Professional Qualifications & Achievements",
+      "list": [
+        {
+          "name": "JLPT N1 (Perfect Score)",
+          "description": "Japanese Language Proficiency Test - Highest level with perfect score",
+          "date": "2020",
+          "featured": true
+        },
+        {
+          "name": "ICT Proficiency Test",
+          "description": "Information and Communications Technology certification",
+          "date": "2019",
+          "featured": false
+        },
+        {
+          "name": "Japanese Driver's License",
+          "description": "Full driving license issued in Japan",
+          "date": "2022",
+          "featured": false
+        },
+        {
+          "name": "Chinese Driver's License",
+          "description": "Full driving license issued in China",
+          "date": "2018",
+          "featured": false
+        },
+        {
+          "name": "College English Test Level 4",
+          "description": "National English proficiency test for Chinese university students",
+          "date": "2018",
+          "featured": false
+        }
+      ]
     }
   },
   "projects": {
@@ -290,8 +314,46 @@
           "LLM customization for foreign language education",
           "Utilizing Transformers library"
         ]
+      },
+      {
+        "title": "LLM Vocabulary Difficulty Estimation System",
+        "description": "Development of a system that predicts vocabulary difficulty by training large language models with known difficulty data. Joint research project with National Institute for Japanese Language and Linguistics.",
+        "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
+        "features": [
+          "Automatic vocabulary difficulty prediction using BERT-based models",
+          "Machine learning models utilizing diverse linguistic features",
+          "Industry-academia collaboration with National Institute for Japanese Language and Linguistics",
+          "Evaluation using Japanese learner corpus data"
+        ]
+      },
+      {
+        "title": "Education-Specialized LLM Development Project",
+        "description": "Research on developing education-specific large language models with novel architectures that overcome constraints of existing LLMs for foreign language education.",
+        "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
+        "features": [
+          "Custom model architecture design for educational domains",
+          "Multilingual educational content generation",
+          "Learner-level adaptive text generation",
+          "Novel evaluation metrics development and validation"
+        ]
+      },
+      {
+        "title": "Automatic Vocabulary Question Generation System",
+        "description": "Advanced vocabulary question generation system for Japanese language education utilizing Word2Vec embeddings and Latent Dirichlet Allocation (LDA). Leverages distributional semantics and topic modeling for high-precision distractor generation.",
+        "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
+        "features": [
+          "Semantic similarity extraction using Word2Vec distributed representations",
+          "Contextual distractor generation through LDA topic modeling",
+          "Vocabulary difficulty estimation via MeCab morphological analysis",
+          "Automated quality assessment using machine learning algorithms"
+        ]
       }
     ],
+    "leadership": {
+      "title": "Tech Leadership",
+      "description": "As founder of EastLinker Inc., spearheaded Agile development methodology implementation, CI/CD pipeline architecture, microservices design patterns, and DevOps culture cultivation. Comprehensive oversight from product management to technical architecture decisions.",
+      "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
+    },
     "mainFeatures": "Main Features",
     "techStack": "Technology Stack"
   },
@@ -332,37 +394,6 @@
     "pullUp": "Pull up to {section}",
     "pullDown": "Pull down to {section}",
     "release": "Release to navigate"
-  },
-  "certifications": {
-    "title": "Certifications",
-    "subtitle": "Professional Qualifications & Achievements",
-    "featured": "Featured",
-    "continuousLearning": "Committed to continuous learning and professional development",
-    "jlptN1": {
-      "title": "JLPT N1 (Perfect Score)",
-      "description": "Japanese Language Proficiency Test - Highest level with perfect score",
-      "date": "2020"
-    },
-    "ict": {
-      "title": "ICT Proficiency Test",
-      "description": "Information and Communications Technology certification",
-      "date": "2019"
-    },
-    "japaneseDrivers": {
-      "title": "Japanese Driver's License",
-      "description": "Full driving license issued in Japan",
-      "date": "2022"
-    },
-    "chineseDrivers": {
-      "title": "Chinese Driver's License",
-      "description": "Full driving license issued in China",
-      "date": "2018"
-    },
-    "cet4": {
-      "title": "College English Test Level 4",
-      "description": "National English proficiency test for Chinese university students",
-      "date": "2018"
-    }
   },
   "zennFeed": {
     "title": "Zenn Articles",

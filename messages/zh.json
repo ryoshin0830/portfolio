@@ -55,7 +55,7 @@
     "specialization": "专业领域",
     "timeline": "人生时间线",
     "currentStatus": "现状",
-    "kyotoUniversity": "京都大学人间环境学研究科 共生人间学专攻 博士课程",
+    "kyotoUniversity": "京都大学人间・环境学研究科 共生・人间学专攻 语言科学讲座 博士课程",
     "eastLinker": "EastLinker株式会社 代表取締役",
     "eastLinkerDescription": "2023年创立 - AI、系统开发、EdTech",
     "japaneseTeacher": "新东方日语教师（7年，5000小时以上教学经验）",
@@ -117,7 +117,7 @@
       {
         "year": "2021",
         "title": "硕士课程入学",
-        "description": "进入京都大学人间环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学",
+        "description": "进入京都大学人间・环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学",
         "icon": "university"
       },
       {
@@ -143,18 +143,6 @@
     "conferencePresentations": "会议发表",
     "academicResearch": "学术研究",
     "doi": "DOI →",
-    "vocabularyDifficulty": {
-      "title": "使用LLM的词汇难度推定",
-      "description": "通过让大规模语言模型学习已知难度数据，开发预测新词汇难度的系统。与国立国语研究所的共同研究。"
-    },
-    "originalLLM": {
-      "title": "原创LLM构建",
-      "description": "开发教育特化的独自大规模语言模型。研究规避既有LLM制约的新架构。"
-    },
-    "teamDevelopment": {
-      "title": "技术领导力",
-      "description": "作为EastLinker株式会社创始人，主导敏捷开发方法论实施、CI/CD流水线架构、微服务架构设计、DevOps文化建设。从产品管理到技术架构全方位统筹管理。"
-    },
     "peerReviewedList": [
       {
         "authors": "彭悦, 梁震, 笹尾洋介",
@@ -234,6 +222,42 @@
       "chineseLevel": "母语（北京）",
       "english": "英语",
       "englishLevel": "CET Level 4・学术写作"
+    },
+    "certifications": {
+      "title": "资格证书",
+      "subtitle": "专业资格与成就",
+      "list": [
+        {
+          "name": "JLPT N1（满分）",
+          "description": "日本语能力测试 - 最高级别满分通过",
+          "date": "2020年",
+          "featured": true
+        },
+        {
+          "name": "ICT能力测试",
+          "description": "信息通信技术认证",
+          "date": "2019年",
+          "featured": false
+        },
+        {
+          "name": "日本驾照",
+          "description": "日本颁发的全种类驾驶执照",
+          "date": "2022年",
+          "featured": false
+        },
+        {
+          "name": "中国驾照",
+          "description": "中国颁发的全种类驾驶执照",
+          "date": "2018年",
+          "featured": false
+        },
+        {
+          "name": "大学英语四级",
+          "description": "中国大学生全国英语能力测试",
+          "date": "2018年",
+          "featured": false
+        }
+      ]
     }
   },
   "projects": {
@@ -290,8 +314,46 @@
           "外语教育LLM定制",
           "Transformers库应用"
         ]
+      },
+      {
+        "title": "LLM词汇难度推定系统",
+        "description": "通过让大规模语言模型学习已知难度数据，开发预测新词汇难度的系统。与国立国语研究所的共同研究项目。",
+        "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
+        "features": [
+          "基于BERT模型的词汇难度自动预测",
+          "利用多样语言特征的机器学习模型",
+          "与国立国语研究所的产学合作研究",
+          "使用日语学习者语料库进行评估"
+        ]
+      },
+      {
+        "title": "教育特化LLM构建项目",
+        "description": "开发教育特化的独自大规模语言模型。研究规避既有LLM制约的新架构用于外语教育。",
+        "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
+        "features": [
+          "面向教育领域的定制模型架构设计",
+          "多语言教育内容生成",
+          "学习者级别适应性文本生成",
+          "新型评价指标开发与验证"
+        ]
+      },
+      {
+        "title": "词汇题目自动生成系统",
+        "description": "利用Word2Vec词向量和潜在狄利克雷分配（LDA）的日语教育词汇题目自动生成系统。通过分布式语义表示和主题建模实现高精度错误选项生成。",
+        "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
+        "features": [
+          "基于Word2Vec分布式表示的语义相似词提取",
+          "通过LDA主题建模生成上下文错误选项",
+          "利用MeCab形态素分析进行词汇难度估计",
+          "机器学习驱动的选项质量自动评估"
+        ]
       }
     ],
+    "leadership": {
+      "title": "技术领导力",
+      "description": "作为EastLinker株式会社创始人，主导敏捷开发方法论实施、CI/CD流水线架构、微服务架构设计、DevOps文化建设。从产品管理到技术架构全方位统筹管理。",
+      "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
+    },
     "mainFeatures": "主要功能",
     "techStack": "技术栈"
   },

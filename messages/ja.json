@@ -55,7 +55,7 @@
     "specialization": "専門分野",
     "timeline": "人生のタイムライン",
     "currentStatus": "現在",
-    "kyotoUniversity": "京都大学人間環境学研究科 共生人間学専攻 博士課程",
+    "kyotoUniversity": "京都大学人間・環境学研究科 共生・人間学専攻 言語科学講座 博士課程",
     "eastLinker": "株式会社EastLinker 代表取締役",
     "eastLinkerDescription": "2023年設立 - AI・システム開発・EdTech",
     "japaneseTeacher": "新東方日本語教師（7年間、5,000時間以上の指導経験）",
@@ -117,7 +117,7 @@
       {
         "year": "2021",
         "title": "修士課程入学",
-        "description": "京都大学人間環境学研究科修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
+        "description": "京都大学人間・環境学研究科修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
         "icon": "university"
       },
       {
@@ -143,18 +143,6 @@
     "conferencePresentations": "学会発表",
     "academicResearch": "学術研究",
     "doi": "DOI →",
-    "vocabularyDifficulty": {
-      "title": "LLMを使った語彙難易度推定",
-      "description": "大規模言語モデルに既知の難易度データを学習させ、新たな語彙の難易度を予測するシステムの開発。国立国語研究所との共同研究。"
-    },
-    "originalLLM": {
-      "title": "オリジナルLLM構築",
-      "description": "教育特化型の独自大規模言語モデルの開発。既存LLMの制約を回避した新しいアーキテクチャの研究。"
-    },
-    "teamDevelopment": {
-      "title": "テックリーダーシップ",
-      "description": "株式会社EastLinker創業者として、アジャイル開発手法を導入し、CI/CDパイプライン構築、マイクロサービスアーキテクチャ設計、DevOps文化の醸成を主導。プロダクトマネジメントからテクニカルアーキテクチャまで包括的に統括。"
-    },
     "peerReviewedList": [
       {
         "authors": "彭 悦, 梁 震, 笹尾 洋介",
@@ -234,6 +222,42 @@
       "chineseLevel": "母国語（北京出身）",
       "english": "英語",
       "englishLevel": "CET Level 4・研究論文執筆レベル"
+    },
+    "certifications": {
+      "title": "資格・認定",
+      "subtitle": "専門資格・達成実績",
+      "list": [
+        {
+          "name": "JLPT N1（満点）",
+          "description": "日本語能力試験 - 最高レベルで満点取得",
+          "date": "2020年",
+          "featured": true
+        },
+        {
+          "name": "ICTプロフィシエンシー検定",
+          "description": "情報通信技術に関する資格",
+          "date": "2019年",
+          "featured": false
+        },
+        {
+          "name": "日本運転免許証",
+          "description": "日本で発行された普通自動車免許",
+          "date": "2022年",
+          "featured": false
+        },
+        {
+          "name": "中国運転免許証",
+          "description": "中国で発行された普通自動車免許",
+          "date": "2018年",
+          "featured": false
+        },
+        {
+          "name": "大学英語テスト4級",
+          "description": "中国の大学生向け全国英語能力試験",
+          "date": "2018年",
+          "featured": false
+        }
+      ]
     }
   },
   "projects": {
@@ -290,8 +314,46 @@
           "外国語教育向けLLMカスタマイズ",
           "Transformersライブラリ活用"
         ]
+      },
+      {
+        "title": "LLM語彙難易度推定システム",
+        "description": "大規模言語モデルに既知の難易度データを学習させ、新たな語彙の難易度を予測するシステムの開発。国立国語研究所との共同研究プロジェクト。",
+        "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
+        "features": [
+          "BERT系モデルによる語彙難易度の自動予測",
+          "多様な言語特徴量を用いた機械学習モデル",
+          "国立国語研究所との産学連携研究",
+          "日本語学習者コーパスを活用した評価"
+        ]
+      },
+      {
+        "title": "教育特化型LLM構築プロジェクト",
+        "description": "外国語教育に特化した独自大規模言語モデルの開発。既存LLMの制約を回避した新しいアーキテクチャの研究開発。",
+        "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
+        "features": [
+          "教育ドメイン特化のモデルアーキテクチャ設計",
+          "多言語対応の教育コンテンツ生成",
+          "学習者レベル適応型テキスト生成",
+          "評価指標の独自開発と検証"
+        ]
+      },
+      {
+        "title": "語彙問題自動生成システム",
+        "description": "Word2VecとLatent Dirichlet Allocation（LDA）を活用した日本語教育向け語彙問題の自動生成システム。分散表現とトピックモデリングによる高精度な誤答選択肢生成を実現。",
+        "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
+        "features": [
+          "Word2Vec分散表現による意味的類似語の抽出",
+          "LDAトピックモデリングによる文脈的誤答選択肢生成",
+          "MeCab形態素解析による語彙難易度推定",
+          "機械学習による選択肢品質の自動評価"
+        ]
       }
     ],
+    "leadership": {
+      "title": "テックリーダーシップ",
+      "description": "株式会社EastLinker創業者として、アジャイル開発手法を導入し、CI/CDパイプライン構築、マイクロサービスアーキテクチャ設計、DevOps文化の醸成を主導。プロダクトマネジメントからテクニカルアーキテクチャまで包括的に統括。",
+      "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
+    },
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック"
   },
@@ -332,37 +394,6 @@
     "pullUp": "{section}へ上にスワイプ",
     "pullDown": "{section}へ下にスワイプ",
     "release": "離して遷移"
-  },
-  "certifications": {
-    "title": "資格・認定",
-    "subtitle": "専門資格・達成実績",
-    "featured": "注目",
-    "continuousLearning": "継続的な学習と専門性の向上に取り組んでいます",
-    "jlptN1": {
-      "title": "JLPT N1（満点）",
-      "description": "日本語能力試験 - 最高レベルで満点取得",
-      "date": "2020年"
-    },
-    "ict": {
-      "title": "ICTプロフィシエンシー検定",
-      "description": "情報通信技術に関する資格",
-      "date": "2019年"
-    },
-    "japaneseDrivers": {
-      "title": "日本運転免許証",
-      "description": "日本で発行された普通自動車免許",
-      "date": "2022年"
-    },
-    "chineseDrivers": {
-      "title": "中国運転免許証",
-      "description": "中国で発行された普通自動車免許",
-      "date": "2018年"
-    },
-    "cet4": {
-      "title": "大学英語テスト4級",
-      "description": "中国の大学生向け全国英語能力試験",
-      "date": "2018年"
-    }
   },
   "zennFeed": {
     "title": "Zenn記事",

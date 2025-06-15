@@ -97,7 +97,6 @@ const Navigation = () => {
 
   const secondaryNavItems = useMemo(() => {
     const baseSecondary = [
-      { key: "certifications", sectionId: "certifications" },
       { key: "teaching", sectionId: "teaching" },
       { key: "gallery", sectionId: "gallery" },
     ];

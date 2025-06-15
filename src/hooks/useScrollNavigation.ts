@@ -26,7 +26,6 @@ export function useScrollNavigation() {
       "skills",
       "projects",
       "blog",
-      "certifications",
       "teaching",
       "gallery",
     ],

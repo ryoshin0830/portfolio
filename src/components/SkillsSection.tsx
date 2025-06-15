@@ -11,6 +11,8 @@ import {
   Globe,
   Zap,
   TrendingUp,
+  Award,
+  Star,
 } from "lucide-react";
 import {
   SiJavascript,
@@ -126,6 +128,18 @@ const SkillsSection = () => {
     },
   ];
 
+  // Get certifications from translations
+  const certifications = t.raw("certifications") as {
+    title: string;
+    subtitle: string;
+    list: Array<{
+      name: string;
+      description: string;
+      date: string;
+      featured: boolean;
+    }>;
+  };
+
 
   const getColorClasses = (color: string) => {
     switch (color) {
@@ -232,6 +246,61 @@ const SkillsSection = () => {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Certifications */}
+        <div className="mb-24">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
+              <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg shadow-lg">
+                <Award className="text-white" size={20} />
+              </div>
+              <span className="font-bold text-slate-800 dark:text-white">{certifications.title}</span>
+            </div>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              {certifications.subtitle}
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {certifications.list.map((cert, index) => (
+                <div
+                  key={index}
+                  className={`group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-200 ${
+                    cert.featured ? 'ring-2 ring-amber-500/50 scale-105' : ''
+                  }`}
+                >
+                  {cert.featured && (
+                    <div className="absolute -top-2 -right-2">
+                      <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-2 rounded-full shadow-lg">
+                        <Star size={16} />
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="p-3 bg-gradient-to-r from-amber-500/20 to-orange-600/20 rounded-xl">
+                        <Award className="text-amber-600 dark:text-amber-400" size={24} />
+                      </div>
+                      <span className="text-sm font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full">
+                        {cert.date}
+                      </span>
+                    </div>
+                    
+                    <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-3 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-200">
+                      {cert.name}
+                    </h4>
+                    
+                    <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                      {cert.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

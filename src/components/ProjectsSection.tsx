@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { ExternalLink, Smartphone, Globe, Brain, BookOpen, Rocket, Star } from "lucide-react";
+import { ExternalLink, Smartphone, Globe, Brain, BookOpen, Rocket, Star, Users } from "lucide-react";
 import {
   SiReact as SiReactnative,
   SiSwift,
@@ -33,6 +33,13 @@ const ProjectsSection = () => {
     technologies: string[];
     features: string[];
   }>;
+  
+  // Get leadership data from translations
+  const leadership = t.raw("leadership") as {
+    title: string;
+    description: string;
+    skills: string[];
+  };
 
   const getTechIcon = (techName: string) => {
     const lowerName = techName.toLowerCase();
@@ -175,6 +182,35 @@ const ProjectsSection = () => {
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
             {t("subtitle")}
           </p>
+        </div>
+
+        {/* Leadership Section */}
+        <div className="mb-16">
+          <div className="max-w-4xl mx-auto bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
+            <div className="flex items-start gap-6">
+              <div className="p-4 rounded-2xl bg-green-600 text-white shadow-lg">
+                <Users size={32} />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">
+                  {leadership.title}
+                </h3>
+                <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                  {leadership.description}
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {leadership.skills.map((skill, skillIndex) => (
+                    <span
+                      key={skillIndex}
+                      className="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-semibold border border-green-200 dark:border-green-800"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Projects Grid */}
