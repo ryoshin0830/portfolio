@@ -18,21 +18,35 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // After mounting, sync with the actual theme from the DOM
-    const currentTheme = document.documentElement.classList.contains("dark") ? "dark" : "light";
-    setTheme(currentTheme);
+    // After mounting, always use device preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const deviceTheme = prefersDark ? "dark" : "light";
+    
+    setTheme(deviceTheme);
+    
+    // Ensure proper theme classes are set based on device preference
+    if (deviceTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    }
+    
     setMounted(true);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
+    // Don't save to localStorage - always revert to device preference on next visit
     
     // Apply theme class to html element
     if (newTheme === "dark") {
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
+      document.documentElement.classList.add("light");
       document.documentElement.classList.remove("dark");
     }
   };

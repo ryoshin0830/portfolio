@@ -38,7 +38,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not(.light) {
+  :root:not(.light):not(.dark) {
     --background: #020817;
     --foreground: #f8fafc;
     --muted: #1e293b;

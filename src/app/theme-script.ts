@@ -2,26 +2,22 @@
 export const themeScript = `
   (function() {
     try {
-      const savedTheme = localStorage.getItem('theme');
+      // Always use device preference for initial theme
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      const theme = prefersDark ? 'dark' : 'light';
       
       // Always explicitly set the theme class to ensure consistency
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
       } else {
+        document.documentElement.classList.add('light');
         document.documentElement.classList.remove('dark');
       }
-      
-      // Store the resolved theme for consistency
-      if (!savedTheme) {
-        localStorage.setItem('theme', theme);
-      }
     } catch (e) {
-      // Fallback: if localStorage is not available, use system preference
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark');
-      }
+      // Fallback: if matchMedia is not available, default to light
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
     }
   })();
 `;
