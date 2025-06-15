@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import { Menu, X, Globe, ChevronDown, MoreHorizontal, Moon, Sun } from "lucide-react";
+import { Menu, X, Globe, Moon, Sun, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
   const [showMoreMenu, setShowMoreMenu] = useState(false);
@@ -19,13 +18,8 @@ const Navigation = () => {
   const namesT = useTranslations("names");
   const { theme, toggleTheme, mounted } = useTheme();
   
-  // スクロールナビゲーションのフック
   const { currentSection, scrollToSection } = useScrollNavigation();
 
-  // Prefer the locale found in the current URL (e.g. /en, /ja, /zh) to avoid
-  // situations where the context value lags behind after a client-side
-  // navigation. Fall back to the context-provided locale when the parameter
-  // is absent.
   const params = useParams<{ locale?: string }>();
   const defaultLocale = useLocale();
   const localeParam = Array.isArray(params.locale) ? params.locale[0] : params.locale;
@@ -33,11 +27,38 @@ const Navigation = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Define language names with proper fallback
+  // Priority-based navigation: 最重要の5項目のみヘッダーに表示
+  const primaryNavItems = [
+    { key: "home", sectionId: "hero" },
+    { key: "about", sectionId: "about" },
+    { key: "research", sectionId: "research" },
+    { key: "skills", sectionId: "skills" },
+    { key: "projects", sectionId: "projects" },
+  ];
+
+  // ハンバーガーメニューに表示するセカンダリナビゲーション
+  const secondaryNavItems = [
+    { key: "blog", sectionId: "blog", category: "content" },
+    { key: "teaching", sectionId: "teaching", category: "experience" },
+    { key: "gallery", sectionId: "gallery", category: "content" },
+  ];
+
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (showMoreMenu) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showMoreMenu]);
+
   const getLanguageName = useCallback((code: string): string => {
     try {
       const translated = langT(code);
-      // Check if translation is valid and not empty
       if (translated && translated !== code) {
         return translated;
       }
@@ -45,85 +66,30 @@ const Navigation = () => {
       console.warn(`Translation error for ${code}:`, error);
     }
     
-    // Fallback to hardcoded names
     const fallbackNames = { ja: "日本語", en: "English", zh: "中文" };
     return fallbackNames[code as keyof typeof fallbackNames] || code;
   }, [langT]);
 
-  // Return the flag corresponding to each language code.
-  // This mapping is independent of the current locale, ensuring each language
-  // is always represented by the same emoji flag.
   const getFlag = useCallback((code: string): string => {
-    const flagMap: Record<string, string> = { ja: "🇯🇵", en: "🇺🇸", zh: "🇨🇳" };
-    return flagMap[code] ?? "🌐";
+    const flags = { ja: "🇯🇵", en: "🇬🇧", zh: "🇨🇳" };
+    return flags[code as keyof typeof flags] || "🌍";
   }, []);
 
-  const languages = useMemo(() => {
-    console.log('Regenerating languages for locale:', locale);
-    const result = [
-      { code: "ja", name: getLanguageName("ja"), flag: getFlag("ja") },
-      { code: "en", name: getLanguageName("en"), flag: getFlag("en") },
-      { code: "zh", name: getLanguageName("zh"), flag: getFlag("zh") },
-    ];
-    console.log('Generated languages:', result);
-    return result;
-  }, [getLanguageName, getFlag, locale]);
-
-  // 画面サイズに基づいてナビゲーション項目を分割
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
-  
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsLargeScreen(window.innerWidth >= 1280); // xl breakpoint
-    };
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
-
-  const primaryNavItems = useMemo(() => {
-    const allPrimary = [
-      { key: "home", sectionId: "hero" },
-      { key: "about", sectionId: "about" },
-      { key: "research", sectionId: "research" },
-      { key: "skills", sectionId: "skills" },
-      { key: "projects", sectionId: "projects" },
-      { key: "blog", sectionId: "blog" },
-    ];
-    
-    // xl以下の画面では最後の2つをsecondaryに移動
-    return isLargeScreen ? allPrimary : allPrimary.slice(0, 4);
-  }, [isLargeScreen]);
-
-  const secondaryNavItems = useMemo(() => {
-    const baseSecondary = [
-      { key: "teaching", sectionId: "teaching" },
-      { key: "gallery", sectionId: "gallery" },
-    ];
-    
-    // xl以下の画面ではprojectsとblogも追加
-    if (!isLargeScreen) {
-      return [
-        { key: "projects", sectionId: "projects" },
-        { key: "blog", sectionId: "blog" },
-        ...baseSecondary
-      ];
-    }
-    
-    return baseSecondary;
-  }, [isLargeScreen]);
-
-  const allNavItems = useMemo(() => [...primaryNavItems, ...secondaryNavItems], [primaryNavItems, secondaryNavItems]);
+  const languages = [
+    { code: "ja", name: getLanguageName("ja"), flag: getFlag("ja") },
+    { code: "en", name: getLanguageName("en"), flag: getFlag("en") },
+    { code: "zh", name: getLanguageName("zh"), flag: getFlag("zh") },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // アクティブセクションは useScrollNavigation から取得
   const activeSection = currentSection;
 
   useEffect(() => {
@@ -131,14 +97,11 @@ const Navigation = () => {
       if (showLangMenu && !(event.target as Element).closest('.language-menu')) {
         setShowLangMenu(false);
       }
-      if (showMoreMenu && !(event.target as Element).closest('.more-menu')) {
-        setShowMoreMenu(false);
-      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showLangMenu, showMoreMenu]);
+  }, [showLangMenu]);
 
   const handleLanguageChange = (langCode: string) => {
     const segments = pathname.split("/").filter(Boolean);
@@ -152,7 +115,7 @@ const Navigation = () => {
 
   const navigateTo = (sectionId: string) => {
     scrollToSection(sectionId);
-    setIsOpen(false);
+    setShowMoreMenu(false);
   };
 
   return (
@@ -225,59 +188,19 @@ const Navigation = () => {
               </motion.div>
             ))}
 
-            {/* More Menu */}
-            <div className="relative more-menu">
-              <motion.button
-                onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className={`flex items-center gap-1 px-3 lg:px-4 xl:px-5 py-2 lg:py-2.5 rounded-full font-medium text-xs lg:text-sm transition-all duration-300 ${
-                  secondaryNavItems.some(item => activeSection === item.sectionId)
-                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                    : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <MoreHorizontal size={16} className="lg:hidden" />
-                <MoreHorizontal size={18} className="hidden lg:block" />
-                <span>{t("more")}</span>
-                <ChevronDown 
-                  size={14} 
-                  className={`transition-transform duration-200 ${showMoreMenu ? 'rotate-180' : ''}`}
-                />
-              </motion.button>
-
-              <AnimatePresence>
-                {showMoreMenu && (
-                  <motion.div
-                    className="absolute top-full right-0 mt-2 py-2 w-56 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {secondaryNavItems.map((item) => (
-                      <motion.button
-                        key={item.key}
-                        onClick={() => {
-                          navigateTo(item.sectionId);
-                          setShowMoreMenu(false);
-                        }}
-                        className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                          activeSection === item.sectionId
-                            ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
-                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
-                        }`}
-                        whileHover={{ x: 4 }}
-                      >
-                        <span className="flex items-center gap-2">
-                          {t(item.key)}
-                        </span>
-                      </motion.button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            {/* Hamburger Menu Button */}
+            <motion.button
+              onClick={() => setShowMoreMenu(!showMoreMenu)}
+              className={`p-3 rounded-full transition-all duration-300 ${
+                secondaryNavItems.some(item => activeSection === item.sectionId)
+                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+                  : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Menu size={20} />
+            </motion.button>
           </div>
 
           {/* Right Side Controls */}
@@ -323,42 +246,42 @@ const Navigation = () => {
             <div className="relative language-menu">
               <motion.button
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="flex items-center gap-2 px-2 sm:px-3 py-2 sm:py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Globe size={16} className="sm:w-[18px] sm:h-[18px]" />
                 <span className="text-base sm:text-lg">
-                  {languages.find((lang) => lang.code === locale)?.flag}
+                  {languages.find(lang => lang.code === locale)?.flag || "🌍"}
                 </span>
-                <ChevronDown 
-                  size={14}
-                  className={`sm:w-4 sm:h-4 transition-transform duration-200 ${showLangMenu ? 'rotate-180' : ''}`}
-                />
+                <span className="hidden sm:block text-xs sm:text-sm font-medium">
+                  {languages.find(lang => lang.code === locale)?.name || locale.toUpperCase()}
+                </span>
               </motion.button>
 
               <AnimatePresence>
                 {showLangMenu && (
                   <motion.div
-                    className="absolute top-full right-0 mt-2 py-3 w-48 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+                    className="absolute top-full right-0 mt-2 py-2 w-40 sm:w-48 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {languages.map((lang) => (
+                    {languages.map((language) => (
                       <motion.button
-                        key={lang.code}
-                        onClick={() => handleLanguageChange(lang.code)}
+                        key={language.code}
+                        onClick={() => handleLanguageChange(language.code)}
                         className={`w-full text-left px-4 py-3 text-sm font-medium transition-all duration-200 ${
-                          locale === lang.code
+                          locale === language.code
                             ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
                             : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
                         }`}
                         whileHover={{ x: 4 }}
                       >
-                        <span className="mr-3 text-lg">{lang.flag}</span>
-                        {lang.name}
+                        <span className="flex items-center gap-3">
+                          <span className="text-lg">{language.flag}</span>
+                          {language.name}
+                        </span>
                       </motion.button>
                     ))}
                   </motion.div>
@@ -368,39 +291,33 @@ const Navigation = () => {
 
             {/* Mobile Menu Button */}
             <motion.button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2.5 sm:p-3 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => setShowMoreMenu(!showMoreMenu)}
+              className="md:hidden p-2 sm:p-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div
-                animate={{ rotate: isOpen ? 90 : 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {isOpen ? <X size={20} className="sm:w-[22px] sm:h-[22px]" /> : <Menu size={20} className="sm:w-[22px] sm:h-[22px]" />}
-              </motion.div>
+              <Menu size={18} className="sm:w-5 sm:h-5" />
             </motion.button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Menu */}
         <AnimatePresence>
-          {isOpen && (
+          {showMoreMenu && (
             <motion.div
-              className="md:hidden absolute top-full left-0 right-0 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl shadow-2xl border-t border-slate-200/20 dark:border-slate-800/20"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden absolute top-full left-0 right-0 mt-2 mx-4 py-4 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="py-6 px-6">
-                {allNavItems.map((item, index) => (
+              <div className="px-4 space-y-2">
+                {[...primaryNavItems, ...secondaryNavItems].map((item) => (
                   <motion.div
                     key={item.key}
-                    initial={{ opacity: 0, x: -30 }}
+                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 4 }}
+                    transition={{ delay: 0.1 }}
                   >
                     <button
                       className={`block w-full text-left px-6 py-4 rounded-xl mb-2 font-semibold transition-all duration-300 ${
@@ -419,6 +336,140 @@ const Navigation = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Full-Screen Overlay Menu */}
+      <AnimatePresence>
+        {showMoreMenu && (
+          <motion.div
+            className="fixed top-0 left-0 w-full h-full z-[9999] bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl hidden md:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '100vw',
+              height: '100vh',
+              zIndex: 9999
+            }}
+          >
+            {/* Close Button */}
+            <div className="absolute top-8 right-8 z-[10000]">
+              <motion.button
+                onClick={() => setShowMoreMenu(false)}
+                className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 shadow-lg"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <X size={24} />
+              </motion.button>
+            </div>
+
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <motion.div
+                className="text-center w-full max-w-6xl"
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 50, opacity: 0 }}
+                transition={{ delay: 0.1, duration: 0.4 }}
+              >
+                {/* Menu Title */}
+                <motion.h2
+                  className="text-4xl md:text-6xl font-black gradient-text mb-16"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.4 }}
+                >
+                  Menu
+                </motion.h2>
+
+                {/* Navigation Categories */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+                  {/* Content Category */}
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.4 }}
+                  >
+                    <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 flex items-center justify-center gap-3">
+                      <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white">
+                        <Globe size={24} />
+                      </div>
+                      Content
+                    </h3>
+                    <div className="space-y-4">
+                      {secondaryNavItems
+                        .filter(item => item.category === "content")
+                        .map((item, index) => (
+                          <motion.button
+                            key={item.key}
+                            onClick={() => {
+                              navigateTo(item.sectionId);
+                              setShowMoreMenu(false);
+                            }}
+                            className={`w-full p-6 rounded-2xl text-xl font-semibold transition-all duration-300 ${
+                              activeSection === item.sectionId
+                                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl"
+                                : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50"
+                            }`}
+                            whileHover={{ scale: 1.05, y: -5 }}
+                            whileTap={{ scale: 0.95 }}
+                            initial={{ y: 30, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
+                          >
+                            {t(item.key)}
+                          </motion.button>
+                        ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Experience Category */}
+                  <motion.div
+                    initial={{ x: 50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.4 }}
+                  >
+                    <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 flex items-center justify-center gap-3">
+                      <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl text-white">
+                        <TrendingUp size={24} />
+                      </div>
+                      Experience
+                    </h3>
+                    <div className="space-y-4">
+                      {secondaryNavItems
+                        .filter(item => item.category === "experience")
+                        .map((item, index) => (
+                          <motion.button
+                            key={item.key}
+                            onClick={() => {
+                              navigateTo(item.sectionId);
+                              setShowMoreMenu(false);
+                            }}
+                            className={`w-full p-6 rounded-2xl text-xl font-semibold transition-all duration-300 ${
+                              activeSection === item.sectionId
+                                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xl"
+                                : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50"
+                            }`}
+                            whileHover={{ scale: 1.05, y: -5 }}
+                            whileTap={{ scale: 0.95 }}
+                            initial={{ y: 30, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
+                          >
+                            {t(item.key)}
+                          </motion.button>
+                        ))}
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };
