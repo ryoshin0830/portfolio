@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import { Menu, X, Globe, Moon, Sun, TrendingUp } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import Image from "next/image";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -119,16 +119,17 @@ const Navigation = () => {
   };
 
   return (
-    <motion.nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
-          : "bg-transparent"
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
+    <>
+      <motion.nav
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
+            : "bg-transparent"
+        }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
@@ -301,57 +302,33 @@ const Navigation = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation Menu */}
-        <AnimatePresence>
-          {showMoreMenu && (
-            <motion.div
-              className="md:hidden absolute top-full left-0 right-0 mt-2 mx-4 py-4 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="px-4 space-y-2">
-                {[...primaryNavItems, ...secondaryNavItems].map((item) => (
-                  <motion.div
-                    key={item.key}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 }}
-                  >
-                    <button
-                      className={`block w-full text-left px-6 py-4 rounded-xl mb-2 font-semibold transition-all duration-300 ${
-                        activeSection === item.sectionId
-                          ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                          : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/50"
-                      }`}
-                      onClick={() => navigateTo(item.sectionId)}
-                    >
-                      {t(item.key)}
-                    </button>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+        </div>
+      </motion.nav>
 
-      {/* Full-Screen Overlay Menu */}
+      {/* Full Screen Menu Portal - Outside Navigation */}
       <AnimatePresence>
         {showMoreMenu && (
           <motion.div
-            className="fixed top-0 left-0 w-full h-full z-[9999] bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl hidden md:block"
+            className="fixed inset-0 bg-white dark:bg-slate-950"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
+            style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              bottom: 0,
+              zIndex: 100000
+            }}
           >
+            
             {/* Close Button */}
-            <div className="absolute top-8 right-8 z-[10000]">
+            <div className="absolute top-6 right-6 z-[100001]">
               <motion.button
                 onClick={() => setShowMoreMenu(false)}
-                className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 shadow-lg"
+                className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -359,7 +336,7 @@ const Navigation = () => {
               </motion.button>
             </div>
 
-            <div className="absolute inset-0 flex items-center justify-center p-6">
+            <div className="flex items-center justify-center min-h-screen p-6">
               <motion.div
                 className="text-center w-full max-w-6xl"
                 initial={{ y: 50, opacity: 0 }}
@@ -367,102 +344,73 @@ const Navigation = () => {
                 exit={{ y: 50, opacity: 0 }}
                 transition={{ delay: 0.1, duration: 0.4 }}
               >
-                {/* Menu Title */}
-                <motion.h2
-                  className="text-4xl md:text-6xl font-black gradient-text mb-16"
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2, duration: 0.4 }}
-                >
-                  Menu
-                </motion.h2>
+                {/* Mobile Simple Menu */}
+                <div className="block md:hidden">
+                  <div className="space-y-4 max-w-sm mx-auto">
+                    {[...primaryNavItems, ...secondaryNavItems].map((item, index) => (
+                      <motion.button
+                        key={item.key}
+                        onClick={() => navigateTo(item.sectionId)}
+                        className={`block w-full text-center px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 ${
+                          activeSection === item.sectionId
+                            ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                        }`}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ y: 30, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
+                      >
+                        {t(item.key)}
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
 
-                {/* Navigation Categories */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-                  {/* Content Category */}
-                  <motion.div
-                    initial={{ x: -50, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.4 }}
+                {/* Desktop Simple Menu */}
+                <div className="hidden md:block">
+                  {/* Menu Title */}
+                  <motion.h2
+                    className="text-4xl md:text-6xl font-black gradient-text mb-16"
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2, duration: 0.4 }}
                   >
-                    <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 flex items-center justify-center gap-3">
-                      <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl text-white">
-                        <Globe size={24} />
-                      </div>
-                      Content
-                    </h3>
-                    <div className="space-y-4">
-                      {secondaryNavItems
-                        .filter(item => item.category === "content")
-                        .map((item, index) => (
-                          <motion.button
-                            key={item.key}
-                            onClick={() => {
-                              navigateTo(item.sectionId);
-                              setShowMoreMenu(false);
-                            }}
-                            className={`w-full p-6 rounded-2xl text-xl font-semibold transition-all duration-300 ${
-                              activeSection === item.sectionId
-                                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl"
-                                : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50"
-                            }`}
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            whileTap={{ scale: 0.95 }}
-                            initial={{ y: 30, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
-                          >
-                            {t(item.key)}
-                          </motion.button>
-                        ))}
-                    </div>
-                  </motion.div>
+                    Menu
+                  </motion.h2>
 
-                  {/* Experience Category */}
-                  <motion.div
-                    initial={{ x: 50, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.4 }}
-                  >
-                    <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 flex items-center justify-center gap-3">
-                      <div className="p-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl text-white">
-                        <TrendingUp size={24} />
-                      </div>
-                      Experience
-                    </h3>
-                    <div className="space-y-4">
-                      {secondaryNavItems
-                        .filter(item => item.category === "experience")
-                        .map((item, index) => (
-                          <motion.button
-                            key={item.key}
-                            onClick={() => {
-                              navigateTo(item.sectionId);
-                              setShowMoreMenu(false);
-                            }}
-                            className={`w-full p-6 rounded-2xl text-xl font-semibold transition-all duration-300 ${
-                              activeSection === item.sectionId
-                                ? "bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xl"
-                                : "bg-white/80 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50"
-                            }`}
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            whileTap={{ scale: 0.95 }}
-                            initial={{ y: 30, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.4 + index * 0.1, duration: 0.3 }}
-                          >
-                            {t(item.key)}
-                          </motion.button>
-                        ))}
-                    </div>
-                  </motion.div>
+                  {/* All Navigation Items in Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                    {[...primaryNavItems, ...secondaryNavItems].map((item, index) => (
+                      <motion.button
+                        key={item.key}
+                        onClick={() => {
+                          navigateTo(item.sectionId);
+                          setShowMoreMenu(false);
+                        }}
+                        className={`p-6 rounded-2xl text-xl font-semibold transition-all duration-300 ${
+                          activeSection === item.sectionId
+                            ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50"
+                        }`}
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        whileTap={{ scale: 0.95 }}
+                        initial={{ y: 30, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
+                      >
+                        {t(item.key)}
+                      </motion.button>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.nav>
+    </>
   );
 };
 
