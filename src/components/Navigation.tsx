@@ -16,6 +16,7 @@ const Navigation = () => {
   const [showMoreMenu, setShowMoreMenu] = useState(false);
   const t = useTranslations("nav");
   const langT = useTranslations("languages");
+  const namesT = useTranslations("names");
   const { theme, toggleTheme, mounted } = useTheme();
   
   // スクロールナビゲーションのフック
@@ -187,10 +188,10 @@ const Navigation = () => {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
-                梁震
+                {namesT("shortName")}
               </h1>
               <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                RYO SHIN
+                {namesT("english")}
               </p>
             </div>
           </motion.div>

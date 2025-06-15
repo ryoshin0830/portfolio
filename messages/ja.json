@@ -141,6 +141,8 @@
     "publications": "論文・発表",
     "peerReviewedPapers": "査読付き論文",
     "conferencePresentations": "学会発表",
+    "academicResearch": "学術研究",
+    "doi": "DOI →",
     "vocabularyDifficulty": {
       "title": "LLMを使った語彙難易度推定",
       "description": "大規模言語モデルに既知の難易度データを学習させ、新たな語彙の難易度を予測するシステムの開発。国立国語研究所との共同研究。"
@@ -217,7 +219,22 @@
     "infrastructure": "インフラ",
     "cloud": "クラウド",
     "ai": "AI・機械学習",
-    "languages": "言語能力"
+    "languages": "言語能力",
+    "jobTitle": "博士課程・研究",
+    "ceoFounder": "CEO・創業者",
+    "yearsExperience": "{years}年以上の経験",
+    "mainFeatures": "主な機能・特徴",
+    "techStack": "技術スタック",
+    "proficiency": "習熟度",
+    "technicalExpertise": "技術的専門性",
+    "languageProficiency": {
+      "japanese": "日本語",
+      "japaneseLevel": "JLPT N1 満点・ネイティブレベル",
+      "chinese": "中国語",
+      "chineseLevel": "母国語（北京出身）",
+      "english": "英語",
+      "englishLevel": "CET Level 4・研究論文執筆レベル"
+    }
   },
   "projects": {
     "title": "プロジェクト実績",
@@ -274,7 +291,9 @@
           "Transformersライブラリ活用"
         ]
       }
-    ]
+    ],
+    "mainFeatures": "主な機能・特徴",
+    "techStack": "技術スタック"
   },
   "gallery": {
     "title": "フォトギャラリー",
@@ -282,7 +301,16 @@
     "research": "研究活動",
     "business": "ビジネス",
     "daily": "日常",
-    "outdoor": "アウトドア"
+    "outdoor": "アウトドア",
+    "photoGallery": "フォトギャラリー",
+    "categoryFilter": "カテゴリーフィルター",
+    "all": "すべて",
+    "descriptions": {
+      "research": "京都大学での研究活動の様子",
+      "business": "株式会社EastLinkerでのビジネス活動",
+      "daily": "日常生活の一コマ",
+      "outdoor": "アウトドア活動・スキーの様子"
+    }
   },
   "contact": {
     "title": "お問い合わせ",
@@ -399,5 +427,78 @@
     },
     "philosophyTitle": "教育理念",
     "philosophyQuote": "言語学習は単に単語や文法を暗記することではありません。文化間の架け橋を築き、新しい機会への扉を開くことです。私の目標は、すべての学生の学習ジャーニーを効果的で楽しいものにすることです。"
+  },
+  "metadata": {
+    "title": "梁震（りょう しん）| AI研究者・起業家・日本語教師",
+    "description": "京都大学博士課程・株式会社EastLinker代表取締役。外国語教育学とAI技術を融合した研究と開発を行っています。",
+    "keywords": "梁震, りょうしん, RYO SHIN, LIANG ZHEN, 京都大学, AI研究, 言語教育, LLM, 機械学習, 日本語教師, EastLinker, ポートフォリオ",
+    "author": "梁震（りょう しん）",
+    "creator": "梁震（りょう しん）",
+    "publisher": "梁震（りょう しん）",
+    "siteName": "梁震（りょう しん）ポートフォリオ"
+  },
+  "common": {
+    "close": "閉じる",
+    "of": "の",
+    "viewMore": "もっと見る",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "retry": "再試行",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "delete": "削除",
+    "edit": "編集",
+    "submit": "送信",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並び替え",
+    "all": "すべて"
+  },
+  "badges": {
+    "aboutMe": "プロフィール",
+    "technicalExpertise": "技術的専門性",
+    "photoGallery": "フォトギャラリー",
+    "academicResearch": "学術研究",
+    "featuredProjects": "注目プロジェクト"
+  },
+  "status": {
+    "completed": "完了",
+    "active": "運用中",
+    "ongoing": "進行中",
+    "planned": "計画中",
+    "undefined": "未定"
+  },
+  "locations": {
+    "china": "中国",
+    "japan": "日本",
+    "beijing": "北京",
+    "kyoto": "京都",
+    "yokohama": "横浜"
+  },
+  "dates": {
+    "present": "現在",
+    "yearRange": "{start}-{end}",
+    "yearToPresent": "{year}-現在"
+  },
+  "heroCategories": {
+    "messaging": "メッセージ",
+    "professional": "開発",
+    "social": "ソーシャル"
+  },
+  "socialActions": {
+    "wechatQR": "微信でスキャン",
+    "whatsappQR": "WhatsAppでスキャン"
+  },
+  "names": {
+    "fullName": "梁 震（りょう しん）",
+    "japanese": "梁 震",
+    "japaneseFurigana": "りょう しん",
+    "english": "RYO SHIN",
+    "chinese": "LIANG ZHEN",
+    "shortName": "梁震"
   }
 }

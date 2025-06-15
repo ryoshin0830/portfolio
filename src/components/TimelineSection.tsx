@@ -18,6 +18,7 @@ import Image from "next/image";
 
 const TimelineSection = () => {
   const t = useTranslations("about");
+  const locationsT = useTranslations("locations");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const timelineEvents = t.raw("timelineEvents") as Array<{
@@ -315,7 +316,7 @@ const TimelineSection = () => {
                         {event.location && (
                           <div className="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400">
                             <MapPin size={14} />
-                            <span>{event.location === "china" ? "China" : "Japan"}</span>
+                            <span>{locationsT(event.location)}</span>
                           </div>
                         )}
                       </div>

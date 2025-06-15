@@ -10,6 +10,7 @@ const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const t = useTranslations("gallery");
+  const tCommon = useTranslations("common");
 
   const images = [
     {
@@ -17,33 +18,33 @@ const GallerySection = () => {
       alt: "Research Activity",
       category: "research",
       titleKey: "research",
-      description: "京都大学での研究活動の様子",
+      descriptionKey: "descriptions.research",
     },
     {
       src: "/business.jpeg",
       alt: "Business Activity",
       category: "business",
       titleKey: "business",
-      description: "株式会社EastLinkerでのビジネス活動",
+      descriptionKey: "descriptions.business",
     },
     {
       src: "/daily.jpeg",
       alt: "Daily Life",
       category: "daily",
       titleKey: "daily",
-      description: "日常生活の一コマ",
+      descriptionKey: "descriptions.daily",
     },
     {
       src: "/ski.jpeg",
       alt: "Outdoor Activities",
       category: "outdoor",
       titleKey: "outdoor",
-      description: "アウトドア活動・スキーの様子",
+      descriptionKey: "descriptions.outdoor",
     },
   ];
 
   const categories = [
-    { key: "all", label: "すべて" },
+    { key: "all", labelKey: "all" },
     { key: "research", labelKey: "research" },
     { key: "business", labelKey: "business" },
     { key: "daily", labelKey: "daily" },
@@ -85,7 +86,7 @@ const GallerySection = () => {
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 rounded-full text-sm font-medium mb-6">
             <ImageIcon size={16} />
-            Photo Gallery
+            {t("photoGallery")}
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
@@ -101,7 +102,7 @@ const GallerySection = () => {
             <div className="p-2 bg-gradient-to-r from-pink-500 to-rose-600 rounded-lg shadow-lg">
               <Filter className="text-white" size={20} />
             </div>
-            <span className="font-bold text-slate-800 dark:text-white">カテゴリーフィルター</span>
+            <span className="font-bold text-slate-800 dark:text-white">{t("categoryFilter")}</span>
           </div>
           
           <div className="flex flex-wrap justify-center gap-4">
@@ -116,7 +117,7 @@ const GallerySection = () => {
                 }`}
               >
                 <span className="relative z-10">
-                  {category.labelKey ? t(category.labelKey) : category.label}
+                  {t(category.labelKey)}
                 </span>
               </button>
             ))}
@@ -155,7 +156,7 @@ const GallerySection = () => {
                     {t(image.titleKey)}
                   </h3>
                   <p className="text-sm text-slate-200 leading-relaxed">
-                    {image.description}
+                    {t(image.descriptionKey)}
                   </p>
                 </div>
                 
@@ -227,7 +228,7 @@ const GallerySection = () => {
                       {t(filteredImages[selectedImage].titleKey)}
                     </h3>
                     <p className="text-slate-200 text-lg leading-relaxed">
-                      {filteredImages[selectedImage].description}
+                      {t(filteredImages[selectedImage].descriptionKey)}
                     </p>
                   </div>
                 </div>
@@ -235,7 +236,7 @@ const GallerySection = () => {
                 {/* Modern image counter */}
                 {filteredImages.length > 1 && (
                   <div className="absolute -bottom-16 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white text-sm font-medium shadow-xl">
-                    {selectedImage + 1} of {filteredImages.length}
+                    {selectedImage + 1} {tCommon("of")} {filteredImages.length}
                   </div>
                 )}
               </div>

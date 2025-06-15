@@ -107,21 +107,21 @@ const SkillsSection = () => {
 
   const languages = [
     {
-      name: "日本語",
+      name: t("languageProficiency.japanese"),
       level: 100,
-      description: "JLPT N1 満点・ネイティブレベル",
+      description: t("languageProficiency.japaneseLevel"),
       flag: "🇯🇵",
     },
     {
-      name: "中国語",
+      name: t("languageProficiency.chinese"),
       level: 100,
-      description: "母国語（北京出身）",
+      description: t("languageProficiency.chineseLevel"),
       flag: "🇨🇳",
     },
     {
-      name: "英語",
+      name: t("languageProficiency.english"),
       level: 75,
-      description: "CET Level 4・研究論文執筆レベル",
+      description: t("languageProficiency.englishLevel"),
       flag: "🇺🇸",
     },
   ];
@@ -153,7 +153,7 @@ const SkillsSection = () => {
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium mb-6">
             <Zap size={16} />
-            Technical Expertise
+            {t("technicalExpertise")}
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
@@ -273,7 +273,7 @@ const SkillsSection = () => {
                       <div className="flex justify-between items-center">
                         <span className="font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                           <TrendingUp size={16} />
-                          習熟度
+                          {t("proficiency")}
                         </span>
                         <span className="font-bold text-lg text-slate-800 dark:text-white px-3 py-1 bg-blue-100 dark:bg-blue-900/30 rounded-full">
                           {language.level}%

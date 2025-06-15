@@ -16,9 +16,18 @@ const HeroSection = () => {
   const [showWhatsAppQR, setShowWhatsAppQR] = useState(false);
   const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
   const t = useTranslations("hero");
+  const tNames = useTranslations("names");
+  const tCommon = useTranslations("common");
+  const tHeroCategories = useTranslations("heroCategories");
+  const tSocialActions = useTranslations("socialActions");
   const locale = useLocale();
 
-  const names = ["梁 震", "りょう しん", "RYO SHIN", "LIANG ZHEN"];
+  const names = [
+    tNames("japanese"),
+    tNames("japaneseFurigana"),
+    tNames("english"),
+    tNames("chinese")
+  ];
   const roles = t.raw("roles") as string[];
 
   // Email components (obfuscation)
@@ -267,15 +276,27 @@ const HeroSection = () => {
                 const categoryConfig = {
                   ja: {
                     order: ['messaging', 'professional', 'social'],
-                    names: { messaging: 'メッセージ', professional: '開発', social: 'ソーシャル' }
+                    names: { 
+                      messaging: tHeroCategories('messaging'), 
+                      professional: tHeroCategories('professional'), 
+                      social: tHeroCategories('social') 
+                    }
                   },
                   zh: {
                     order: ['messaging', 'social', 'professional'],
-                    names: { messaging: '通讯', professional: '开发', social: '社交' }
+                    names: { 
+                      messaging: tHeroCategories('messaging'), 
+                      professional: tHeroCategories('professional'), 
+                      social: tHeroCategories('social') 
+                    }
                   },
                   en: {
                     order: ['professional', 'social', 'messaging'],
-                    names: { messaging: 'Messaging', professional: 'Developer', social: 'Social' }
+                    names: { 
+                      messaging: tHeroCategories('messaging'), 
+                      professional: tHeroCategories('professional'), 
+                      social: tHeroCategories('social') 
+                    }
                   }
                 };
 
@@ -373,7 +394,7 @@ const HeroSection = () => {
                                         className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl z-50"
                                       >
                                         <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-6 text-center">
-                                          {platform.id === 'wechat' ? '微信扫码添加' : 'Scan with WhatsApp'}
+                                          {platform.id === 'wechat' ? tSocialActions('wechatQR') : tSocialActions('whatsappQR')}
                                         </h3>
                                         <div className="bg-white p-4 rounded-xl">
                                           <Image 
@@ -388,7 +409,7 @@ const HeroSection = () => {
                                           onClick={() => platform.id === 'wechat' ? setShowWeChatQR(false) : setShowWhatsAppQR(false)}
                                           className="mt-6 w-full px-6 py-3 bg-slate-100 dark:bg-slate-700 rounded-xl text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
                                         >
-                                          Close
+                                          {tCommon('close')}
                                         </button>
                                       </motion.div>
                                     </>

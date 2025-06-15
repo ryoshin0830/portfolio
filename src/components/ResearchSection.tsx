@@ -161,7 +161,7 @@ const ResearchSection = () => {
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium mb-6">
             <Microscope size={16} />
-            Academic Research
+            {t("academicResearch")}
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
@@ -275,7 +275,7 @@ const ResearchSection = () => {
                         rel="noopener noreferrer"
                         className="text-sm text-blue-600 dark:text-blue-400 hover:underline mr-4"
                       >
-                        DOI →
+                        {t("doi")}
                       </a>
                     )}
                     {pub.link && (

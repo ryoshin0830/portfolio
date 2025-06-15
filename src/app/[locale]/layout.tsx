@@ -24,54 +24,39 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
 
-  const lang = ["en", "zh"].includes(locale) ? locale : "ja";
+  const validLocale = ["en", "zh"].includes(locale) ? locale : "ja";
+  const messages = await getMessages({ locale: validLocale });
 
-  const metaByLocale: Record<string, { title: string; description: string; keywords: string }> = {
-    ja: {
-      title: "梁震（りょう しん）| AI研究者・起業家・日本語教師",
-      description:
-        "京都大学博士課程・株式会社EastLinker代表取締役。外国語教育学とAI技術を融合した研究と開発を行っています。",
-      keywords:
-        "梁震, りょうしん, RYO SHIN, LIANG ZHEN, 京都大学, AI研究, 言語教育, LLM, 機械学習, 日本語教師, EastLinker, ポートフォリオ",
-    },
-    en: {
-      title: "Ryo Shin (Liang Zhen) | AI Researcher, Entrepreneur & Japanese Teacher",
-      description:
-        "Official portfolio of Ryo Shin, PhD student at Kyoto University and CEO of EastLinker Inc., specialising in AI-powered language education.",
-      keywords:
-        "Ryo Shin, Liang Zhen, AI researcher, Kyoto University, Japanese language teacher, Large Language Models, Machine Learning, Portfolio, EastLinker",
-    },
-    zh: {
-      title: "梁震 | AI研究者、企业家、日语教师",
-      description:
-        "梁震，京都大学博士生，EastLinker创始人。致力于AI与语言教育融合的研究与应用的个人作品集。",
-      keywords:
-        "梁震, AI研究, 京都大学, 日语教师, 大语言模型, 机器学习, EastLinker, 个人作品集",
-    },
-  };
-
-  const selected = metaByLocale[lang];
+  const title = messages.metadata.title as string;
+  const description = messages.metadata.description as string;
+  const keywords = messages.metadata.keywords as string;
+  const author = messages.metadata.author as string;
+  const creator = messages.metadata.creator as string;
+  const publisher = messages.metadata.publisher as string;
+  const siteName = messages.metadata.siteName as string;
 
   return {
-    ...selected,
-    authors: [{ name: "梁震（りょう しん）" }],
-    creator: "梁震（りょう しん）",
-    publisher: "梁震（りょう しん）",
+    title,
+    description,
+    keywords,
+    authors: [{ name: author }],
+    creator,
+    publisher,
     robots: "index, follow",
     metadataBase: new URL("https://ryosh.in"),
     openGraph: {
       type: "website",
-      locale: lang === "ja" ? "ja_JP" : lang === "en" ? "en_US" : "zh_CN",
+      locale: validLocale === "ja" ? "ja_JP" : validLocale === "en" ? "en_US" : "zh_CN",
       url: "https://ryosh.in",
-      title: selected.title,
-      description: selected.description,
-      siteName: "梁震（りょう しん）ポートフォリオ",
+      title,
+      description,
+      siteName,
       images: [
         {
           url: "https://ryosh.in/logo.png",
           width: 1200,
           height: 630,
-          alt: selected.title,
+          alt: title,
         },
       ],
     },
@@ -79,8 +64,8 @@ export async function generateMetadata({
       card: "summary_large_image",
       site: "@ryoshin0830",
       creator: "@ryoshin0830",
-      title: selected.title,
-      description: selected.description,
+      title,
+      description,
       images: ["https://ryosh.in/logo.png"],
     },
     alternates: {
@@ -153,10 +138,10 @@ export default async function RootLayout({
                 data-oid="67z3cll"
               >
                 <p className="text-sm opacity-80" data-oid="lswazss">
-                  © 2024 梁震（りょう しん）. All rights reserved.
+                  {messages.footer.copyright}
                 </p>
                 <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
-                  Built with Next.js, TypeScript, and Tailwind CSS
+                  {messages.footer.builtWith}
                 </p>
               </div>
             </footer>

@@ -141,6 +141,8 @@
     "publications": "Publications",
     "peerReviewedPapers": "Peer-Reviewed Papers",
     "conferencePresentations": "Conference Presentations",
+    "academicResearch": "Academic Research",
+    "doi": "DOI →",
     "vocabularyDifficulty": {
       "title": "Vocabulary Difficulty Estimation using LLMs",
       "description": "Development of a system that predicts vocabulary difficulty by training large language models with known difficulty data. Joint research with National Institute for Japanese Language and Linguistics."
@@ -217,7 +219,22 @@
     "infrastructure": "Infrastructure",
     "cloud": "Cloud",
     "ai": "AI & Machine Learning",
-    "languages": "Language Proficiency"
+    "languages": "Language Proficiency",
+    "jobTitle": "PhD Student • Research",
+    "ceoFounder": "CEO • Founder",
+    "yearsExperience": "{years}+ Years Experience",
+    "mainFeatures": "Main Features",
+    "techStack": "Technology Stack",
+    "proficiency": "Proficiency",
+    "technicalExpertise": "Technical Expertise",
+    "languageProficiency": {
+      "japanese": "Japanese",
+      "japaneseLevel": "JLPT N1 Perfect Score • Native Level",
+      "chinese": "Chinese",
+      "chineseLevel": "Native (Beijing)",
+      "english": "English",
+      "englishLevel": "CET Level 4 • Academic Writing"
+    }
   },
   "projects": {
     "title": "Project Portfolio",
@@ -274,7 +291,9 @@
           "Utilizing Transformers library"
         ]
       }
-    ]
+    ],
+    "mainFeatures": "Main Features",
+    "techStack": "Technology Stack"
   },
   "gallery": {
     "title": "Photo Gallery",
@@ -282,7 +301,16 @@
     "research": "Research",
     "business": "Business",
     "daily": "Daily Life",
-    "outdoor": "Outdoor Activities"
+    "outdoor": "Outdoor Activities",
+    "photoGallery": "Photo Gallery",
+    "categoryFilter": "Category Filter",
+    "all": "All",
+    "descriptions": {
+      "research": "Research activities at Kyoto University",
+      "business": "Business activities at EastLinker Inc.",
+      "daily": "A moment from daily life",
+      "outdoor": "Outdoor activities and skiing"
+    }
   },
   "contact": {
     "title": "Contact",
@@ -399,5 +427,78 @@
     },
     "philosophyTitle": "Teaching Philosophy",
     "philosophyQuote": "Language learning is not just about memorizing words and grammar; it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's journey both effective and enjoyable."
+  },
+  "metadata": {
+    "title": "Ryo Shin (Liang Zhen) | AI Researcher, Entrepreneur & Japanese Teacher",
+    "description": "Official portfolio of Ryo Shin, PhD student at Kyoto University and CEO of EastLinker Inc., specialising in AI-powered language education.",
+    "keywords": "Ryo Shin, Liang Zhen, AI researcher, Kyoto University, Japanese language teacher, Large Language Models, Machine Learning, Portfolio, EastLinker",
+    "author": "Ryo Shin (Liang Zhen)",
+    "creator": "Ryo Shin (Liang Zhen)",
+    "publisher": "Ryo Shin (Liang Zhen)",
+    "siteName": "Ryo Shin Portfolio"
+  },
+  "common": {
+    "close": "Close",
+    "of": "of",
+    "viewMore": "View More",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "all": "All"
+  },
+  "badges": {
+    "aboutMe": "About Me",
+    "technicalExpertise": "Technical Expertise",
+    "photoGallery": "Photo Gallery",
+    "academicResearch": "Academic Research",
+    "featuredProjects": "Featured Projects"
+  },
+  "status": {
+    "completed": "Completed",
+    "active": "Active",
+    "ongoing": "Ongoing",
+    "planned": "Planned",
+    "undefined": "Undefined"
+  },
+  "locations": {
+    "china": "China",
+    "japan": "Japan",
+    "beijing": "Beijing",
+    "kyoto": "Kyoto",
+    "yokohama": "Yokohama"
+  },
+  "dates": {
+    "present": "Present",
+    "yearRange": "{start}-{end}",
+    "yearToPresent": "{year}-Present"
+  },
+  "heroCategories": {
+    "messaging": "Messaging",
+    "professional": "Developer",
+    "social": "Social"
+  },
+  "socialActions": {
+    "wechatQR": "Scan with WeChat",
+    "whatsappQR": "Scan with WhatsApp"
+  },
+  "names": {
+    "fullName": "LIANG ZHEN (RYO SHIN)",
+    "japanese": "梁 震",
+    "japaneseFurigana": "りょう しん",
+    "english": "RYO SHIN",
+    "chinese": "LIANG ZHEN",
+    "shortName": "梁震"
   }
 }

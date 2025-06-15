@@ -22,6 +22,9 @@ import {
 
 const ProjectsSection = () => {
   const t = useTranslations("projects");
+  const tBadges = useTranslations("badges");
+  const tStatus = useTranslations("status");
+  const tDates = useTranslations("dates");
 
   // Get projects from translations
   const projectsList = t.raw("projectsList") as Array<{
@@ -56,7 +59,13 @@ const ProjectsSection = () => {
     const icons = [Globe, Smartphone, Globe, BookOpen, Brain];
     const colors = ["purple", "blue", "green", "orange", "red"];
     const statuses = ["ongoing", "completed", "active", "completed", "ongoing"];
-    const years = ["2025-現在", "2022-2023", "2023-2024", "2021-2022", "2023-現在"];
+    const years = [
+      tDates("yearToPresent", { year: "2025" }),
+      tDates("yearRange", { start: "2022", end: "2023" }),
+      tDates("yearRange", { start: "2023", end: "2024" }),
+      tDates("yearRange", { start: "2021", end: "2022" }),
+      tDates("yearToPresent", { year: "2023" })
+    ];
 
     return {
       ...project,
@@ -126,25 +135,25 @@ const ProjectsSection = () => {
     switch (status) {
       case "completed":
         return {
-          label: "完了",
+          label: tStatus("completed"),
           color:
             "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
         };
       case "active":
         return {
-          label: "運用中",
+          label: tStatus("active"),
           color:
             "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
         };
       case "ongoing":
         return {
-          label: "進行中",
+          label: tStatus("ongoing"),
           color:
             "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
         };
       default:
         return {
-          label: "未定",
+          label: tStatus("undefined"),
           color:
             "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
         };
@@ -158,7 +167,7 @@ const ProjectsSection = () => {
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium mb-6">
             <Rocket size={16} />
-            Featured Projects
+            {tBadges("featuredProjects")}
           </div>
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
@@ -232,7 +241,7 @@ const ProjectsSection = () => {
                   <div className="mb-6">
                     <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                       <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                      主な機能・特徴
+                      {t("mainFeatures")}
                     </h4>
                     <ul className="space-y-3">
                       {project.features.map((feature, featureIndex) => (
@@ -251,7 +260,7 @@ const ProjectsSection = () => {
                   <div>
                     <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                       <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                      技術スタック
+                      {t("techStack")}
                     </h4>
                     <div className="flex flex-wrap gap-3">
                       {project.technologies.map((tech, techIndex) => {

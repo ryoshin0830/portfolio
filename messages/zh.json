@@ -141,6 +141,8 @@
     "publications": "论文・发表",
     "peerReviewedPapers": "同行评议论文",
     "conferencePresentations": "会议发表",
+    "academicResearch": "学术研究",
+    "doi": "DOI →",
     "vocabularyDifficulty": {
       "title": "使用LLM的词汇难度推定",
       "description": "通过让大规模语言模型学习已知难度数据，开发预测新词汇难度的系统。与国立国语研究所的共同研究。"
@@ -217,7 +219,22 @@
     "infrastructure": "基础设施",
     "cloud": "云计算",
     "ai": "AI・机器学习",
-    "languages": "语言能力"
+    "languages": "语言能力",
+    "jobTitle": "博士生・研究",
+    "ceoFounder": "CEO・创始人",
+    "yearsExperience": "{years}年以上经验",
+    "mainFeatures": "主要功能",
+    "techStack": "技术栈",
+    "proficiency": "熟练度",
+    "technicalExpertise": "技术专长",
+    "languageProficiency": {
+      "japanese": "日语",
+      "japaneseLevel": "JLPT N1 满分・母语水平",
+      "chinese": "中文",
+      "chineseLevel": "母语（北京）",
+      "english": "英语",
+      "englishLevel": "CET Level 4・学术写作"
+    }
   },
   "projects": {
     "title": "项目成果",
@@ -274,7 +291,9 @@
           "Transformers库应用"
         ]
       }
-    ]
+    ],
+    "mainFeatures": "主要功能",
+    "techStack": "技术栈"
   },
   "gallery": {
     "title": "照片画廊",
@@ -282,7 +301,16 @@
     "research": "研究活动",
     "business": "商务",
     "daily": "日常",
-    "outdoor": "户外活动"
+    "outdoor": "户外活动",
+    "photoGallery": "照片画廊",
+    "categoryFilter": "分类筛选",
+    "all": "全部",
+    "descriptions": {
+      "research": "京都大学的研究活动",
+      "business": "EastLinker株式会社的商务活动",
+      "daily": "日常生活的一瞬间",
+      "outdoor": "户外活动和滑雪"
+    }
   },
   "contact": {
     "title": "联系方式",
@@ -399,5 +427,78 @@
     },
     "philosophyTitle": "教学理念",
     "philosophyQuote": "语言学习不仅仅是记忆单词和语法，更是构建文化之间的桥梁，打开新机遇的大门。我的目标是让每一位学生的学习旅程既高效又愉快。"
+  },
+  "metadata": {
+    "title": "梁震 | AI研究者、企业家、日语教师",
+    "description": "梁震，京都大学博士生，EastLinker创始人。致力于AI与语言教育融合的研究与应用的个人作品集。",
+    "keywords": "梁震, AI研究, 京都大学, 日语教师, 大语言模型, 机器学习, EastLinker, 个人作品集",
+    "author": "梁震",
+    "creator": "梁震",
+    "publisher": "梁震",
+    "siteName": "梁震作品集"
+  },
+  "common": {
+    "close": "关闭",
+    "of": "的",
+    "viewMore": "查看更多",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "loading": "加载中...",
+    "error": "错误",
+    "retry": "重试",
+    "cancel": "取消",
+    "confirm": "确认",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "submit": "提交",
+    "search": "搜索",
+    "filter": "筛选",
+    "sort": "排序",
+    "all": "全部"
+  },
+  "badges": {
+    "aboutMe": "关于我",
+    "technicalExpertise": "技术专长",
+    "photoGallery": "照片画廊",
+    "academicResearch": "学术研究",
+    "featuredProjects": "精选项目"
+  },
+  "status": {
+    "completed": "完成",
+    "active": "运行中",
+    "ongoing": "进行中",
+    "planned": "计划中",
+    "undefined": "未定"
+  },
+  "locations": {
+    "china": "中国",
+    "japan": "日本",
+    "beijing": "北京",
+    "kyoto": "京都",
+    "yokohama": "横滨"
+  },
+  "dates": {
+    "present": "现在",
+    "yearRange": "{start}-{end}",
+    "yearToPresent": "{year}-现在"
+  },
+  "heroCategories": {
+    "messaging": "通讯",
+    "professional": "开发",
+    "social": "社交"
+  },
+  "socialActions": {
+    "wechatQR": "微信扫码添加",
+    "whatsappQR": "WhatsApp扫码"
+  },
+  "names": {
+    "fullName": "梁震",
+    "japanese": "梁 震",
+    "japaneseFurigana": "りょう しん",
+    "english": "RYO SHIN",
+    "chinese": "LIANG ZHEN",
+    "shortName": "梁震"
   }
 }
