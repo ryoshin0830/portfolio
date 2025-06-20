@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { Mail } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
-import { FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";
 import { SiQiita, SiX, SiXiaohongshu } from "react-icons/si";
 import Image from "next/image";
 
@@ -51,6 +50,15 @@ const HeroSection = () => {
       icon: FaGithub,
       color: 'slate',
       priority: { ja: 7, en: 8, zh: 7 },
+      category: 'professional'
+    },
+    {
+      id: 'linkedin',
+      name: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/ryoshin',
+      icon: FaLinkedin,
+      color: 'blue',
+      priority: { ja: 8, en: 9, zh: 8 },
       category: 'professional'
     },
     {
