@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";
@@ -13,7 +13,6 @@ const HeroSection = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [showWeChatQR, setShowWeChatQR] = useState(false);
   const [showWhatsAppQR, setShowWhatsAppQR] = useState(false);
-  const [hoveredPlatform, setHoveredPlatform] = useState<string | null>(null);
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
   const tCommon = useTranslations("common");
@@ -196,38 +195,20 @@ const HeroSection = () => {
 
           {/* Name */}
           <div className="mb-12">
-            <AnimatePresence mode="wait">
-              <motion.h1
-                key={currentNameIndex}
-                className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black gradient-text mb-4 tracking-tight px-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                {names[currentNameIndex]}
-              </motion.h1>
-            </AnimatePresence>
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black gradient-text mb-4 tracking-tight px-4">
+              {names[currentNameIndex]}
+            </h1>
           </div>
 
           {/* Role */}
           <div className="mb-12 px-4">
             <div className="flex items-center justify-center gap-4 sm:gap-8 mb-6">
               <div className="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent flex-1 max-w-16 sm:max-w-32" />
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentRoleIndex}
-                  className="relative px-4 sm:px-8 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-blue-200/50 dark:border-blue-700/50"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span className="text-sm sm:text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    {roles[currentRoleIndex]}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
+              <div className="relative px-4 sm:px-8 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-blue-200/50 dark:border-blue-700/50">
+                <span className="text-sm sm:text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  {roles[currentRoleIndex]}
+                </span>
+              </div>
               <div className="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent flex-1 max-w-16 sm:max-w-32" />
             </div>
           </div>
@@ -259,7 +240,7 @@ const HeroSection = () => {
             {/* Primary Email CTA */}
             <button
               onClick={handleEmailClick}
-              className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-6 hover:scale-105 text-sm sm:text-base"
+              className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-6 text-sm sm:text-base"
             >
               <Mail size={18} className="sm:w-6 sm:h-6" />
               <span>{t("connect")}</span>
@@ -323,7 +304,7 @@ const HeroSection = () => {
                       
                       {/* Platforms in this category */}
                       <div className="flex flex-wrap justify-center gap-1 sm:gap-2 max-w-40 sm:max-w-none">
-                        {platforms.map((platform, index) => {
+                        {platforms.map((platform) => {
                           const isQRPlatform = platform.qrCode !== undefined;
                           
                           // Define color classes
@@ -338,22 +319,15 @@ const HeroSection = () => {
                           
                           if (isQRPlatform) {
                             return (
-                              <motion.div
+                              <div
                                 key={platform.id}
                                 className="relative"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.03, type: "spring", stiffness: 300 }}
                               >
-                                <motion.button
+                                <button
                                   onClick={() => platform.id === 'wechat' ? setShowWeChatQR(!showWeChatQR) : setShowWhatsAppQR(!showWhatsAppQR)}
                                   className={`relative p-2 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
-                                  whileHover={{ y: -2, scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                  onHoverStart={() => setHoveredPlatform(platform.id)}
-                                  onHoverEnd={() => setHoveredPlatform(null)}
                                 >
-                                  <motion.div
+                                  <div
                                     className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                     style={{
                                       background: platform.color === 'green' 
@@ -362,83 +336,52 @@ const HeroSection = () => {
                                     }}
                                   />
                                   {platform.icon && <platform.icon size={16} className="sm:w-6 sm:h-6 relative z-10 group-hover:text-white transition-colors duration-300" />}
-                                  {/* Tooltip on hover */}
-                                  <AnimatePresence>
-                                    {hoveredPlatform === platform.id && (
-                                      <motion.div
-                                        initial={{ opacity: 0, y: 5 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: 5 }}
-                                        className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800 text-xs rounded whitespace-nowrap z-10"
-                                      >
-                                        {platform.name}
-                                        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
-                                          <div className="border-4 border-transparent border-t-slate-800 dark:border-t-slate-200"></div>
-                                        </div>
-                                      </motion.div>
-                                    )}
-                                  </AnimatePresence>
-                                </motion.button>
-                                <AnimatePresence>
-                                  {((platform.id === 'wechat' && showWeChatQR) || (platform.id === 'whatsapp' && showWhatsAppQR)) && (
-                                    <>
-                                      {/* Backdrop */}
-                                      <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                                </button>
+                                {((platform.id === 'wechat' && showWeChatQR) || (platform.id === 'whatsapp' && showWhatsAppQR)) && (
+                                  <>
+                                    {/* Backdrop */}
+                                    <div
+                                      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+                                      onClick={() => platform.id === 'wechat' ? setShowWeChatQR(false) : setShowWhatsAppQR(false)}
+                                    />
+                                    {/* Modal */}
+                                    <div
+                                      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 sm:p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl z-50 max-w-sm mx-4"
+                                    >
+                                      <h3 className="text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 sm:mb-6 text-center">
+                                        {platform.id === 'wechat' ? tSocialActions('wechatQR') : tSocialActions('whatsappQR')}
+                                      </h3>
+                                      <div className="bg-white p-2 sm:p-4 rounded-xl">
+                                        <Image 
+                                          src={platform.qrCode} 
+                                          alt={`${platform.name} QR Code`} 
+                                          width={200} 
+                                          height={200} 
+                                          className="rounded-lg w-full max-w-60 mx-auto"
+                                        />
+                                      </div>
+                                      <button
                                         onClick={() => platform.id === 'wechat' ? setShowWeChatQR(false) : setShowWhatsAppQR(false)}
-                                      />
-                                      {/* Modal */}
-                                      <motion.div
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0, scale: 0.9 }}
-                                        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 sm:p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl z-50 max-w-sm mx-4"
+                                        className="mt-4 sm:mt-6 w-full px-4 sm:px-6 py-2 sm:py-3 bg-slate-100 dark:bg-slate-700 rounded-xl text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm sm:text-base"
                                       >
-                                        <h3 className="text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 sm:mb-6 text-center">
-                                          {platform.id === 'wechat' ? tSocialActions('wechatQR') : tSocialActions('whatsappQR')}
-                                        </h3>
-                                        <div className="bg-white p-2 sm:p-4 rounded-xl">
-                                          <Image 
-                                            src={platform.qrCode} 
-                                            alt={`${platform.name} QR Code`} 
-                                            width={200} 
-                                            height={200} 
-                                            className="rounded-lg w-full max-w-60 mx-auto"
-                                          />
-                                        </div>
-                                        <button
-                                          onClick={() => platform.id === 'wechat' ? setShowWeChatQR(false) : setShowWhatsAppQR(false)}
-                                          className="mt-4 sm:mt-6 w-full px-4 sm:px-6 py-2 sm:py-3 bg-slate-100 dark:bg-slate-700 rounded-xl text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm sm:text-base"
-                                        >
-                                          {tCommon('close')}
-                                        </button>
-                                      </motion.div>
-                                    </>
-                                  )}
-                                </AnimatePresence>
-                              </motion.div>
+                                        {tCommon('close')}
+                                      </button>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
                             );
                           }
 
                           return (
-                            <motion.a
+                            <a
                               key={platform.id}
                               href={platform.href}
                               target="_blank"
                               rel="noopener noreferrer"
                               className={`relative p-2 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              transition={{ delay: index * 0.03, type: "spring", stiffness: 300 }}
-                              whileHover={{ y: -2, scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onHoverStart={() => setHoveredPlatform(platform.id)}
-                              onHoverEnd={() => setHoveredPlatform(null)}
                             >
-                              <motion.div
+                              <div
                                 className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                 style={{
                                   background: platform.color === 'slate' ? 'linear-gradient(135deg, #475569 0%, #1e293b 100%)' 
@@ -460,23 +403,7 @@ const HeroSection = () => {
                                   className="relative z-10 w-4 h-4 sm:w-6 sm:h-6"
                                 />
                               )}
-                              {/* Tooltip on hover */}
-                              <AnimatePresence>
-                                {hoveredPlatform === platform.id && (
-                                  <motion.div
-                                    initial={{ opacity: 0, y: 5 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 5 }}
-                                    className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-slate-800 dark:bg-slate-200 text-white dark:text-slate-800 text-xs rounded whitespace-nowrap z-10"
-                                  >
-                                    {platform.name}
-                                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
-                                      <div className="border-4 border-transparent border-t-slate-800 dark:border-t-slate-200"></div>
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
-                            </motion.a>
+                            </a>
                           );
                         })}
                       </div>
