@@ -245,10 +245,6 @@ const HeroSection = () => {
           {/* Personal Details */}
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-8 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 px-4">
             <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
-              <span className="font-semibold">{t("birthDate")}</span>
-              <span className="text-slate-700 dark:text-slate-300">1997.08.30</span>
-            </div>
-            <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
               <span className="font-semibold">{t("origin")}</span>
               <span className="text-slate-700 dark:text-slate-300">{t("beijing")}</span>
             </div>

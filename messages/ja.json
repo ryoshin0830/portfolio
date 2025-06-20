@@ -40,7 +40,6 @@
     "discover": "もっと見る",
     "email_subject": "お問い合わせ：ポートフォリオサイトより",
     "email_body": "以下の内容をご記入の上、お送りください。\n\n---\nお名前：\nご用件：\n---",
-    "birthDate": "生年月日",
     "origin": "出身",
     "beijing": "北京",
     "current": "現在",
@@ -91,22 +90,10 @@
         "icon": "home"
       },
       {
-        "year": "2013",
-        "title": "高校入学",
-        "description": "北京市月壇中学高等部に入学",
-        "icon": "school"
-      },
-      {
         "year": "2016",
         "title": "大学入学",
         "description": "首都経済貿易大学情報システム学部に入学",
         "icon": "university"
-      },
-      {
-        "year": "2020",
-        "title": "大学卒業",
-        "description": "首都経済貿易大学情報システム学部を卒業",
-        "icon": "graduation"
       },
       {
         "year": "2021",

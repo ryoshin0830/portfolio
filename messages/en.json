@@ -40,7 +40,6 @@
     "discover": "Discover More",
     "email_subject": "Inquiry from Portfolio Site",
     "email_body": "Please include the following information:\n\n---\nName:\nMessage:\n---",
-    "birthDate": "Birth Date",
     "origin": "Origin",
     "beijing": "Beijing",
     "current": "Current",
@@ -91,22 +90,10 @@
         "icon": "home"
       },
       {
-        "year": "2013",
-        "title": "High School",
-        "description": "Entered Beijing Yuetan Middle School High School Division",
-        "icon": "school"
-      },
-      {
         "year": "2016",
         "title": "University Admission",
         "description": "Entered Capital University of Economics and Business, Information Systems Department",
         "icon": "university"
-      },
-      {
-        "year": "2020",
-        "title": "University Graduation",
-        "description": "Graduated from Capital University of Economics and Business, Information Systems Department",
-        "icon": "graduation"
       },
       {
         "year": "2021",

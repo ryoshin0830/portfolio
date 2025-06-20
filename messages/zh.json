@@ -40,7 +40,6 @@
     "discover": "查看更多",
     "email_subject": "来自作品集网站的咨询",
     "email_body": "请填写以下信息后发送：\n\n---\n姓名：\n内容：\n---",
-    "birthDate": "出生日期",
     "origin": "出生地",
     "beijing": "北京",
     "current": "现居",
@@ -91,22 +90,10 @@
         "icon": "home"
       },
       {
-        "year": "2013",
-        "title": "高中入学",
-        "description": "进入北京市月坛中学高中部",
-        "icon": "school"
-      },
-      {
         "year": "2016",
         "title": "大学入学",
         "description": "进入首都经济贸易大学信息系统学部",
         "icon": "university"
-      },
-      {
-        "year": "2020",
-        "title": "大学毕业",
-        "description": "从首都经济贸易大学信息系统学部毕业",
-        "icon": "graduation"
       },
       {
         "year": "2021",

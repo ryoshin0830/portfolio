@@ -27,7 +27,8 @@
       "Bash(npm run start:*)",
       "Bash(vercel:*)",
       "Bash(mkdir:*)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(python3:*)"
     ],
     "deny": []
   }

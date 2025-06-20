@@ -35,9 +35,7 @@ const TimelineSection = () => {
       "japan", // 1999 move to Japan
       "china", // 2009 back to China
       "japan", // 2010 permanent residence
-      "china", // 2013 high school
       "china", // 2016 university
-      "china", // 2020 graduation
       "japan", // 2021 Kyoto
       "japan", // 2023 startup
     ];
