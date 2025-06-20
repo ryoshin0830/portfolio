@@ -183,7 +183,7 @@ const HeroSection = () => {
         <div className="absolute bottom-20 left-20 w-80 h-80 bg-purple-400/10 rounded-full blur-2xl" />
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 w-full max-w-7xl">
         <div className="text-center max-w-5xl mx-auto pt-32">
 
           {/* Name */}
@@ -191,7 +191,7 @@ const HeroSection = () => {
             <AnimatePresence mode="wait">
               <motion.h1
                 key={currentNameIndex}
-                className="text-5xl md:text-7xl lg:text-8xl font-black gradient-text mb-4 tracking-tight"
+                className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black gradient-text mb-4 tracking-tight px-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -203,66 +203,66 @@ const HeroSection = () => {
           </div>
 
           {/* Role */}
-          <div className="mb-12">
-            <div className="flex items-center justify-center gap-8 mb-6">
-              <div className="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent flex-1 max-w-32" />
+          <div className="mb-12 px-4">
+            <div className="flex items-center justify-center gap-4 sm:gap-8 mb-6">
+              <div className="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent flex-1 max-w-16 sm:max-w-32" />
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentRoleIndex}
-                  className="relative px-8 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-blue-200/50 dark:border-blue-700/50"
+                  className="relative px-4 sm:px-8 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full border border-blue-200/50 dark:border-blue-700/50"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <span className="text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
+                  <span className="text-sm sm:text-xl md:text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {roles[currentRoleIndex]}
                   </span>
                 </motion.div>
               </AnimatePresence>
-              <div className="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent flex-1 max-w-32" />
+              <div className="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent flex-1 max-w-16 sm:max-w-32" />
             </div>
           </div>
 
           {/* Subtitle */}
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-slate-700 dark:text-slate-300 mb-6 font-light tracking-wide">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-slate-700 dark:text-slate-300 mb-6 font-light tracking-wide px-4">
             {t("subtitle")}
           </h2>
 
           {/* Description */}
-          <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 mb-8 max-w-3xl mx-auto leading-relaxed px-4">
             {t("description")}
           </p>
 
           {/* Personal Details */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-sm md:text-base text-slate-600 dark:text-slate-400">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-8 text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-400 px-4">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
               <span className="font-semibold">{t("birthDate")}</span>
               <span className="text-slate-700 dark:text-slate-300">1997.08.30</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
               <span className="font-semibold">{t("origin")}</span>
               <span className="text-slate-700 dark:text-slate-300">{t("beijing")}</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
+            <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-2 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-full border border-slate-200/30 dark:border-slate-700/30">
               <span className="font-semibold">{t("current")}</span>
               <span className="text-slate-700 dark:text-slate-300">{t("kyoto")}</span>
             </div>
           </div>
 
           {/* Contact Section */}
-          <div className="mb-12">
+          <div className="mb-12 px-4">
             {/* Primary Email CTA */}
             <button
               onClick={handleEmailClick}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-6 hover:scale-105"
+              className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-6 hover:scale-105 text-sm sm:text-base"
             >
-              <Mail size={22} />
+              <Mail size={18} className="sm:w-6 sm:h-6" />
               <span>{t("connect")}</span>
             </button>
 
-            {/* Social Links - Horizontal Layout */}
-            <div className="flex flex-wrap justify-center items-start gap-6 max-w-4xl mx-auto">
+            {/* Social Links - Responsive Layout */}
+            <div className="flex flex-wrap justify-center items-start gap-3 sm:gap-6 max-w-6xl mx-auto">
               {/* Group platforms by category */}
               {(() => {
                 const grouped = sortedPlatforms.reduce((acc, platform) => {
@@ -307,7 +307,7 @@ const HeroSection = () => {
                   if (platforms.length === 0) return null;
 
                   return (
-                    <div key={category} className="flex flex-col items-center">
+                    <div key={category} className="flex flex-col items-center min-w-0 w-auto">
                       {/* Category name */}
                       <h4 className={`text-xs font-medium mb-2 ${
                         category === 'professional' ? 'text-blue-600 dark:text-blue-400' :
@@ -318,7 +318,7 @@ const HeroSection = () => {
                       </h4>
                       
                       {/* Platforms in this category */}
-                      <div className="flex flex-wrap justify-center gap-2">
+                      <div className="flex flex-wrap justify-center gap-1 sm:gap-2 max-w-40 sm:max-w-none">
                         {platforms.map((platform, index) => {
                           const isQRPlatform = platform.qrCode !== undefined;
                           
@@ -343,7 +343,7 @@ const HeroSection = () => {
                               >
                                 <motion.button
                                   onClick={() => platform.id === 'wechat' ? setShowWeChatQR(!showWeChatQR) : setShowWhatsAppQR(!showWhatsAppQR)}
-                                  className={`relative p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
+                                  className={`relative p-2 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
                                   whileHover={{ y: -2, scale: 1.05 }}
                                   whileTap={{ scale: 0.95 }}
                                   onHoverStart={() => setHoveredPlatform(platform.id)}
@@ -357,7 +357,7 @@ const HeroSection = () => {
                                         : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
                                     }}
                                   />
-                                  {platform.icon && <platform.icon size={22} className="relative z-10 group-hover:text-white transition-colors duration-300" />}
+                                  {platform.icon && <platform.icon size={16} className="sm:w-6 sm:h-6 relative z-10 group-hover:text-white transition-colors duration-300" />}
                                   {/* Tooltip on hover */}
                                   <AnimatePresence>
                                     {hoveredPlatform === platform.id && (
@@ -391,23 +391,23 @@ const HeroSection = () => {
                                         initial={{ opacity: 0, scale: 0.9 }}
                                         animate={{ opacity: 1, scale: 1 }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl z-50"
+                                        className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4 sm:p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl z-50 max-w-sm mx-4"
                                       >
-                                        <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-6 text-center">
+                                        <h3 className="text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4 sm:mb-6 text-center">
                                           {platform.id === 'wechat' ? tSocialActions('wechatQR') : tSocialActions('whatsappQR')}
                                         </h3>
-                                        <div className="bg-white p-4 rounded-xl">
+                                        <div className="bg-white p-2 sm:p-4 rounded-xl">
                                           <Image 
                                             src={platform.qrCode} 
                                             alt={`${platform.name} QR Code`} 
-                                            width={240} 
-                                            height={240} 
-                                            className="rounded-lg"
+                                            width={200} 
+                                            height={200} 
+                                            className="rounded-lg w-full max-w-60 mx-auto"
                                           />
                                         </div>
                                         <button
                                           onClick={() => platform.id === 'wechat' ? setShowWeChatQR(false) : setShowWhatsAppQR(false)}
-                                          className="mt-6 w-full px-6 py-3 bg-slate-100 dark:bg-slate-700 rounded-xl text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+                                          className="mt-4 sm:mt-6 w-full px-4 sm:px-6 py-2 sm:py-3 bg-slate-100 dark:bg-slate-700 rounded-xl text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors text-sm sm:text-base"
                                         >
                                           {tCommon('close')}
                                         </button>
@@ -425,7 +425,7 @@ const HeroSection = () => {
                               href={platform.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`relative p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
+                              className={`relative p-2 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: index * 0.03, type: "spring", stiffness: 300 }}
@@ -446,14 +446,14 @@ const HeroSection = () => {
                                 }}
                               />
                               {platform.icon ? (
-                                <platform.icon size={22} className="relative z-10 group-hover:text-white transition-colors duration-300" />
+                                <platform.icon size={16} className="sm:w-6 sm:h-6 relative z-10 group-hover:text-white transition-colors duration-300" />
                               ) : (
                                 <Image 
                                   src={platform.iconPath!} 
                                   alt={platform.name} 
-                                  width={22} 
-                                  height={22} 
-                                  className="relative z-10 w-5.5 h-5.5"
+                                  width={16} 
+                                  height={16} 
+                                  className="relative z-10 w-4 h-4 sm:w-6 sm:h-6"
                                 />
                               )}
                               {/* Tooltip on hover */}

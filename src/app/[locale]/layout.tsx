@@ -129,22 +129,22 @@ export default async function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} ${notoSansJP.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900`}
+        className={`${inter.variable} ${notoSansJP.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-x-hidden w-full max-w-full`}
         suppressHydrationWarning
         data-oid="1ogajcn"
       >
         <NextIntlClientProvider messages={messages} data-oid="q3ce1r0">
           <ThemeProvider>
             <Navigation data-oid="hk5vrem" />
-            <main className="min-h-screen" data-oid="cjsbd45">
+            <main className="min-h-screen w-full overflow-x-hidden" data-oid="cjsbd45">
               {children}
             </main>
-            <footer className="bg-slate-900 text-white py-8" data-oid="9d4m8i:">
+            <footer className="bg-slate-900 text-white py-6 sm:py-8 w-full overflow-x-hidden" data-oid="9d4m8i:">
               <div
-                className="container mx-auto px-4 text-center"
+                className="container mx-auto px-4 sm:px-6 text-center max-w-7xl"
                 data-oid="67z3cll"
               >
-                <p className="text-sm opacity-80" data-oid="lswazss">
+                <p className="text-xs sm:text-sm opacity-80" data-oid="lswazss">
                   {messages.footer.copyright}
                 </p>
                 <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
