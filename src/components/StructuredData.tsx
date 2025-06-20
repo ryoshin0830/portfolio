@@ -16,7 +16,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
       alternateName: ["梁震", "りょう しん", "RYO SHIN", "LIANG ZHEN"],
       jobTitle: [
         "PhD Student",
-        "Chief Technology Officer",
+        "ML Engineer",
         "AI Researcher",
         "Japanese Language Teacher",
         "Full-Stack Developer",
