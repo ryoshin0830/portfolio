@@ -10,6 +10,7 @@
     "projects": "Projects",
     "blog": "Blog",
     "gallery": "Gallery",
+    "urlshortener": "URL Shortener",
     "contact": "Contact",
     "more": "More",
     "scrollToNext": "Next Section:",
@@ -523,5 +524,33 @@
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
     "shortName": "梁震"
+  },
+  "urlshortener": {
+    "title": "URL Shortener",
+    "subtitle": "Create short, memorable links instantly",
+    "badge": "Free Tool",
+    "form": {
+      "urlLabel": "Long URL",
+      "urlPlaceholder": "Enter your long URL (e.g., example.com)",
+      "customPathLabel": "Custom Path",
+      "customPathPlaceholder": "my-custom-link",
+      "optional": "(Optional)",
+      "submit": "Shorten URL",
+      "generating": "Generating..."
+    },
+    "result": {
+      "title": "Your shortened URL:",
+      "copy": "Copy to clipboard",
+      "open": "Open in new tab",
+      "copied": "Copied!"
+    },
+    "error": {
+      "failed": "Failed to shorten URL",
+      "unknown": "An unknown error occurred"
+    },
+    "footer": {
+      "info": "Powered by link.ryosh.in API",
+      "madeWith": "Made with"
+    }
   }
 }

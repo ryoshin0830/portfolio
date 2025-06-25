@@ -10,6 +10,7 @@
     "projects": "项目",
     "blog": "博客",
     "gallery": "画廊",
+    "urlshortener": "URL短链",
     "contact": "联系",
     "more": "更多",
     "scrollToNext": "下一节：",
@@ -554,5 +555,33 @@
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
     "shortName": "梁震"
+  },
+  "urlshortener": {
+    "title": "URL短链生成器",
+    "subtitle": "快速创建简短易记的链接",
+    "badge": "免费工具",
+    "form": {
+      "urlLabel": "长链接",
+      "urlPlaceholder": "输入您的长链接（例：example.com）",
+      "customPathLabel": "自定义路径",
+      "customPathPlaceholder": "my-custom-link",
+      "optional": "（可选）",
+      "submit": "生成短链",
+      "generating": "生成中..."
+    },
+    "result": {
+      "title": "您的短链：",
+      "copy": "复制到剪贴板",
+      "open": "在新标签页打开",
+      "copied": "已复制！"
+    },
+    "error": {
+      "failed": "短链生成失败",
+      "unknown": "发生未知错误"
+    },
+    "footer": {
+      "info": "由 link.ryosh.in API 提供支持",
+      "madeWith": "用爱制作"
+    }
   }
 }

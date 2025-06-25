@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";

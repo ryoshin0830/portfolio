@@ -12,7 +12,6 @@ import {
   Zap,
   TrendingUp,
   Award,
-  Star,
 } from "lucide-react";
 import {
   SiJavascript,

@@ -10,6 +10,7 @@
     "projects": "プロジェクト",
     "blog": "ブログ",
     "gallery": "ギャラリー",
+    "urlshortener": "URL短縮",
     "contact": "お問い合わせ",
     "more": "その他",
     "scrollToNext": "次のセクション：",
@@ -523,5 +524,33 @@
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
     "shortName": "梁震"
+  },
+  "urlshortener": {
+    "title": "URL短縮ツール",
+    "subtitle": "長いURLを短く、覚えやすいリンクに変換",
+    "badge": "無料ツール",
+    "form": {
+      "urlLabel": "長いURL",
+      "urlPlaceholder": "URLを入力してください（例：example.com）",
+      "customPathLabel": "カスタムパス",
+      "customPathPlaceholder": "my-custom-link",
+      "optional": "（任意）",
+      "submit": "URLを短縮",
+      "generating": "生成中..."
+    },
+    "result": {
+      "title": "短縮されたURL：",
+      "copy": "クリップボードにコピー",
+      "open": "新しいタブで開く",
+      "copied": "コピーしました！"
+    },
+    "error": {
+      "failed": "URLの短縮に失敗しました",
+      "unknown": "不明なエラーが発生しました"
+    },
+    "footer": {
+      "info": "link.ryosh.in API提供",
+      "madeWith": "作成"
+    }
   }
 }

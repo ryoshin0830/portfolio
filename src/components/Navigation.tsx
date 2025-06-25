@@ -41,6 +41,7 @@ const Navigation = () => {
     { key: "blog", sectionId: "blog", category: "content" },
     { key: "teaching", sectionId: "teaching", category: "experience" },
     { key: "gallery", sectionId: "gallery", category: "content" },
+    { key: "urlshortener", sectionId: "urlshortener", category: "tools" },
   ];
 
   // Prevent body scroll when menu is open

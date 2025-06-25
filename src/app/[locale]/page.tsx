@@ -6,6 +6,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ZennFeed from "@/components/ZennFeed";
 import TeachingSection from "@/components/TeachingSection";
 import GallerySection from "@/components/GallerySection";
+import URLShortenerSection from "@/components/URLShortenerSection";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <ZennFeed />
       <TeachingSection />
       <GallerySection />
+      <URLShortenerSection />
     </main>
   );
 }
