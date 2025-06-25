@@ -217,32 +217,37 @@
         {
           "name": "JLPT N1（满分）",
           "description": "日本语能力测试 - 最高级别满分通过",
-          "date": "2020年",
-          "featured": true
+          "date": "2020年"
         },
         {
           "name": "ICT能力测试",
           "description": "信息通信技术认证",
-          "date": "2019年",
-          "featured": false
+          "date": "2019年"
         },
         {
           "name": "日本驾照",
           "description": "日本颁发的全种类驾驶执照",
-          "date": "2022年",
-          "featured": false
+          "date": "2022年"
         },
         {
           "name": "中国驾照",
           "description": "中国颁发的全种类驾驶执照",
-          "date": "2018年",
-          "featured": false
+          "date": "2018年"
         },
         {
           "name": "大学英语四级",
           "description": "中国大学生全国英语能力测试",
-          "date": "2018年",
-          "featured": false
+          "date": "2018年"
+        },
+        {
+          "name": "CATTI国际版 笔译",
+          "description": "中日笔译资格证书 - 国际通用翻译能力等级考试（CATTI国际版）",
+          "date": "2025年"
+        },
+        {
+          "name": "CATTI国际版 口译",
+          "description": "中日口译资格证书 - 国际通用口译能力等级考试（CATTI国际版）",
+          "date": "2025年"
         }
       ]
     }

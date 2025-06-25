@@ -217,32 +217,37 @@
         {
           "name": "JLPT N1 (Perfect Score)",
           "description": "Japanese Language Proficiency Test - Highest level with perfect score",
-          "date": "2020",
-          "featured": true
+          "date": "2020"
         },
         {
           "name": "ICT Proficiency Test",
           "description": "Information and Communications Technology certification",
-          "date": "2019",
-          "featured": false
+          "date": "2019"
         },
         {
           "name": "Japanese Driver's License",
           "description": "Full driving license issued in Japan",
-          "date": "2022",
-          "featured": false
+          "date": "2022"
         },
         {
           "name": "Chinese Driver's License",
           "description": "Full driving license issued in China",
-          "date": "2018",
-          "featured": false
+          "date": "2018"
         },
         {
           "name": "College English Test Level 4",
           "description": "National English proficiency test for Chinese university students",
-          "date": "2018",
-          "featured": false
+          "date": "2018"
+        },
+        {
+          "name": "CATTI International Translation",
+          "description": "Chinese-Japanese Translation Certification - International version of China Accreditation Test for Translators and Interpreters",
+          "date": "2025"
+        },
+        {
+          "name": "CATTI International Interpretation",
+          "description": "Chinese-Japanese Interpretation Certification - International version of China Accreditation Test for Translators and Interpreters",
+          "date": "2025"
         }
       ]
     }

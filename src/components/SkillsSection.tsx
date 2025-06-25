@@ -268,17 +268,8 @@ const SkillsSection = () => {
               {certifications.list.map((cert, index) => (
                 <div
                   key={index}
-                  className={`group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-200 ${
-                    cert.featured ? 'ring-2 ring-amber-500/50 scale-105' : ''
-                  }`}
+                  className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-200"
                 >
-                  {cert.featured && (
-                    <div className="absolute -top-2 -right-2">
-                      <div className="bg-gradient-to-r from-amber-500 to-orange-600 text-white p-2 rounded-full shadow-lg">
-                        <Star size={16} />
-                      </div>
-                    </div>
-                  )}
                   
                   <div className="relative z-10">
                     <div className="flex items-start justify-between mb-4">

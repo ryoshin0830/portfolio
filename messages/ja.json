@@ -217,32 +217,37 @@
         {
           "name": "JLPT N1（満点）",
           "description": "日本語能力試験 - 最高レベルで満点取得",
-          "date": "2020年",
-          "featured": true
+          "date": "2020年"
         },
         {
           "name": "ICTプロフィシエンシー検定",
           "description": "情報通信技術に関する資格",
-          "date": "2019年",
-          "featured": false
+          "date": "2019年"
         },
         {
           "name": "日本運転免許証",
           "description": "日本で発行された普通自動車免許",
-          "date": "2022年",
-          "featured": false
+          "date": "2022年"
         },
         {
           "name": "中国運転免許証",
           "description": "中国で発行された普通自動車免許",
-          "date": "2018年",
-          "featured": false
+          "date": "2018年"
         },
         {
           "name": "大学英語テスト4級",
           "description": "中国の大学生向け全国英語能力試験",
-          "date": "2018年",
-          "featured": false
+          "date": "2018年"
+        },
+        {
+          "name": "CATTI国際版 翻訳",
+          "description": "中日翻訳認定証 - 国際通用翻訳能力等級試験（CATTI国際版）",
+          "date": "2025年"
+        },
+        {
+          "name": "CATTI国際版 通訳",
+          "description": "中日通訳認定証 - 国際通用通訳能力等級試験（CATTI国際版）",
+          "date": "2025年"
         }
       ]
     }
