@@ -38,6 +38,8 @@
       "Full-Stack Developer"
     ],
     "connect": "Let's Connect",
+    "schedule_meeting": "Schedule Meeting",
+    "meeting_description": "1-hour online meeting",
     "discover": "Discover More",
     "email_subject": "Inquiry from Portfolio Site",
     "email_body": "Please include the following information:\n\n---\nName:\nMessage:\n---",

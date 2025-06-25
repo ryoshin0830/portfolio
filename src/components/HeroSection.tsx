@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Mail } from "lucide-react";
+import { Mail, Calendar } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";
 import { SiQiita, SiX, SiXiaohongshu } from "react-icons/si";
 import Image from "next/image";
@@ -236,14 +236,70 @@ const HeroSection = () => {
 
           {/* Contact Section */}
           <div className="mb-12 px-4">
-            {/* Primary Email CTA */}
-            <button
-              onClick={handleEmailClick}
-              className="inline-flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 mb-6 text-sm sm:text-base"
-            >
-              <Mail size={18} className="sm:w-6 sm:h-6" />
-              <span>{t("connect")}</span>
-            </button>
+            {/* Primary CTAs */}
+            <div className="flex flex-col items-center justify-center mb-6">
+              {/* Mobile: Elegant vertical layout */}
+              <div className="flex sm:hidden flex-col items-center gap-4 w-full max-w-xs">
+                <button
+                  onClick={handleEmailClick}
+                  className="group relative w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  <Mail size={18} className="relative z-10" />
+                  <span className="relative z-10">{t("connect")}</span>
+                </button>
+                
+                <div className="group relative w-full">
+                  <a
+                    href="https://calendar.notion.so/meet/liangzhen84i/60min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-teal-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                    <Calendar size={18} className="relative z-10" />
+                    <span className="relative z-10">{t("schedule_meeting")}</span>
+                  </a>
+                  
+                  {/* Mobile Tooltip */}
+                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
+                    {t("meeting_description")}
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-slate-800 dark:border-t-slate-700"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Desktop: Horizontal layout */}
+              <div className="hidden sm:flex items-center justify-center gap-4">
+                <button
+                  onClick={handleEmailClick}
+                  className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  <Mail size={20} className="relative z-10" />
+                  <span className="relative z-10">{t("connect")}</span>
+                </button>
+                
+                <div className="group relative">
+                  <a
+                    href="https://calendar.notion.so/meet/liangzhen84i/60min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-teal-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                    <Calendar size={20} className="relative z-10" />
+                    <span className="relative z-10">{t("schedule_meeting")}</span>
+                  </a>
+                  
+                  {/* Desktop Tooltip */}
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
+                    {t("meeting_description")}
+                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-b-slate-800 dark:border-b-slate-700"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* Social Links - Responsive Layout */}
             <div className="flex flex-wrap justify-center items-start gap-3 sm:gap-6 max-w-6xl mx-auto">

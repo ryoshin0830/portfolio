@@ -38,6 +38,8 @@
       "全栈开发者"
     ],
     "connect": "联系我",
+    "schedule_meeting": "预约会议",
+    "meeting_description": "1小时在线会议",
     "discover": "查看更多",
     "email_subject": "来自作品集网站的咨询",
     "email_body": "请填写以下信息后发送：\n\n---\n姓名：\n内容：\n---",
