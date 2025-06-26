@@ -11,7 +11,7 @@
     "blog": "博客",
     "gallery": "画廊",
     "urlshortener": "URL短链",
-    "yopmail": "Yopmail",
+    "yopmail": "临时邮箱",
     "contact": "联系",
     "more": "更多",
     "scrollToNext": "下一节：",
@@ -588,8 +588,8 @@
     }
   },
   "yopmail": {
-    "badge": "邮箱工具",
-    "title": "Yopmail访问",
+    "badge": "隐私工具",
+    "title": "临时邮箱地址",
     "subtitle": "为ryosh.in域名生成无限制临时邮箱地址的即时访问",
     "form": {
       "usernameLabel": "邮箱用户名",

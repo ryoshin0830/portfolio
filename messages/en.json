@@ -11,7 +11,7 @@
     "blog": "Blog",
     "gallery": "Gallery",
     "urlshortener": "URL Shortener",
-    "yopmail": "Yopmail",
+    "yopmail": "Temp Email",
     "contact": "Contact",
     "more": "More",
     "scrollToNext": "Next Section:",
@@ -557,8 +557,8 @@
     }
   },
   "yopmail": {
-    "badge": "Email Tools",
-    "title": "Yopmail Access",
+    "badge": "Privacy Tools",
+    "title": "Temporary Email Address",
     "subtitle": "Generate instant access to unlimited disposable email addresses with ryosh.in domain",
     "form": {
       "usernameLabel": "Email Username",

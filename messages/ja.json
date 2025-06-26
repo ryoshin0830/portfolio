@@ -11,7 +11,7 @@
     "blog": "ブログ",
     "gallery": "ギャラリー",
     "urlshortener": "URL短縮",
-    "yopmail": "Yopmail",
+    "yopmail": "使い捨てメール",
     "contact": "お問い合わせ",
     "more": "その他",
     "scrollToNext": "次のセクション：",
@@ -557,8 +557,8 @@
     }
   },
   "yopmail": {
-    "badge": "メールツール",
-    "title": "Yopmailアクセス",
+    "badge": "プライバシーツール",
+    "title": "使い捨てメールアドレス",
     "subtitle": "ryosh.inドメインで無制限の使い捨てメールアドレスへの即座アクセスを生成",
     "form": {
       "usernameLabel": "メールユーザー名",
