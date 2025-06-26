@@ -11,6 +11,7 @@
     "blog": "ブログ",
     "gallery": "ギャラリー",
     "urlshortener": "URL短縮",
+    "yopmail": "Yopmail",
     "contact": "お問い合わせ",
     "more": "その他",
     "scrollToNext": "次のセクション：",
@@ -553,6 +554,41 @@
     "footer": {
       "info": "link.ryosh.in API提供",
       "madeWith": "作成"
+    }
+  },
+  "yopmail": {
+    "badge": "メールツール",
+    "title": "Yopmailアクセス",
+    "subtitle": "ryosh.inドメインで無制限の使い捨てメールアドレスへの即座アクセスを生成",
+    "form": {
+      "usernameLabel": "メールユーザー名",
+      "usernamePlaceholder": "user",
+      "usernameHint": "小文字、数字、ドット、ハイフン、アンダースコアのみ使用可能",
+      "createShortUrl": "アクセスリンク作成",
+      "generating": "生成中..."
+    },
+    "result": {
+      "title": "メールアクセス作成完了！",
+      "emailAddress": "メールアドレス",
+      "shortUrl": "アクセスURL",
+      "copy": "クリップボードにコピー",
+      "open": "メールボックスを開く",
+      "copied": "クリップボードにコピーしました！"
+    },
+    "info": {
+      "title": "仕組みについて",
+      "unlimited": "ryosh.inドメインで無制限のメールアドレス",
+      "noPassword": "パスワード不要 - 即座にアクセス",
+      "retention": "メッセージは8日間保存",
+      "forwarding": "ryosh.inからYopmailへの自動転送"
+    },
+    "error": {
+      "failed": "アクセスリンクの作成に失敗しました",
+      "unknown": "不明なエラーが発生しました"
+    },
+    "footer": {
+      "info": "テストとプライバシーのための無制限使い捨てメールアドレス",
+      "madeWith": "❤️で作成"
     }
   }
 }

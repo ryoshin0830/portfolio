@@ -11,6 +11,7 @@
     "blog": "Blog",
     "gallery": "Gallery",
     "urlshortener": "URL Shortener",
+    "yopmail": "Yopmail",
     "contact": "Contact",
     "more": "More",
     "scrollToNext": "Next Section:",
@@ -552,6 +553,41 @@
     },
     "footer": {
       "info": "Powered by link.ryosh.in API",
+      "madeWith": "Made with"
+    }
+  },
+  "yopmail": {
+    "badge": "Email Tools",
+    "title": "Yopmail Access",
+    "subtitle": "Generate instant access to unlimited disposable email addresses with ryosh.in domain",
+    "form": {
+      "usernameLabel": "Email Username",
+      "usernamePlaceholder": "user",
+      "usernameHint": "Only lowercase letters, numbers, dots, hyphens, and underscores are allowed",
+      "createShortUrl": "Create Access Link",
+      "generating": "Generating..."
+    },
+    "result": {
+      "title": "Email Access Created!",
+      "emailAddress": "Email Address",
+      "shortUrl": "Access URL",
+      "copy": "Copy to clipboard",
+      "open": "Open mailbox",
+      "copied": "Copied to clipboard!"
+    },
+    "info": {
+      "title": "How it works",
+      "unlimited": "Unlimited email addresses with ryosh.in domain",
+      "noPassword": "No password required - instant access",
+      "retention": "Messages are kept for 8 days",
+      "forwarding": "Automatic forwarding from ryosh.in to Yopmail"
+    },
+    "error": {
+      "failed": "Failed to create access link",
+      "unknown": "An unknown error occurred"
+    },
+    "footer": {
+      "info": "Unlimited disposable email addresses for testing and privacy",
       "madeWith": "Made with"
     }
   }

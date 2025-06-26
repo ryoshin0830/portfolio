@@ -11,6 +11,7 @@
     "blog": "博客",
     "gallery": "画廊",
     "urlshortener": "URL短链",
+    "yopmail": "Yopmail",
     "contact": "联系",
     "more": "更多",
     "scrollToNext": "下一节：",
@@ -584,6 +585,41 @@
     "footer": {
       "info": "由 link.ryosh.in API 提供支持",
       "madeWith": "用爱制作"
+    }
+  },
+  "yopmail": {
+    "badge": "邮箱工具",
+    "title": "Yopmail访问",
+    "subtitle": "为ryosh.in域名生成无限制临时邮箱地址的即时访问",
+    "form": {
+      "usernameLabel": "邮箱用户名",
+      "usernamePlaceholder": "user",
+      "usernameHint": "只允许小写字母、数字、点号、连字符和下划线",
+      "createShortUrl": "创建访问链接",
+      "generating": "生成中..."
+    },
+    "result": {
+      "title": "邮箱访问创建成功！",
+      "emailAddress": "邮箱地址",
+      "shortUrl": "访问URL",
+      "copy": "复制到剪贴板",
+      "open": "打开邮箱",
+      "copied": "已复制到剪贴板！"
+    },
+    "info": {
+      "title": "工作原理",
+      "unlimited": "ryosh.in域名下的无限邮箱地址",
+      "noPassword": "无需密码 - 即时访问",
+      "retention": "邮件保存8天",
+      "forwarding": "从ryosh.in自动转发到Yopmail"
+    },
+    "error": {
+      "failed": "访问链接创建失败",
+      "unknown": "发生未知错误"
+    },
+    "footer": {
+      "info": "用于测试和隐私保护的无限制临时邮箱地址",
+      "madeWith": "用心制作"
     }
   }
 }

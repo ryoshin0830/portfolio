@@ -7,6 +7,7 @@ import ZennFeed from "@/components/ZennFeed";
 import TeachingSection from "@/components/TeachingSection";
 import GallerySection from "@/components/GallerySection";
 import URLShortenerSection from "@/components/URLShortenerSection";
+import YopmailAccessSection from "@/components/YopmailAccessSection";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <TeachingSection />
       <GallerySection />
       <URLShortenerSection />
+      <YopmailAccessSection />
     </main>
   );
 }
