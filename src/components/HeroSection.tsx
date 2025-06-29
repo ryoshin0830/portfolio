@@ -12,6 +12,7 @@ const HeroSection = () => {
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [showWeChatQR, setShowWeChatQR] = useState(false);
   const [showWhatsAppQR, setShowWhatsAppQR] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
   const tCommon = useTranslations("common");
@@ -172,6 +173,9 @@ const HeroSection = () => {
         setShowWeChatQR(false);
         setShowWhatsAppQR(false);
       }
+      if (!target.closest('.schedule-modal') && !target.closest('.schedule-button')) {
+        setShowScheduleModal(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -250,16 +254,14 @@ const HeroSection = () => {
                 </button>
                 
                 <div className="group relative w-full">
-                  <a
-                    href="https://calendar.notion.so/meet/liangzhen84i/60min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
+                  <button
+                    onClick={() => setShowScheduleModal(true)}
+                    className="schedule-button group relative w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-teal-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                     <Calendar size={18} className="relative z-10" />
                     <span className="relative z-10">{t("schedule_meeting")}</span>
-                  </a>
+                  </button>
                   
                   {/* Mobile Tooltip */}
                   <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-1 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
@@ -281,16 +283,14 @@ const HeroSection = () => {
                 </button>
                 
                 <div className="group relative">
-                  <a
-                    href="https://calendar.notion.so/meet/liangzhen84i/60min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
+                  <button
+                    onClick={() => setShowScheduleModal(true)}
+                    className="schedule-button group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-teal-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                     <Calendar size={20} className="relative z-10" />
                     <span className="relative z-10">{t("schedule_meeting")}</span>
-                  </a>
+                  </button>
                   
                   {/* Desktop Tooltip */}
                   <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-3 py-1 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-20">
@@ -470,6 +470,109 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Schedule Modal */}
+      {showScheduleModal && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            onClick={() => setShowScheduleModal(false)}
+          />
+          {/* Modal */}
+          <div className="schedule-modal fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 sm:p-8 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl z-50 w-full max-w-lg mx-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-200 mb-6 text-center">
+              {t("schedule_options_title")}
+            </h3>
+            
+            <div className="space-y-4">
+              {/* Online Meeting Option */}
+              <a
+                href="https://calendar.notion.so/meet/liangzhen84i/60min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-6 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-950/50 transition-all duration-200 group"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-600 rounded-lg group-hover:bg-blue-700 transition-colors">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                      {t("online_meeting_title")}
+                    </h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                      {t("online_meeting_description")}
+                    </p>
+                    <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {t("duration_1hour")}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                        </svg>
+                        {t("online_format")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+
+              {/* Offline Event Option */}
+              <a
+                href="https://calendar.notion.so/meet/liangzhen84i/6h"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block p-6 bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 rounded-xl hover:bg-purple-100 dark:hover:bg-purple-950/50 transition-all duration-200 group"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-purple-600 rounded-lg group-hover:bg-purple-700 transition-colors">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-1">
+                      {t("offline_event_title")}
+                    </h4>
+                    <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                      {t("offline_event_description")}
+                    </p>
+                    <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {t("duration_6hours")}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        {t("offline_format")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            
+            <button
+              onClick={() => setShowScheduleModal(false)}
+              className="mt-6 w-full px-6 py-3 bg-slate-100 dark:bg-slate-700 rounded-xl text-slate-700 dark:text-slate-300 font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
+            >
+              {tCommon('close')}
+            </button>
+          </div>
+        </>
+      )}
     </section>
   );
 };
