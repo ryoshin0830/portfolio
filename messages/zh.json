@@ -9,13 +9,13 @@
     "skills": "技能",
     "projects": "项目",
     "blog": "博客",
-    "gallery": "画廊",
+    "gallery": "相册",
     "urlshortener": "URL短链",
     "yopmail": "临时邮箱",
     "contact": "联系",
     "more": "更多",
-    "scrollToNext": "下一节：",
-    "scrollToPrevious": "上一节：",
+    "scrollToNext": "下一部分：",
+    "scrollToPrevious": "上一部分：",
     "navigating": "正在跳转..."
   },
   "languages": {
@@ -30,21 +30,21 @@
   },
   "hero": {
     "title": "梁震",
-    "subtitle": "创造跨越语言障碍、连接人与人的技术",
-    "description": "京都大学博士生・EastLinker株式会社代表取締役",
+    "subtitle": "用技术打破语言壁垒，让世界更加紧密相连",
+    "description": "京都大学博士生 · EastLinker株式会社创始人兼CEO",
     "roles": [
-      "研究员",
+      "研究者",
       "工程师",
       "日语教师",
       "全栈开发者"
     ],
-    "connect": "联系我",
+    "connect": "邮件咨询",
     "schedule_meeting": "预约时间",
     "meeting_description": "选择适合您的沟通方式",
     "discover": "查看更多",
-    "email_subject": "来自作品集网站的咨询",
+    "email_subject": "来自个人网站的咨询",
     "email_body": "请填写以下信息后发送：\n\n---\n姓名：\n内容：\n---",
-    "origin": "出生地",
+    "origin": "故乡",
     "beijing": "北京",
     "current": "现居",
     "kyoto": "京都",
@@ -60,94 +60,94 @@
   },
   "about": {
     "title": "关于我",
-    "subtitle": "外语教育学与AI技术的融合",
+    "subtitle": "将AI技术与外语教育完美结合",
     "education": "教育",
-    "experience": "经验",
+    "experience": "工作经历",
     "teaching": "教学",
-    "specialization": "专业领域",
-    "timeline": "人生时间线",
-    "currentStatus": "现状",
-    "kyotoUniversity": "京都大学人间・环境学研究科 共生・人间学专攻 语言科学讲座 博士课程",
+    "specialization": "专长领域",
+    "timeline": "人生轨迹",
+    "currentStatus": "现任",
+    "kyotoUniversity": "京都大学 人间·环境学研究科 博士课程 （语言科学方向）",
     "eastLinker": "EastLinker株式会社 代表取締役",
-    "eastLinkerDescription": "2023年创立 - AI、系统开发、EdTech",
-    "japaneseTeacher": "新东方日语教师（7年，5000小时以上教学经验）",
+    "eastLinkerDescription": "2023年创立 — 专注AI、系统开发及EdTech领域",
+    "japaneseTeacher": "新东方金牌日语讲师（7年教龄，授课超过5000小时）",
     "fields": [
       "外语教育学・第二语言习得论・应用语言学",
-      "大规模语言模型（LLM）的微调・构建",
-      "使用机器学习的词汇难度预测・语言评估",
+      "大语言模型（LLM）微调与构建",
+      "基于机器学习的词汇难度预测与语言评估",
       "教育语法及学术用途英语教育"
     ],
     "timelineEvents": [
       {
         "year": "1997",
         "title": "出生",
-        "description": "在北京出生",
+        "description": "在北京呼吸第一口空气",
         "icon": "birth"
       },
       {
         "year": "1999",
         "title": "移居日本",
-        "description": "与家人一起移居横滨。开始在日本的幼儿园和小学生活",
+        "description": "随家人移居横滨，开始在日本的求学之路",
         "icon": "plane"
       },
       {
         "year": "2009",
         "title": "回到中国",
-        "description": "回到北京，进入中学",
+        "description": "回到故乡北京，继续中学学业",
         "icon": "plane"
       },
       {
         "year": "2010",
         "title": "取得日本永住权",
-        "description": "取得日本永住许可",
+        "description": "获得日本永住资格",
         "icon": "home"
       },
       {
         "year": "2016",
         "title": "大学入学",
-        "description": "进入首都经济贸易大学信息系统学部",
+        "description": "考入首都经济贸易大学信息系统学院",
         "icon": "university"
       },
       {
         "year": "2021",
         "title": "再次来日",
-        "description": "移居京都",
+        "description": "再次踏上日本土地，在京都开启新篇章",
         "icon": "plane"
       },
       {
         "year": "2021",
         "title": "硕士课程入学",
-        "description": "进入京都大学人间・环境学研究科硕士课程。专攻外语教育学、第二语言习得论、应用语言学",
+        "description": "考入京都大学硕士课程，潜心钻研外语教育学及应用语言学",
         "icon": "university"
       },
       {
         "year": "2023",
         "title": "创业",
-        "description": "创立EastLinker株式会社",
+        "description": "创立EastLinker株式会社，开启创业之路",
         "icon": "rocket"
       },
       {
         "year": "2023",
         "title": "博士课程入学",
-        "description": "硕士课程毕业后，进入博士课程。博士论文主题：「外语教育中LLM的应用」",
+        "description": "硕士毕业后继续攻读博士学位，研究方向：大语言模型在外语教育中的应用",
         "icon": "university"
       }
     ]
   },
   "research": {
     "title": "研究活动",
-    "subtitle": "语言教育中AI技术的创新",
-    "projects": "主要项目",
-    "publications": "论文・发表",
-    "peerReviewedPapers": "同行评议论文",
-    "conferencePresentations": "会议发表",
-    "academicResearch": "学术研究",
+    "subtitle": "AI技术驱动语言教育革新",
+    "projects": "研究项目",
+    "publications": "学术成果",
+    "peerReviewedPapers": "核心期刊论文",
+    "conferencePresentations": "学术会议报告",
+    "academicResearch": "研究成果",
     "doi": "DOI →",
     "peerReviewedList": [
       {
         "authors": "彭悦, 梁震, 笹尾洋介",
         "year": "2023",
-        "title": "日中双语者日语词汇量测试语音版的开发与验证",
+        "title": "针对中日双语者的日语词汇量语音测试系统开发与验证",
         "journal": "日语教育",
         "volume": "185",
         "pages": "93–108"
@@ -155,7 +155,7 @@
       {
         "authors": "Vincent, N. H., Liang, Z., & Sasao, Y.",
         "year": "2023",
-        "title": "VR中的运动与记忆：VR控制方法对外语正字法记忆的影响",
+        "title": "VR环境中的运动与记忆：交互方式对外语正字法学习的影响",
         "journal": "International Journal on Cybernetics & Informatics (IJCI)",
         "volume": "12(1)",
         "pages": "151–164"
@@ -163,7 +163,7 @@
       {
         "authors": "彭悦, 梁震, 笹尾洋介",
         "year": "2022",
-        "title": "日语学习中影像作品字幕使用——从语言选择的视角",
+        "title": "日语学习者观看影视作品时的字幕语言选择策略研究",
         "journal": "语言文化教育研究",
         "volume": "20",
         "pages": "335–356"
@@ -173,32 +173,32 @@
       {
         "authors": "中野珠悠・梁震・笹尾洋介",
         "year": "2024",
-        "title": "基于英语检定教科书语料库的高频搭配分析",
+        "title": "英语教科书语料库中高频词汇搭配模式分析",
         "conference": "全国英语教育学会 JASELE 第49届福冈研究大会"
       },
       {
         "authors": "梁震・笹尾洋介",
         "year": "2024",
-        "title": "通用语言模型能否预测基于日语学习者数据的词汇难度",
+        "title": "大语言模型在日语词汇难度预测中的应用：基于学习者数据的验证",
         "conference": "语言处理学会2024"
       },
       {
         "authors": "彭悦・梁震・笹尾洋介",
         "year": "2022",
-        "title": "日中双语者日语词汇量测试语音版的开发与验证",
+        "title": "针对中日双语者的日语词汇量语音测试系统开发与验证",
         "conference": "日语教育学会秋季大会论文集"
       },
       {
         "authors": "梁震・笹尾洋介",
         "year": "2022",
-        "title": "日语词汇问题选项自动生成程序的开发与验证",
+        "title": "日语词汇测试题目自动生成系统的开发与实证研究",
         "conference": "日语教育学会春季大会论文集"
       }
     ]
   },
   "skills": {
-    "title": "技能・技术",
-    "subtitle": "从全栈开发到机器学习",
+    "title": "技能与技术",
+    "subtitle": "全栈开发 + 机器学习",
     "programming": "编程语言",
     "frontend": "前端",
     "backend": "后端",
@@ -208,310 +208,310 @@
     "cloud": "云计算",
     "ai": "AI・机器学习",
     "languages": "语言能力",
-    "jobTitle": "博士生・研究",
-    "ceoFounder": "CEO・创始人",
-    "yearsExperience": "{years}年以上经验",
+    "jobTitle": "博士研究生",
+    "ceoFounder": "创始人兼CEO",
+    "yearsExperience": "{years}年+经验",
     "mainFeatures": "主要功能",
-    "techStack": "技术栈",
+    "techStack": "技术架构",
     "proficiency": "熟练度",
-    "technicalExpertise": "技术专长",
+    "technicalExpertise": "技能专长",
     "languageProficiency": {
       "japanese": "日语",
-      "japaneseLevel": "JLPT N1 满分・母语水平",
+      "japaneseLevel": "JLPT N1满分 · 母语级别",
       "chinese": "中文",
-      "chineseLevel": "母语（北京）",
+      "chineseLevel": "母语（北京人）",
       "english": "英语",
-      "englishLevel": "CET Level 4・学术写作"
+      "englishLevel": "CET-4 · 学术论文写作"
     },
     "certifications": {
       "title": "资格证书",
       "subtitle": "专业资格与成就",
       "list": [
         {
-          "name": "JLPT N1（满分）",
-          "description": "日本语能力测试 - 最高级别满分通过",
+          "name": "JLPT N1满分",
+          "description": "日语能力测试最高级别180分满分通过",
           "date": "2020年"
         },
         {
-          "name": "ICT能力测试",
-          "description": "信息通信技术认证",
+          "name": "ICT专业认证",
+          "description": "信息通信技术专业资格",
           "date": "2019年"
         },
         {
           "name": "日本驾照",
-          "description": "日本颁发的全种类驾驶执照",
+          "description": "日本全车型驾驶执照",
           "date": "2022年"
         },
         {
           "name": "中国驾照",
-          "description": "中国颁发的全种类驾驶执照",
+          "description": "中国C1型驾驶执照",
           "date": "2018年"
         },
         {
-          "name": "大学英语四级",
-          "description": "中国大学生全国英语能力测试",
+          "name": "CET-4",
+          "description": "全国大学英语四级考试合格",
           "date": "2018年"
         },
         {
-          "name": "CATTI国际版 笔译",
-          "description": "中日笔译资格证书 - 国际通用翻译能力等级考试（CATTI国际版）",
+          "name": "CATTI国际版笔译",
+          "description": "中日笔译专业资格（国际通用）",
           "date": "2025年"
         },
         {
-          "name": "CATTI国际版 口译",
-          "description": "中日口译资格证书 - 国际通用口译能力等级考试（CATTI国际版）",
+          "name": "CATTI国际版口译",
+          "description": "中日口译专业资格（国际通用）",
           "date": "2025年"
         }
       ]
     }
   },
   "projects": {
-    "title": "项目成果",
-    "subtitle": "实用应用程序开发",
+    "title": "项目作品",
+    "subtitle": "我开发的实用应用",
     "projectsList": [
       {
         "title": "速读大猩猩",
-        "description": "为日语学习者设计的互动式速读练习系统",
+        "description": "专为日语学习者打造的互动式速读训练平台",
         "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
         "features": [
-          "从初级到高级的分级内容",
-          "实时测量阅读速度（WPM）和理解度",
-          "以测验形式进行互动学习",
-          "学习进度可视化和跟踪"
+          "从初级到高级全阶段覆盖",
+          "实时监测阅读速度(WPM)和理解率",
+          "游戏化测验提升学习乐趣",
+          "个人学习数据可视化追踪"
         ]
       },
       {
         "title": "日雨日语",
-        "description": "提供高效日语词汇学习和听力练习的移动应用",
+        "description": "高效提升日语词汇和听力的移动应用",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
         "features": [
-          "React Native和Swift跨平台支持",
+          "React Native+Swift双平台兼容",
           "MongoDB灵活数据建模",
-          "AliCloud无服务器处理"
+          "阿里云函数计算节省成本"
         ]
       },
       {
         "title": "词汇分析器「松叶」",
-        "description": "文本分析工具，判定单词难度并可视化词汇水平",
+        "description": "智能文本分析平台，精准判定词汇难度并可视化呈现",
         "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
         "features": [
-          "Next.js全栈开发",
-          "AWS Lambda上的MeCab形态素分析",
-          "TypeScript稳健代码设计"
+          "Next.js全栈技本架构",
+          "AWS Lambda云端部署MeCab分词引擎",
+          "TypeScript类型安全保障"
         ]
       },
       {
         "title": "LandS英语学习应用",
-        "description": "专注于听力和口语技能的英语学习应用程序",
+        "description": "主攻听力及口语技能的英语学习应用",
         "technologies": ["Google Cloud Platform", "Swift", "Nginx", "MariaDB"],
         "features": [
-          "基于Google Cloud的稳健基础设施",
-          "Swift原生体验实现",
-          "Nginx高速响应"
+          "Google Cloud云基础设施稳定保障",
+          "Swift原生开发优质体验",
+          "Nginx反向代理高性能"
         ]
       },
       {
         "title": "LLM分析与微调研究",
-        "description": "专门针对外语教育的LLM分析与定制研究项目",
+        "description": "面向外语教育领域的大语言模型研究与定制化开发",
         "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
         "features": [
-          "TensorFlow大规模语言模型分析",
-          "外语教育LLM定制",
-          "Transformers库应用"
+          "TensorFlow深度学习模型分析",
+          "教育场景专用LLM调优",
+          "Transformers框架应用实践"
         ]
       },
       {
         "title": "LLM词汇难度推定系统",
-        "description": "通过让大规模语言模型学习已知难度数据，开发预测新词汇难度的系统。与国立国语研究所的共同研究项目。",
+        "description": "训练大语言模型学习现有词汇难度规律，构建新词难度预测智能系统。与日本国立国语研究所合作项目。",
         "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
         "features": [
-          "基于BERT模型的词汇难度自动预测",
-          "利用多样语言特征的机器学习模型",
-          "与国立国语研究所的产学合作研究",
-          "使用日语学习者语料库进行评估"
+          "BERT模型驱动的词汇难度自动判定",
+          "融合多维语言特征的机器学习模型",
+          "日本国立国语研究所产学研合作",
+          "日语学习者语料库实证验证"
         ]
       },
       {
         "title": "教育特化LLM构建项目",
-        "description": "开发教育特化的独自大规模语言模型。研究规避既有LLM制约的新架构用于外语教育。",
+        "description": "从零构建教育专用大语言模型，突破通用LLM在外语教育中的限制，实现更精准的教育应用。",
         "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
         "features": [
-          "面向教育领域的定制模型架构设计",
-          "多语言教育内容生成",
-          "学习者级别适应性文本生成",
-          "新型评价指标开发与验证"
+          "教育场景专属模型架构设计",
+          "多语种教育内容智能生成",
+          "适应学习者能力的文本生成",
+          "教育效果评估新指标开发验证"
         ]
       },
       {
         "title": "词汇题目自动生成系统",
-        "description": "利用Word2Vec词向量和潜在狄利克雷分配（LDA）的日语教育词汇题目自动生成系统。通过分布式语义表示和主题建模实现高精度错误选项生成。",
+        "description": "融合Word2Vec词向量技术和LDA主题建模，构建日语词汇题目自动生成平台。基于语义相似性分析，实现高质量干扰选项智能生成。",
         "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
         "features": [
-          "基于Word2Vec分布式表示的语义相似词提取",
-          "通过LDA主题建模生成上下文错误选项",
-          "利用MeCab形态素分析进行词汇难度估计",
-          "机器学习驱动的选项质量自动评估"
+          "Word2Vec词向量模型语义相似度计算",
+          "LDA主题模型生成上下文匹配干扰项",
+          "MeCab形态分析实现词汇难度等级判定",
+          "机器学习驱动的选项质量智能评估"
         ]
       }
     ],
     "leadership": {
       "title": "技术领导力",
-      "description": "作为EastLinker株式会社创始人，主导敏捷开发方法论实施、CI/CD流水线架构、微服务架构设计、DevOps文化建设。从产品管理到技术架构全方位统筹管理。",
+      "description": "作为EastLinker创始人兼CEO，全面负责公司技术方向、团队管理及产品规划。主导实施敏捷开发、CI/CD自动化部署、微服务架构设计及DevOps文化建设。",
       "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
     },
     "mainFeatures": "主要功能",
     "techStack": "技术栈"
   },
   "gallery": {
-    "title": "照片画廊",
-    "subtitle": "研究・商务・日常生活",
-    "research": "研究活动",
-    "business": "商务",
-    "daily": "日常",
-    "outdoor": "户外活动",
-    "photoGallery": "照片画廊",
-    "categoryFilter": "分类筛选",
+    "title": "生活相册",
+    "subtitle": "研究 · 工作 · 生活的美好片段",
+    "research": "学术研究",
+    "business": "工作日常",
+    "daily": "生活日常",
+    "outdoor": "户外运动",
+    "photoGallery": "相册画廊",
+    "categoryFilter": "类别筛选",
     "all": "全部",
     "descriptions": {
-      "research": "京都大学的研究活动",
-      "business": "EastLinker株式会社的商务活动",
-      "daily": "日常生活的一瞬间",
-      "outdoor": "户外活动和滑雪"
+      "research": "在京大的学术研究时光",
+      "business": "EastLinker创业途中的工作瞬间",
+      "daily": "日常生活中的美好时刻",
+      "outdoor": "户外运动和滑雪体验"
     }
   },
   "contact": {
     "title": "联系方式",
-    "subtitle": "欢迎随时联系",
-    "email": "邮箱",
-    "social": "社交・外部链接"
+    "subtitle": "期待与您的交流合作",
+    "email": "邮件联系",
+    "social": "社交媒体"
   },
   "footer": {
-    "copyright": "© 2024 梁震. 保留所有权利。",
-    "builtWith": "使用Next.js、TypeScript、Tailwind CSS构建"
+    "copyright": "© 2024 梁震 · 版权所有",
+    "builtWith": "基于Next.js + TypeScript + Tailwind CSS构建"
   },
   "publications": {
     "title": "论文发表",
-    "viewPaper": "查看论文",
-    "totalPublications": "共 {count} 篇发表"
+    "viewPaper": "阅读全文",
+    "totalPublications": "共发表 {count} 篇论文"
   },
   "scroll": {
-    "navigating": "正在跳转到{section}...",
-    "pullUp": "上拉跳转到{section}",
-    "pullDown": "下拉跳转到{section}",
-    "release": "松开跳转"
+    "navigating": "正在跳转至 {section}...",
+    "pullUp": "上滑跳转至 {section}",
+    "pullDown": "下滑跳转至 {section}",
+    "release": "释放跳转"
   },
   "certifications": {
     "title": "资格证书",
     "subtitle": "专业资格与成就",
     "featured": "特色",
-    "continuousLearning": "致力于持续学习和专业发展",
+    "continuousLearning": "持续学习，不断提升专业能力",
     "jlptN1": {
-      "title": "JLPT N1（满分）",
-      "description": "日本语能力测试 - 最高级别满分通过",
+      "title": "JLPT N1满分",
+      "description": "日语能力测试最高级别180分满分通过",
       "date": "2020年"
     },
     "ict": {
-      "title": "ICT能力测试",
-      "description": "信息通信技术认证",
+      "title": "ICT专业认证",
+      "description": "信息通信技术专业资格",
       "date": "2019年"
     },
     "japaneseDrivers": {
       "title": "日本驾照",
-      "description": "日本颁发的全种类驾驶执照",
+      "description": "日本全车型驾驶执照",
       "date": "2022年"
     },
     "chineseDrivers": {
       "title": "中国驾照",
-      "description": "中国颁发的全种类驾驶执照",
+      "description": "中国C1型驾驶执照",
       "date": "2018年"
     },
     "cet4": {
-      "title": "大学英语四级",
-      "description": "中国大学生全国英语能力测试",
+      "title": "CET-4",
+      "description": "全国大学英语四级考试合格",
       "date": "2018年"
     }
   },
   "zennFeed": {
-    "title": "Zenn文章",
-    "subtitle": "技术博客分享",
-    "loading": "正在加载文章...",
-    "featured": "最新文章",
-    "readMore": "阅读更多",
-    "viewAllArticles": "在Zenn查看所有文章"
+    "title": "Zenn博客",
+    "subtitle": "技术博客及经验分享",
+    "loading": "正在加载...",
+    "featured": "精选文章",
+    "readMore": "查看全文",
+    "viewAllArticles": "前往Zenn查看所有文章"
   },
   "teaching": {
     "title": "教学经验",
-    "subtitle": "日语教育",
-    "perfectScore": "满分",
-    "perfectScoreDescription": "日语能力最高成就",
-    "yearsExperience": "年教学经验",
-    "teachingHours": "小时授课",
-    "studentsTotal": "名学生",
-    "passRate": "JLPT通过率",
-    "experienceTitle": "专业教学背景",
+    "subtitle": "七年日语教学经验，专业值得信赖",
+    "perfectScore": "N1满分",
+    "perfectScoreDescription": "日语能力达到顶峰",
+    "yearsExperience": "年教龄",
+    "teachingHours": "课时",
+    "studentsTotal": "+学员",
+    "passRate": "考试通过率",
+    "experienceTitle": "教学经历与成就",
     "newOriental": "新东方教育科技集团",
-    "experienceDescription": "作为新东方的资深日语讲师，我为从初学者到准备JLPT N1的高级学习者等各个级别的学生开发并提供了全面的日语课程。",
-    "achievements": "主要成就",
-    "achievement1": "开发原创教学材料和方法",
-    "achievement2": "保持95%的学生JLPT通过率",
-    "achievement3": "多次获得优秀讲师称号",
-    "specialties": "教学专长",
-    "specialty1": "JLPT N1-N5全级别考试准备",
-    "specialty2": "专业人士商务日语",
-    "specialty3": "会话流利度提升",
-    "coursesOffered": "课程设置",
+    "experienceDescription": "在新东方担任金牌日语讲师期间，为不同级别的学员设计并授课全方位日语课程，从零基础入门到JLPT N1高级备考，数千学员在我的指导下成功掌握日语。",
+    "achievements": "教学成果",
+    "achievement1": "原创教学体系及高效学习法",
+    "achievement2": "学员JLPT通过率高达95%",
+    "achievement3": "连续获得“优秀讲师”荣誉称号",
+    "specialties": "擅长领域",
+    "specialty1": "JLPT N1-N5全级别考试辅导",
+    "specialty2": "职场商务日语实战技能",
+    "specialty3": "口语交流能力快速提升",
+    "coursesOffered": "主讲课程",
     "courses": {
       "basic": {
-        "title": "基础日语课程",
-        "description": "为初学者设计的日语入门课程",
+        "title": "日语入门基础班",
+        "description": "专为零基础学员打造的日语入门课程",
         "features": [
-          "平假名和片假名掌握",
-          "基本语法句型",
-          "日常会话技能",
-          "文化理解"
+          "五十音图全面掌握（平片假名）",
+          "实用基础语法系统学习",
+          "日常交流对话实践",
+          "日本文化背景了解"
         ]
       },
       "jlpt": {
-        "title": "JLPT考试准备",
-        "description": "全级别JLPT考试综合准备课程",
+        "title": "JLPT考级冲刺班",
+        "description": "N1-N5全级别精准备考，高效通关考级",
         "features": [
-          "目标词汇量构建",
-          "语法句型掌握",
-          "阅读理解策略",
-          "听力技能提升"
+          "按级别精准词汇突破",
+          "核心语法规则精讲",
+          "阅读理解技巧训练",
+          "听力反应速度强化"
         ]
       },
       "business": {
-        "title": "商务日语",
-        "description": "职场沟通专业日语课程",
+        "title": "职场商务日语班",
+        "description": "面向职场精英的商务日语实战课程",
         "features": [
-          "商务礼仪和敬语",
-          "邮件和文件写作",
-          "会议和演示技巧",
-          "行业专业术语"
+          "商务礼仪及敬语精髓",
+          "商务邮件及文件写作",
+          "会议交流及报告演示",
+          "各行业专业词汇攻略"
         ]
       }
     },
-    "philosophyTitle": "教学理念",
-    "philosophyQuote": "语言学习不仅仅是记忆单词和语法，更是构建文化之间的桥梁，打开新机遇的大门。我的目标是让每一位学生的学习旅程既高效又愉快。"
+    "philosophyTitle": "教育初心",
+    "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。"
   },
   "metadata": {
-    "title": "梁震 | AI研究者・ML工程师・日语教师",
-    "description": "京都大学博士研究生，专注于人工智能在语言教育中的应用研究。开发基于机器学习的第二语言习得支持系统，推进日语教育方法论的技术革新。",
-    "keywords": "梁震, 京都大学, AI研究, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, 日语教育, 自然语言处理, NLP, EastLinker, 教育技术, EdTech, ML工程师",
+    "title": "梁震 | AI研究者 · 机器学习工程师 · 日语讲师",
+    "description": "京都大学博士研究生，EastLinker创始人兼CEO。专注AI技术在语言教育领域的创新应用，开发基于大语言模型的智能教育平台，推动日语学习方式的科技革新。",
+    "keywords": "梁震, 京都大学, AI研究, 语言教育, 第二语言习得, 大语言模型, LLM, 机器学习, 日语教育, 自然语言处理, NLP, EastLinker, 教育科技, EdTech, 全栈开发",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",
-    "siteName": "梁震作品集"
+    "siteName": "梁震个人网站"
   },
   "common": {
     "close": "关闭",
     "of": "的",
-    "viewMore": "查看更多",
+    "viewMore": "查看全部",
     "back": "返回",
-    "next": "下一步",
-    "previous": "上一步",
-    "loading": "加载中...",
+    "next": "下一页",
+    "previous": "上一页",
+    "loading": "正在加载...",
     "error": "错误",
     "retry": "重试",
     "cancel": "取消",
@@ -521,23 +521,23 @@
     "edit": "编辑",
     "submit": "提交",
     "search": "搜索",
-    "filter": "筛选",
-    "sort": "排序",
+    "filter": "过滤",
+    "sort": "排序方式",
     "all": "全部"
   },
   "badges": {
-    "aboutMe": "关于我",
-    "technicalExpertise": "技术专长",
-    "photoGallery": "照片画廊",
-    "academicResearch": "学术研究",
-    "featuredProjects": "精选项目"
+    "aboutMe": "个人简介",
+    "technicalExpertise": "技能专长",
+    "photoGallery": "相册画廊",
+    "academicResearch": "研究成果",
+    "featuredProjects": "项目作品"
   },
   "status": {
-    "completed": "完成",
-    "active": "运行中",
-    "ongoing": "进行中",
-    "planned": "计划中",
-    "undefined": "未定"
+    "completed": "已完成",
+    "active": "进行中",
+    "ongoing": "持续中",
+    "planned": "规划中",
+    "undefined": "待定"
   },
   "locations": {
     "china": "中国",
@@ -552,9 +552,9 @@
     "yearToPresent": "{year}-现在"
   },
   "heroCategories": {
-    "messaging": "通讯",
-    "professional": "开发",
-    "social": "社交"
+    "messaging": "即时沟通",
+    "professional": "技术开发",
+    "social": "社交平台"
   },
   "socialActions": {
     "wechatQR": "微信扫码添加",
@@ -569,66 +569,66 @@
     "shortName": "梁震"
   },
   "urlshortener": {
-    "title": "URL短链生成器",
-    "subtitle": "快速创建简短易记的链接",
-    "badge": "免费工具",
+    "title": "短链接生成器",
+    "subtitle": "将长链接转换为简洁易记的短链接",
+    "badge": "实用工具",
     "form": {
-      "urlLabel": "长链接",
-      "urlPlaceholder": "输入您的长链接（例：example.com）",
-      "customPathLabel": "自定义路径",
-      "customPathPlaceholder": "my-custom-link",
-      "optional": "（可选）",
-      "submit": "生成短链",
-      "generating": "生成中..."
+      "urlLabel": "长网址",
+      "urlPlaceholder": "请输入需要缩短的网址（如：example.com）",
+      "customPathLabel": "个性化路径",
+      "customPathPlaceholder": "我的自定义链接",
+      "optional": "（选填）",
+      "submit": "一键生成",
+      "generating": "正在生成..."
     },
     "result": {
-      "title": "您的短链：",
-      "copy": "复制到剪贴板",
-      "open": "在新标签页打开",
-      "copied": "已复制！"
+      "title": "生成成功！",
+      "copy": "一键复制",
+      "open": "新窗口打开",
+      "copied": "复制成功！"
     },
     "error": {
-      "failed": "短链生成失败",
-      "unknown": "发生未知错误"
+      "failed": "短链接生成失败",
+      "unknown": "操作失败，请重试"
     },
     "footer": {
-      "info": "由 link.ryosh.in API 提供支持",
-      "madeWith": "用爱制作"
+      "info": "由 link.ryosh.in 提供技术支持",
+      "madeWith": "用心打造"
     }
   },
   "yopmail": {
     "badge": "隐私工具",
     "title": "临时邮箱地址",
-    "subtitle": "为ryosh.in域名生成无限制临时邮箱地址的即时访问",
+    "subtitle": "基于ryosh.in域名的临时邮箱服务，无限量使用，即时访问",
     "form": {
-      "usernameLabel": "邮箱用户名",
-      "usernamePlaceholder": "user",
-      "usernameHint": "只允许小写字母、数字、点号、连字符和下划线",
-      "createShortUrl": "创建访问链接",
+      "usernameLabel": "邮箱前缀",
+      "usernamePlaceholder": "请输入邮箱前缀",
+      "usernameHint": "支持小写字母、数字、点号、连字符及下划线",
+      "createShortUrl": "生成访问链接",
       "generating": "生成中..."
     },
     "result": {
-      "title": "邮箱访问创建成功！",
+      "title": "邮箱创建成功！",
       "emailAddress": "邮箱地址",
-      "shortUrl": "访问URL",
-      "copy": "复制到剪贴板",
-      "open": "打开邮箱",
-      "copied": "已复制到剪贴板！"
+      "shortUrl": "快捷访问",
+      "copy": "一键复制",
+      "open": "立即访问",
+      "copied": "复制成功！"
     },
     "info": {
-      "title": "工作原理",
-      "unlimited": "ryosh.in域名下的无限邮箱地址",
-      "noPassword": "无需密码 - 即时访问",
-      "retention": "邮件保存8天",
-      "forwarding": "从ryosh.in自动转发到Yopmail"
+      "title": "功能特点",
+      "unlimited": "ryosh.in 域名下的无限邮箱地址",
+      "noPassword": "无需注册，无需密码，即时可用",
+      "retention": "邮件自动保存 8 天",
+      "forwarding": "自动转发至 Yopmail 服务"
     },
     "error": {
-      "failed": "访问链接创建失败",
-      "unknown": "发生未知错误"
+      "failed": "访问链接生成失败",
+      "unknown": "操作失败，请重试"
     },
     "footer": {
-      "info": "用于测试和隐私保护的无限制临时邮箱地址",
-      "madeWith": "用心制作"
+      "info": "为测试和隐私保护而生的临时邮箱服务",
+      "madeWith": "用心打造"
     }
   }
 }
