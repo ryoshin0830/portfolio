@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { GraduationCap, Users, Clock, Award, BookOpen, Target } from "lucide-react";
+import { GraduationCap, Users, Clock, Award, BookOpen, Target, Calendar } from "lucide-react";
 
 export default function TeachingSection() {
   const t = useTranslations("teaching");
@@ -244,6 +244,23 @@ export default function TeachingSection() {
             &ldquo;{t("philosophyQuote")}&rdquo;
           </p>
         </motion.div>
+
+        {/* Schedule Lessons Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          className="mt-12 text-center"
+        >
+          <a
+            href="/schedule-lesson?from=site"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+          >
+            <Calendar className="w-6 h-6" />
+            {t("scheduleLesson")}
+          </a>
+        </motion.div>
+
       </div>
     </section>
   );

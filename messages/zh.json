@@ -493,7 +493,22 @@
       }
     },
     "philosophyTitle": "教育初心",
-    "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。"
+    "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。",
+    "scheduleLesson": "约课",
+    "scheduleLessonTitle": "日语课程预约",
+    "scheduleLessonDescription": "选择合适的上课时长",
+    "lesson1Hour": "1小时课程",
+    "lesson1HourDescription": "适合初学者或单点突破，轻松高效",
+    "lesson2Hour": "2小时课程", 
+    "lesson2HourDescription": "内容更充实，系统性学习效果更佳",
+    "lessonEmergency": "2小时课程 (时间灵活)",
+    "lessonEmergencyDescription": "常规时间不合适时的特殊安排",
+    "emergency": "时间灵活",
+    "scheduleNow": "马上约",
+    "close": "关闭",
+    "back": "返回",
+    "noSuitableTime": "常规时间都不合适？",
+    "emergencyNotice": "注意：此为特殊时段预约，请优先考虑上面的常规课程时间。"
   },
   "metadata": {
     "title": "梁震 | AI研究者 · 机器学习工程师 · 日语讲师",

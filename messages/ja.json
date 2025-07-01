@@ -462,7 +462,22 @@
       }
     },
     "philosophyTitle": "教育理念",
-    "philosophyQuote": "言語学習は単に単語や文法を暗記することではありません。文化間の架け橋を築き、新しい機会への扉を開くことです。私の目標は、すべての学生の学習ジャーニーを効果的で楽しいものにすることです。"
+    "philosophyQuote": "言語学習は単に単語や文法を暗記することではありません。文化間の架け橋を築き、新しい機会への扉を開くことです。私の目標は、すべての学生の学習ジャーニーを効果的で楽しいものにすることです。",
+    "scheduleLesson": "日本語レッスン予約",
+    "scheduleLessonTitle": "日本語学習セッション予約",
+    "scheduleLessonDescription": "ご希望のレッスン時間をお選びください",
+    "lesson1Hour": "1時間レッスン",
+    "lesson1HourDescription": "初回学習者や短時間集中学習に最適なセッション",
+    "lesson2Hour": "2時間レッスン", 
+    "lesson2HourDescription": "充実した学習内容で深い理解を目指すセッション",
+    "lessonEmergency": "2時間レッスン（時間調整可能）",
+    "lessonEmergencyDescription": "通常の時間が合わない方向けの特別枠",
+    "emergency": "時間調整可能",
+    "scheduleNow": "今すぐ予約",
+    "close": "閉じる",
+    "back": "戻る",
+    "noSuitableTime": "通常の時間が合わない場合",
+    "emergencyNotice": "注意：こちらは特別枠です。まずは上記の通常レッスンをご検討ください。"
   },
   "metadata": {
     "title": "梁震（りょう しん）| AI研究者・MLエンジニア・日本語教師",
