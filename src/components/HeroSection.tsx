@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";
 import { SiQiita, SiX, SiXiaohongshu } from "react-icons/si";
 import Image from "next/image";
@@ -27,17 +26,6 @@ const HeroSection = () => {
   ];
   const roles = t.raw("roles") as string[];
 
-  // Email components (obfuscation)
-  const emailUser = "ryo.shin.j85";
-  const emailDomain = "kyoto-u.jp";
-
-  // Handler to construct mailto link at runtime
-  const handleEmailClick = () => {
-    const email = `${emailUser}@${emailDomain}`;
-    const subject = encodeURIComponent(t("email_subject"));
-    const body = encodeURIComponent(t("email_body"));
-    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-  };
 
   // Social platforms with locale-based priorities
   const socialPlatforms = [
@@ -57,7 +45,7 @@ const HeroSection = () => {
       icon: FaLinkedin,
       color: 'blue',
       priority: { ja: 8, en: 9, zh: 8 },
-      category: 'professional'
+      category: 'social'
     },
     {
       id: 'x',
@@ -190,7 +178,7 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 w-full max-w-7xl">
-        <div className="text-center max-w-5xl mx-auto pt-32">
+        <div className="text-center max-w-5xl mx-auto pt-32 pb-16">
 
           {/* Name */}
           <div className="mb-12">
@@ -234,37 +222,14 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* Contact Section */}
-          <div className="mb-12 px-4">
-            {/* Primary CTAs */}
-            <div className="flex flex-col items-center justify-center mb-6">
-              {/* Mobile: Elegant vertical layout */}
-              <div className="flex sm:hidden flex-col items-center gap-4 w-full max-w-xs">
-                <button
-                  onClick={handleEmailClick}
-                  className="group relative w-full inline-flex items-center justify-center gap-3 px-6 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                  <Mail size={18} className="relative z-10" />
-                  <span className="relative z-10">{t("connect")}</span>
-                </button>
-              </div>
-
-              {/* Desktop: Horizontal layout */}
-              <div className="hidden sm:flex items-center justify-center gap-4">
-                <button
-                  onClick={handleEmailClick}
-                  className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 text-base overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-purple-700 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                  <Mail size={20} className="relative z-10" />
-                  <span className="relative z-10">{t("connect")}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Social Links - Responsive Layout */}
-            <div className="flex flex-wrap justify-center items-start gap-3 sm:gap-6 max-w-6xl mx-auto">
+          {/* Social Links Section */}
+          <div className="mt-12 mb-20 px-4">
+            <div className="flex flex-col items-center justify-center">
+              {/* Elegant divider */}
+              <div className="w-24 h-px bg-gradient-to-r from-transparent via-slate-400 dark:via-slate-600 to-transparent mb-10" />
+              
+              {/* Social Links - Clean Layout */}
+              <div className="flex flex-wrap justify-center items-start gap-6 sm:gap-10 max-w-4xl mx-auto">
               {/* Group platforms by category */}
               {(() => {
                 const grouped = sortedPlatforms.reduce((acc, platform) => {
@@ -310,17 +275,17 @@ const HeroSection = () => {
 
                   return (
                     <div key={category} className="flex flex-col items-center min-w-0 w-auto">
-                      {/* Category name */}
-                      <h4 className={`text-xs font-medium mb-2 ${
-                        category === 'professional' ? 'text-blue-600 dark:text-blue-400' :
-                        category === 'social' ? 'text-purple-600 dark:text-purple-400' :
-                        'text-green-600 dark:text-green-400'
+                      {/* Category name - smaller and more subtle */}
+                      <h4 className={`text-xs font-medium mb-2 opacity-60 ${
+                        category === 'professional' ? 'text-slate-700 dark:text-slate-400' :
+                        category === 'social' ? 'text-slate-700 dark:text-slate-400' :
+                        'text-slate-700 dark:text-slate-400'
                       }`}>
                         {config.names[category as keyof typeof config.names]}
                       </h4>
                       
                       {/* Platforms in this category */}
-                      <div className="flex flex-wrap justify-center gap-1 sm:gap-2 max-w-40 sm:max-w-none">
+                      <div className="flex flex-wrap justify-center gap-2 max-w-none">
                         {platforms.map((platform) => {
                           const isQRPlatform = platform.qrCode !== undefined;
                           
@@ -342,7 +307,7 @@ const HeroSection = () => {
                               >
                                 <button
                                   onClick={() => platform.id === 'wechat' ? setShowWeChatQR(!showWeChatQR) : setShowWhatsAppQR(!showWhatsAppQR)}
-                                  className={`relative p-2 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
+                                  className={`relative p-2.5 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-lg shadow-sm hover:shadow-md transition-all duration-200 group border hover:scale-105`}
                                 >
                                   <div
                                     className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -396,7 +361,7 @@ const HeroSection = () => {
                               href={platform.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className={`relative p-2 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 group border`}
+                              className={`relative p-2.5 sm:p-3 ${colorClasses[platform.color as keyof typeof colorClasses]} rounded-lg shadow-sm hover:shadow-md transition-all duration-200 group border hover:scale-105`}
                             >
                               <div
                                 className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -410,14 +375,14 @@ const HeroSection = () => {
                                 }}
                               />
                               {platform.icon ? (
-                                <platform.icon size={16} className="sm:w-6 sm:h-6 relative z-10 group-hover:text-white transition-colors duration-300" />
+                                <platform.icon size={18} className="sm:w-5 sm:h-5 relative z-10 group-hover:text-white transition-colors duration-200" />
                               ) : (
                                 <Image 
                                   src={platform.iconPath!} 
                                   alt={platform.name} 
                                   width={16} 
                                   height={16} 
-                                  className="relative z-10 w-4 h-4 sm:w-6 sm:h-6"
+                                  className="relative z-10 w-4.5 h-4.5 sm:w-5 sm:h-5"
                                 />
                               )}
                             </a>
@@ -428,6 +393,7 @@ const HeroSection = () => {
                   );
                 }).filter(Boolean);
               })()}
+            </div>
             </div>
           </div>
         </div>
