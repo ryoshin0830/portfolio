@@ -38,25 +38,14 @@
       "日语教师",
       "全栈开发者"
     ],
-    "connect": "邮件咨询",
-    "schedule_meeting": "预约时间",
-    "meeting_description": "选择适合您的沟通方式",
+    "connect": "联系我",
     "discover": "查看更多",
     "email_subject": "来自个人网站的咨询",
     "email_body": "请填写以下信息后发送：\n\n---\n姓名：\n内容：\n---",
     "origin": "故乡",
     "beijing": "北京",
     "current": "现居",
-    "kyoto": "京都",
-    "schedule_options_title": "请选择沟通方式",
-    "online_meeting_title": "线上交流",
-    "online_meeting_description": "通过视频快速沟通，适合初步了解和简单咨询。",
-    "duration_1hour": "1小时",
-    "online_format": "线上",
-    "offline_event_title": "线下深度交流",
-    "offline_event_description": "面对面深入探讨，适合项目合作、深度咨询或团队培训。",
-    "duration_6hours": "6小时",
-    "offline_format": "线下"
+    "kyoto": "京都"
   },
   "about": {
     "title": "关于我",
@@ -493,22 +482,7 @@
       }
     },
     "philosophyTitle": "教育初心",
-    "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。",
-    "scheduleLesson": "约课",
-    "scheduleLessonTitle": "日语课程预约",
-    "scheduleLessonDescription": "选择合适的上课时长",
-    "lesson1Hour": "1小时课程",
-    "lesson1HourDescription": "适合初学者或单点突破，轻松高效",
-    "lesson2Hour": "2小时课程", 
-    "lesson2HourDescription": "内容更充实，系统性学习效果更佳",
-    "lessonEmergency": "2小时课程 (时间灵活)",
-    "lessonEmergencyDescription": "常规时间不合适时的特殊安排",
-    "emergency": "时间灵活",
-    "scheduleNow": "马上约",
-    "close": "关闭",
-    "back": "返回",
-    "noSuitableTime": "常规时间都不合适？",
-    "emergencyNotice": "注意：此为特殊时段预约，请优先考虑上面的常规课程时间。"
+    "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。"
   },
   "metadata": {
     "title": "梁震 | AI研究者 · 机器学习工程师 · 日语讲师",
