@@ -17,10 +17,10 @@ export default function Home() {
       <ResearchSection />
       <SkillsSection />
       <ProjectsSection />
+      <URLShortenerSection />
       <ZennFeed />
       <TeachingSection />
       <GallerySection />
-      <URLShortenerSection />
       <YopmailAccessSection />
     </main>
   );

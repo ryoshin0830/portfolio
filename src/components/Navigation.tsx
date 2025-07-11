@@ -27,13 +27,14 @@ const Navigation = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  // Priority-based navigation: 最重要の5項目のみヘッダーに表示
+  // Priority-based navigation: 最重要の6項目のみヘッダーに表示
   const primaryNavItems = [
     { key: "home", sectionId: "hero" },
     { key: "about", sectionId: "about" },
     { key: "research", sectionId: "research" },
     { key: "skills", sectionId: "skills" },
     { key: "projects", sectionId: "projects" },
+    { key: "urlshortener", sectionId: "urlshortener" },
   ];
 
   // ハンバーガーメニューに表示するセカンダリナビゲーション
@@ -41,7 +42,6 @@ const Navigation = () => {
     { key: "blog", sectionId: "blog", category: "content" },
     { key: "teaching", sectionId: "teaching", category: "experience" },
     { key: "gallery", sectionId: "gallery", category: "content" },
-    { key: "urlshortener", sectionId: "urlshortener", category: "tools" },
     { key: "yopmail", sectionId: "yopmail", category: "tools" },
   ];
 
