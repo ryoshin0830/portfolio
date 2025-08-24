@@ -510,6 +510,10 @@
     "professional": "開発",
     "social": "ソーシャル"
   },
+  "email": {
+    "contact": "メール連絡",
+    "address": "ryo.shin.j85@kyoto-u.jp"
+  },
   "socialActions": {
     "wechatQR": "微信でスキャン",
     "whatsappQR": "WhatsAppでスキャン"

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaFacebook, FaInstagram, FaLine, FaWeixin, FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import { SiQiita, SiX, SiXiaohongshu } from "react-icons/si";
 import Image from "next/image";
 
@@ -16,6 +16,7 @@ const HeroSection = () => {
   const tCommon = useTranslations("common");
   const tHeroCategories = useTranslations("heroCategories");
   const tSocialActions = useTranslations("socialActions");
+  const tEmail = useTranslations("email");
   const locale = useLocale();
 
   const names = [
@@ -29,6 +30,15 @@ const HeroSection = () => {
 
   // Social platforms with locale-based priorities
   const socialPlatforms = [
+    {
+      id: 'email',
+      name: tEmail('contact'),
+      href: `mailto:${tEmail('address')}`,
+      icon: FaEnvelope,
+      color: 'slate',
+      priority: { ja: 10, en: 10, zh: 10 },
+      category: 'professional'
+    },
     {
       id: 'github',
       name: 'GitHub',

@@ -541,6 +541,10 @@
     "professional": "技术开发",
     "social": "社交平台"
   },
+  "email": {
+    "contact": "邮件联系",
+    "address": "ryo.shin.j85@kyoto-u.jp"
+  },
   "socialActions": {
     "wechatQR": "微信扫码添加",
     "whatsappQR": "WhatsApp扫码"

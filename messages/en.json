@@ -510,6 +510,10 @@
     "professional": "Developer",
     "social": "Social"
   },
+  "email": {
+    "contact": "Email Contact",
+    "address": "ryo.shin.j85@kyoto-u.jp"
+  },
   "socialActions": {
     "wechatQR": "Scan with WeChat",
     "whatsappQR": "Scan with WhatsApp"
