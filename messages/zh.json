@@ -43,6 +43,13 @@
     "current": "现居",
     "kyoto": "京都"
   },
+  "heroZenn": {
+    "latestPost": "最新文章",
+    "new": "新",
+    "today": "今天",
+    "daysAgo": "{days}天前",
+    "readMore": "阅读更多"
+  },
   "about": {
     "title": "关于我",
     "subtitle": "将AI技术与外语教育完美结合",

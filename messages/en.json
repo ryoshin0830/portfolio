@@ -43,6 +43,13 @@
     "current": "Current",
     "kyoto": "Kyoto"
   },
+  "heroZenn": {
+    "latestPost": "Latest Article",
+    "new": "NEW",
+    "today": "Today",
+    "daysAgo": "{days} days ago",
+    "readMore": "Read More"
+  },
   "about": {
     "title": "About Me",
     "subtitle": "Bridging Foreign Language Education and AI Technology",

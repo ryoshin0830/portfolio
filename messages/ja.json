@@ -43,6 +43,13 @@
     "current": "現在",
     "kyoto": "京都"
   },
+  "heroZenn": {
+    "latestPost": "最新記事",
+    "new": "NEW",
+    "today": "今日",
+    "daysAgo": "{days}日前",
+    "readMore": "続きを読む"
+  },
   "about": {
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",

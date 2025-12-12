@@ -1,4 +1,5 @@
 import HeroSection from "@/components/HeroSection";
+import LatestZennArticle from "@/components/LatestZennArticle";
 import AboutSection from "@/components/AboutSection";
 import ResearchSection from "@/components/ResearchSection";
 import SkillsSection from "@/components/SkillsSection";
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
+      <LatestZennArticle />
       <AboutSection />
       <ResearchSection />
       <SkillsSection />
