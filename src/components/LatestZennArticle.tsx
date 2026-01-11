@@ -13,6 +13,18 @@ interface ZennArticle {
   creator: string;
 }
 
+type Rss2JsonItem = {
+  title?: string;
+  link?: string;
+  pubDate?: string;
+  description?: string;
+  author?: string;
+};
+
+type Rss2JsonResponse = {
+  items?: Rss2JsonItem[];
+};
+
 export default function LatestZennArticle() {
   const t = useTranslations("heroZenn");
   const locale = useLocale();
@@ -29,16 +41,25 @@ export default function LatestZennArticle() {
         
         if (!response.ok) throw new Error("Failed to fetch");
         
-        const data = await response.json();
+        const data = (await response.json()) as Rss2JsonResponse;
         
-        if (data.items && data.items.length > 0) {
-          const latestItems = data.items.slice(0, 3).map((item: any) => ({
-            title: item.title,
-            link: item.link,
-            pubDate: item.pubDate,
-            description: item.description || "",
-            creator: item.author || "梁震",
-          }));
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          const latestItems = data.items
+            .filter(
+              (item): item is Required<Pick<Rss2JsonItem, "title" | "link" | "pubDate">> &
+                Omit<Rss2JsonItem, "title" | "link" | "pubDate"> =>
+                typeof item.title === "string" &&
+                typeof item.link === "string" &&
+                typeof item.pubDate === "string",
+            )
+            .slice(0, 3)
+            .map((item) => ({
+              title: item.title,
+              link: item.link,
+              pubDate: item.pubDate,
+              description: item.description || "",
+              creator: item.author || "梁震",
+            }));
           setArticles(latestItems);
         }
       } catch (err) {
