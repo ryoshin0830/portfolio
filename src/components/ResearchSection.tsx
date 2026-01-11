@@ -5,6 +5,37 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Microscope, ExternalLink } from "lucide-react";
 
+type Publication = {
+  authors: string;
+  year: number;
+  title: string;
+  journal: string;
+  volume?: string;
+  pages?: string;
+  doi?: string;
+  link?: string;
+  type: "journal" | "conference";
+};
+
+type PeerReviewedListItem = {
+  authors: string;
+  year: string | number;
+  title: string;
+  journal: string;
+  volume?: string;
+  pages?: string;
+  doi?: string;
+  link?: string;
+};
+
+type ConferenceListItem = {
+  authors: string;
+  year: string | number;
+  title: string;
+  conference: string;
+  link?: string;
+};
+
 const ResearchSection = () => {
   const t = useTranslations("research");
   const pubT = useTranslations("publications");
@@ -13,68 +44,38 @@ const ResearchSection = () => {
     triggerOnce: true,
   });
 
+  const peerReviewed = t.raw("peerReviewedList") as PeerReviewedListItem[];
+  const conferencePresentations = t.raw(
+    "conferencePresentationsList",
+  ) as ConferenceListItem[];
 
-  // Publications data
-  const publications = [
-    {
-      authors: "中野 珠悠・梁 震・笹尾 洋介",
-      year: 2024,
-      title: "英語検定教科書コーパスに基づく高頻度コロケーションの分析",
-      journal: "全国英語教育学会 JASELE 第49回福岡研究大会",
-      type: "conference",
-    },
-    {
-      authors: "梁 震・笹尾 洋介",
-      year: 2024,
-      title: "汎用言語モデルは日本語学習者データに基づく語彙難易度を予測できるのか",
-      journal: "言語処理学会2024",
-      type: "conference",
-    },
-    {
-      authors: "彭 悦, 梁 震, 笹尾 洋介",
-      year: 2023,
-      title: "日中バイリンガルの音声版日本語語彙サイズテストの開発と検証",
-      journal: "日本語教育",
-      volume: "185",
-      pages: "93–108",
-      link: "https://www.nkg.or.jp/gakkaishi/yomu/2023_08_25.html",
-      type: "journal",
-    },
-    {
-      authors: "Vincent, N. H., Liang, Z., & Sasao, Y.",
-      year: 2023,
-      title: "Motion and memory in VR: The influence of VR control method on memorization of foreign language orthography",
-      journal: "International Journal on Cybernetics & Informatics (IJCI)",
-      volume: "12(1)",
-      pages: "151–164",
-      link: "https://ijcionline.com/paper/12/12123ijci12.pdf",
-      type: "journal",
-    },
-    {
-      authors: "彭 悦, 梁 震, 笹尾 洋介",
-      year: 2022,
-      title: "日本語学習における映像作品の字幕利用ー言語選択の視点からー",
-      journal: "言語文化教育研究",
-      volume: "20",
-      pages: "335–356",
-      doi: "https://doi.org/10.14960/gbkkg.20.335",
-      type: "journal",
-    },
-    {
-      authors: "彭 悦・梁 震・笹尾 洋介",
-      year: 2022,
-      title: "日中バイリンガルの音声版日本語語彙サイズテストの開発と検証",
-      journal: "日本語教育学会秋季大会予稿集",
-      type: "conference",
-    },
-    {
-      authors: "梁 震・笹尾 洋介",
-      year: 2022,
-      title: "日本語語彙問題の選択肢自動生成プログラムの開発と検証",
-      journal: "日本語教育学会春季大会予稿集",
-      type: "conference",
-    },
-  ];
+  const publications: Publication[] = [
+    ...peerReviewed.map((item) => ({
+      authors: item.authors,
+      year: Number(item.year),
+      title: item.title,
+      journal: item.journal,
+      volume: item.volume,
+      pages: item.pages,
+      doi: item.doi,
+      link: item.link,
+      type: "journal" as const,
+    })),
+    ...conferencePresentations.map((item) => ({
+      authors: item.authors,
+      year: Number(item.year),
+      title: item.title,
+      journal: item.conference,
+      link: item.link,
+      type: "conference" as const,
+    })),
+  ]
+    .filter((p) => Number.isFinite(p.year))
+    .sort((a, b) => {
+      if (b.year !== a.year) return b.year - a.year;
+      if (a.type !== b.type) return a.type === "journal" ? -1 : 1;
+      return 0;
+    });
 
 
 
