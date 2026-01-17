@@ -91,51 +91,13 @@ const ProjectsSection = () => {
   });
 
 
-  const getColorClasses = (color: string) => {
-    switch (color) {
-      case "blue":
-        return {
-          bg: "bg-blue-50 dark:bg-blue-900/20",
-          border: "border-blue-200 dark:border-blue-800",
-          accent: "bg-blue-600",
-          text: "text-blue-600 dark:text-blue-400",
-        };
-      case "green":
-        return {
-          bg: "bg-green-50 dark:bg-green-900/20",
-          border: "border-green-200 dark:border-green-800",
-          accent: "bg-green-600",
-          text: "text-green-600 dark:text-green-400",
-        };
-      case "purple":
-        return {
-          bg: "bg-purple-50 dark:bg-purple-900/20",
-          border: "border-purple-200 dark:border-purple-800",
-          accent: "bg-purple-600",
-          text: "text-purple-600 dark:text-purple-400",
-        };
-      case "red":
-        return {
-          bg: "bg-red-50 dark:bg-red-900/20",
-          border: "border-red-200 dark:border-red-800",
-          accent: "bg-red-600",
-          text: "text-red-600 dark:text-red-400",
-        };
-      case "orange":
-        return {
-          bg: "bg-orange-50 dark:bg-orange-900/20",
-          border: "border-orange-200 dark:border-orange-800",
-          accent: "bg-orange-600",
-          text: "text-orange-600 dark:text-orange-400",
-        };
-      default:
-        return {
-          bg: "bg-gray-50 dark:bg-gray-900/20",
-          border: "border-gray-200 dark:border-gray-800",
-          accent: "bg-gray-600",
-          text: "text-gray-600 dark:text-gray-400",
-        };
-    }
+  const getColorClasses = (_color: string) => {
+    return {
+      bg: "bg-slate-50 dark:bg-slate-900",
+      border: "border-slate-200 dark:border-slate-700",
+      accent: "bg-blue-600",
+      text: "text-blue-600 dark:text-blue-400",
+    };
   };
 
   const getStatusBadge = (status: string) => {
@@ -144,39 +106,39 @@ const ProjectsSection = () => {
         return {
           label: tStatus("completed"),
           color:
-            "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
+            "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200",
         };
       case "active":
         return {
           label: tStatus("active"),
           color:
-            "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
+            "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300",
         };
       case "ongoing":
         return {
           label: tStatus("ongoing"),
           color:
-            "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
+            "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200",
         };
       default:
         return {
           label: tStatus("undefined"),
           color:
-            "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
+            "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-200",
         };
     }
   };
 
   return (
-    <section id="projects" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
+    <section id="projects" className="pt-32 pb-24 bg-slate-50 dark:bg-slate-950">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-full text-sm font-medium mb-6 border border-slate-200 dark:border-slate-700 shadow-sm">
             <Rocket size={16} />
             {tBadges("featuredProjects")}
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 dark:text-white mb-6 tracking-tight">
             {t("title")}
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
@@ -186,9 +148,9 @@ const ProjectsSection = () => {
 
         {/* Leadership Section */}
         <div className="mb-16">
-          <div className="max-w-4xl mx-auto bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
+          <div className="max-w-4xl mx-auto bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
             <div className="flex items-start gap-6">
-              <div className="p-4 rounded-2xl bg-green-600 text-white shadow-lg">
+              <div className="p-4 rounded-2xl bg-blue-600 text-white shadow-sm">
                 <Users size={32} />
               </div>
               <div className="flex-1">
@@ -202,7 +164,7 @@ const ProjectsSection = () => {
                   {leadership.skills.map((skill, skillIndex) => (
                     <span
                       key={skillIndex}
-                      className="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-semibold border border-green-200 dark:border-green-800"
+                      className="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-full text-sm font-semibold border border-slate-200 dark:border-slate-700"
                     >
                       {skill}
                     </span>
@@ -223,24 +185,21 @@ const ProjectsSection = () => {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
+                className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all duration-200"
               >
-                {/* Background gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                
                 <div className="relative z-10">
                   {/* Header */}
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-start gap-4">
-                      <div className={`p-4 rounded-2xl ${colors.accent} text-white shadow-lg transition-transform duration-200`}>
+                      <div className={`p-4 rounded-2xl ${colors.accent} text-white shadow-sm transition-transform duration-200`}>
                         <IconComponent size={28} />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
                           {project.title}
                         </h3>
                         <div className="flex items-center gap-3">
-                          <span className={`px-3 py-1 rounded-full text-sm font-bold ${statusBadge.color} shadow-md transition-transform duration-200`}>
+                          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusBadge.color} transition-transform duration-200`}>
                             {statusBadge.label}
                           </span>
                           <span className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
@@ -259,7 +218,7 @@ const ProjectsSection = () => {
                             href={project.links.live}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-3 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-blue-600 dark:text-blue-400"
+                            className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 text-blue-600 dark:text-blue-400"
                           >
                             <ExternalLink size={20} />
                           </a>
@@ -285,7 +244,7 @@ const ProjectsSection = () => {
                           key={featureIndex}
                           className="text-slate-600 dark:text-slate-400 flex items-start gap-3"
                         >
-                          <div className={`w-3 h-3 ${colors.accent} rounded-full mt-1.5 flex-shrink-0 shadow-md`} />
+                          <div className={`w-3 h-3 ${colors.accent} rounded-full mt-1.5 flex-shrink-0`} />
                           <span className="font-medium">{feature}</span>
                         </li>
                       ))}
@@ -295,7 +254,7 @@ const ProjectsSection = () => {
                   {/* Technologies */}
                   <div>
                     <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
+                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
                       {t("techStack")}
                     </h4>
                     <div className="flex flex-wrap gap-3">
@@ -304,7 +263,7 @@ const ProjectsSection = () => {
                         return (
                           <div
                             key={techIndex}
-                            className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
                           >
                             <TechIcon size={18} />
                             <span className="text-sm text-slate-700 dark:text-slate-300 font-semibold">

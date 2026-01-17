@@ -65,7 +65,7 @@ const URLShortenerSection = () => {
   };
 
   return (
-    <section id="urlshortener" className="py-20 sm:py-24 lg:py-32">
+    <section id="urlshortener" className="py-20 sm:py-24 lg:py-32 bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -73,11 +73,11 @@ const URLShortenerSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-sm font-medium mb-6 border border-slate-200 dark:border-slate-700 shadow-sm">
             <Sparkles size={16} />
             {t("badge")}
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 dark:text-white mb-4">
             {t("title")}
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400">
@@ -89,7 +89,7 @@ const URLShortenerSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8"
+          className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-6 sm:p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -136,7 +136,7 @@ const URLShortenerSection = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="w-full py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               {isLoading ? t("form.generating") : t("form.submit")}
             </button>

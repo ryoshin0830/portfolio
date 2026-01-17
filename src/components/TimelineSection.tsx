@@ -62,22 +62,22 @@ const TimelineSection = () => {
   const getCountryColor = (location?: string) => {
     switch (location) {
       case "china":
-        return "from-red-500 to-yellow-500";
+        return "bg-red-500";
       case "japan":
-        return "from-red-500 to-white";
+        return "bg-slate-500";
       default:
-        return "from-blue-500 to-purple-500";
+        return "bg-blue-500";
     }
   };
 
   const getCountryBg = (location?: string) => {
     switch (location) {
       case "china":
-        return "bg-gradient-to-br from-red-50 to-yellow-50 dark:from-red-950/20 dark:to-yellow-950/20";
+        return "bg-red-50 dark:bg-slate-900";
       case "japan":
-        return "bg-gradient-to-br from-red-50 to-slate-50 dark:from-red-950/20 dark:to-slate-950/20";
+        return "bg-slate-50 dark:bg-slate-900";
       default:
-        return "bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20";
+        return "bg-blue-50 dark:bg-slate-900";
     }
   };
 
@@ -89,109 +89,8 @@ const TimelineSection = () => {
 
 
       <div className="relative max-w-5xl mx-auto mt-20">
-        {/* Desktop flowing timeline paths */}
-        <div className="absolute inset-0 hidden lg:block pointer-events-none">
-          {eventsWithLocation.map((event, index) => {
-            if (index === eventsWithLocation.length - 1) return null;
-            
-            const isEven = index % 2 === 0;
-            const nextIsEven = (index + 1) % 2 === 0;
-            
-            // Calculate actual spacing based on the timeline layout
-            // space-y-32 = 8rem = 128px between cards
-            // Each card is approximately 200-250px in height
-            const cardSpacing = 128; // tailwind space-y-32
-            const cardHeight = 220; // estimated card height
-            const totalSpacing = cardSpacing + cardHeight;
-            
-            // Position from center of current card to center of next card
-            const yStart = index * totalSpacing + (cardHeight / 2);
-            const yEnd = (index + 1) * totalSpacing + (cardHeight / 2);
-            
-            return (
-              <motion.svg
-                key={`flow-${index}`}
-                className="absolute w-full overflow-visible"
-                style={{ 
-                  top: `${yStart}px`, 
-                  height: `${yEnd - yStart}px` 
-                }}
-                viewBox="0 0 800 400"
-                preserveAspectRatio="none"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.8, delay: index * 0.05 }}
-              >
-                <defs>
-                  <linearGradient id={`flow-gradient-${index}`}>
-                    <stop offset="0%" stopColor={event.location === 'china' ? '#ef4444' : event.location === 'japan' ? '#3b82f6' : '#8b5cf6'} stopOpacity="0.3" />
-                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="#ec4899" stopOpacity="0.3" />
-                  </linearGradient>
-                  <filter id={`glow-${index}`}>
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
-                {/* Flowing path */}
-                <motion.path
-                  d={
-                    isEven
-                      ? nextIsEven
-                        ? "M 200 10 Q 150 200, 200 390" // 左→左 (gentle curve)
-                        : "M 200 10 Q 300 200, 600 390" // 左→右 (flowing S-curve)
-                      : nextIsEven
-                        ? "M 600 10 Q 500 200, 200 390" // 右→左 (flowing S-curve)
-                        : "M 600 10 Q 650 200, 600 390" // 右→右 (gentle curve)
-                  }
-                  stroke={`url(#flow-gradient-${index})`}
-                  strokeWidth="3"
-                  fill="none"
-                  filter={`url(#glow-${index})`}
-                  initial={{ pathLength: 0 }}
-                  whileInView={{ pathLength: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ 
-                    pathLength: { duration: 1.5, delay: index * 0.1, ease: "easeInOut" }
-                  }}
-                />
-                
-                {/* Flowing particles */}
-                {[...Array(3)].map((_, i) => (
-                  <motion.circle
-                    key={`particle-${index}-${i}`}
-                    r="2"
-                    fill={event.location === 'china' ? '#fbbf24' : '#60a5fa'}
-                    filter={`url(#glow-${index})`}
-                  >
-                    <animateMotion
-                      dur={`${3 + i}s`}
-                      repeatCount="indefinite"
-                      begin={`${i * 0.5}s`}
-                      path={
-                        isEven
-                          ? nextIsEven
-                            ? "M 200 10 Q 150 200, 200 390"
-                            : "M 200 10 Q 300 200, 600 390"
-                          : nextIsEven
-                            ? "M 600 10 Q 500 200, 200 390"
-                            : "M 600 10 Q 650 200, 600 390"
-                      }
-                    />
-                  </motion.circle>
-                ))}
-              </motion.svg>
-            );
-          })}
-        </div>
-
-        {/* Mobile central line */}
-        <div className="absolute left-12 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-400 via-purple-400 to-pink-400 lg:hidden" />
+        <div className="absolute inset-y-0 left-1/2 hidden lg:block w-px bg-slate-200 dark:bg-slate-700" />
+        <div className="absolute left-12 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700 lg:hidden" />
 
         {/* Timeline events */}
         <div className="relative space-y-16 lg:space-y-32">
@@ -240,13 +139,13 @@ const TimelineSection = () => {
                 )}
 
                 {/* Mobile timeline dot */}
-                <div className="absolute -left-20 top-8 w-4 h-4 bg-white dark:bg-slate-900 rounded-full border-2 border-blue-400 shadow-lg lg:hidden z-10" />
+                <div className="absolute -left-20 top-8 w-4 h-4 bg-white dark:bg-slate-900 rounded-full border-2 border-slate-300 dark:border-slate-600 shadow-sm lg:hidden z-10" />
 
                 {/* Desktop timeline dot - positioned at card edge */}
-                <div className={`absolute hidden lg:block w-6 h-6 bg-white dark:bg-slate-900 rounded-full shadow-lg z-20 ${
+                <div className={`absolute hidden lg:block w-6 h-6 bg-white dark:bg-slate-900 rounded-full shadow-sm z-20 border border-slate-200 dark:border-slate-700 ${
                   index % 2 === 0 ? "-right-3 top-8" : "-left-3 top-8"
                 }`}>
-                  <div className={`absolute inset-0.5 bg-gradient-to-r ${getCountryColor(event.location)} rounded-full`} />
+                  <div className={`absolute inset-1 ${getCountryColor(event.location)} rounded-full`} />
                 </div>
                 
                 {/* Connecting line from dot to card */}
@@ -257,15 +156,15 @@ const TimelineSection = () => {
                 }`} />
 
                 <motion.div
-                  className={`relative p-6 lg:p-8 rounded-2xl border-2 ${
+                  className={`relative p-6 lg:p-8 rounded-2xl border ${
                     isKyotoEvent 
-                      ? "border-blue-300 dark:border-blue-700 shadow-2xl shadow-blue-200/50 dark:shadow-blue-900/50" 
+                      ? "border-blue-300 dark:border-blue-600 shadow-md" 
                       : isStartupEvent
-                      ? "border-purple-300 dark:border-purple-700 shadow-2xl shadow-purple-200/50 dark:shadow-purple-900/50"
+                      ? "border-slate-300 dark:border-slate-600 shadow-md"
                       : event.special 
-                      ? "border-yellow-300 dark:border-yellow-700 shadow-2xl" 
-                      : "border-slate-200 dark:border-slate-700 shadow-lg"
-                  } ${getCountryBg(event.location)} backdrop-blur-sm overflow-hidden`}
+                      ? "border-amber-300 dark:border-amber-600 shadow-sm" 
+                      : "border-slate-200 dark:border-slate-700 shadow-sm"
+                  } ${getCountryBg(event.location)} overflow-hidden`}
                   whileHover={{ 
                     scale: 1.02,
                     transition: { type: "spring", stiffness: 300 }
@@ -298,11 +197,11 @@ const TimelineSection = () => {
                   <div className="flex items-start gap-4">
                     {/* Icon with unified design */}
                     <motion.div 
-                      className={`p-3 bg-gradient-to-br ${getCountryColor(event.location)} rounded-xl shadow-lg`}
+                      className="p-3 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700"
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <Icon className="text-white" size={24} />
+                      <Icon className="text-slate-700 dark:text-slate-200" size={24} />
                     </motion.div>
 
                     <div className="flex-1">
@@ -322,7 +221,7 @@ const TimelineSection = () => {
                       {/* Title with special styling */}
                       <h4 className={`text-xl font-bold mb-2 ${
                         event.special 
-                          ? "bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent" 
+                          ? "text-blue-600 dark:text-blue-400" 
                           : "text-slate-900 dark:text-white"
                       }`}>
                         {event.title}
@@ -342,11 +241,6 @@ const TimelineSection = () => {
         </div>
       </div>
 
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-gradient-to-r from-blue-200 to-purple-200 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl opacity-20" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-gradient-to-r from-pink-200 to-yellow-200 dark:from-pink-900/20 dark:to-yellow-900/20 rounded-full blur-3xl opacity-20" />
-      </div>
     </div>
   );
 };

@@ -101,15 +101,15 @@ const ResearchSection = () => {
   };
 
   return (
-    <section id="research" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50" ref={ref}>
+    <section id="research" className="pt-32 pb-24 bg-slate-50 dark:bg-slate-950" ref={ref}>
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-full text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-full text-sm font-medium mb-6 border border-slate-200 dark:border-slate-700 shadow-sm">
             <Microscope size={16} />
             {t("academicResearch")}
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 dark:text-white mb-6 tracking-tight">
             {t("title")}
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
@@ -139,7 +139,7 @@ const ResearchSection = () => {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-white dark:bg-slate-900 rounded-lg p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex-1">
@@ -148,12 +148,12 @@ const ResearchSection = () => {
                   <div className="flex items-center gap-2">
                     <span className={`text-sm font-medium px-3 py-1 rounded-full ${
                       pub.type === "journal" 
-                        ? "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30"
-                        : "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30"
+                        ? "text-blue-600 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/40"
+                        : "text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800"
                     }`}>
                       {pub.year}
                     </span>
-                    <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">
+                    <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded">
                       {pub.type === "journal" ? t("peerReviewedPapers") : t("conferencePresentations")}
                     </span>
                   </div>

@@ -48,7 +48,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section id="about" className="pt-32 pb-24 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-950 dark:to-slate-900/50 overflow-hidden" ref={ref}>
+    <section id="about" className="pt-32 pb-24 bg-white dark:bg-slate-950 overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Header */}
         <motion.div
@@ -80,12 +80,11 @@ const AboutSection = () => {
           >
             <motion.div
               variants={itemVariants}
-              className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
+              className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 shadow-sm"
             >
-              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
               <div className="relative">
-                <div className="inline-flex p-2 sm:p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg mb-3 sm:mb-4">
-                  <University className="text-white" size={20} />
+                <div className="inline-flex p-2 sm:p-3 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 mb-3 sm:mb-4">
+                  <University className="text-slate-700 dark:text-slate-200" size={20} />
                 </div>
                 <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
                   {t("education")}
@@ -101,12 +100,11 @@ const AboutSection = () => {
 
             <motion.div
               variants={itemVariants}
-              className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
+              className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 shadow-sm"
             >
-              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
               <div className="relative">
-                <div className="inline-flex p-2 sm:p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg mb-3 sm:mb-4">
-                  <Briefcase className="text-white" size={20} />
+                <div className="inline-flex p-2 sm:p-3 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 mb-3 sm:mb-4">
+                  <Briefcase className="text-slate-700 dark:text-slate-200" size={20} />
                 </div>
                 <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
                   {t("experience")}
@@ -122,12 +120,11 @@ const AboutSection = () => {
 
             <motion.div
               variants={itemVariants}
-              className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
+              className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 shadow-sm"
             >
-              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
               <div className="relative">
-                <div className="inline-flex p-2 sm:p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg mb-3 sm:mb-4">
-                  <Users className="text-white" size={20} />
+                <div className="inline-flex p-2 sm:p-3 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 mb-3 sm:mb-4">
+                  <Users className="text-slate-700 dark:text-slate-200" size={20} />
                 </div>
                 <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
                   {t("teaching")}
@@ -159,9 +156,9 @@ const AboutSection = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
-                  className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white dark:bg-slate-800/30 rounded-xl border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
+                  className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300 shadow-sm"
                 >
-                  <div className="flex-shrink-0 w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
+                  <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full" />
                   <p className="text-slate-700 dark:text-slate-300 font-medium text-sm sm:text-base">
                     {field}
                   </p>

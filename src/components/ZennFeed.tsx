@@ -88,7 +88,7 @@ export default function ZennFeed() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-green-500 to-teal-600 text-white rounded-full animate-pulse">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm">
               <BookOpen size={20} />
               <span>{t("loading")}</span>
             </div>
@@ -103,7 +103,7 @@ export default function ZennFeed() {
   }
 
   return (
-    <section id="blog" className="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950">
+    <section id="blog" className="py-20 bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -111,7 +111,7 @@ export default function ZennFeed() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-slate-900 dark:text-white">
             {t("title")}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -133,15 +133,13 @@ export default function ZennFeed() {
               rel="noopener noreferrer"
               className="block"
             >
-              <div className="relative p-8 bg-gradient-to-r from-green-500 to-teal-600 rounded-3xl shadow-2xl overflow-hidden group hover:shadow-3xl transition-all duration-300">
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-300" />
-                
-                <div className="relative z-10 text-white">
+              <div className="relative p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden group hover:shadow-md transition-all duration-300">
+                <div className="relative z-10 text-slate-900 dark:text-white">
                   <div className="flex items-center gap-2 mb-4">
-                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-semibold">
+                    <span className="px-3 py-1 bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold">
                       {t("featured")}
                     </span>
-                    <span className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-sm">
+                    <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-full text-sm text-slate-600 dark:text-slate-300">
                       {formatDate(articles[0].pubDate)}
                     </span>
                   </div>
@@ -151,16 +149,16 @@ export default function ZennFeed() {
                   </h3>
                   
                   <div
-                    className="text-white/80 mb-6 line-clamp-2"
+                    className="text-slate-600 dark:text-slate-400 mb-6 line-clamp-2"
                     dangerouslySetInnerHTML={{ __html: articles[0].description }}
                   />
                   
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 text-slate-600 dark:text-slate-300">
                       <User size={16} />
                       <span className="text-sm">{articles[0].creator}</span>
                     </div>
-                    <div className="flex items-center gap-2 group-hover:gap-3 transition-all">
+                    <div className="flex items-center gap-2 group-hover:gap-3 transition-all text-blue-600 dark:text-blue-400">
                       <span className="text-sm font-semibold">{t("readMore")}</span>
                       <ExternalLink size={16} />
                     </div>
@@ -190,13 +188,13 @@ export default function ZennFeed() {
                 rel="noopener noreferrer"
                 className="block h-full"
               >
-                <div className="h-full bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-gray-100 dark:border-gray-700 hover:border-green-300 dark:hover:border-green-600">
+                <div className="h-full bg-white dark:bg-slate-900 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-6 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600">
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-3">
                     <Calendar size={14} />
                     <span>{formatDate(article.pubDate)}</span>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   
@@ -212,7 +210,7 @@ export default function ZennFeed() {
                     </div>
                     <ExternalLink
                       size={16}
-                      className="text-gray-400 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors"
+                      className="text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
                     />
                   </div>
                 </div>
@@ -232,7 +230,7 @@ export default function ZennFeed() {
             href="https://zenn.dev/ryoushin"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 text-white rounded-full font-semibold hover:shadow-md transform hover:scale-105 transition-all duration-300"
           >
             <span>{t("viewAllArticles")}</span>
             <ExternalLink size={18} />

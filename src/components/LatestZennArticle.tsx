@@ -100,9 +100,6 @@ export default function LatestZennArticle() {
 
   return (
     <section className={`relative overflow-hidden transition-all duration-700 ${visible ? 'opacity-100' : 'opacity-0'} -mt-8`}>
-      {/* Dynamic background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/3 to-transparent dark:via-green-400/3" />
-      
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto space-y-1">
           {articles.map((article, index) => (
@@ -123,25 +120,17 @@ export default function LatestZennArticle() {
                   transitionDelay: `${index * 100}ms`
                 }}
               >
-                {/* Animated line effect */}
-                <div className={`absolute left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-green-500/30 to-transparent transition-all duration-700 ${hoveredIndex === index ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'}`} />
-                
-                <div className="relative flex items-center gap-3 py-2 px-2 group">
+                <div className="relative flex items-center gap-3 py-2 px-2 group rounded-lg transition-colors duration-200 hover:bg-slate-50 dark:hover:bg-slate-900">
                   {/* Animated sparkle icon - only on first item */}
                   {index === 0 && (
                     <div className="relative flex-shrink-0">
-                      <RiSparklingFill className={`w-4 h-4 text-green-500 dark:text-green-400 transition-all duration-500 ${hoveredIndex === 0 ? 'scale-125 rotate-12' : ''}`} />
-                      {visible && (
-                        <div className="absolute inset-0 animate-ping">
-                          <RiSparklingFill className="w-4 h-4 text-green-500/40 dark:text-green-400/40" />
-                        </div>
-                      )}
+                      <RiSparklingFill className={`w-4 h-4 text-blue-500 dark:text-blue-400 transition-all duration-500 ${hoveredIndex === 0 ? 'scale-110' : ''}`} />
                     </div>
                   )}
                   
                   {/* Index number for items 2 and 3 */}
                   {index > 0 && (
-                    <span className={`flex-shrink-0 w-4 h-4 text-xs font-medium text-slate-400 dark:text-slate-500 transition-all duration-300 ${hoveredIndex === index ? 'text-green-500 dark:text-green-400' : ''}`}>
+                    <span className={`flex-shrink-0 w-4 h-4 text-xs font-medium text-slate-400 dark:text-slate-500 transition-all duration-300 ${hoveredIndex === index ? 'text-blue-600 dark:text-blue-400' : ''}`}>
                       {index + 1}.
                     </span>
                   )}
@@ -151,8 +140,8 @@ export default function LatestZennArticle() {
                     {/* Date badge */}
                     <span className={`flex-shrink-0 text-xs px-2 py-0.5 rounded-full transition-all duration-300 ${
                       index === 0 
-                        ? `bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 ${hoveredIndex === 0 ? 'bg-green-200 dark:bg-green-800/40' : ''}`
-                        : `bg-slate-100 dark:bg-slate-800/30 text-slate-600 dark:text-slate-400 ${hoveredIndex === index ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : ''}`
+                        ? `bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 ${hoveredIndex === 0 ? 'bg-blue-100 dark:bg-blue-900/50' : ''}`
+                        : `bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 ${hoveredIndex === index ? 'bg-slate-200 dark:bg-slate-700' : ''}`
                     }`}>
                       {formatDate(article.pubDate)}
                     </span>
@@ -160,8 +149,8 @@ export default function LatestZennArticle() {
                     {/* Title with overflow handling */}
                     <h3 className={`flex-1 text-sm font-medium truncate transition-all duration-300 ${
                       index === 0
-                        ? `text-slate-700 dark:text-slate-300 ${hoveredIndex === 0 ? 'text-green-600 dark:text-green-400' : ''}`
-                        : `text-slate-600 dark:text-slate-400 ${hoveredIndex === index ? 'text-green-600 dark:text-green-400' : ''}`
+                        ? `text-slate-800 dark:text-slate-200 ${hoveredIndex === 0 ? 'text-slate-900 dark:text-white' : ''}`
+                        : `text-slate-600 dark:text-slate-400 ${hoveredIndex === index ? 'text-slate-800 dark:text-slate-200' : ''}`
                     }`}>
                       {article.title}
                     </h3>
@@ -169,14 +158,11 @@ export default function LatestZennArticle() {
                     {/* Arrow icon with animation */}
                     <RiArrowRightUpLine className={`flex-shrink-0 w-4 h-4 transition-all duration-300 ${
                       hoveredIndex === index 
-                        ? 'text-green-500 dark:text-green-400 translate-x-1 -translate-y-1' 
+                        ? 'text-blue-600 dark:text-blue-400 translate-x-1 -translate-y-1' 
                         : 'text-slate-400 dark:text-slate-500 opacity-60'
                     }`} />
                   </div>
                 </div>
-
-                {/* Bottom animated line */}
-                <div className={`absolute left-0 right-0 bottom-0 h-[1px] bg-gradient-to-r from-transparent via-green-500/30 to-transparent transition-all duration-700 ${hoveredIndex === index ? 'scale-x-100 opacity-100' : 'scale-x-0 opacity-0'}`} />
               </div>
             </Link>
           ))}

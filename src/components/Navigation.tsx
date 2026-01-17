@@ -125,7 +125,7 @@ const Navigation = () => {
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isScrolled
-            ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
+            ? "bg-white/95 dark:bg-slate-950/95 shadow-sm border-b border-slate-200 dark:border-slate-800"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
@@ -142,17 +142,16 @@ const Navigation = () => {
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <div className="relative w-[28px] h-[28px] sm:w-[36px] sm:h-[36px]">
-              <div className="absolute inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-md opacity-70" />
               <Image
                 src="/logo.svg"
                 alt="Logo"
                 width={24}
                 height={24}
-                className="relative rounded-full border-2 border-white dark:border-slate-800 shadow-lg sm:w-8 sm:h-8"
+                className="relative rounded-full border border-slate-200 dark:border-slate-800 shadow-sm sm:w-8 sm:h-8 bg-white dark:bg-slate-900"
               />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-base sm:text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
+              <h1 className="text-base sm:text-xl font-semibold text-slate-900 dark:text-white">
                 {namesT("shortName")}
               </h1>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">
@@ -173,7 +172,7 @@ const Navigation = () => {
               >
                 {activeSection === item.sectionId && (
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
+                    className="absolute inset-0 bg-blue-600 rounded-full"
                     layoutId="activeNavItem"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
@@ -196,7 +195,7 @@ const Navigation = () => {
               onClick={() => setShowMoreMenu(!showMoreMenu)}
               className={`p-2 lg:p-3 rounded-full transition-all duration-300 ${
                 secondaryNavItems.some(item => activeSection === item.sectionId)
-                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+                  ? "bg-blue-600 text-white"
                   : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800"
               }`}
               whileHover={{ scale: 1.05 }}
@@ -211,7 +210,7 @@ const Navigation = () => {
             {/* Theme Toggle */}
             <motion.button
               onClick={toggleTheme}
-              className="p-1.5 sm:p-2 lg:p-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="p-1.5 sm:p-2 lg:p-2.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-300 shadow-sm hover:shadow-md"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle dark mode"
@@ -249,7 +248,7 @@ const Navigation = () => {
             <div className="relative language-menu">
               <motion.button
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-300 shadow-sm hover:shadow-md"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -264,7 +263,7 @@ const Navigation = () => {
               <AnimatePresence>
                 {showLangMenu && (
                   <motion.div
-                    className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+                    className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -276,8 +275,8 @@ const Navigation = () => {
                         onClick={() => handleLanguageChange(language.code)}
                         className={`w-full text-left px-3 lg:px-4 py-2 lg:py-3 text-xs lg:text-sm font-medium transition-all duration-200 ${
                           locale === language.code
-                            ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
-                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                            ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100"
+                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                         }`}
                         whileHover={{ x: 4 }}
                       >
@@ -295,7 +294,7 @@ const Navigation = () => {
             {/* Mobile Menu Button */}
             <motion.button
               onClick={() => setShowMoreMenu(!showMoreMenu)}
-              className="lg:hidden p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="lg:hidden p-1.5 sm:p-2 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-400 dark:hover:border-slate-500 transition-all duration-300 shadow-sm hover:shadow-md"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -330,7 +329,7 @@ const Navigation = () => {
             <div className="absolute top-6 right-6 z-[100001]">
               <motion.button
                 onClick={() => setShowMoreMenu(false)}
-                className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+                className="p-3 rounded-full bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all duration-300 shadow-sm border border-slate-200 dark:border-slate-700"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
@@ -355,7 +354,7 @@ const Navigation = () => {
                         onClick={() => navigateTo(item.sectionId)}
                         className={`block w-full text-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 ${
                           activeSection === item.sectionId
-                            ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                            ? "bg-blue-600 text-white shadow-md"
                             : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                         }`}
                         whileHover={{ scale: 1.05 }}
@@ -374,7 +373,7 @@ const Navigation = () => {
                 <div className="hidden lg:block">
                   {/* Menu Title */}
                   <motion.h2
-                    className="text-3xl sm:text-4xl md:text-6xl font-black gradient-text mb-12 sm:mb-16"
+                    className="text-3xl sm:text-4xl md:text-6xl font-semibold text-slate-900 dark:text-white mb-12 sm:mb-16"
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.4 }}
@@ -393,8 +392,8 @@ const Navigation = () => {
                         }}
                         className={`p-4 sm:p-6 rounded-2xl text-lg sm:text-xl font-semibold transition-all duration-300 ${
                           activeSection === item.sectionId
-                            ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl"
-                            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200/50 dark:border-slate-700/50"
+                            ? "bg-blue-600 text-white shadow-md"
+                            : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700"
                         }`}
                         whileHover={{ scale: 1.05, y: -5 }}
                         whileTap={{ scale: 0.95 }}

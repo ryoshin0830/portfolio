@@ -69,7 +69,7 @@ const YopmailAccessSection = () => {
   };
 
   return (
-    <section id="yopmail" className="py-20 sm:py-24 lg:py-32">
+    <section id="yopmail" className="py-20 sm:py-24 lg:py-32 bg-white dark:bg-slate-950">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -77,11 +77,11 @@ const YopmailAccessSection = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-sm font-medium mb-6 border border-slate-200 dark:border-slate-700 shadow-sm">
             <Sparkles size={16} />
             {t("badge")}
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
+          <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 dark:text-white mb-4">
             {t("title")}
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400">
@@ -93,7 +93,7 @@ const YopmailAccessSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8"
+          className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-6 sm:p-8"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -111,7 +111,7 @@ const YopmailAccessSection = () => {
                   value={username}
                   onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, ''))}
                   placeholder={t("form.usernamePlaceholder")}
-                  className="w-full pl-10 pr-20 py-3 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent dark:bg-slate-900 dark:text-white transition-all duration-200"
+                  className="w-full pl-10 pr-20 py-3 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-900 dark:text-white transition-all duration-200"
                   required
                 />
                 <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm">
@@ -127,7 +127,7 @@ const YopmailAccessSection = () => {
               <button
                 type="submit"
                 disabled={isLoading || !username}
-                className="flex-1 py-3 px-6 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-lg hover:from-emerald-700 hover:to-teal-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="flex-1 py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {isLoading ? t("form.generating") : t("form.createShortUrl")}
               </button>
@@ -136,7 +136,7 @@ const YopmailAccessSection = () => {
                 type="button"
                 onClick={openYopmailDirect}
                 disabled={!username}
-                className="px-6 py-3 border border-emerald-600 text-emerald-600 dark:text-emerald-400 dark:border-emerald-400 font-semibold rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 border border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 font-semibold rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ArrowRight size={18} />
               </button>
@@ -157,10 +157,10 @@ const YopmailAccessSection = () => {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-6 p-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg"
+              className="mt-6 p-6 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 rounded-lg"
             >
               <div className="flex items-center gap-2 mb-3">
-                <CheckCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                 <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   {t("result.title")}
                 </p>
@@ -188,7 +188,7 @@ const YopmailAccessSection = () => {
                     </span>
                     <button
                       onClick={copyToClipboard}
-                      className="p-1 text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      className="p-1 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                       title={t("result.copy")}
                     >
                       <Copy size={16} />
@@ -197,7 +197,7 @@ const YopmailAccessSection = () => {
                       href={shortUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1 text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      className="p-1 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                       title={t("result.open")}
                     >
                       <ExternalLink size={16} />
@@ -207,7 +207,7 @@ const YopmailAccessSection = () => {
               </div>
               
               {copied && (
-                <p className="text-xs text-emerald-600 dark:text-emerald-400 mt-2">
+                <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
                   {t("result.copied")}
                 </p>
               )}
@@ -218,12 +218,12 @@ const YopmailAccessSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg"
+            className="mt-6 p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg"
           >
-            <h3 className="text-sm font-medium text-blue-900 dark:text-blue-300 mb-2">
+            <h3 className="text-sm font-medium text-slate-900 dark:text-slate-200 mb-2">
               {t("info.title")}
             </h3>
-            <ul className="text-xs text-blue-800 dark:text-blue-400 space-y-1">
+            <ul className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
               <li>• {t("info.unlimited")}</li>
               <li>• {t("info.noPassword")}</li>
               <li>• {t("info.retention")}</li>

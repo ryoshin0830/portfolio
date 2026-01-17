@@ -82,7 +82,7 @@ export default function TeachingSection() {
   };
 
   return (
-    <section id="teaching" className="py-20" ref={ref}>
+    <section id="teaching" className="py-20 bg-slate-50 dark:bg-slate-950" ref={ref}>
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -90,7 +90,7 @@ export default function TeachingSection() {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-semibold mb-4 text-slate-900 dark:text-white">
             {t("title")}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400">
@@ -105,13 +105,13 @@ export default function TeachingSection() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="max-w-md mx-auto mb-12"
         >
-          <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-1 rounded-2xl shadow-lg">
-            <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 text-center">
-              <Award className="w-12 h-12 mx-auto mb-3 text-yellow-500" />
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-sm">
+            <div className="rounded-2xl p-6 text-center">
+              <Award className="w-12 h-12 mx-auto mb-3 text-slate-700 dark:text-slate-200" />
               <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                 JLPT N1 {t("perfectScore")}
               </h3>
-              <p className="text-3xl font-bold text-transparent bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text">
+              <p className="text-3xl font-bold text-slate-900 dark:text-white">
                 180/180
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -132,10 +132,10 @@ export default function TeachingSection() {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+              className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className={`bg-gradient-to-r ${stat.color} p-3 rounded-lg w-fit mb-4`}>
-                <stat.icon className="w-6 h-6 text-white" />
+              <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg w-fit mb-4 border border-slate-200 dark:border-slate-700">
+                <stat.icon className="w-6 h-6 text-slate-700 dark:text-slate-200" />
               </div>
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
                 {stat.value}
@@ -157,15 +157,15 @@ export default function TeachingSection() {
           <h3 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
             {t("experienceTitle")}
           </h3>
-          <div className="max-w-3xl mx-auto bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-            <h4 className="text-xl font-semibold mb-4 text-indigo-600 dark:text-indigo-400">
+          <div className="max-w-3xl mx-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl p-8 shadow-sm">
+            <h4 className="text-xl font-semibold mb-4 text-slate-900 dark:text-white">
               {t("newOriental")}
             </h4>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               {t("experienceDescription")}
             </p>
             <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-4">
+              <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
                 <h5 className="font-semibold text-gray-900 dark:text-white mb-2">
                   {t("achievements")}
                 </h5>
@@ -175,7 +175,7 @@ export default function TeachingSection() {
                   <li>• {t("achievement3")}</li>
                 </ul>
               </div>
-              <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-4">
+              <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4 border border-slate-200 dark:border-slate-700">
                 <h5 className="font-semibold text-gray-900 dark:text-white mb-2">
                   {t("specialties")}
                 </h5>
@@ -203,10 +203,10 @@ export default function TeachingSection() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                className="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
               >
-                <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-3 rounded-lg w-fit mb-4">
-                  <course.icon className="w-6 h-6 text-white" />
+                <div className="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg w-fit mb-4 border border-slate-200 dark:border-slate-700">
+                  <course.icon className="w-6 h-6 text-slate-700 dark:text-slate-200" />
                 </div>
                 <h4 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">
                   {course.title}
@@ -220,7 +220,7 @@ export default function TeachingSection() {
                       key={idx}
                       className="flex items-start text-sm text-gray-600 dark:text-gray-400"
                     >
-                      <span className="text-indigo-500 mr-2">•</span>
+                      <span className="text-blue-500 mr-2">•</span>
                       {feature}
                     </li>
                   ))}
