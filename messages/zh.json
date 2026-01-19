@@ -52,7 +52,7 @@
   },
   "about": {
     "title": "关于我",
-    "subtitle": "将AI技术与外语教育完美结合",
+    "subtitle": "将语言教育与学习技术相结合",
     "education": "教育",
     "experience": "工作经历",
     "teaching": "教学",
@@ -61,12 +61,12 @@
     "currentStatus": "现任",
     "kyotoUniversity": "京都大学 人间·环境学研究科 博士课程 （语言科学方向）",
     "eastLinker": "EastLinker株式会社 代表取締役",
-    "eastLinkerDescription": "2023年创立 — 专注AI、系统开发及EdTech领域",
+    "eastLinkerDescription": "2023年创立 — 专注学习技术、系统开发及EdTech领域",
     "japaneseTeacher": "新东方金牌日语讲师（7年教龄，授课超过5000小时）",
     "fields": [
       "外语教育学・第二语言习得论・应用语言学",
-      "大语言模型（LLM）微调与构建",
-      "基于机器学习的词汇难度预测与语言评估",
+      "语言模型微调与构建",
+      "词汇难度分析与语言评估",
       "教育语法及学术用途英语教育"
     ],
     "timelineEvents": [
@@ -121,14 +121,14 @@
       {
         "year": "2023",
         "title": "博士课程入学",
-        "description": "硕士毕业后继续攻读博士学位，研究方向：大语言模型在外语教育中的应用",
+        "description": "硕士毕业后继续攻读博士学位，研究方向：外语教育中的学习支持技术应用",
         "icon": "university"
       }
     ]
   },
   "research": {
     "title": "研究活动",
-    "subtitle": "AI技术驱动语言教育革新",
+    "subtitle": "语言教育技术驱动革新",
     "projects": "研究项目",
     "publications": "学术成果",
     "peerReviewedPapers": "核心期刊论文",
@@ -199,7 +199,7 @@
   },
   "skills": {
     "title": "技能与技术",
-    "subtitle": "全栈开发 + 机器学习",
+    "subtitle": "全栈开发 + 数据分析",
     "programming": "编程语言",
     "frontend": "前端",
     "backend": "后端",
@@ -207,7 +207,7 @@
     "mobile": "移动开发",
     "infrastructure": "基础设施",
     "cloud": "云计算",
-    "ai": "AI・机器学习",
+    "data": "数据分析",
     "languages": "语言能力",
     "jobTitle": "博士研究生",
     "ceoFounder": "创始人兼CEO",
@@ -312,29 +312,29 @@
         ]
       },
       {
-        "title": "LLM分析与微调研究",
-        "description": "面向外语教育领域的大语言模型研究与定制化开发",
+        "title": "语言模型分析与定制研究",
+        "description": "面向外语教育领域的语言模型研究与定制化开发",
         "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
         "features": [
-          "TensorFlow深度学习模型分析",
-          "教育场景专用LLM调优",
+          "TensorFlow模型分析",
+          "教育场景专用模型调优",
           "Transformers框架应用实践"
         ]
       },
       {
-        "title": "LLM词汇难度推定系统",
-        "description": "训练大语言模型学习现有词汇难度规律，构建新词难度预测智能系统。与日本国立国语研究所合作项目。",
+        "title": "词汇难度推定系统",
+        "description": "训练语言模型学习现有词汇难度规律，构建新词难度预测系统。与日本国立国语研究所合作项目。",
         "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
         "features": [
           "BERT模型驱动的词汇难度自动判定",
-          "融合多维语言特征的机器学习模型",
+          "融合多维语言特征的统计模型",
           "日本国立国语研究所产学研合作",
           "日语学习者语料库实证验证"
         ]
       },
       {
-        "title": "教育特化LLM构建项目",
-        "description": "从零构建教育专用大语言模型，突破通用LLM在外语教育中的限制，实现更精准的教育应用。",
+        "title": "教育特化语言模型构建项目",
+        "description": "从零构建教育专用语言模型，突破通用方案在外语教育中的限制，实现更精准的教育应用。",
         "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
         "features": [
           "教育场景专属模型架构设计",
@@ -351,7 +351,7 @@
           "Word2Vec词向量模型语义相似度计算",
           "LDA主题模型生成上下文匹配干扰项",
           "MeCab形态分析实现词汇难度等级判定",
-          "机器学习驱动的选项质量智能评估"
+          "数据分析驱动的选项质量评估"
         ]
       }
     ],
@@ -497,9 +497,9 @@
     "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。"
   },
   "metadata": {
-    "title": "梁震 | AI研究者 · 机器学习工程师 · 日语讲师",
-    "description": "京都大学博士研究生，EastLinker创始人兼CEO。专注AI技术在语言教育领域的创新应用，开发基于大语言模型的智能教育平台，推动日语学习方式的科技革新。",
-    "keywords": "梁震, 京都大学, AI研究, 语言教育, 第二语言习得, 大语言模型, LLM, 机器学习, 日语教育, 自然语言处理, NLP, EastLinker, 教育科技, EdTech, 全栈开发",
+    "title": "梁震 | 语言教育研究者 · 全栈工程师 · 日语讲师",
+    "description": "京都大学博士研究生，EastLinker创始人兼CEO。专注语言教育领域的技术应用，开发数据驱动的学习支持平台，推动日语学习方式的持续优化。",
+    "keywords": "梁震, 京都大学, 语言教育, 第二语言习得, 学习分析, 教育科技, 日语教育, 语言评估, EastLinker, EdTech, 全栈开发",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",

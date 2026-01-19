@@ -7,7 +7,6 @@ import {
   Server,
   Database,
   Cloud,
-  Brain,
   Globe,
   Zap,
   TrendingUp,
@@ -28,8 +27,8 @@ import {
   SiAwsamplify as SiAws,
   SiGooglecloud,
   SiVercel,
-  SiPytorch,
-  SiTensorflow,
+  SiPandas,
+  SiNumpy,
 } from "react-icons/si";
 
 const SkillsSection = () => {
@@ -96,12 +95,12 @@ const SkillsSection = () => {
       ],
     },
     {
-      titleKey: "ai",
-      icon: Brain,
+      titleKey: "data",
+      icon: TrendingUp,
       color: "pink",
       skills: [
-        { name: "PyTorch", icon: SiPytorch, level: 85, color: "#EE4C2C" },
-        { name: "TensorFlow", icon: SiTensorflow, level: 80, color: "#FF6F00" },
+        { name: "Pandas", icon: SiPandas, level: 85, color: "#150458" },
+        { name: "NumPy", icon: SiNumpy, level: 80, color: "#013243" },
       ],
     },
   ];

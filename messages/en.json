@@ -52,7 +52,7 @@
   },
   "about": {
     "title": "About Me",
-    "subtitle": "Bridging Foreign Language Education and AI Technology",
+    "subtitle": "Bridging Foreign Language Education and Learning Technology",
     "education": "Education",
     "experience": "Experience",
     "teaching": "Teaching",
@@ -61,12 +61,12 @@
     "currentStatus": "Current Position",
     "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University, Department of Cognitive Science in Language",
     "eastLinker": "CEO, EastLinker Inc.",
-    "eastLinkerDescription": "Founded 2023 - AI, System Development, EdTech",
+    "eastLinkerDescription": "Founded 2023 - Learning Technology, System Development, EdTech",
     "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
     "fields": [
       "Foreign Language Education, Second Language Acquisition, Applied Linguistics",
-      "Large Language Model (LLM) Fine-tuning and Development",
-      "Machine Learning for Vocabulary Difficulty Prediction and Language Assessment",
+      "Language model fine-tuning and development",
+      "Vocabulary difficulty analysis and language assessment",
       "Educational Grammar and English for Academic Purposes"
     ],
     "timelineEvents": [
@@ -121,14 +121,14 @@
       {
         "year": "2023",
         "title": "PhD Program",
-        "description": "Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'",
+        "description": "Completed Master's degree and entered PhD program. Dissertation theme: 'Learning support technologies in foreign language education'",
         "icon": "university"
       }
     ]
   },
   "research": {
     "title": "Research Activities",
-    "subtitle": "Innovating AI Technology in Language Education",
+    "subtitle": "Innovating Language Education Technology",
     "projects": "Key Projects",
     "publications": "Publications",
     "peerReviewedPapers": "Peer-Reviewed Papers",
@@ -199,7 +199,7 @@
   },
   "skills": {
     "title": "Skills & Technologies",
-    "subtitle": "From Full-Stack Development to Machine Learning",
+    "subtitle": "From Full-Stack Development to Data Analysis",
     "programming": "Programming Languages",
     "frontend": "Frontend",
     "backend": "Backend",
@@ -207,7 +207,7 @@
     "mobile": "Mobile Development",
     "infrastructure": "Infrastructure",
     "cloud": "Cloud",
-    "ai": "AI & Machine Learning",
+    "data": "Data & Analytics",
     "languages": "Language Proficiency",
     "jobTitle": "PhD Student • Research",
     "ceoFounder": "CEO • Founder",
@@ -312,18 +312,18 @@
         ]
       },
       {
-        "title": "LLM Analysis & Fine-tuning Research",
-        "description": "Research project for analyzing and customizing LLMs specialized for foreign language education",
+        "title": "Language Model Analysis & Customization Research",
+        "description": "Research project for analyzing and customizing language models specialized for foreign language education",
         "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
         "features": [
           "Large language model analysis with TensorFlow",
-          "LLM customization for foreign language education",
+          "Language model customization for foreign language education",
           "Utilizing Transformers library"
         ]
       },
       {
-        "title": "LLM Vocabulary Difficulty Estimation System",
-        "description": "Development of a system that predicts vocabulary difficulty by training large language models with known difficulty data. Joint research project with National Institute for Japanese Language and Linguistics.",
+        "title": "Vocabulary Difficulty Estimation System",
+        "description": "Development of a system that predicts vocabulary difficulty by training language models with known difficulty data. Joint research project with National Institute for Japanese Language and Linguistics.",
         "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
         "features": [
           "Automatic vocabulary difficulty prediction using BERT-based models",
@@ -333,8 +333,8 @@
         ]
       },
       {
-        "title": "Education-Specialized LLM Development Project",
-        "description": "Research on developing education-specific large language models with novel architectures that overcome constraints of existing LLMs for foreign language education.",
+        "title": "Education-Specialized Language Model Development Project",
+        "description": "Research on developing education-specific language models with novel architectures that overcome constraints of existing approaches for foreign language education.",
         "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
         "features": [
           "Custom model architecture design for educational domains",
@@ -466,9 +466,9 @@
     "philosophyQuote": "Language learning is not just about memorizing words and grammar; it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's journey both effective and enjoyable."
   },
   "metadata": {
-    "title": "Ryo Shin (Liang Zhen) | AI Researcher・ML Engineer・Japanese Language Teacher",
-    "description": "PhD candidate at Kyoto University researching AI applications in language education. Developing innovative machine learning solutions for second language acquisition and Japanese language teaching methodologies.",
-    "keywords": "Ryo Shin, Liang Zhen, Kyoto University, AI research, language education, second language acquisition, LLM, Large Language Models, machine learning, Japanese language teaching, natural language processing, NLP, EastLinker, educational technology, EdTech, ML Engineer",
+    "title": "Ryo Shin (Liang Zhen) | Language Education Researcher・Full-Stack Engineer・Japanese Language Teacher",
+    "description": "PhD candidate at Kyoto University researching technology for language education. Developing data-informed learning support for second language acquisition and Japanese language teaching methodologies.",
+    "keywords": "Ryo Shin, Liang Zhen, Kyoto University, language education, second language acquisition, learning analytics, educational technology, Japanese language teaching, language assessment, EastLinker, EdTech, full-stack engineer",
     "author": "Ryo Shin (Liang Zhen)",
     "creator": "Ryo Shin (Liang Zhen)",
     "publisher": "Ryo Shin (Liang Zhen)",
