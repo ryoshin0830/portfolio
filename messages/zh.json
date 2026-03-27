@@ -31,7 +31,7 @@
   "hero": {
     "title": "梁震",
     "subtitle": "用技术打破语言壁垒，让世界更加紧密相连",
-    "description": "京都大学博士生 · EastLinker株式会社创始人兼CEO",
+    "description": "京都大学博士生",
     "roles": [
       "研究者",
       "工程师",
@@ -60,8 +60,6 @@
     "timeline": "人生轨迹",
     "currentStatus": "现任",
     "kyotoUniversity": "京都大学 人间·环境学研究科 博士课程 （语言科学方向）",
-    "eastLinker": "EastLinker株式会社 代表取締役",
-    "eastLinkerDescription": "2023年创立 — 专注AI、系统开发及EdTech领域",
     "japaneseTeacher": "新东方金牌日语讲师（7年教龄，授课超过5000小时）",
     "fields": [
       "外语教育学・第二语言习得论・应用语言学",
@@ -111,12 +109,6 @@
         "title": "硕士课程入学",
         "description": "考入京都大学硕士课程，潜心钻研外语教育学及应用语言学",
         "icon": "university"
-      },
-      {
-        "year": "2023",
-        "title": "创业",
-        "description": "创立EastLinker株式会社，开启创业之路",
-        "icon": "rocket"
       },
       {
         "year": "2023",
@@ -357,7 +349,7 @@
     ],
     "leadership": {
       "title": "技术领导力",
-      "description": "作为EastLinker创始人兼CEO，全面负责公司技术方向、团队管理及产品规划。主导实施敏捷开发、CI/CD自动化部署、微服务架构设计及DevOps文化建设。",
+      "description": "全面负责技术方向、团队管理及产品规划。主导实施敏捷开发、CI/CD自动化部署、微服务架构设计及DevOps文化建设。",
       "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
     },
     "mainFeatures": "主要功能",
@@ -375,7 +367,7 @@
     "all": "全部",
     "descriptions": {
       "research": "在京大的学术研究时光",
-      "business": "EastLinker创业途中的工作瞬间",
+      "business": "创业途中的工作瞬间",
       "daily": "日常生活中的美好时刻",
       "outdoor": "户外运动和滑雪体验"
     }
@@ -498,8 +490,8 @@
   },
   "metadata": {
     "title": "梁震 | AI研究者 · 机器学习工程师 · 日语讲师",
-    "description": "京都大学博士研究生，EastLinker创始人兼CEO。专注AI技术在语言教育领域的创新应用，开发基于大语言模型的智能教育平台，推动日语学习方式的科技革新。",
-    "keywords": "梁震, 京都大学, AI研究, 语言教育, 第二语言习得, 大语言模型, LLM, 机器学习, 日语教育, 自然语言处理, NLP, EastLinker, 教育科技, EdTech, 全栈开发",
+    "description": "京都大学博士研究生。专注AI技术在语言教育领域的创新应用，开发基于大语言模型的智能教育平台，推动日语学习方式的科技革新。",
+    "keywords": "梁震, 京都大学, AI研究, 语言教育, 第二语言习得, 大语言模型, LLM, 机器学习, 日语教育, 自然语言处理, NLP, 教育科技, EdTech, 全栈开发",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",

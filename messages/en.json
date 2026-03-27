@@ -31,7 +31,7 @@
   "hero": {
     "title": "LIANG ZHEN (RYO SHIN)",
     "subtitle": "Creating technology that connects people beyond language barriers",
-    "description": "PhD Student at Kyoto University・CEO of EastLinker Inc.",
+    "description": "PhD Student at Kyoto University",
     "roles": [
       "Researcher",
       "Engineer",
@@ -60,8 +60,6 @@
     "timeline": "Life Timeline",
     "currentStatus": "Current Position",
     "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University, Department of Cognitive Science in Language",
-    "eastLinker": "CEO, EastLinker Inc.",
-    "eastLinkerDescription": "Founded 2023 - AI, System Development, EdTech",
     "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
     "fields": [
       "Foreign Language Education, Second Language Acquisition, Applied Linguistics",
@@ -111,12 +109,6 @@
         "title": "Master's Program",
         "description": "Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics",
         "icon": "university"
-      },
-      {
-        "year": "2023",
-        "title": "Founded company",
-        "description": "Founded EastLinker Inc.",
-        "icon": "rocket"
       },
       {
         "year": "2023",
@@ -357,7 +349,7 @@
     ],
     "leadership": {
       "title": "Tech Leadership",
-      "description": "As founder of EastLinker Inc., spearheaded Agile development methodology implementation, CI/CD pipeline architecture, microservices design patterns, and DevOps culture cultivation. Comprehensive oversight from product management to technical architecture decisions.",
+      "description": "Spearheaded Agile development methodology implementation, CI/CD pipeline architecture, microservices design patterns, and DevOps culture cultivation. Comprehensive oversight from product management to technical architecture decisions.",
       "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
     },
     "mainFeatures": "Main Features",
@@ -375,7 +367,7 @@
     "all": "All",
     "descriptions": {
       "research": "Research activities at Kyoto University",
-      "business": "Business activities at EastLinker Inc.",
+      "business": "Business activities",
       "daily": "A moment from daily life",
       "outdoor": "Outdoor activities and skiing"
     }
@@ -468,7 +460,7 @@
   "metadata": {
     "title": "Ryo Shin (Liang Zhen) | AI Researcher・ML Engineer・Japanese Language Teacher",
     "description": "PhD candidate at Kyoto University researching AI applications in language education. Developing innovative machine learning solutions for second language acquisition and Japanese language teaching methodologies.",
-    "keywords": "Ryo Shin, Liang Zhen, Kyoto University, AI research, language education, second language acquisition, LLM, Large Language Models, machine learning, Japanese language teaching, natural language processing, NLP, EastLinker, educational technology, EdTech, ML Engineer",
+    "keywords": "Ryo Shin, Liang Zhen, Kyoto University, AI research, language education, second language acquisition, LLM, Large Language Models, machine learning, Japanese language teaching, natural language processing, NLP, educational technology, EdTech, ML Engineer",
     "author": "Ryo Shin (Liang Zhen)",
     "creator": "Ryo Shin (Liang Zhen)",
     "publisher": "Ryo Shin (Liang Zhen)",

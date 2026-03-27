@@ -34,7 +34,6 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
         "https://github.com/ryoshin0830",
         "https://x.com/ryoshin0830",
         "https://zenn.dev/ryoushin",
-        "https://matsunoha.eastlinker.com",
       ],
 
       worksFor: [
@@ -42,15 +41,6 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
           "@type": "Organization",
           name: "Kyoto University",
           url: "https://www.kyoto-u.ac.jp/",
-        },
-        {
-          "@type": "Organization",
-          name: "EastLinker Inc.",
-          foundingDate: "2023",
-          founder: {
-            "@type": "Person",
-            name: "梁震（りょう しん）",
-          },
         },
       ],
 
@@ -161,8 +151,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
     sameAs: [
       "https://github.com/ryoshin0830",
       "https://x.com/ryoshin0830",
-      "https://zenn.dev/ryoushin",
-      "https://matsunoha.eastlinker.com"
+      "https://zenn.dev/ryoushin"
     ]
   });
 

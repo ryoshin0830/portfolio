@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { ExternalLink, Smartphone, Globe, Brain, BookOpen, Rocket, Star, Users } from "lucide-react";
+import { Smartphone, Globe, Brain, BookOpen, Rocket, Star, Users } from "lucide-react";
 import {
   SiReact as SiReactnative,
   SiSwift,
@@ -84,9 +84,6 @@ const ProjectsSection = () => {
         name: tech,
         icon: getTechIcon(tech),
       })),
-      links:
-        index === 0 ? { live: "https://gorilla.eastlinker.com" } : 
-        index === 2 ? { live: "https://matsunoha.eastlinker.com" } : undefined,
     };
   });
 
@@ -251,21 +248,6 @@ const ProjectsSection = () => {
                       </div>
                     </div>
 
-                    {/* Links */}
-                    {project.links && (
-                      <div className="flex gap-2">
-                        {project.links.live && (
-                          <a
-                            href={project.links.live}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-3 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-blue-600 dark:text-blue-400"
-                          >
-                            <ExternalLink size={20} />
-                          </a>
-                        )}
-                      </div>
-                    )}
                   </div>
 
                   {/* Description */}

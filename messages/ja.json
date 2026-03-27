@@ -31,7 +31,7 @@
   "hero": {
     "title": "梁 震（りょう しん）",
     "subtitle": "言語の壁を超え、人と人をつなげる技術を創造する",
-    "description": "京都大学博士課程・株式会社EastLinker代表取締役",
+    "description": "京都大学博士課程",
     "roles": [
       "研究者",
       "エンジニア",
@@ -60,8 +60,6 @@
     "timeline": "人生のタイムライン",
     "currentStatus": "現在",
     "kyotoUniversity": "京都大学人間・環境学研究科 共生・人間学専攻 言語科学講座 博士課程",
-    "eastLinker": "株式会社EastLinker 代表取締役",
-    "eastLinkerDescription": "2023年設立 - AI・システム開発・EdTech",
     "japaneseTeacher": "新東方日本語教師（7年間、5,000時間以上の指導経験）",
     "fields": [
       "外国語教育学・第二言語習得論・応用言語学",
@@ -111,12 +109,6 @@
         "title": "修士課程入学",
         "description": "京都大学人間・環境学研究科修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
         "icon": "university"
-      },
-      {
-        "year": "2023",
-        "title": "起業",
-        "description": "株式会社EastLinker設立",
-        "icon": "rocket"
       },
       {
         "year": "2023",
@@ -357,7 +349,7 @@
     ],
     "leadership": {
       "title": "テックリーダーシップ",
-      "description": "株式会社EastLinker創業者として、アジャイル開発手法を導入し、CI/CDパイプライン構築、マイクロサービスアーキテクチャ設計、DevOps文化の醸成を主導。プロダクトマネジメントからテクニカルアーキテクチャまで包括的に統括。",
+      "description": "アジャイル開発手法を導入し、CI/CDパイプライン構築、マイクロサービスアーキテクチャ設計、DevOps文化の醸成を主導。プロダクトマネジメントからテクニカルアーキテクチャまで包括的に統括。",
       "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
     },
     "mainFeatures": "主な機能・特徴",
@@ -375,7 +367,7 @@
     "all": "すべて",
     "descriptions": {
       "research": "京都大学での研究活動の様子",
-      "business": "株式会社EastLinkerでのビジネス活動",
+      "business": "ビジネス活動",
       "daily": "日常生活の一コマ",
       "outdoor": "アウトドア活動・スキーの様子"
     }
@@ -468,7 +460,7 @@
   "metadata": {
     "title": "梁震（りょう しん）| AI研究者・MLエンジニア・日本語教師",
     "description": "京都大学大学院博士課程で言語教育とAI技術の融合を研究。機械学習を活用した日本語教育システムの開発と、外国語習得支援技術の革新に取り組んでいます。",
-    "keywords": "梁震, りょうしん, 京都大学, AI研究, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, 日本語教育, 自然言語処理, NLP, EastLinker, 教育工学, EdTech, MLエンジニア",
+    "keywords": "梁震, りょうしん, 京都大学, AI研究, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア",
     "author": "梁震（りょう しん）",
     "creator": "梁震（りょう しん）",
     "publisher": "梁震（りょう しん）",

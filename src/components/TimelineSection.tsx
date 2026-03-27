@@ -199,7 +199,6 @@ const TimelineSection = () => {
             const Icon = getTimelineIcon(event.icon);
             const isPlaneEvent = event.icon === "plane";
             const isKyotoEvent = event.title.includes("京都大学") || event.title.includes("修士") || event.title.includes("博士");
-            const isStartupEvent = event.icon === "rocket" || event.title.includes("起業");
 
             return (
               <motion.div
@@ -260,9 +259,7 @@ const TimelineSection = () => {
                   className={`relative p-6 lg:p-8 rounded-2xl border-2 ${
                     isKyotoEvent 
                       ? "border-blue-300 dark:border-blue-700 shadow-2xl shadow-blue-200/50 dark:shadow-blue-900/50" 
-                      : isStartupEvent
-                      ? "border-purple-300 dark:border-purple-700 shadow-2xl shadow-purple-200/50 dark:shadow-purple-900/50"
-                      : event.special 
+                      : event.special
                       ? "border-yellow-300 dark:border-yellow-700 shadow-2xl" 
                       : "border-slate-200 dark:border-slate-700 shadow-lg"
                   } ${getCountryBg(event.location)} backdrop-blur-sm overflow-hidden`}
@@ -283,17 +280,6 @@ const TimelineSection = () => {
                     </div>
                   )}
 
-                  {/* Watermark logo for EastLinker */}
-                  {isStartupEvent && (
-                    <div className="absolute -top-6 -right-6 w-48 h-48 opacity-10 dark:opacity-5">
-                      <Image
-                        src="/eastlinker_logo.svg"
-                        alt="EastLinker Inc."
-                        width={192}
-                        height={192}
-                      />
-                    </div>
-                  )}
 
                   <div className="flex items-start gap-4">
                     {/* Icon with unified design */}

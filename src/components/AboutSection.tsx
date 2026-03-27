@@ -111,12 +111,6 @@ const AboutSection = () => {
                 <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
                   {t("experience")}
                 </h3>
-                <p className="text-slate-700 dark:text-slate-200 font-medium mb-1 text-sm sm:text-base">
-                  {t("eastLinker")}
-                </p>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                  {t("eastLinkerDescription")}
-                </p>
               </div>
             </motion.div>
 
