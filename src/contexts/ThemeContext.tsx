@@ -18,21 +18,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // After mounting, always use device preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const deviceTheme = prefersDark ? "dark" : "light";
-    
-    setTheme(deviceTheme);
-    
-    // Ensure proper theme classes are set based on device preference
-    if (deviceTheme === "dark") {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.add("light");
-      document.documentElement.classList.remove("dark");
-    }
-    
+    // Read from DOM — the inline script in <head> already set the correct class
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
     setMounted(true);
   }, []);
 
