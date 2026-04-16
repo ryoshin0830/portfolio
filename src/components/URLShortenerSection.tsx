@@ -68,8 +68,8 @@ const URLShortenerSection = () => {
     <section id="urlshortener" className="py-20 sm:py-24 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, rotate: -2 }}
+          animate={{ opacity: 1, rotate: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
@@ -86,8 +86,8 @@ const URLShortenerSection = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, rotate: -2 }}
+          animate={{ opacity: 1, rotate: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8"
         >
