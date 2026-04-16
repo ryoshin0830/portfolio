@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import {
   Code,
   Monitor,
@@ -32,8 +30,8 @@ import {
   SiTensorflow,
 } from "react-icons/si";
 
-const SkillsSection = () => {
-  const t = useTranslations("skills");
+const SkillsSection = async () => {
+  const t = await getTranslations("skills");
 
   const skillCategories = [
     {
