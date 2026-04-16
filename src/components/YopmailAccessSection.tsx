@@ -81,7 +81,7 @@ const YopmailAccessSection = () => {
             <Sparkles size={16} />
             {t("badge")}
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold gradient-text mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-white mb-4">
             {t("title")}
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400">

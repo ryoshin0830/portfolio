@@ -192,7 +192,7 @@ const HeroSection = () => {
 
           {/* Name */}
           <div className="mb-12">
-            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black gradient-text mb-4 tracking-tight px-4">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 dark:text-white mb-4 tracking-tight px-4">
               {names[currentNameIndex]}
             </h1>
           </div>
