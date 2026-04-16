@@ -148,6 +148,7 @@ const Navigation = () => {
                 alt="Logo"
                 width={24}
                 height={24}
+                sizes="36px"
                 className="relative rounded-full border-2 border-white dark:border-slate-800 shadow-lg sm:w-8 sm:h-8"
               />
             </div>

@@ -276,6 +276,7 @@ const TimelineSection = () => {
                         alt="Kyoto University"
                         width={160}
                         height={160}
+                        sizes="160px"
                       />
                     </div>
                   )}
