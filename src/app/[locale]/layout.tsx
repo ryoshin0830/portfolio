@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_JP } from "next/font/google";
+import { Inter, Noto_Sans_JP, Space_Grotesk } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Navigation from "@/components/Navigation";
@@ -14,6 +14,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "sw
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
   variable: "--font-noto-sans-jp",
+  display: "swap",
+});
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
   display: "swap",
 });
 
@@ -130,7 +135,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} ${notoSansJP.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-x-hidden w-full max-w-full`}
+        className={`${inter.variable} ${notoSansJP.variable} ${spaceGrotesk.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-x-hidden w-full max-w-full`}
         suppressHydrationWarning
         data-oid="1ogajcn"
       >
