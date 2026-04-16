@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Microscope, ExternalLink } from "lucide-react";
 
@@ -119,7 +119,7 @@ const ResearchSection = () => {
 
 
         {/* Publications */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ delay: 0.3 }}
@@ -129,14 +129,14 @@ const ResearchSection = () => {
             {t("publications")}
           </h3>
           
-          <motion.div
+          <m.div
             variants={containerVariants}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
             className="space-y-6 max-w-4xl mx-auto"
           >
             {publications.map((pub, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 variants={itemVariants}
                 className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
@@ -193,11 +193,11 @@ const ResearchSection = () => {
                     )}
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
 
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import Image from "next/image";
@@ -122,7 +122,7 @@ const Navigation = () => {
 
   return (
     <>
-      <motion.nav
+      <m.nav
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isScrolled
             ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
@@ -135,7 +135,7 @@ const Navigation = () => {
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
           {/* Logo */}
-          <motion.div
+          <m.div
             className="flex items-center gap-2 sm:gap-4 cursor-pointer"
             onClick={() => navigateTo("hero")}
             whileHover={{ scale: 1.02 }}
@@ -159,23 +159,24 @@ const Navigation = () => {
                 {namesT("english")}
               </p>
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">
             {/* Primary Navigation Items */}
             {primaryNavItems.map((item) => (
-              <motion.div
+              <m.div
                 key={item.key}
                 className="relative"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 {activeSection === item.sectionId && (
-                  <motion.div
+                  <m.div
                     className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
-                    layoutId="activeNavItem"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2 }}
                   />
                 )}
                 <button
@@ -188,11 +189,11 @@ const Navigation = () => {
                 >
                   {t(item.key)}
                 </button>
-              </motion.div>
+              </m.div>
             ))}
 
             {/* Hamburger Menu Button */}
-            <motion.button
+            <m.button
               onClick={() => setShowMoreMenu(!showMoreMenu)}
               className={`p-2 lg:p-3 rounded-full transition-all duration-300 ${
                 secondaryNavItems.some(item => activeSection === item.sectionId)
@@ -203,13 +204,13 @@ const Navigation = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Menu size={16} className="lg:w-5 lg:h-5" />
-            </motion.button>
+            </m.button>
           </div>
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
             {/* Theme Toggle */}
-            <motion.button
+            <m.button
               onClick={toggleTheme}
               className="p-1.5 sm:p-2 lg:p-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
@@ -219,7 +220,7 @@ const Navigation = () => {
               {mounted ? (
                 <AnimatePresence mode="wait">
                   {theme === "dark" ? (
-                    <motion.div
+                    <m.div
                       key="sun"
                       initial={{ rotate: -90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
@@ -227,9 +228,9 @@ const Navigation = () => {
                       transition={{ duration: 0.15 }}
                     >
                       <Sun size={14} className="sm:w-[18px] sm:h-[18px] lg:w-5 lg:h-5" />
-                    </motion.div>
+                    </m.div>
                   ) : (
-                    <motion.div
+                    <m.div
                       key="moon"
                       initial={{ rotate: 90, opacity: 0 }}
                       animate={{ rotate: 0, opacity: 1 }}
@@ -237,17 +238,17 @@ const Navigation = () => {
                       transition={{ duration: 0.15 }}
                     >
                       <Moon size={14} className="sm:w-[18px] sm:h-[18px] lg:w-5 lg:h-5" />
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               ) : (
                 <div className="w-[14px] h-[14px] sm:w-[18px] sm:h-[18px] lg:w-5 lg:h-5" />
               )}
-            </motion.button>
+            </m.button>
 
             {/* Language Selector */}
             <div className="relative language-menu">
-              <motion.button
+              <m.button
                 onClick={() => setShowLangMenu(!showLangMenu)}
                 className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.05 }}
@@ -259,11 +260,11 @@ const Navigation = () => {
                 <span className="hidden sm:block text-xs lg:text-sm font-medium truncate max-w-16 lg:max-w-none">
                   {languages.find(lang => lang.code === locale)?.name || locale.toUpperCase()}
                 </span>
-              </motion.button>
+              </m.button>
 
               <AnimatePresence>
                 {showLangMenu && (
-                  <motion.div
+                  <m.div
                     className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -271,7 +272,7 @@ const Navigation = () => {
                     transition={{ duration: 0.2 }}
                   >
                     {languages.map((language) => (
-                      <motion.button
+                      <m.button
                         key={language.code}
                         onClick={() => handleLanguageChange(language.code)}
                         className={`w-full text-left px-3 lg:px-4 py-2 lg:py-3 text-xs lg:text-sm font-medium transition-all duration-200 ${
@@ -285,32 +286,32 @@ const Navigation = () => {
                           <span className="text-sm lg:text-lg">{language.flag}</span>
                           <span className="truncate">{language.name}</span>
                         </span>
-                      </motion.button>
+                      </m.button>
                     ))}
-                  </motion.div>
+                  </m.div>
                 )}
               </AnimatePresence>
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
+            <m.button
               onClick={() => setShowMoreMenu(!showMoreMenu)}
               className="lg:hidden p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Menu size={14} className="sm:w-[18px] sm:h-[18px]" />
-            </motion.button>
+            </m.button>
           </div>
         </div>
 
         </div>
-      </motion.nav>
+      </m.nav>
 
       {/* Full Screen Menu Portal - Outside Navigation */}
       <AnimatePresence>
         {showMoreMenu && (
-          <motion.div
+          <m.div
             className="fixed inset-0 bg-white dark:bg-slate-950"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -328,18 +329,18 @@ const Navigation = () => {
             
             {/* Close Button */}
             <div className="absolute top-6 right-6 z-[100001]">
-              <motion.button
+              <m.button
                 onClick={() => setShowMoreMenu(false)}
                 className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <X size={24} />
-              </motion.button>
+              </m.button>
             </div>
 
             <div className="flex items-center justify-center min-h-screen p-4 sm:p-6">
-              <motion.div
+              <m.div
                 className="text-center w-full max-w-4xl lg:max-w-6xl"
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -350,7 +351,7 @@ const Navigation = () => {
                 <div className="block lg:hidden">
                   <div className="space-y-3 sm:space-y-4 max-w-xs sm:max-w-sm mx-auto">
                     {[...primaryNavItems, ...secondaryNavItems].map((item, index) => (
-                      <motion.button
+                      <m.button
                         key={item.key}
                         onClick={() => navigateTo(item.sectionId)}
                         className={`block w-full text-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 ${
@@ -365,7 +366,7 @@ const Navigation = () => {
                         transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
                       >
                         {t(item.key)}
-                      </motion.button>
+                      </m.button>
                     ))}
                   </div>
                 </div>
@@ -373,19 +374,19 @@ const Navigation = () => {
                 {/* Desktop Simple Menu */}
                 <div className="hidden lg:block">
                   {/* Menu Title */}
-                  <motion.h2
+                  <m.h2
                     className="text-3xl sm:text-4xl md:text-6xl font-black gradient-text mb-12 sm:mb-16"
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.4 }}
                   >
                     Menu
-                  </motion.h2>
+                  </m.h2>
 
                   {/* All Navigation Items in Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-2xl md:max-w-4xl mx-auto">
                     {[...primaryNavItems, ...secondaryNavItems].map((item, index) => (
-                      <motion.button
+                      <m.button
                         key={item.key}
                         onClick={() => {
                           navigateTo(item.sectionId);
@@ -403,13 +404,13 @@ const Navigation = () => {
                         transition={{ delay: 0.3 + index * 0.1, duration: 0.3 }}
                       >
                         {t(item.key)}
-                      </motion.button>
+                      </m.button>
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

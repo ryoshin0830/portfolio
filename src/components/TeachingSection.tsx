@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { GraduationCap, Users, Clock, Award, BookOpen, Target } from "lucide-react";
 
@@ -84,7 +84,7 @@ export default function TeachingSection() {
   return (
     <section id="teaching" className="py-20" ref={ref}>
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
@@ -96,10 +96,10 @@ export default function TeachingSection() {
           <p className="text-xl text-gray-600 dark:text-gray-400">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* JLPT Perfect Score Badge */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -119,17 +119,17 @@ export default function TeachingSection() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Statistics */}
-        <motion.div
+        <m.div
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
         >
           {stats.map((stat, index) => (
-            <motion.div
+            <m.div
               key={index}
               variants={itemVariants}
               className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
@@ -143,12 +143,12 @@ export default function TeachingSection() {
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 {stat.label}
               </div>
-            </motion.div>
+            </m.div>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Teaching Experience */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.3 }}
@@ -187,10 +187,10 @@ export default function TeachingSection() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Courses */}
-        <motion.div
+        <m.div
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
@@ -200,7 +200,7 @@ export default function TeachingSection() {
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             {courses.map((course, index) => (
-              <motion.div
+              <m.div
                 key={index}
                 variants={itemVariants}
                 className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
@@ -225,13 +225,13 @@ export default function TeachingSection() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </m.div>
             ))}
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Teaching Philosophy */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -243,7 +243,7 @@ export default function TeachingSection() {
           <p className="text-lg text-gray-600 dark:text-gray-400 italic">
             &ldquo;{t("philosophyQuote")}&rdquo;
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

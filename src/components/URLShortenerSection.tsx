@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Link2, Copy, ExternalLink, Sparkles } from "lucide-react";
 
 const URLShortenerSection = () => {
@@ -67,7 +67,7 @@ const URLShortenerSection = () => {
   return (
     <section id="urlshortener" className="py-20 sm:py-24 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -83,9 +83,9 @@ const URLShortenerSection = () => {
           <p className="text-lg text-slate-600 dark:text-slate-400">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -143,17 +143,17 @@ const URLShortenerSection = () => {
           </form>
 
           {error && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
             >
               <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
-            </motion.div>
+            </m.div>
           )}
 
           {shortUrl && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-6 p-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg"
@@ -190,11 +190,11 @@ const URLShortenerSection = () => {
                   {t("result.copied")}
                 </p>
               )}
-            </motion.div>
+            </m.div>
           )}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -204,7 +204,7 @@ const URLShortenerSection = () => {
           <p className="mt-2 font-mono text-xs">
             link.ryosh.in • {t("footer.madeWith")} ❤️
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

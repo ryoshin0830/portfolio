@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ExternalLink, Calendar, User, BookOpen } from "lucide-react";
 import Link from "next/link";
 
@@ -105,7 +105,7 @@ export default function ZennFeed() {
   return (
     <section id="blog" className="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950">
       <div className="container mx-auto px-4">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -117,11 +117,11 @@ export default function ZennFeed() {
           <p className="text-xl text-gray-600 dark:text-gray-400">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Featured Article */}
         {articles.length > 0 && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -168,18 +168,18 @@ export default function ZennFeed() {
                 </div>
               </div>
             </Link>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Article Grid */}
-        <motion.div
+        <m.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
         >
           {articles.slice(1).map((article, index) => (
-            <motion.article
+            <m.article
               key={index}
               variants={itemVariants}
               className="group"
@@ -217,12 +217,12 @@ export default function ZennFeed() {
                   </div>
                 </div>
               </Link>
-            </motion.article>
+            </m.article>
           ))}
-        </motion.div>
+        </m.div>
 
         {/* View More Link */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -237,7 +237,7 @@ export default function ZennFeed() {
             <span>{t("viewAllArticles")}</span>
             <ExternalLink size={18} />
           </Link>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

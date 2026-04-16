@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import {
   Briefcase,
@@ -51,7 +51,7 @@ const AboutSection = () => {
     <section id="about" className="pt-32 pb-24 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-950 dark:to-slate-900/50 overflow-hidden" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: -20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
           transition={{ duration: 0.5 }}
@@ -67,18 +67,18 @@ const AboutSection = () => {
           <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Main Content Grid */}
         <div className="max-w-6xl mx-auto">
           {/* Current Status Cards */}
-          <motion.div
+          <m.div
             variants={containerVariants}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16"
           >
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
             >
@@ -97,9 +97,9 @@ const AboutSection = () => {
                   {skillsT("jobTitle")}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
             >
@@ -112,9 +112,9 @@ const AboutSection = () => {
                   {t("experience")}
                 </h3>
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
             >
@@ -133,11 +133,11 @@ const AboutSection = () => {
                   {skillsT("yearsExperience", { years: "7" })}
                 </p>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
           {/* Specialization Fields */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ delay: 0.2 }}
@@ -148,7 +148,7 @@ const AboutSection = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               {fields.map((field, index) => (
-                <motion.div
+                <m.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
@@ -159,10 +159,10 @@ const AboutSection = () => {
                   <p className="text-slate-700 dark:text-slate-300 font-medium text-sm sm:text-base">
                     {field}
                   </p>
-                </motion.div>
+                </m.div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
 
           {/* Timeline Section */}

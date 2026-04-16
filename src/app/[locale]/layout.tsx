@@ -3,6 +3,7 @@ import { Inter, Noto_Sans_JP } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Navigation from "@/components/Navigation";
+import MotionProvider from "@/components/MotionProvider";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { themeScript } from "../theme-script";
@@ -135,23 +136,25 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages} data-oid="q3ce1r0">
           <ThemeProvider>
-            <Navigation data-oid="hk5vrem" />
-            <main className="min-h-screen w-full overflow-x-hidden" data-oid="cjsbd45">
-              {children}
-            </main>
-            <footer className="bg-slate-900 text-white py-6 sm:py-8 w-full overflow-x-hidden" data-oid="9d4m8i:">
-              <div
-                className="container mx-auto px-4 sm:px-6 text-center max-w-7xl"
-                data-oid="67z3cll"
-              >
-                <p className="text-xs sm:text-sm opacity-80" data-oid="lswazss">
-                  {messages.footer.copyright}
-                </p>
-                <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
-                  {messages.footer.builtWith}
-                </p>
-              </div>
-            </footer>
+            <MotionProvider>
+              <Navigation data-oid="hk5vrem" />
+              <main className="min-h-screen w-full overflow-x-hidden" data-oid="cjsbd45">
+                {children}
+              </main>
+              <footer className="bg-slate-900 text-white py-6 sm:py-8 w-full overflow-x-hidden" data-oid="9d4m8i:">
+                <div
+                  className="container mx-auto px-4 sm:px-6 text-center max-w-7xl"
+                  data-oid="67z3cll"
+                >
+                  <p className="text-xs sm:text-sm opacity-80" data-oid="lswazss">
+                    {messages.footer.copyright}
+                  </p>
+                  <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
+                    {messages.footer.builtWith}
+                  </p>
+                </div>
+              </footer>
+            </MotionProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

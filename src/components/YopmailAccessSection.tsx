@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Mail, Copy, ExternalLink, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
 
 const YopmailAccessSection = () => {
@@ -71,7 +71,7 @@ const YopmailAccessSection = () => {
   return (
     <section id="yopmail" className="py-20 sm:py-24 lg:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -87,9 +87,9 @@ const YopmailAccessSection = () => {
           <p className="text-lg text-slate-600 dark:text-slate-400">
             {t("subtitle")}
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -144,17 +144,17 @@ const YopmailAccessSection = () => {
           </form>
 
           {error && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
             >
               <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
-            </motion.div>
+            </m.div>
           )}
 
           {shortUrl && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-6 p-6 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg"
@@ -211,10 +211,10 @@ const YopmailAccessSection = () => {
                   {t("result.copied")}
                 </p>
               )}
-            </motion.div>
+            </m.div>
           )}
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -229,10 +229,10 @@ const YopmailAccessSection = () => {
               <li>• {t("info.retention")}</li>
               <li>• {t("info.forwarding")}</li>
             </ul>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -242,7 +242,7 @@ const YopmailAccessSection = () => {
           <p className="mt-2 font-mono text-xs">
             Powered by Yopmail + link.ryosh.in • {t("footer.madeWith")} ❤️
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
