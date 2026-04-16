@@ -123,21 +123,6 @@ const TimelineSection = () => {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.8, delay: index * 0.05 }}
               >
-                <defs>
-                  <linearGradient id={`flow-gradient-${index}`}>
-                    <stop offset="0%" stopColor={event.location === 'china' ? '#ef4444' : event.location === 'japan' ? '#3b82f6' : '#8b5cf6'} stopOpacity="0.3" />
-                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="#ec4899" stopOpacity="0.3" />
-                  </linearGradient>
-                  <filter id={`glow-${index}`}>
-                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                    <feMerge>
-                      <feMergeNode in="coloredBlur"/>
-                      <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                  </filter>
-                </defs>
-                
                 {/* Flowing path */}
                 <motion.path
                   d={
@@ -149,42 +134,17 @@ const TimelineSection = () => {
                         ? "M 600 10 Q 500 200, 200 390" // 右→左 (flowing S-curve)
                         : "M 600 10 Q 650 200, 600 390" // 右→右 (gentle curve)
                   }
-                  stroke={`url(#flow-gradient-${index})`}
-                  strokeWidth="3"
+                  stroke="currentColor"
+                  className="text-slate-300 dark:text-slate-600"
+                  strokeWidth="2"
                   fill="none"
-                  filter={`url(#glow-${index})`}
                   initial={{ pathLength: 0 }}
                   whileInView={{ pathLength: 1 }}
                   viewport={{ once: true }}
-                  transition={{ 
+                  transition={{
                     pathLength: { duration: 1.5, delay: index * 0.1, ease: "easeInOut" }
                   }}
                 />
-                
-                {/* Flowing particles */}
-                {[...Array(3)].map((_, i) => (
-                  <motion.circle
-                    key={`particle-${index}-${i}`}
-                    r="2"
-                    fill={event.location === 'china' ? '#fbbf24' : '#60a5fa'}
-                    filter={`url(#glow-${index})`}
-                  >
-                    <animateMotion
-                      dur={`${3 + i}s`}
-                      repeatCount="indefinite"
-                      begin={`${i * 0.5}s`}
-                      path={
-                        isEven
-                          ? nextIsEven
-                            ? "M 200 10 Q 150 200, 200 390"
-                            : "M 200 10 Q 300 200, 600 390"
-                          : nextIsEven
-                            ? "M 600 10 Q 500 200, 200 390"
-                            : "M 600 10 Q 650 200, 600 390"
-                      }
-                    />
-                  </motion.circle>
-                ))}
               </motion.svg>
             );
           })}
