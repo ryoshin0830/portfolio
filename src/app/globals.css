@@ -18,16 +18,16 @@
 }
 
 :root.dark {
-  --background: #020817;
-  --foreground: #f8fafc;
-  --primary: #3b82f6;
-  --primary-dark: #1d4ed8;
-  --secondary: #8b5cf6;
-  --accent: #06b6d4;
-  --muted: #1e293b;
-  --border: #334155;
-  --gradient-start: #667eea;
-  --gradient-end: #764ba2;
+  --background: #0c0a09;    /* stone-950 - warmer than slate */
+  --foreground: #fafaf9;    /* stone-50 */
+  --primary: #14b8a6;       /* teal-400 - brighter in dark */
+  --primary-dark: #0d9488;  /* teal-600 */
+  --secondary: #fbbf24;     /* amber-300 - warm accent */
+  --accent: #22d3ee;        /* cyan-300 */
+  --muted: #1c1917;         /* stone-900 */
+  --border: #292524;        /* stone-800 */
+  --gradient-start: #14b8a6;
+  --gradient-end: #fbbf24;
 }
 
 @theme inline {
@@ -39,10 +39,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --background: #020817;
-    --foreground: #f8fafc;
-    --muted: #1e293b;
-    --border: #334155;
+    --background: #0c0a09;
+    --foreground: #fafaf9;
+    --muted: #1c1917;
+    --border: #292524;
   }
 }
 
