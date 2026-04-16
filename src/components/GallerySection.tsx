@@ -219,6 +219,7 @@ const GallerySection = () => {
                     alt={filteredImages[selectedImage].alt}
                     width={1000}
                     height={700}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
                     className="w-auto h-auto max-h-[70vh] object-contain"
                   />
 

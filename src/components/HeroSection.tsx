@@ -344,11 +344,12 @@ const HeroSection = () => {
                                         {platform.id === 'wechat' ? tSocialActions('wechatQR') : tSocialActions('whatsappQR')}
                                       </h3>
                                       <div className="bg-white p-2 sm:p-4 rounded-xl">
-                                        <Image 
-                                          src={platform.qrCode} 
-                                          alt={`${platform.name} QR Code`} 
-                                          width={200} 
-                                          height={200} 
+                                        <Image
+                                          src={platform.qrCode}
+                                          alt={`${platform.name} QR Code`}
+                                          width={200}
+                                          height={200}
+                                          sizes="240px"
                                           className="rounded-lg w-full max-w-60 mx-auto"
                                         />
                                       </div>
@@ -387,11 +388,12 @@ const HeroSection = () => {
                               {platform.icon ? (
                                 <platform.icon size={18} className="sm:w-5 sm:h-5 relative z-10 group-hover:text-white transition-colors duration-200" />
                               ) : (
-                                <Image 
-                                  src={platform.iconPath!} 
-                                  alt={platform.name} 
-                                  width={16} 
-                                  height={16} 
+                                <Image
+                                  src={platform.iconPath!}
+                                  alt={platform.name}
+                                  width={16}
+                                  height={16}
+                                  sizes="20px"
                                   className="relative z-10 w-4.5 h-4.5 sm:w-5 sm:h-5"
                                 />
                               )}
