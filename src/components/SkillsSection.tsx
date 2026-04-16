@@ -228,10 +228,13 @@ const SkillsSection = () => {
                             
                             <div className="relative w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
                               <div
-                                className="h-full rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
-                                style={{ 
+                                className="h-full rounded-full relative overflow-hidden"
+                                style={{
                                   background: `linear-gradient(90deg, ${skill.color}99, ${skill.color})`,
-                                  width: `${skill.level}%`
+                                  width: '100%',
+                                  transform: `scaleX(${skill.level / 100})`,
+                                  transformOrigin: 'left',
+                                  transition: 'transform 1s ease-out'
                                 }}
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
@@ -341,8 +344,13 @@ const SkillsSection = () => {
                       
                       <div className="relative w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
-                          style={{ width: `${language.level}%` }}
+                          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full relative overflow-hidden"
+                          style={{
+                            width: '100%',
+                            transform: `scaleX(${language.level / 100})`,
+                            transformOrigin: 'left',
+                            transition: 'transform 1s ease-out'
+                          }}
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                         </div>
