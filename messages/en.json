@@ -9,9 +9,6 @@
     "skills": "Skills",
     "projects": "Projects",
     "blog": "Blog",
-    "gallery": "Gallery",
-    "urlshortener": "URL Shortener",
-    "yopmail": "Temp Email",
     "contact": "Contact",
     "more": "More",
     "scrollToNext": "Next Section:",
@@ -355,23 +352,6 @@
     "mainFeatures": "Main Features",
     "techStack": "Technology Stack"
   },
-  "gallery": {
-    "title": "Photo Gallery",
-    "subtitle": "Research, Business, and Daily Life",
-    "research": "Research",
-    "business": "Business",
-    "daily": "Daily Life",
-    "outdoor": "Outdoor Activities",
-    "photoGallery": "Photo Gallery",
-    "categoryFilter": "Category Filter",
-    "all": "All",
-    "descriptions": {
-      "research": "Research activities at Kyoto University",
-      "business": "Business activities",
-      "daily": "A moment from daily life",
-      "outdoor": "Outdoor activities and skiing"
-    }
-  },
   "contact": {
     "title": "Contact",
     "subtitle": "Feel free to get in touch",
@@ -490,7 +470,6 @@
   "badges": {
     "aboutMe": "About Me",
     "technicalExpertise": "Technical Expertise",
-    "photoGallery": "Photo Gallery",
     "academicResearch": "Academic Research",
     "featuredProjects": "Featured Projects"
   },
@@ -533,68 +512,5 @@
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
     "shortName": "梁震"
-  },
-  "urlshortener": {
-    "title": "URL Shortener",
-    "subtitle": "Create short, memorable links instantly",
-    "badge": "Free Tool",
-    "form": {
-      "urlLabel": "Long URL",
-      "urlPlaceholder": "Enter your long URL (e.g., example.com)",
-      "customPathLabel": "Custom Path",
-      "customPathPlaceholder": "my-custom-link",
-      "optional": "(Optional)",
-      "submit": "Shorten URL",
-      "generating": "Generating..."
-    },
-    "result": {
-      "title": "Your shortened URL:",
-      "copy": "Copy to clipboard",
-      "open": "Open in new tab",
-      "copied": "Copied!"
-    },
-    "error": {
-      "failed": "Failed to shorten URL",
-      "unknown": "An unknown error occurred"
-    },
-    "footer": {
-      "info": "Powered by link.ryosh.in API",
-      "madeWith": "Made with"
-    }
-  },
-  "yopmail": {
-    "badge": "Privacy Tools",
-    "title": "Temporary Email Address",
-    "subtitle": "Generate instant access to unlimited disposable email addresses with ryosh.in domain",
-    "form": {
-      "usernameLabel": "Email Username",
-      "usernamePlaceholder": "user",
-      "usernameHint": "Only lowercase letters, numbers, dots, hyphens, and underscores are allowed",
-      "createShortUrl": "Create Access Link",
-      "generating": "Generating..."
-    },
-    "result": {
-      "title": "Email Access Created!",
-      "emailAddress": "Email Address",
-      "shortUrl": "Access URL",
-      "copy": "Copy to clipboard",
-      "open": "Open mailbox",
-      "copied": "Copied to clipboard!"
-    },
-    "info": {
-      "title": "How it works",
-      "unlimited": "Unlimited email addresses with ryosh.in domain",
-      "noPassword": "No password required - instant access",
-      "retention": "Messages are kept for 8 days",
-      "forwarding": "Automatic forwarding from ryosh.in to Yopmail"
-    },
-    "error": {
-      "failed": "Failed to create access link",
-      "unknown": "An unknown error occurred"
-    },
-    "footer": {
-      "info": "Unlimited disposable email addresses for testing and privacy",
-      "madeWith": "Made with"
-    }
   }
 }

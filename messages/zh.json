@@ -9,9 +9,6 @@
     "skills": "技能",
     "projects": "项目",
     "blog": "博客",
-    "gallery": "相册",
-    "urlshortener": "URL短链",
-    "yopmail": "临时邮箱",
     "contact": "联系",
     "more": "更多",
     "scrollToNext": "下一部分：",
@@ -355,23 +352,6 @@
     "mainFeatures": "主要功能",
     "techStack": "技术栈"
   },
-  "gallery": {
-    "title": "生活相册",
-    "subtitle": "研究 · 工作 · 生活的美好片段",
-    "research": "学术研究",
-    "business": "工作日常",
-    "daily": "生活日常",
-    "outdoor": "户外运动",
-    "photoGallery": "相册画廊",
-    "categoryFilter": "类别筛选",
-    "all": "全部",
-    "descriptions": {
-      "research": "在京大的学术研究时光",
-      "business": "创业途中的工作瞬间",
-      "daily": "日常生活中的美好时刻",
-      "outdoor": "户外运动和滑雪体验"
-    }
-  },
   "contact": {
     "title": "联系方式",
     "subtitle": "期待与您的交流合作",
@@ -521,7 +501,6 @@
   "badges": {
     "aboutMe": "个人简介",
     "technicalExpertise": "技能专长",
-    "photoGallery": "相册画廊",
     "academicResearch": "研究成果",
     "featuredProjects": "项目作品"
   },
@@ -564,68 +543,5 @@
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
     "shortName": "梁震"
-  },
-  "urlshortener": {
-    "title": "短链接生成器",
-    "subtitle": "将长链接转换为简洁易记的短链接",
-    "badge": "实用工具",
-    "form": {
-      "urlLabel": "长网址",
-      "urlPlaceholder": "请输入需要缩短的网址（如：example.com）",
-      "customPathLabel": "个性化路径",
-      "customPathPlaceholder": "我的自定义链接",
-      "optional": "（选填）",
-      "submit": "一键生成",
-      "generating": "正在生成..."
-    },
-    "result": {
-      "title": "生成成功！",
-      "copy": "一键复制",
-      "open": "新窗口打开",
-      "copied": "复制成功！"
-    },
-    "error": {
-      "failed": "短链接生成失败",
-      "unknown": "操作失败，请重试"
-    },
-    "footer": {
-      "info": "由 link.ryosh.in 提供技术支持",
-      "madeWith": "用心打造"
-    }
-  },
-  "yopmail": {
-    "badge": "隐私工具",
-    "title": "临时邮箱地址",
-    "subtitle": "基于ryosh.in域名的临时邮箱服务，无限量使用，即时访问",
-    "form": {
-      "usernameLabel": "邮箱前缀",
-      "usernamePlaceholder": "请输入邮箱前缀",
-      "usernameHint": "支持小写字母、数字、点号、连字符及下划线",
-      "createShortUrl": "生成访问链接",
-      "generating": "生成中..."
-    },
-    "result": {
-      "title": "邮箱创建成功！",
-      "emailAddress": "邮箱地址",
-      "shortUrl": "快捷访问",
-      "copy": "一键复制",
-      "open": "立即访问",
-      "copied": "复制成功！"
-    },
-    "info": {
-      "title": "功能特点",
-      "unlimited": "ryosh.in 域名下的无限邮箱地址",
-      "noPassword": "无需注册，无需密码，即时可用",
-      "retention": "邮件自动保存 8 天",
-      "forwarding": "自动转发至 Yopmail 服务"
-    },
-    "error": {
-      "failed": "访问链接生成失败",
-      "unknown": "操作失败，请重试"
-    },
-    "footer": {
-      "info": "为测试和隐私保护而生的临时邮箱服务",
-      "madeWith": "用心打造"
-    }
   }
 }
