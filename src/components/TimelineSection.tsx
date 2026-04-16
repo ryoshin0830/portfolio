@@ -262,7 +262,7 @@ const TimelineSection = () => {
                       : event.special
                       ? "border-yellow-300 dark:border-yellow-700 shadow-2xl" 
                       : "border-slate-200 dark:border-slate-700 shadow-lg"
-                  } ${getCountryBg(event.location)} backdrop-blur-sm overflow-hidden`}
+                  } ${getCountryBg(event.location)} overflow-hidden`}
                   whileHover={{ 
                     scale: 1.02,
                     transition: { type: "spring", stiffness: 300 }

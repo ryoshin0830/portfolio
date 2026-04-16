@@ -125,7 +125,7 @@ const Navigation = () => {
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isScrolled
-            ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
+            ? "bg-white dark:bg-slate-950 shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
