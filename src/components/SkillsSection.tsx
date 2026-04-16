@@ -9,7 +9,6 @@ import {
   Cloud,
   Brain,
   Globe,
-  Zap,
   TrendingUp,
   Award,
 } from "lucide-react";
@@ -160,15 +159,14 @@ const SkillsSection = () => {
   };
 
   return (
-    <section id="skills" className="pt-32 pb-24 bg-gradient-to-b from-white via-slate-50/30 to-white dark:from-slate-900 dark:via-slate-950/30 dark:to-slate-900">
+    <section id="skills" className="py-20 bg-gradient-to-b from-white via-slate-50/30 to-white dark:from-slate-900 dark:via-slate-950/30 dark:to-slate-900">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium mb-6">
-            <Zap size={16} />
+          <div className="text-sm font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
             {t("technicalExpertise")}
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">

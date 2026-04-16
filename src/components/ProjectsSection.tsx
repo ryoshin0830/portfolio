@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Smartphone, Globe, Brain, BookOpen, Rocket, Star, Users } from "lucide-react";
+import { Smartphone, Globe, Brain, BookOpen, Star, Users } from "lucide-react";
 import {
   SiReact as SiReactnative,
   SiSwift,
@@ -165,15 +165,14 @@ const ProjectsSection = () => {
   };
 
   return (
-    <section id="projects" className="pt-32 pb-24 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
+    <section id="projects" className="pt-24 pb-16 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium mb-6">
-            <Rocket size={16} />
+          <div className="text-sm font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
             {tBadges("featuredProjects")}
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black gradient-text mb-6 tracking-tight">
             {t("title")}
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
