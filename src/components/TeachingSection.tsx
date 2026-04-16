@@ -82,7 +82,7 @@ export default function TeachingSection() {
   };
 
   return (
-    <section id="teaching" className="py-20" ref={ref}>
+    <section id="teaching" className="pt-20 pb-16" ref={ref}>
       <div className="container mx-auto px-4">
         <m.div
           initial={{ opacity: 0, y: -20 }}
