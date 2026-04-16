@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useRef } from "react";
 import {
   Baby,
@@ -109,7 +109,7 @@ const TimelineSection = () => {
             const yEnd = (index + 1) * totalSpacing + (cardHeight / 2);
             
             return (
-              <motion.svg
+              <m.svg
                 key={`flow-${index}`}
                 className="absolute w-full overflow-visible"
                 style={{ 
@@ -124,7 +124,7 @@ const TimelineSection = () => {
                 transition={{ duration: 0.8, delay: index * 0.05 }}
               >
                 {/* Flowing path */}
-                <motion.path
+                <m.path
                   d={
                     isEven
                       ? nextIsEven
@@ -145,7 +145,7 @@ const TimelineSection = () => {
                     pathLength: { duration: 1.5, delay: index * 0.1, ease: "easeInOut" }
                   }}
                 />
-              </motion.svg>
+              </m.svg>
             );
           })}
         </div>
@@ -161,7 +161,7 @@ const TimelineSection = () => {
             const isKyotoEvent = event.title.includes("京都大学") || event.title.includes("修士") || event.title.includes("博士");
 
             return (
-              <motion.div
+              <m.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -173,29 +173,29 @@ const TimelineSection = () => {
               >
                 {/* Plane animation for travel events */}
                 {isPlaneEvent && (
-                  <motion.div
+                  <m.div
                     className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-20"
                     initial={{ x: event.location === "japan" ? -200 : 200, y: -50 }}
                     whileInView={{ x: 0, y: 0 }}
                     transition={{ duration: 1.5, type: "spring" }}
                   >
                     <div className="relative">
-                      <motion.div
+                      <m.div
                         animate={{ rotate: [0, 10, -10, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
                         <Plane className="text-blue-500 w-12 h-12" />
-                      </motion.div>
-                      <motion.div
+                      </m.div>
+                      <m.div
                         className="absolute -bottom-4 left-1/2 transform -translate-x-1/2"
                         initial={{ scale: 0 }}
                         animate={{ scale: [0, 1.5, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       >
                         <div className="w-2 h-2 bg-blue-400 rounded-full" />
-                      </motion.div>
+                      </m.div>
                     </div>
-                  </motion.div>
+                  </m.div>
                 )}
 
                 {/* Mobile timeline dot */}
@@ -215,7 +215,7 @@ const TimelineSection = () => {
                     : "left-0 right-1/2 transform origin-right"
                 }`} />
 
-                <motion.div
+                <m.div
                   className={`relative p-6 lg:p-8 rounded-2xl border-2 ${
                     isKyotoEvent 
                       ? "border-blue-300 dark:border-blue-700 shadow-2xl shadow-blue-200/50 dark:shadow-blue-900/50" 
@@ -244,13 +244,13 @@ const TimelineSection = () => {
 
                   <div className="flex items-start gap-4">
                     {/* Icon with unified design */}
-                    <motion.div 
+                    <m.div 
                       className={`p-3 bg-gradient-to-br ${getCountryColor(event.location)} rounded-xl shadow-lg`}
                       whileHover={{ scale: 1.05 }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
                       <Icon className="text-white" size={24} />
-                    </motion.div>
+                    </m.div>
 
                     <div className="flex-1">
                       {/* Year and location */}
@@ -282,8 +282,8 @@ const TimelineSection = () => {
 
                     </div>
                   </div>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             );
           })}
         </div>
