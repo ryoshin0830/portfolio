@@ -4,7 +4,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://ryosh.in";
 
   const locales = ["ja", "en", "zh"] as const;
-  const pages = ["", "about", "research", "skills", "projects", "gallery"] as const;
+  const pages = ["", "about", "research", "skills", "projects"] as const;
 
   const entries: MetadataRoute.Sitemap = [
     {

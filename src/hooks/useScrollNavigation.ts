@@ -27,9 +27,6 @@ export function useScrollNavigation() {
       "projects",
       "blog",
       "teaching",
-      "gallery",
-      "urlshortener",
-      "yopmail",
     ],
     []
   );

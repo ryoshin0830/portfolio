@@ -9,9 +9,6 @@
     "skills": "スキル",
     "projects": "プロジェクト",
     "blog": "ブログ",
-    "gallery": "ギャラリー",
-    "urlshortener": "URL短縮",
-    "yopmail": "使い捨てメール",
     "contact": "お問い合わせ",
     "more": "その他",
     "scrollToNext": "次のセクション：",
@@ -355,23 +352,6 @@
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック"
   },
-  "gallery": {
-    "title": "フォトギャラリー",
-    "subtitle": "研究・ビジネス・日常の様子",
-    "research": "研究活動",
-    "business": "ビジネス",
-    "daily": "日常",
-    "outdoor": "アウトドア",
-    "photoGallery": "フォトギャラリー",
-    "categoryFilter": "カテゴリーフィルター",
-    "all": "すべて",
-    "descriptions": {
-      "research": "京都大学での研究活動の様子",
-      "business": "ビジネス活動",
-      "daily": "日常生活の一コマ",
-      "outdoor": "アウトドア活動・スキーの様子"
-    }
-  },
   "contact": {
     "title": "お問い合わせ",
     "subtitle": "お気軽にご連絡ください",
@@ -490,7 +470,6 @@
   "badges": {
     "aboutMe": "プロフィール",
     "technicalExpertise": "技術的専門性",
-    "photoGallery": "フォトギャラリー",
     "academicResearch": "学術研究",
     "featuredProjects": "注目プロジェクト"
   },
@@ -533,68 +512,5 @@
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
     "shortName": "梁震"
-  },
-  "urlshortener": {
-    "title": "URL短縮ツール",
-    "subtitle": "長いURLを短く、覚えやすいリンクに変換",
-    "badge": "無料ツール",
-    "form": {
-      "urlLabel": "長いURL",
-      "urlPlaceholder": "URLを入力してください（例：example.com）",
-      "customPathLabel": "カスタムパス",
-      "customPathPlaceholder": "my-custom-link",
-      "optional": "（任意）",
-      "submit": "URLを短縮",
-      "generating": "生成中..."
-    },
-    "result": {
-      "title": "短縮されたURL：",
-      "copy": "クリップボードにコピー",
-      "open": "新しいタブで開く",
-      "copied": "コピーしました！"
-    },
-    "error": {
-      "failed": "URLの短縮に失敗しました",
-      "unknown": "不明なエラーが発生しました"
-    },
-    "footer": {
-      "info": "link.ryosh.in API提供",
-      "madeWith": "作成"
-    }
-  },
-  "yopmail": {
-    "badge": "プライバシーツール",
-    "title": "使い捨てメールアドレス",
-    "subtitle": "ryosh.inドメインで無制限の使い捨てメールアドレスへの即座アクセスを生成",
-    "form": {
-      "usernameLabel": "メールユーザー名",
-      "usernamePlaceholder": "user",
-      "usernameHint": "小文字、数字、ドット、ハイフン、アンダースコアのみ使用可能",
-      "createShortUrl": "アクセスリンク作成",
-      "generating": "生成中..."
-    },
-    "result": {
-      "title": "メールアクセス作成完了！",
-      "emailAddress": "メールアドレス",
-      "shortUrl": "アクセスURL",
-      "copy": "クリップボードにコピー",
-      "open": "メールボックスを開く",
-      "copied": "クリップボードにコピーしました！"
-    },
-    "info": {
-      "title": "仕組みについて",
-      "unlimited": "ryosh.inドメインで無制限のメールアドレス",
-      "noPassword": "パスワード不要 - 即座にアクセス",
-      "retention": "メッセージは8日間保存",
-      "forwarding": "ryosh.inからYopmailへの自動転送"
-    },
-    "error": {
-      "failed": "アクセスリンクの作成に失敗しました",
-      "unknown": "不明なエラーが発生しました"
-    },
-    "footer": {
-      "info": "テストとプライバシーのための無制限使い捨てメールアドレス",
-      "madeWith": "❤️で作成"
-    }
   }
 }
