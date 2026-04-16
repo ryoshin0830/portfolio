@@ -374,7 +374,7 @@ const Navigation = () => {
                 <div className="hidden lg:block">
                   {/* Menu Title */}
                   <motion.h2
-                    className="text-3xl sm:text-4xl md:text-6xl font-black gradient-text mb-12 sm:mb-16"
+                    className="text-3xl sm:text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-12 sm:mb-16"
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2, duration: 0.4 }}

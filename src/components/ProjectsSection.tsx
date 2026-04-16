@@ -173,7 +173,7 @@ const ProjectsSection = () => {
             <Rocket size={16} />
             {tBadges("featuredProjects")}
           </div>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black gradient-text mb-6 tracking-tight">
+          <h2 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
             {t("title")}
           </h2>
           <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
