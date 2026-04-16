@@ -84,12 +84,24 @@ const Navigation = () => {
   ];
 
   useEffect(() => {
+    let ticking = false;
+    let rafId: number;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      if (!ticking) {
+        rafId = requestAnimationFrame(() => {
+          const shouldBeScrolled = window.scrollY > 50;
+          setIsScrolled(prev => prev === shouldBeScrolled ? prev : shouldBeScrolled);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const activeSection = currentSection;
@@ -125,7 +137,7 @@ const Navigation = () => {
       <m.nav
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           isScrolled
-            ? "bg-white/95 dark:bg-slate-950/95 backdrop-blur-md shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
+            ? "bg-white dark:bg-slate-950 shadow-lg border-b border-slate-200/20 dark:border-slate-800/20"
             : "bg-transparent"
         }`}
         initial={{ y: -100 }}
@@ -148,6 +160,7 @@ const Navigation = () => {
                 alt="Logo"
                 width={24}
                 height={24}
+                sizes="36px"
                 className="relative rounded-full border-2 border-white dark:border-slate-800 shadow-lg sm:w-8 sm:h-8"
               />
             </div>
@@ -212,7 +225,7 @@ const Navigation = () => {
             {/* Theme Toggle */}
             <m.button
               onClick={toggleTheme}
-              className="p-1.5 sm:p-2 lg:p-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="p-1.5 sm:p-2 lg:p-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Toggle dark mode"
@@ -250,7 +263,7 @@ const Navigation = () => {
             <div className="relative language-menu">
               <m.button
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -265,7 +278,7 @@ const Navigation = () => {
               <AnimatePresence>
                 {showLangMenu && (
                   <m.div
-                    className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-white/95 dark:bg-slate-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
+                    className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -296,7 +309,7 @@ const Navigation = () => {
             {/* Mobile Menu Button */}
             <m.button
               onClick={() => setShowMoreMenu(!showMoreMenu)}
-              className="lg:hidden p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
+              className="lg:hidden p-1.5 sm:p-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

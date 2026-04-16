@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import {
   Code,
   Monitor,
@@ -32,8 +30,8 @@ import {
   SiTensorflow,
 } from "react-icons/si";
 
-const SkillsSection = () => {
-  const t = useTranslations("skills");
+const SkillsSection = async () => {
+  const t = await getTranslations("skills");
 
   const skillCategories = [
     {
@@ -185,7 +183,7 @@ const SkillsSection = () => {
               return (
                 <div
                   key={categoryIndex}
-                  className="group relative overflow-hidden bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
+                  className="group relative overflow-hidden bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
                 >
                   {/* Background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -228,10 +226,13 @@ const SkillsSection = () => {
                             
                             <div className="relative w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
                               <div
-                                className="h-full rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
-                                style={{ 
+                                className="h-full rounded-full relative overflow-hidden"
+                                style={{
                                   background: `linear-gradient(90deg, ${skill.color}99, ${skill.color})`,
-                                  width: `${skill.level}%`
+                                  width: '100%',
+                                  transform: `scaleX(${skill.level / 100})`,
+                                  transformOrigin: 'left',
+                                  transition: 'transform 1s ease-out'
                                 }}
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
@@ -251,7 +252,7 @@ const SkillsSection = () => {
         {/* Certifications */}
         <div className="mb-24">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
               <div className="p-2 bg-gradient-to-r from-amber-500 to-orange-600 rounded-lg shadow-lg">
                 <Award className="text-white" size={20} />
               </div>
@@ -267,7 +268,7 @@ const SkillsSection = () => {
               {certifications.list.map((cert, index) => (
                 <div
                   key={index}
-                  className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-200"
+                  className="group relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200/50 dark:border-slate-700/50 shadow-lg hover:shadow-xl transition-all duration-200"
                 >
                   
                   <div className="relative z-10">
@@ -297,7 +298,7 @@ const SkillsSection = () => {
         {/* Language Skills */}
         <div>
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-full shadow-lg mb-8">
               <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg shadow-lg">
                 <Globe className="text-white" size={20} />
               </div>
@@ -310,7 +311,7 @@ const SkillsSection = () => {
               {languages.map((language, index) => (
                 <div
                   key={index}
-                  className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
+                  className="group relative overflow-hidden bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
                 >
                   {/* Background gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-emerald-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-emerald-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
@@ -341,8 +342,13 @@ const SkillsSection = () => {
                       
                       <div className="relative w-full bg-slate-200 dark:bg-slate-700 rounded-full h-4 overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full relative overflow-hidden transition-all duration-1000 ease-out"
-                          style={{ width: `${language.level}%` }}
+                          className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full relative overflow-hidden"
+                          style={{
+                            width: '100%',
+                            transform: `scaleX(${language.level / 100})`,
+                            transformOrigin: 'left',
+                            transition: 'transform 1s ease-out'
+                          }}
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
                         </div>
