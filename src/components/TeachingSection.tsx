@@ -132,7 +132,7 @@ export default function TeachingSection() {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow"
+              className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors duration-200"
             >
               <div className={`bg-gradient-to-r ${stat.color} p-3 rounded-lg w-fit mb-4`}>
                 <stat.icon className="w-6 h-6 text-white" />
@@ -203,7 +203,7 @@ export default function TeachingSection() {
               <motion.div
                 key={index}
                 variants={itemVariants}
-                className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1"
+                className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors duration-200"
               >
                 <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-3 rounded-lg w-fit mb-4">
                   <course.icon className="w-6 h-6 text-white" />

@@ -135,7 +135,7 @@ const GallerySection = () => {
               className="group cursor-pointer transition-transform duration-200 hover:-translate-y-2"
               onClick={() => openModal(index)}
             >
-              <div className="relative aspect-square overflow-hidden rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-200 border-4 border-white dark:border-slate-800">
+              <div className="relative aspect-square bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-200">
                 <Image
                   src={image.src}
                   alt={image.alt}
