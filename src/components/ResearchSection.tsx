@@ -139,7 +139,7 @@ const ResearchSection = () => {
               <m.div
                 key={index}
                 variants={itemVariants}
-                className="bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors duration-200"
               >
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex-1">

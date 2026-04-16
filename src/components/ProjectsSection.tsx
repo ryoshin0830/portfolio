@@ -183,7 +183,7 @@ const ProjectsSection = () => {
 
         {/* Leadership Section */}
         <div className="mb-16">
-          <div className="max-w-4xl mx-auto bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl">
+          <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-2xl p-6 border-l-4 border-l-teal-500 shadow-md hover:shadow-lg transition-shadow duration-200">
             <div className="flex items-start gap-6">
               <div className="p-4 rounded-2xl bg-green-600 text-white shadow-lg">
                 <Users size={32} />
@@ -220,7 +220,7 @@ const ProjectsSection = () => {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-3xl p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-200"
+                className="group relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl p-6 border-l-4 border-l-teal-500 shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 {/* Background gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
