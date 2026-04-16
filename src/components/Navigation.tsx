@@ -85,10 +85,12 @@ const Navigation = () => {
 
   useEffect(() => {
     let ticking = false;
+    let rafId: number;
     const handleScroll = () => {
       if (!ticking) {
-        requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 50);
+        rafId = requestAnimationFrame(() => {
+          const shouldBeScrolled = window.scrollY > 50;
+          setIsScrolled(prev => prev === shouldBeScrolled ? prev : shouldBeScrolled);
           ticking = false;
         });
         ticking = true;
@@ -96,7 +98,10 @@ const Navigation = () => {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const activeSection = currentSection;
