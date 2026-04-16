@@ -94,7 +94,7 @@ export default async function RootLayout({
   const messages = await getMessages({ locale: validLocale });
 
   return (
-    <html lang={validLocale} className="scroll-smooth" suppressHydrationWarning data-oid="bphv6.8">
+    <html lang={validLocale} suppressHydrationWarning data-oid="bphv6.8">
       <head data-oid="8k2pgtd">
         {/* Theme script to prevent flash */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
