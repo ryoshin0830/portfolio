@@ -174,15 +174,6 @@ h4, h5, h6 {
   border-radius: 2px;
 }
 
-/* Hero name display — locale-aware clamp.
-   CJK glyphs are wider per character, so ja/zh size down a step vs. en. */
-.name-display {
-  font-size: clamp(4rem, 13vw, 9rem);
-}
-:lang(en) .name-display {
-  font-size: clamp(4rem, 15vw, 11rem);
-}
-
 /* Hairline rules */
 hr, .rule {
   border: 0;
