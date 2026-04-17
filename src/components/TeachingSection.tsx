@@ -1,16 +1,8 @@
-"use client";
-
-import { useTranslations } from "next-intl";
-import { m } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { getTranslations } from "next-intl/server";
 import { GraduationCap, Users, Clock, Award, BookOpen, Target } from "lucide-react";
 
-export default function TeachingSection() {
-  const t = useTranslations("teaching");
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+export default async function TeachingSection() {
+  const t = await getTranslations("teaching");
 
   const stats = [
     {
@@ -60,51 +52,20 @@ export default function TeachingSection() {
     },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: 30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
-    <section id="teaching" className="pt-20 pb-16" ref={ref}>
+    <section id="teaching" className="pt-20 pb-16">
       <div className="container mx-auto px-4">
-        <m.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             {t("title")}
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-400">
             {t("subtitle")}
           </p>
-        </m.div>
+        </div>
 
         {/* JLPT Perfect Score Badge */}
-        <m.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-md mx-auto mb-12"
-        >
+        <div className="max-w-md mx-auto mb-12">
           <div className="bg-gradient-to-r from-yellow-400 to-orange-500 p-1 rounded-2xl shadow-lg">
             <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 text-center">
               <Award className="w-12 h-12 mx-auto mb-3 text-yellow-500" />
@@ -119,20 +80,14 @@ export default function TeachingSection() {
               </p>
             </div>
           </div>
-        </m.div>
+        </div>
 
         {/* Statistics */}
-        <m.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
-        >
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           {stats.map((stat, index) => (
-            <m.div
+            <div
               key={index}
-              variants={itemVariants}
-              className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors duration-200"
+              className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200"
             >
               <div className={`bg-gradient-to-r ${stat.color} p-3 rounded-lg w-fit mb-4`}>
                 <stat.icon className="w-6 h-6 text-white" />
@@ -143,17 +98,12 @@ export default function TeachingSection() {
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 {stat.label}
               </div>
-            </m.div>
+            </div>
           ))}
-        </m.div>
+        </div>
 
         {/* Teaching Experience */}
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mb-16"
-        >
+        <div className="mb-16">
           <h3 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
             {t("experienceTitle")}
           </h3>
@@ -187,23 +137,18 @@ export default function TeachingSection() {
               </div>
             </div>
           </div>
-        </m.div>
+        </div>
 
         {/* Courses */}
-        <m.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
+        <div>
           <h3 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
             {t("coursesOffered")}
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             {courses.map((course, index) => (
-              <m.div
+              <div
                 key={index}
-                variants={itemVariants}
-                className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-750 transition-colors duration-200"
+                className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors duration-200"
               >
                 <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-3 rounded-lg w-fit mb-4">
                   <course.icon className="w-6 h-6 text-white" />
@@ -225,25 +170,20 @@ export default function TeachingSection() {
                     </li>
                   ))}
                 </ul>
-              </m.div>
+              </div>
             ))}
           </div>
-        </m.div>
+        </div>
 
         {/* Teaching Philosophy */}
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 text-center max-w-3xl mx-auto"
-        >
+        <div className="mt-16 text-center max-w-3xl mx-auto">
           <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
             {t("philosophyTitle")}
           </h3>
           <p className="text-lg text-gray-600 dark:text-gray-400 italic">
             &ldquo;{t("philosophyQuote")}&rdquo;
           </p>
-        </m.div>
+        </div>
       </div>
     </section>
   );
