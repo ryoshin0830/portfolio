@@ -112,7 +112,12 @@ export default async function RootLayout({
   const messages = await getMessages({ locale: validLocale });
 
   return (
-    <html lang={validLocale} suppressHydrationWarning data-oid="bphv6.8">
+    <html
+      lang={validLocale}
+      className={`${fraunces.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${notoSerifJP.variable}`}
+      suppressHydrationWarning
+      data-oid="bphv6.8"
+    >
       <head data-oid="8k2pgtd">
         {/* Theme script to prevent flash */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
@@ -147,7 +152,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body
-        className={`${fraunces.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${notoSerifJP.variable} antialiased overflow-x-hidden w-full max-w-full`}
+        className="antialiased overflow-x-hidden w-full max-w-full"
         suppressHydrationWarning
         data-oid="1ogajcn"
       >
