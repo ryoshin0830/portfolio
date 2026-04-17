@@ -1,10 +1,11 @@
 import { getTranslations } from "next-intl/server";
+import { ExternalLink } from "lucide-react";
 
 type Publication = {
   authors: string;
   year: number;
   title: string;
-  venue: string;
+  journal: string;
   volume?: string;
   pages?: string;
   doi?: string;
@@ -45,7 +46,7 @@ const ResearchSection = async () => {
       authors: item.authors,
       year: Number(item.year),
       title: item.title,
-      venue: item.journal,
+      journal: item.journal,
       volume: item.volume,
       pages: item.pages,
       doi: item.doi,
@@ -56,7 +57,7 @@ const ResearchSection = async () => {
       authors: item.authors,
       year: Number(item.year),
       title: item.title,
-      venue: item.conference,
+      journal: item.conference,
       link: item.link,
       type: "conference" as const,
     })),
@@ -69,83 +70,89 @@ const ResearchSection = async () => {
     });
 
   return (
-    <section id="research" className="py-24 bg-[color:var(--color-paper)]">
-      <div className="container mx-auto px-6 sm:px-10 max-w-5xl">
-        <header className="mb-12">
-          <p className="meta">
+    <section id="research" className="pt-16 pb-20 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
+      <div className="container mx-auto px-6">
+        {/* Header */}
+        <div className="text-center mb-20">
+          <div className="text-sm font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
             {t("academicResearch")}
-            <span aria-hidden="true" className="mx-2 opacity-60">·</span>
-            {t("publications")}
-          </p>
-          <h2 className="headline-italic text-3xl sm:text-4xl text-[color:var(--color-ink)] mt-2 leading-tight max-w-3xl">
-            {t("title")} &mdash; {t("subtitle")}
+          </div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
+            {t("title")}
           </h2>
-        </header>
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+            {t("subtitle")}
+          </p>
+        </div>
 
-        <ol className="divide-y divide-[color:var(--color-rule-soft)]">
-          {publications.map((pub, index) => {
-            const num = String(index + 1).padStart(2, "0");
-            return (
-              <li
+        {/* Publications */}
+        <div className="mt-20">
+          <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
+            {t("publications")}
+          </h3>
+
+          <div className="space-y-6 max-w-4xl mx-auto">
+            {publications.map((pub, index) => (
+              <div
                 key={index}
-                className="grid grid-cols-[3rem_1fr] sm:grid-cols-[5rem_1fr] gap-4 sm:gap-8 py-6"
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors duration-200"
               >
-                <div>
-                  <p className="meta">{num}</p>
-                  <p className="meta mt-1 text-[color:var(--color-ink)]">
-                    {pub.year}
-                  </p>
-                  <p className="meta mt-1 opacity-70">
-                    {pub.type === "journal"
-                      ? t("peerReviewedPapers")
-                      : t("conferencePresentations")}
-                  </p>
+                <div className="flex items-start justify-between flex-wrap gap-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex-1">
+                    {pub.title}
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-sm font-medium px-3 py-1 rounded-full ${
+                      pub.type === "journal"
+                        ? "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30"
+                        : "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30"
+                    }`}>
+                      {pub.year}
+                    </span>
+                    <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">
+                      {pub.type === "journal" ? t("peerReviewedPapers") : t("conferencePresentations")}
+                    </span>
+                  </div>
                 </div>
-                <div className="pl-2 sm:pl-0">
-                  <p className="text-[color:var(--color-ink)] leading-[1.6]">
-                    <span className="text-[color:var(--color-ink-soft)]">
-                      {pub.authors}
-                    </span>
-                    .{" "}
-                    <span className="text-[color:var(--color-ink)]">
-                      {pub.title}
-                    </span>
-                    .{" "}
-                    <span className="headline-italic text-[color:var(--color-ink)]">
-                      {pub.venue}
-                    </span>
-                    {pub.volume && `, ${pub.volume}`}
-                    {pub.pages && `, pp. ${pub.pages}`}.
-                  </p>
-                  {(pub.doi || pub.link) && (
-                    <p className="meta mt-2">
-                      {pub.doi && (
-                        <a
-                          href={pub.doi}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[color:var(--color-teal-ink)] hover:underline underline-offset-2 mr-4"
-                        >
-                          {t("doi")}
-                        </a>
-                      )}
-                      {pub.link && (
-                        <a
-                          href={pub.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[color:var(--color-teal-ink)] hover:underline underline-offset-2"
-                        >
-                          {pubT("viewPaper")} ↗
-                        </a>
-                      )}
-                    </p>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ol>
+
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                  {pub.authors}
+                </p>
+
+                <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 italic">
+                  {pub.journal}
+                  {pub.volume && `, ${pub.volume}`}
+                  {pub.pages && `, pp. ${pub.pages}`}
+                </p>
+
+                {(pub.doi || pub.link) && (
+                  <div className="mt-3">
+                    {pub.doi && (
+                      <a
+                        href={pub.doi}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline mr-4"
+                      >
+                        {t("doi")}
+                      </a>
+                    )}
+                    {pub.link && (
+                      <a
+                        href={pub.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
+                      >
+                        {pubT("viewPaper")} <ExternalLink size={14} />
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
