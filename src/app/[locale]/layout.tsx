@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Instrument_Serif, JetBrains_Mono, Noto_Serif_JP } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
 import MotionProvider from "@/components/MotionProvider";
 import StructuredData from "@/components/StructuredData";
@@ -110,6 +110,7 @@ export default async function RootLayout({
   // Validate locale and provide default
   const validLocale =
     locale && ["ja", "en", "zh"].includes(locale) ? locale : "ja";
+  setRequestLocale(validLocale);
   const messages = await getMessages({ locale: validLocale });
 
   return (

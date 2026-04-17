@@ -175,56 +175,42 @@ const Navigation = () => {
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">
             {/* Primary Navigation Items */}
             {primaryNavItems.map((item) => (
-              <m.div
+              <button
                 key={item.key}
-                className="relative"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                type="button"
+                onClick={() => navigateTo(item.sectionId)}
+                className={`px-3 py-2 text-sm transition-colors ${
+                  activeSection === item.sectionId
+                    ? "text-[color:var(--color-ink)] underline underline-offset-4 decoration-[color:var(--color-teal-ink)] decoration-2"
+                    : "text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
+                }`}
               >
-                {activeSection === item.sectionId && (
-                  <m.div
-                    className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
-                )}
-                <button
-                  className={`relative z-10 px-2 lg:px-3 xl:px-4 py-1.5 lg:py-2 xl:py-2.5 rounded-full font-medium text-xs lg:text-sm transition-all duration-300 ${
-                    activeSection === item.sectionId
-                      ? "text-white"
-                      : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
-                  }`}
-                  onClick={() => navigateTo(item.sectionId)}
-                >
-                  {t(item.key)}
-                </button>
-              </m.div>
+                {t(item.key)}
+              </button>
             ))}
 
             {/* Hamburger Menu Button */}
-            <m.button
+            <button
+              type="button"
               onClick={() => setShowMoreMenu(!showMoreMenu)}
-              className={`p-2 lg:p-3 rounded-full transition-all duration-300 ${
+              aria-label="Menu"
+              className={`p-2 lg:p-3 transition-colors ${
                 secondaryNavItems.some(item => activeSection === item.sectionId)
-                  ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white"
-                  : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  ? "text-[color:var(--color-teal-ink)]"
+                  : "text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
               }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <Menu size={16} className="lg:w-5 lg:h-5" />
-            </m.button>
+            </button>
           </div>
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
             {/* Theme Toggle */}
-            <m.button
+            <button
+              type="button"
               onClick={toggleTheme}
-              className="p-1.5 sm:p-2 lg:p-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="p-1.5 sm:p-2 lg:p-2.5 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
               aria-label="Toggle dark mode"
             >
               {mounted ? (
@@ -254,49 +240,52 @@ const Navigation = () => {
               ) : (
                 <div className="w-[14px] h-[14px] sm:w-[18px] sm:h-[18px] lg:w-5 lg:h-5" />
               )}
-            </m.button>
+            </button>
 
             {/* Language Selector */}
             <div className="relative language-menu">
-              <m.button
+              <button
+                type="button"
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="flex items-center gap-1 sm:gap-2 px-1.5 sm:px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                aria-haspopup="menu"
+                aria-expanded={showLangMenu}
+                className="flex items-center gap-1 sm:gap-2 px-2 lg:px-3 py-1.5 sm:py-2 lg:py-2.5 border border-[color:var(--color-rule-soft)] text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] hover:border-[color:var(--color-rule)] transition-colors"
               >
                 <span className="text-sm sm:text-base lg:text-lg">
                   {languages.find(lang => lang.code === locale)?.flag || "🌍"}
                 </span>
-                <span className="hidden sm:block text-xs lg:text-sm font-medium truncate max-w-16 lg:max-w-none">
+                <span className="hidden sm:block text-xs lg:text-sm truncate max-w-16 lg:max-w-none">
                   {languages.find(lang => lang.code === locale)?.name || locale.toUpperCase()}
                 </span>
-              </m.button>
+              </button>
 
               <AnimatePresence>
                 {showLangMenu && (
                   <m.div
-                    className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50"
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
+                    role="menu"
+                    className="absolute top-full right-0 mt-2 py-2 w-32 sm:w-40 lg:w-48 bg-[color:var(--color-paper)] border border-[color:var(--color-rule-soft)]"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
                   >
                     {languages.map((language) => (
-                      <m.button
+                      <button
                         key={language.code}
+                        role="menuitem"
+                        type="button"
                         onClick={() => handleLanguageChange(language.code)}
-                        className={`w-full text-left px-3 lg:px-4 py-2 lg:py-3 text-xs lg:text-sm font-medium transition-all duration-200 ${
+                        className={`w-full text-left px-3 lg:px-4 py-2 lg:py-3 text-xs lg:text-sm transition-colors ${
                           locale === language.code
-                            ? "bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400"
-                            : "text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                            ? "text-[color:var(--color-teal-ink)]"
+                            : "text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] hover:bg-[color:var(--color-paper-deep)]"
                         }`}
-                        whileHover={{ x: 4 }}
                       >
                         <span className="flex items-center gap-2 lg:gap-3">
                           <span className="text-sm lg:text-lg">{language.flag}</span>
                           <span className="truncate">{language.name}</span>
                         </span>
-                      </m.button>
+                      </button>
                     ))}
                   </m.div>
                 )}
@@ -304,14 +293,14 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <m.button
+            <button
+              type="button"
               onClick={() => setShowMoreMenu(!showMoreMenu)}
-              className="lg:hidden p-1.5 sm:p-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200/50 dark:border-slate-700/50 text-slate-700 dark:text-slate-300 hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              aria-label="Menu"
+              className="lg:hidden p-1.5 sm:p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
             >
               <Menu size={14} className="sm:w-[18px] sm:h-[18px]" />
-            </m.button>
+            </button>
           </div>
         </div>
 
