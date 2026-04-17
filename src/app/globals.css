@@ -1,108 +1,213 @@
 @import "tailwindcss";
 
-
-/* Define dark variant for Tailwind v4 */
 @variant dark (&:is(:root.dark *));
 
+/* ─────────────────────────────────────────────────────────────
+   Editorial Academic tokens
+   paper + ink + hairline rule + single teal accent
+   No gradients. No backdrop blur. No colored shadows.
+   ──────────────────────────────────────────────────────────── */
+
 :root {
-  --background: #fafafa;
-  --foreground: #0a0a0a;
-  --primary: #0d9488;         /* teal-600 - distinctive, not generic blue */
-  --primary-dark: #0f766e;    /* teal-700 */
-  --secondary: #d97706;       /* amber-600 - warm accent */
-  --accent: #0891b2;          /* cyan-600 */
-  --muted: #f1f5f9;
-  --border: #e2e8f0;
-  --gradient-start: #0d9488;  /* teal */
-  --gradient-end: #d97706;    /* amber */
+  --color-paper: #f5f1e8;
+  --color-paper-deep: #ebe5d6;
+  --color-ink: #0b0a08;
+  --color-ink-soft: #2a2621;
+  --color-rule: #1a1815;
+  --color-rule-soft: #c9c0ad;
+  --color-teal-ink: #0f5f5c;
+  --color-amber-mark: #8a5a1c;
+
+  /* back-compat aliases so legacy class consumers don't break mid-refactor */
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+  --primary: var(--color-teal-ink);
+  --primary-dark: #0b4744;
+  --secondary: var(--color-amber-mark);
+  --accent: var(--color-teal-ink);
+  --muted: var(--color-paper-deep);
+  --border: var(--color-rule-soft);
 }
 
 :root.dark {
-  --background: #0c0a09;    /* stone-950 - warmer than slate */
-  --foreground: #fafaf9;    /* stone-50 */
-  --primary: #14b8a6;       /* teal-400 - brighter in dark */
-  --primary-dark: #0d9488;  /* teal-600 */
-  --secondary: #fbbf24;     /* amber-300 - warm accent */
-  --accent: #22d3ee;        /* cyan-300 */
-  --muted: #1c1917;         /* stone-900 */
-  --border: #292524;        /* stone-800 */
-  --gradient-start: #14b8a6;
-  --gradient-end: #fbbf24;
+  --color-paper: #121010;
+  --color-paper-deep: #1a1816;
+  --color-ink: #ede7d6;
+  --color-ink-soft: #c9c0ad;
+  --color-rule: #ede7d6;
+  --color-rule-soft: #3a342b;
+  --color-teal-ink: #14b8a6;
+  --color-amber-mark: #d4a574;
+
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+  --primary: var(--color-teal-ink);
+  --primary-dark: #0d9488;
+  --secondary: var(--color-amber-mark);
+  --accent: var(--color-teal-ink);
+  --muted: var(--color-paper-deep);
+  --border: var(--color-rule-soft);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: 'Inter', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  --color-paper: var(--color-paper);
+  --color-paper-deep: var(--color-paper-deep);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-rule: var(--color-rule);
+  --color-rule-soft: var(--color-rule-soft);
+  --color-teal-ink: var(--color-teal-ink);
+  --color-amber-mark: var(--color-amber-mark);
+
+  --font-serif: var(--font-fraunces), var(--font-noto-serif-jp), 'Fraunces', 'IBM Plex Serif', 'Noto Serif JP', Georgia, serif;
+  --font-display: var(--font-instrument-serif), var(--font-noto-serif-jp), 'Instrument Serif', 'Fraunces', Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
+  --font-sans: var(--font-fraunces), var(--font-noto-serif-jp), 'Fraunces', 'Noto Serif JP', Georgia, serif;
+  --font-cjk: var(--font-noto-serif-jp), 'Noto Serif JP', 'Hiragino Mincho ProN', 'YuMincho', serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --background: #0c0a09;
-    --foreground: #fafaf9;
-    --muted: #1c1917;
-    --border: #292524;
+    --color-paper: #121010;
+    --color-paper-deep: #1a1816;
+    --color-ink: #ede7d6;
+    --color-ink-soft: #c9c0ad;
+    --color-rule: #ede7d6;
+    --color-rule-soft: #3a342b;
+    --color-teal-ink: #14b8a6;
+    --color-amber-mark: #d4a574;
+    --background: var(--color-paper);
+    --foreground: var(--color-ink);
+    --muted: var(--color-paper-deep);
+    --border: var(--color-rule-soft);
   }
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 html {
   overflow-x: hidden;
   width: 100%;
+  /* Resolve the serif stack at the element that carries the next/font CSS variables. */
+  font-family:
+    var(--font-fraunces, 'Fraunces'),
+    var(--font-noto-serif-jp, 'Noto Serif JP'),
+    'IBM Plex Serif', Georgia, serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  line-height: 1.6;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: inherit;
+  font-size: 1.0625rem;
+  line-height: 1.65;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
+  font-feature-settings: "ss01", "onum", "liga", "kern";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+/* Paper grain — one fixed SVG, GPU-cheap */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--muted);
+:root.dark body::before {
+  opacity: 0.35;
+  mix-blend-mode: screen;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
+/* Editorial typography */
+h1, h2, h3 {
+  font-family:
+    var(--font-instrument-serif, 'Instrument Serif'),
+    var(--font-noto-serif-jp, 'Noto Serif JP'),
+    var(--font-fraunces, 'Fraunces'),
+    Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--color-ink);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
+h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-/* Selection styles */
+/* Hairline rules */
+hr, .rule {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: 2rem 0;
+}
+
+.rule-soft {
+  border: 0;
+  border-top: 1px solid var(--color-rule-soft);
+}
+
+/* Meta / caption text — mono, small caps vibe */
+.meta {
+  font-family:
+    var(--font-jetbrains-mono, 'JetBrains Mono'),
+    ui-monospace, Menlo, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/* Drop cap for About / article openings */
+.dropcap::first-letter {
+  font-family:
+    var(--font-instrument-serif, 'Instrument Serif'),
+    var(--font-noto-serif-jp, 'Noto Serif JP'),
+    Georgia, serif;
+  font-style: italic;
+  font-size: 4.5em;
+  line-height: 0.85;
+  float: left;
+  padding: 0.1em 0.12em 0 0;
+  color: var(--color-ink);
+}
+
+/* Scrollbar — ink on paper */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-paper-deep); }
+::-webkit-scrollbar-thumb { background: var(--color-rule); border-radius: 0; }
+
 ::selection {
-  background: var(--primary);
-  color: white;
+  background: var(--color-ink);
+  color: var(--color-paper);
 }
 
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Container utility to ensure proper responsive behavior */
 .responsive-container {
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
