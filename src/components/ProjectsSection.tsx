@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Smartphone, Globe, Brain, BookOpen, Star, Users } from "lucide-react";
 import {
   SiReact as SiReactnative,
@@ -20,11 +18,11 @@ import {
   SiTailwindcss,
 } from "react-icons/si";
 
-const ProjectsSection = () => {
-  const t = useTranslations("projects");
-  const tBadges = useTranslations("badges");
-  const tStatus = useTranslations("status");
-  const tDates = useTranslations("dates");
+const ProjectsSection = async () => {
+  const t = await getTranslations("projects");
+  const tBadges = await getTranslations("badges");
+  const tStatus = await getTranslations("status");
+  const tDates = await getTranslations("dates");
 
   // Get projects from translations
   const projectsList = t.raw("projectsList") as Array<{
