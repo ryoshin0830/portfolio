@@ -124,6 +124,23 @@
     "conferencePresentations": "Conference Presentations",
     "academicResearch": "Academic Research",
     "doi": "DOI →",
+    "books": "Books",
+    "bookChapter": "Book Chapter",
+    "ebookIsbn": "eBook ISBN",
+    "printIsbn": "Print ISBN",
+    "viewOnSpringer": "View on Springer Nature Link",
+    "booksList": [
+      {
+        "authors": "Liang, Z. (contributing author)",
+        "year": "2026",
+        "title": "English Language Education: Current Issues and Future Prospects I",
+        "publisher": "Springer Nature Singapore",
+        "role": "bookChapter",
+        "isbn": "978-981-95-6163-6",
+        "printIsbn": "978-981-95-6162-9",
+        "link": "https://link.springer.com/book/10.1007/978-981-95-6163-6"
+      }
+    ],
     "peerReviewedList": [
       {
         "authors": "Wang, F., Kanamaru, T., & Liang, Z.",

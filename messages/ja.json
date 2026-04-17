@@ -124,6 +124,23 @@
     "conferencePresentations": "学会発表",
     "academicResearch": "学術研究",
     "doi": "DOI →",
+    "books": "著書",
+    "bookChapter": "分担執筆",
+    "ebookIsbn": "電子書籍 ISBN",
+    "printIsbn": "印刷版 ISBN",
+    "viewOnSpringer": "Springer Nature Link で見る",
+    "booksList": [
+      {
+        "authors": "梁 震（分担執筆）",
+        "year": "2026",
+        "title": "英語教育：現状の課題と将来展望 I",
+        "publisher": "シュプリンガー・ネイチャー（シンガポール）",
+        "role": "bookChapter",
+        "isbn": "978-981-95-6163-6",
+        "printIsbn": "978-981-95-6162-9",
+        "link": "https://link.springer.com/book/10.1007/978-981-95-6163-6"
+      }
+    ],
     "peerReviewedList": [
       {
         "authors": "王 芳, 金丸 敏幸, 梁 震",

@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, BookOpen } from "lucide-react";
 
 type Publication = {
   authors: string;
@@ -36,6 +36,19 @@ type ConferenceListItem = {
   link?: string;
 };
 
+type BookListItem = {
+  authors: string;
+  year: string | number;
+  title: string;
+  publisher: string;
+  role?: string;
+  isbn?: string;
+  printIsbn?: string;
+  link?: string;
+};
+
+type Book = BookListItem & { year: number };
+
 const ResearchSection = () => {
   const t = useTranslations("research");
   const pubT = useTranslations("publications");
@@ -48,6 +61,12 @@ const ResearchSection = () => {
   const conferencePresentations = t.raw(
     "conferencePresentationsList",
   ) as ConferenceListItem[];
+  const booksRaw = t.raw("booksList") as BookListItem[] | undefined;
+
+  const books: Book[] = (booksRaw ?? [])
+    .map((item) => ({ ...item, year: Number(item.year) }))
+    .filter((b) => Number.isFinite(b.year))
+    .sort((a, b) => b.year - a.year);
 
   const publications: Publication[] = [
     ...peerReviewed.map((item) => ({
@@ -116,6 +135,90 @@ const ResearchSection = () => {
           </p>
         </div>
 
+
+        {/* Books */}
+        {books.length > 0 && (
+          <m.div
+            initial={{ opacity: 0 }}
+            animate={inView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-12"
+          >
+            <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
+              {t("books")}
+            </h3>
+
+            <m.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              className="space-y-6 max-w-4xl mx-auto"
+            >
+              {books.map((book, index) => (
+                <m.div
+                  key={`book-${index}`}
+                  variants={itemVariants}
+                  className="bg-gradient-to-br from-amber-50/70 to-orange-50/40 dark:from-amber-900/10 dark:to-orange-900/5 rounded-xl p-6 border border-amber-200/60 dark:border-amber-800/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors duration-200"
+                >
+                  <div className="flex items-start justify-between flex-wrap gap-2">
+                    <div className="flex items-start gap-3 flex-1">
+                      <BookOpen className="text-amber-600 dark:text-amber-400 mt-1 flex-shrink-0" size={22} />
+                      <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white flex-1">
+                        {book.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium px-3 py-1 rounded-full text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/30">
+                        {book.year}
+                      </span>
+                      {book.role && (
+                        <span className="text-xs px-2 py-1 bg-amber-100/70 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 rounded">
+                          {t(book.role)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 pl-9">
+                    {book.authors}
+                  </p>
+
+                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 italic pl-9">
+                    {book.publisher}
+                  </p>
+
+                  {(book.isbn || book.printIsbn) && (
+                    <div className="mt-2 pl-9 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
+                      {book.isbn && (
+                        <span>
+                          <span className="font-medium">{t("ebookIsbn")}:</span> {book.isbn}
+                        </span>
+                      )}
+                      {book.printIsbn && (
+                        <span>
+                          <span className="font-medium">{t("printIsbn")}:</span> {book.printIsbn}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {book.link && (
+                    <div className="mt-3 pl-9">
+                      <a
+                        href={book.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-amber-700 dark:text-amber-400 hover:underline inline-flex items-center gap-1"
+                      >
+                        {t("viewOnSpringer")} <ExternalLink size={14} />
+                      </a>
+                    </div>
+                  )}
+                </m.div>
+              ))}
+            </m.div>
+          </m.div>
+        )}
 
         {/* Publications */}
         <m.div
