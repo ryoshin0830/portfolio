@@ -9,7 +9,7 @@ import TeachingSection from "@/components/TeachingSection";
 
 export default function Home() {
   return (
-    <>
+    <main>
       <HeroSection />
       <LatestZennArticle />
       <AboutSection />
@@ -18,6 +18,6 @@ export default function Home() {
       <ProjectsSection />
       <ZennFeed />
       <TeachingSection />
-    </>
+    </main>
   );
 }

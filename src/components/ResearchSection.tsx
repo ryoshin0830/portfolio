@@ -1,4 +1,8 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
+import { m } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { ExternalLink } from "lucide-react";
 
 type Publication = {
@@ -32,9 +36,13 @@ type ConferenceListItem = {
   link?: string;
 };
 
-const ResearchSection = async () => {
-  const t = await getTranslations("research");
-  const pubT = await getTranslations("publications");
+const ResearchSection = () => {
+  const t = useTranslations("research");
+  const pubT = useTranslations("publications");
+  const [ref, inView] = useInView({
+    threshold: 0.1,
+    triggerOnce: true,
+  });
 
   const peerReviewed = t.raw("peerReviewedList") as PeerReviewedListItem[];
   const conferencePresentations = t.raw(
@@ -69,8 +77,31 @@ const ResearchSection = async () => {
       return 0;
     });
 
+
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
-    <section id="research" className="pt-16 pb-20 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
+    <section id="research" className="pt-16 pb-20 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50" ref={ref}>
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-20">
@@ -85,16 +116,28 @@ const ResearchSection = async () => {
           </p>
         </div>
 
+
         {/* Publications */}
-        <div className="mt-20">
+        <m.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-20"
+        >
           <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
             {t("publications")}
           </h3>
-
-          <div className="space-y-6 max-w-4xl mx-auto">
+          
+          <m.div
+            variants={containerVariants}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            className="space-y-6 max-w-4xl mx-auto"
+          >
             {publications.map((pub, index) => (
-              <div
+              <m.div
                 key={index}
+                variants={itemVariants}
                 className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors duration-200"
               >
                 <div className="flex items-start justify-between flex-wrap gap-2">
@@ -103,7 +146,7 @@ const ResearchSection = async () => {
                   </h3>
                   <div className="flex items-center gap-2">
                     <span className={`text-sm font-medium px-3 py-1 rounded-full ${
-                      pub.type === "journal"
+                      pub.type === "journal" 
                         ? "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30"
                         : "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30"
                     }`}>
@@ -114,17 +157,17 @@ const ResearchSection = async () => {
                     </span>
                   </div>
                 </div>
-
+                
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                   {pub.authors}
                 </p>
-
+                
                 <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 italic">
                   {pub.journal}
                   {pub.volume && `, ${pub.volume}`}
                   {pub.pages && `, pp. ${pub.pages}`}
                 </p>
-
+                
                 {(pub.doi || pub.link) && (
                   <div className="mt-3">
                     {pub.doi && (
@@ -149,10 +192,11 @@ const ResearchSection = async () => {
                     )}
                   </div>
                 )}
-              </div>
+              </m.div>
             ))}
-          </div>
-        </div>
+          </m.div>
+
+        </m.div>
       </div>
     </section>
   );

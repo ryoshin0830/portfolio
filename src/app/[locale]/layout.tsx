@@ -14,6 +14,7 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
+  axes: ["opsz", "SOFT"],
 });
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -24,13 +25,11 @@ const instrumentSerif = Instrument_Serif({
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
 const notoSerifJP = Noto_Serif_JP({
   subsets: ["latin"],
-  weight: ["400", "700"],
   variable: "--font-noto-serif-jp",
   display: "swap",
 });

@@ -144,32 +144,32 @@ const Navigation = () => {
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 max-w-7xl">
         <div className="flex items-center justify-between h-14 sm:h-16 lg:h-20">
           {/* Logo */}
-          <button
-            type="button"
+          <m.div
+            className="flex items-center gap-2 sm:gap-4 cursor-pointer"
             onClick={() => navigateTo("hero")}
-            aria-label={t("home")}
-            className="flex items-center gap-2 sm:gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-teal-ink)] focus-visible:ring-offset-2 rounded-sm"
+            whileHover={{ scale: 1.02 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <div className="relative w-[28px] h-[28px] sm:w-[36px] sm:h-[36px]">
+              <div className="absolute inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-md opacity-70" />
               <Image
                 src="/logo.svg"
-                alt=""
-                aria-hidden="true"
+                alt="Logo"
                 width={24}
                 height={24}
                 sizes="36px"
-                className="relative sm:w-8 sm:h-8"
+                className="relative rounded-full border-2 border-white dark:border-slate-800 shadow-lg sm:w-8 sm:h-8"
               />
             </div>
-            <div className="hidden sm:block text-left">
-              <span className="block text-base sm:text-xl font-medium text-[color:var(--color-ink)]">
+            <div className="hidden sm:block">
+              <h1 className="text-base sm:text-xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-slate-300 bg-clip-text text-transparent">
                 {namesT("shortName")}
-              </span>
-              <span className="meta block">
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-medium">
                 {namesT("english")}
-              </span>
+              </p>
             </div>
-          </button>
+          </m.div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">
