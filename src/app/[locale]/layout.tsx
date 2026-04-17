@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_JP, Space_Grotesk } from "next/font/google";
+import { Fraunces, Instrument_Serif, JetBrains_Mono, Noto_Serif_JP } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Navigation from "@/components/Navigation";
@@ -10,15 +10,27 @@ import { themeScript } from "../theme-script";
 import "../globals.css";
 import Script from "next/script";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
-const notoSansJP = Noto_Sans_JP({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-noto-sans-jp",
+  variable: "--font-fraunces",
+  display: "swap",
+  axes: ["opsz", "SOFT"],
+});
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
   display: "swap",
 });
-const spaceGrotesk = Space_Grotesk({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+const notoSerifJP = Noto_Serif_JP({
+  subsets: ["latin"],
+  variable: "--font-noto-serif-jp",
   display: "swap",
 });
 
@@ -135,7 +147,7 @@ export default async function RootLayout({
         </Script>
       </head>
       <body
-        className={`${inter.variable} ${notoSansJP.variable} ${spaceGrotesk.variable} font-sans antialiased bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 overflow-x-hidden w-full max-w-full`}
+        className={`${fraunces.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${notoSerifJP.variable} antialiased overflow-x-hidden w-full max-w-full`}
         suppressHydrationWarning
         data-oid="1ogajcn"
       >
@@ -146,15 +158,15 @@ export default async function RootLayout({
               <main className="min-h-screen w-full overflow-x-hidden" data-oid="cjsbd45">
                 {children}
               </main>
-              <footer className="bg-slate-900 text-white py-6 sm:py-8 w-full overflow-x-hidden" data-oid="9d4m8i:">
+              <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden" data-oid="9d4m8i:">
                 <div
-                  className="container mx-auto px-4 sm:px-6 text-center max-w-7xl"
+                  className="container mx-auto px-6 max-w-6xl flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
                   data-oid="67z3cll"
                 >
-                  <p className="text-xs sm:text-sm opacity-80" data-oid="lswazss">
+                  <p className="meta" data-oid="lswazss">
                     {messages.footer.copyright}
                   </p>
-                  <p className="text-xs opacity-60 mt-2" data-oid="ujmiq13">
+                  <p className="meta opacity-70" data-oid="ujmiq13">
                     {messages.footer.builtWith}
                   </p>
                 </div>
