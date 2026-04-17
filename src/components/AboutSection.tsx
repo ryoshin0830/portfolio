@@ -1,113 +1,55 @@
-import { getTranslations } from "next-intl/server";
-import {
-  Briefcase,
-  Users,
-  Sparkles,
-  University,
-} from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 import TimelineSection from "./TimelineSection";
 
 const AboutSection = async () => {
+  const locale = await getLocale();
   const t = await getTranslations("about");
-  const badgesT = await getTranslations("badges");
   const skillsT = await getTranslations("skills");
 
   const fields = t.raw("fields") as string[];
+  const isLatin = locale === "en";
 
   return (
-    <section id="about" className="pt-32 pb-24 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-950 dark:to-slate-900/50 overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
-            <Sparkles size={14} className="sm:w-4 sm:h-4" />
-            {badgesT("aboutMe")}
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-slate-900 dark:text-white px-4">
-            {t("title")}
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto px-4">
+    <section id="about" className="py-24 bg-[color:var(--color-paper)]">
+      <div className="container mx-auto px-6 sm:px-10 max-w-5xl">
+        <header className="mb-12">
+          <p className="meta mb-3">{t("title")}</p>
+        </header>
+
+        <div className="max-w-3xl">
+          <p
+            className={`${isLatin ? "dropcap" : ""} text-lg sm:text-xl leading-[1.75] text-[color:var(--color-ink)]`}
+          >
             {t("subtitle")}
           </p>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="max-w-6xl mx-auto">
-          {/* Current Status Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16">
-            <div className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
-              <div className="relative">
-                <div className="inline-flex p-2 sm:p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg mb-3 sm:mb-4">
-                  <University className="text-white" size={20} />
-                </div>
-                <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
-                  {t("education")}
-                </h3>
-                <p className="text-slate-700 dark:text-slate-200 font-medium mb-1 text-sm sm:text-base">
-                  {t("kyotoUniversity")}
-                </p>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                  {skillsT("jobTitle")}
-                </p>
-              </div>
-            </div>
+        <dl className="mt-16 grid gap-6 sm:grid-cols-[10rem_1fr] sm:gap-10 divide-y sm:divide-y-0 divide-[color:var(--color-rule-soft)]">
+          <dt className="meta pt-6 sm:pt-0">{t("education")}</dt>
+          <dd className="pt-2 sm:pt-0">
+            <p className="text-lg text-[color:var(--color-ink)]">
+              {t("kyotoUniversity")}
+            </p>
+            <p className="meta mt-1 opacity-80">{skillsT("jobTitle")}</p>
+          </dd>
 
-            <div className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
-              <div className="relative">
-                <div className="inline-flex p-2 sm:p-3 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg mb-3 sm:mb-4">
-                  <Briefcase className="text-white" size={20} />
-                </div>
-                <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
-                  {t("experience")}
-                </h3>
-              </div>
-            </div>
+          <dt className="meta pt-6 sm:pt-0">{t("teaching")}</dt>
+          <dd className="pt-2 sm:pt-0">
+            <p className="text-lg text-[color:var(--color-ink)]">
+              {t("japaneseTeacher")}
+            </p>
+            <p className="meta mt-1 opacity-80">
+              {skillsT("yearsExperience", { years: "7" })}
+            </p>
+          </dd>
 
-            <div className="group relative overflow-hidden bg-white dark:bg-slate-800/50 rounded-2xl p-6 sm:p-8 border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500" />
-              <div className="relative">
-                <div className="inline-flex p-2 sm:p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg mb-3 sm:mb-4">
-                  <Users className="text-white" size={20} />
-                </div>
-                <h3 className="font-bold text-lg sm:text-xl text-slate-900 dark:text-white mb-2">
-                  {t("teaching")}
-                </h3>
-                <p className="text-slate-700 dark:text-slate-200 font-medium mb-1 text-sm sm:text-base">
-                  {t("japaneseTeacher")}
-                </p>
-                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                  {skillsT("yearsExperience", { years: "7" })}
-                </p>
-              </div>
-            </div>
-          </div>
+          <dt className="meta pt-6 sm:pt-0">{t("specialization")}</dt>
+          <dd className="pt-2 sm:pt-0 text-[color:var(--color-ink)] leading-relaxed">
+            {fields.join(" · ")}
+          </dd>
+        </dl>
 
-          {/* Specialization Fields */}
-          <div className="mb-12 sm:mb-16">
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-6 sm:mb-8 text-center px-4">
-              {t("specialization")}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-              {fields.map((field, index) => (
-                <div
-                  key={index}
-                  className="group flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white dark:bg-slate-800/30 rounded-xl border border-slate-200/50 dark:border-slate-700/50 hover:border-slate-300 dark:hover:border-slate-600 transition-all duration-300"
-                >
-                  <div className="flex-shrink-0 w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full" />
-                  <p className="text-slate-700 dark:text-slate-300 font-medium text-sm sm:text-base">
-                    {field}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-
-          {/* Timeline Section */}
-          <TimelineSection />
-        </div>
+        <TimelineSection />
       </div>
     </section>
   );
