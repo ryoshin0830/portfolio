@@ -13,7 +13,7 @@ interface ZennArticle {
 
 export default function LatestZennArticle() {
   const t = useTranslations("heroZenn");
-  const [article, setArticle] = useState<ZennArticle | null>(null);
+  const [articles, setArticles] = useState<ZennArticle[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,12 +26,19 @@ export default function LatestZennArticle() {
         );
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        if (data.items && data.items.length > 0 && !cancelled) {
-          const i = data.items[0];
-          setArticle({ title: i.title, link: i.link, pubDate: i.pubDate });
+        if (data.items && !cancelled) {
+          setArticles(
+            data.items
+              .slice(0, 3)
+              .map((i: { title: string; link: string; pubDate: string }) => ({
+                title: i.title,
+                link: i.link,
+                pubDate: i.pubDate,
+              })),
+          );
         }
       } catch (err) {
-        console.error("Error fetching latest Zenn article:", err);
+        console.error("Error fetching latest Zenn articles:", err);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -42,31 +49,37 @@ export default function LatestZennArticle() {
     };
   }, []);
 
-  if (loading || !article) return null;
+  if (loading || articles.length === 0) return null;
 
   return (
     <section
-      aria-label="Latest article"
+      aria-label="Latest articles"
       className="bg-[color:var(--color-bg-soft)] border-y border-[color:var(--color-rule-soft)]"
     >
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-4">
-        <Link
-          href={article.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-baseline gap-4 group"
-        >
-          <span className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium shrink-0">
-            {t("latestPost")}
-          </span>
-          <span className="flex-1 text-sm md:text-base font-medium text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] truncate transition-colors">
-            {article.title}
-          </span>
-          <ArrowUpRight
-            size={14}
-            className="text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors shrink-0"
-          />
-        </Link>
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-5">
+        <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium mb-3">
+          {t("latestPost")}
+        </p>
+        <ul className="divide-y divide-[color:var(--color-rule-soft)]">
+          {articles.map((a, i) => (
+            <li key={i}>
+              <Link
+                href={a.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-baseline gap-4 py-2 group"
+              >
+                <span className="flex-1 text-sm md:text-base font-medium text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] truncate transition-colors">
+                  {a.title}
+                </span>
+                <ArrowUpRight
+                  size={14}
+                  className="text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors shrink-0"
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

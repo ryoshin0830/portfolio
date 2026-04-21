@@ -14,7 +14,9 @@ const AboutSection = () => {
   const t = useTranslations("about");
   const [ref, inView] = useInView({ threshold: 0.05, triggerOnce: true });
 
+  const fields = t.raw("fields") as string[];
   const expertise = t.raw("expertise") as Expertise[];
+  const capabilities = t.raw("capabilities") as string[];
   const credentials = t.raw("credentials") as {
     education: string;
     founded: string;
@@ -24,13 +26,18 @@ const AboutSection = () => {
   return (
     <section id="about" ref={ref} className="section">
       <div className="section__inner">
-        <h2 className="display display--xl mb-16">{t("title")}</h2>
+        <header className="mb-16">
+          <h2 className="display display--xl mb-6">{t("title")}</h2>
+          <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
+            {t("subtitle")}
+          </p>
+        </header>
 
         <m.div
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl"
+          className="max-w-3xl mb-16"
         >
           <p className="prose-body text-[color:var(--color-ink)] mb-10">
             {t("pr")}
@@ -48,26 +55,61 @@ const AboutSection = () => {
           </p>
         </m.div>
 
-        {/* Expertise — 3 large cards, Apple-style spacing */}
-        <div className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
-          {expertise.map((e, i) => (
-            <m.article
-              key={e.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-            >
-              <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
-                {e.title}
-              </h3>
-              <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
-                {e.description}
-              </p>
-            </m.article>
-          ))}
+        {/* Capabilities — strengths chips */}
+        <div className="mb-24">
+          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-4">
+            {t("capabilitiesLabel")}
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {capabilities.map((c) => (
+              <span key={c} className="chip">{c}</span>
+            ))}
+          </div>
         </div>
 
-        {/* Timeline — kept but visually quieter */}
+        {/* Expertise — 3 large cards */}
+        <div className="mb-24">
+          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-8">
+            {t("expertiseLabel")}
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+            {expertise.map((e, i) => (
+              <m.article
+                key={e.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+              >
+                <h4 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
+                  {e.title}
+                </h4>
+                <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
+                  {e.description}
+                </p>
+              </m.article>
+            ))}
+          </div>
+        </div>
+
+        {/* Specialization fields — academic focus areas */}
+        <div className="mb-24 max-w-3xl">
+          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-6">
+            {t("specialization")}
+          </h3>
+          <ul className="space-y-3">
+            {fields.map((f, i) => (
+              <li
+                key={i}
+                className="flex gap-3 text-base text-[color:var(--color-ink)]"
+              >
+                <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                <span className="leading-relaxed">{f}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Timeline */}
         <div className="mt-32">
           <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-12">
             {t("timeline")}

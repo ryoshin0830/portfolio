@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 
 const HeroSection = () => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
+  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
 
@@ -15,6 +16,7 @@ const HeroSection = () => {
     tNames("english"),
     tNames("chinese"),
   ];
+  const roles = t.raw("roles") as string[];
 
   useEffect(() => {
     const i = setInterval(
@@ -24,6 +26,14 @@ const HeroSection = () => {
     return () => clearInterval(i);
   }, [names.length]);
 
+  useEffect(() => {
+    const i = setInterval(
+      () => setCurrentRoleIndex((p) => (p + 1) % roles.length),
+      3500,
+    );
+    return () => clearInterval(i);
+  }, [roles.length]);
+
   const scrollToWork = () => {
     document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -31,13 +41,37 @@ const HeroSection = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[color:var(--color-bg)] px-6"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[color:var(--color-bg)] px-6 pt-24 pb-20"
     >
       <div className="text-center max-w-5xl mx-auto fade-up">
+        {/* Tiny eyebrow above name — currently at */}
+        <p className="text-sm md:text-base text-[color:var(--color-ink-muted)] mb-6 font-medium">
+          {t("currentlyAt")}
+        </p>
+
         <h1 className="display display--xxl mb-8">{names[currentNameIndex]}</h1>
-        <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto mb-12 text-balance">
+
+        {/* Rotating role under name */}
+        <p
+          className="text-xl md:text-2xl font-medium text-[color:var(--color-accent)] mb-6 transition-opacity"
+          aria-live="polite"
+        >
+          {roles[currentRoleIndex]}
+        </p>
+
+        <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto mb-10 text-balance">
           {t("subtitle")}
         </p>
+
+        {/* Origin / current — small inline meta */}
+        <p className="text-sm text-[color:var(--color-ink-muted)] mb-12">
+          <span className="font-medium text-[color:var(--color-ink-soft)]">{t("origin")}</span> {t("beijing")}
+          <span className="mx-3 text-[color:var(--color-rule)]">·</span>
+          <span className="font-medium text-[color:var(--color-ink-soft)]">{t("current")}</span> {t("kyoto")}
+          <span className="mx-3 text-[color:var(--color-rule)]">·</span>
+          {t("description")}
+        </p>
+
         <button
           type="button"
           onClick={scrollToWork}

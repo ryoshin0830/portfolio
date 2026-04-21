@@ -4,16 +4,34 @@ import { SiX } from "react-icons/si";
 
 const ContractCTA = async () => {
   const t = await getTranslations("contactCTA");
+  const domains = t.raw("domains") as string[];
 
   return (
     <section id="contact" className="section section--soft">
       <div className="section__inner text-center">
-        <h2 className="display display--xl mb-8 text-balance max-w-3xl mx-auto">
+        {/* Open-to-work signal */}
+        <p className="text-sm font-medium text-[color:var(--color-accent)] mb-4 inline-flex items-center gap-2">
+          <span
+            className="inline-block w-2 h-2 rounded-full"
+            style={{ background: "var(--color-accent)" }}
+            aria-hidden
+          />
+          {t("openToWork")}
+        </p>
+
+        <h2 className="display display--xl mb-6 text-balance max-w-3xl mx-auto">
           {t("headline")}
         </h2>
-        <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto mb-12">
+        <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto mb-10">
           {t("body")}
         </p>
+
+        {/* Domain chips */}
+        <div className="flex flex-wrap justify-center gap-2 mb-12">
+          {domains.map((d) => (
+            <span key={d} className="chip">{d}</span>
+          ))}
+        </div>
 
         <a
           href={`mailto:${t("email")}`}

@@ -36,10 +36,13 @@ export default function TeachingSection() {
     },
   ];
 
+  const achievements = [t("achievement1"), t("achievement2"), t("achievement3")];
+  const specialties = [t("specialty1"), t("specialty2"), t("specialty3")];
+
   return (
     <section id="teaching" ref={ref} className="section">
       <div className="section__inner">
-        <header className="mb-20">
+        <header className="mb-16">
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
@@ -100,14 +103,43 @@ export default function TeachingSection() {
           ))}
         </div>
 
-        {/* Experience description */}
-        <div className="mb-32 max-w-3xl">
+        {/* Experience description + Achievements + Specialties */}
+        <div className="mb-32 max-w-4xl">
           <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
             {t("newOriental")}
           </h3>
-          <p className="prose-body text-[color:var(--color-ink-soft)]">
+          <p className="prose-body text-[color:var(--color-ink-soft)] mb-12">
             {t("experienceDescription")}
           </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div>
+              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-4">
+                {t("achievements")}
+              </p>
+              <ul className="space-y-3 text-base text-[color:var(--color-ink)]">
+                {achievements.map((a, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                    <span className="leading-relaxed">{a}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-4">
+                {t("specialties")}
+              </p>
+              <ul className="space-y-3 text-base text-[color:var(--color-ink)]">
+                {specialties.map((s, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                    <span className="leading-relaxed">{s}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
 
         {/* Courses */}
@@ -147,6 +179,9 @@ export default function TeachingSection() {
           <p className="text-2xl md:text-3xl font-semibold tracking-tight leading-snug">
             &ldquo;{t("philosophyQuote")}&rdquo;
           </p>
+          <footer className="mt-6 text-sm font-medium text-[color:var(--color-ink-muted)]">
+            {t("philosophyTitle")}
+          </footer>
         </m.blockquote>
       </div>
     </section>
