@@ -2,6 +2,7 @@
   "nav": {
     "home": "ホーム",
     "about": "プロフィール",
+    "experience": "職務経歴",
     "research": "研究",
     "publications": "論文",
     "teaching": "教育経験",
@@ -27,18 +28,20 @@
   },
   "hero": {
     "title": "梁 震（りょう しん）",
-    "subtitle": "言語の壁を超え、人と人をつなげる技術を創造する",
+    "subtitle": "言語と音声の境界を、機械学習で越える",
     "description": "京都大学博士課程",
     "roles": [
+      "AI エンジニア",
       "研究者",
-      "エンジニア",
       "日本語教師",
       "フルスタック開発者"
     ],
     "origin": "出身",
     "beijing": "北京",
     "current": "現在",
-    "kyoto": "京都"
+    "kyoto": "京都",
+    "coordinate": "N 35.0116° · E 135.7681°",
+    "currentlyAt": "GMO ペパボ ／ AI スペシャリスト"
   },
   "heroZenn": {
     "latestPost": "最新記事",
@@ -47,9 +50,61 @@
     "daysAgo": "{days}日前",
     "readMore": "続きを読む"
   },
+  "highlights": {
+    "title": "数字で見る成果",
+    "subtitle": "計測された改善・規模・速度",
+    "kicker": "Selected metrics",
+    "stats": [
+      {
+        "id": "asr-recall",
+        "hero": true,
+        "value": "82.26 → 89.72",
+        "unit": "%",
+        "label": "ASR 医療用語リコール",
+        "context": "医療音声 190 時間で LoRA 微調整・評価設計・学習運用（medimo）"
+      },
+      {
+        "id": "morpho-speed",
+        "value": "×8",
+        "unit": "speedup",
+        "label": "形態素解析の高速化",
+        "context": "5 分 → 10 秒以内（NINJAL 語彙プロファイラー）"
+      },
+      {
+        "id": "corpus-effort",
+        "value": "−70",
+        "unit": "%",
+        "label": "コーパス作成工数の削減",
+        "context": "従来手作業比（CurpusMaker）"
+      },
+      {
+        "id": "ninjal-accuracy",
+        "value": "97",
+        "unit": "%",
+        "label": "解析精度（語彙難易度判定）",
+        "context": "予定より 2 週間早期納品（NINJAL）"
+      },
+      {
+        "id": "audio-annotation",
+        "value": "190",
+        "unit": "h",
+        "label": "医療音声アノテーション",
+        "context": "DeepSpeed ZeRO によるマルチ GPU 学習で運用（medimo）"
+      },
+      {
+        "id": "shinhan-leads",
+        "value": "+40",
+        "unit": "%",
+        "label": "問い合わせ件数",
+        "context": "WordPress カスタム実装後（宸翰学園）"
+      }
+    ]
+  },
   "about": {
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",
+    "kicker": "About",
+    "pr": "京都大学大学院（修士・博士課程）で大規模言語モデル（LLM）の教育応用研究に従事し、2023 年 10 月に株式会社 EastLinker を創業。研究成果の社会実装を進めながら、国立国語研究所では要件定義から実装まで一貫して担当しました。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、ASR 医療用語リコールを 82.26% から 89.72% まで引き上げました。2026 年 4 月より GMO ペパボ AI スペシャリストとして参画。",
     "education": "教育",
     "experience": "経験",
     "teaching": "教育活動",
@@ -58,6 +113,35 @@
     "currentStatus": "現在",
     "kyotoUniversity": "京都大学人間・環境学研究科 共生・人間学専攻 言語科学講座 博士課程",
     "japaneseTeacher": "新東方日本語教師（7年間、5,000時間以上の指導経験）",
+    "expertiseLabel": "得意分野",
+    "expertise": [
+      {
+        "id": "web",
+        "title": "Web 開発",
+        "description": "Next.js / React / TypeScript / FastAPI / Node.js を中心としたフルスタック開発。要件定義からデプロイ・運用まで一貫対応。"
+      },
+      {
+        "id": "ml",
+        "title": "ML & LLM エンジニアリング",
+        "description": "LoRA 微調整、LangChain / LangGraph によるエージェント設計、ASR 改善、DeepSpeed ZeRO のマルチ GPU 学習、stepaudio / phi4 / Gemini など LLM・マルチモーダル検証。"
+      },
+      {
+        "id": "language-edu",
+        "title": "語学教育システム",
+        "description": "学習者コーパス分析、語彙難易度判定、テスト自動生成、多読プラットフォーム。教育現場・研究機関との協働経験。"
+      }
+    ],
+    "capabilitiesLabel": "得意業務",
+    "capabilities": [
+      "システム設計・開発",
+      "プロジェクトマネジメント",
+      "研究開発（R&D）"
+    ],
+    "credentials": {
+      "education": "京都大学大学院（修士課程修了・博士課程在籍）",
+      "founded": "株式会社 EastLinker 代表（2023 年 10 月創業）",
+      "github": "github.com/ryoshin0830"
+    },
     "fields": [
       "外国語教育学・第二言語習得論・応用言語学",
       "大規模言語モデル（LLM）のファインチューニング・構築",
@@ -109,9 +193,365 @@
       },
       {
         "year": "2023",
+        "title": "EastLinker 創業",
+        "description": "株式会社 EastLinker を創業。研究成果の社会実装を推進",
+        "icon": "home"
+      },
+      {
+        "year": "2023",
         "title": "博士課程入学",
         "description": "修士課程修了後、博士課程に入学。博士論文テーマ：「外国語教育におけるLLMの応用」",
         "icon": "university"
+      },
+      {
+        "year": "2026",
+        "title": "GMO ペパボ 参画",
+        "description": "AI スペシャリスト職として正社員入社（2026 年 4 月）",
+        "icon": "home"
+      }
+    ]
+  },
+  "experience": {
+    "title": "職務経歴",
+    "subtitle": "業務委託・正社員として担当した実装と研究開発",
+    "kicker": "Professional Experience",
+    "intro": "Contract = 業務委託、Personal = 個人プロダクト、Academic = 研究と区別。下記はすべて Contract または Full-time。",
+    "currentLabel": "現在",
+    "viewDetail": "詳細を読む",
+    "viewAll": "全 {count} 件を見る →",
+    "labels": {
+      "role": "役割",
+      "team": "規模 / 体制",
+      "stack": "技術スタック",
+      "scope": "担当フェーズ",
+      "responsibilities": "担当業務",
+      "workItems": "業務内容",
+      "achievements": "実績・成果",
+      "industry": "業種",
+      "employment": "雇用形態"
+    },
+    "scopePhases": {
+      "req": "要件定義",
+      "basicDesign": "基本設計",
+      "detailDesign": "詳細設計",
+      "impl": "実装・開発",
+      "test": "テスト・レビュー",
+      "ops": "保守・運用"
+    },
+    "employmentTypes": {
+      "fulltime": "正社員",
+      "contract": "業務委託",
+      "internship": "インターン"
+    },
+    "teamFormat": "全体 {overall} 名 / チーム {section} 名",
+    "soloFormat": "単独",
+    "engagements": [
+      {
+        "id": "gmo-pepabo",
+        "start": "2026-04",
+        "end": null,
+        "isCurrent": true,
+        "employmentType": "fulltime",
+        "company": "GMO ペパボ株式会社",
+        "product": "AI スペシャリスト職",
+        "industry": "IT・インターネット",
+        "role": "AI スペシャリスト（正社員）",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "detailDesign", "impl"],
+        "stack": ["Python", "LLM", "Machine Learning"],
+        "responsibilities": [
+          "AI / LLM 領域でのプロダクト適用と研究開発"
+        ],
+        "workItems": [
+          "ペパボ各サービスへの AI 機能組み込み・実証実験"
+        ],
+        "achievements": [
+          "新卒採用（OneCareer 経由）にて AI スペシャリスト職として参画"
+        ]
+      },
+      {
+        "id": "sapeet",
+        "start": "2026-02",
+        "end": "2026-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "株式会社 Sapeet",
+        "product": "情報通信工事入札 自動抽出・スコアリング PoC",
+        "industry": "AI / SaaS",
+        "role": "AI エンジニア（業務委託）",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "impl", "test"],
+        "stack": ["Python", "LLM", "情報抽出", "多言語音声分析"],
+        "responsibilities": [
+          "入札 PoC の範囲定義と抽出ロジックの設計・改善",
+          "システム構成・デプロイ運用・権限管理の設計"
+        ],
+        "workItems": [
+          "情報通信工事入札情報の自動抽出パイプライン構築",
+          "企業スコアリングロジックの設計・実装",
+          "多言語発話の断片的記録の分類・分析",
+          "週次会議での開発進捗共有と抽出ロジック改善"
+        ],
+        "achievements": [
+          "入札情報抽出 PoC を 2 ヶ月で立ち上げ、企業スコアリング基盤を整備"
+        ]
+      },
+      {
+        "id": "medimo",
+        "start": "2025-06",
+        "end": "2026-01",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "株式会社 medimo",
+        "product": "医療カルテ自動生成 SaaS『medimo』",
+        "industry": "医療 / ヘルスケア AI",
+        "role": "AI エンジニア／要件定義〜設計主担当（業務委託）",
+        "teamOverall": 40,
+        "teamSection": 25,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "stack": [
+          "Python",
+          "FastAPI",
+          "TypeScript",
+          "React",
+          "LangGraph",
+          "LangChain",
+          "Dify",
+          "PyTorch",
+          "Transformers",
+          "DeepSpeed",
+          "AWS Aurora",
+          "AWS",
+          "Docker",
+          "Figma",
+          "Jupyter"
+        ],
+        "responsibilities": [
+          "要件定義〜設計を主担当し、実装・コードレビューも担当",
+          "医師別カルテ様式（SOAP / 時系列 等）に対応するプロンプト自動生成機構の PoC / 設計 / 実装（LangGraph）",
+          "ASR の精度改善（医療音声アノテーション約 190 時間で LoRA 等の微調整、評価設計、学習運用）"
+        ],
+        "workItems": [
+          "医師が過去カルテをアップロードすると様式に沿った要約形式を自動生成する仕様・要件を整理",
+          "LangGraph でプロンプト生成フローを設計・実装し、医師／施設ごとのテンプレートへ自動適用",
+          "プロンプト生成・検証を運用できるよう LangGraph 上で実行・管理導線を整備",
+          "FastAPI ＋ React でプロンプト自動生成 UI および生成バックエンドを開発（開発者 3 名と協働）",
+          "stepaudio / phi4 / Gemini など LLM・マルチモーダルモデルの検証・比較",
+          "DeepSpeed（ZeRO 等）を用いたマルチ GPU 学習・実験手順を整備し、継続改善サイクルを運用"
+        ],
+        "achievements": [
+          "医療用語のリコールを 82.26% → 89.72% に改善（ASR 精度向上）",
+          "医師ごとに都度作成していた要約プロンプト作成を自動化し、多様なカルテ様式へスケール可能な運用へ移行"
+        ]
+      },
+      {
+        "id": "ninjal",
+        "start": "2023-11",
+        "end": "2025-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "国立国語研究所（NINJAL）",
+        "product": "語彙プロファイラー システム開発",
+        "industry": "研究プロジェクト",
+        "role": "プロジェクトリーダー（業務委託）",
+        "teamOverall": 13,
+        "teamSection": 6,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "stack": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Vercel",
+          "AWS",
+          "Docker"
+        ],
+        "responsibilities": [
+          "プロジェクトリーダーとして要件定義から実装まで統括",
+          "React + Node.js によるダッシュボード構築",
+          "WebSocket を活用したリアルタイムデータ処理の実装"
+        ],
+        "workItems": [
+          "チーム全体のマネジメントと技術選定",
+          "フロントエンド（React）とバックエンド（Node.js / Express）の設計・実装",
+          "形態素解析と語彙難易度判定システムの並列処理アーキテクチャ構築",
+          "PostgreSQL のデータベース設計とパフォーマンス最適化",
+          "SSL/TLS 認証とトークンベース認証によるセキュリティ強化"
+        ],
+        "achievements": [
+          "形態素解析の並列処理実装により処理速度を 8 倍向上（従来 5 分 → 10 秒以内）",
+          "Word2Vec ベースの語彙難易度予測モデルを API として統合",
+          "研究所の言語学者との協働で学術専門用語辞書（5,000 語）を構築",
+          "予定より 2 週間早期納品を実現し、解析精度 97% を達成"
+        ]
+      },
+      {
+        "id": "ml-vocab",
+        "start": "2024-11",
+        "end": "2025-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "機械学習研究プロジェクト",
+        "product": "LLM を活用した語彙難易度予測システム",
+        "industry": "研究支援・言語学ツール",
+        "role": "ML 研究開発（業務委託）",
+        "teamOverall": 3,
+        "teamSection": 3,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "stack": [
+          "Python",
+          "PyTorch",
+          "Transformers",
+          "Scikit-learn",
+          "MongoDB",
+          "Linux",
+          "Jupyter",
+          "Git",
+          "gensim"
+        ],
+        "responsibilities": [
+          "Word2Vec による語彙テスト自動生成システム開発",
+          "LLM ファインチューニングによる語彙難易度予測モデル構築"
+        ],
+        "workItems": [
+          "大規模日本語コーパスの前処理と Word2Vec モデル構築",
+          "Transformers ライブラリを活用した LLM ファインチューニング",
+          "機械学習パイプラインの設計と評価指標の実装"
+        ],
+        "achievements": [
+          "言語処理学会で研究成果を発表（2022 年・2024 年）",
+          "国立国語研究所との共同研究による実用化"
+        ]
+      },
+      {
+        "id": "corpus-maker",
+        "start": "2024-10",
+        "end": "2024-11",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "個人受託",
+        "product": "CurpusMaker — コーパス作成支援 Web アプリ",
+        "industry": "研究支援・言語学ツール",
+        "role": "フルスタック（業務委託・単独）",
+        "teamOverall": 1,
+        "teamSection": 1,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
+        "stack": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+          "PDF.js",
+          "Webpack",
+          "Git"
+        ],
+        "responsibilities": [
+          "フルスタック開発（企画からデプロイまで全工程を単独担当）",
+          "PDF 解析・テキスト抽出機能の実装",
+          "ユーザーインターフェースの設計・開発"
+        ],
+        "workItems": [
+          "React によるインタラクティブなフロントエンド開発",
+          "PDF.js を活用した PDF 解析機能",
+          "ユーザーが指定した範囲のテキスト抽出機能",
+          "Markdown 形式での出力機能",
+          "ドラッグ & ドロップによる直感的なファイルアップロード"
+        ],
+        "achievements": [
+          "コーパス作成の工数を従来手作業比で 70% 削減",
+          "複数の PDF フォーマットに対応した高精度テキスト抽出を実現",
+          "レスポンシブデザインで PC・タブレット両対応"
+        ]
+      },
+      {
+        "id": "lands",
+        "start": "2024-04",
+        "end": "2024-05",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "国際研究チーム",
+        "product": "LandS — ニュージーランド向け日本語多読支援プラットフォーム",
+        "industry": "教育 / 研究支援",
+        "role": "フルスタック（業務委託）",
+        "teamOverall": 17,
+        "teamSection": 6,
+        "scope": ["basicDesign", "detailDesign", "impl"],
+        "stack": [
+          "TypeScript",
+          "Next.js",
+          "React",
+          "Node.js",
+          "Prisma",
+          "PostgreSQL",
+          "Vercel",
+          "AWS",
+          "Docker",
+          "Jest",
+          "Figma"
+        ],
+        "responsibilities": [
+          "フルスタック開発（フロントエンド・バックエンド両方を担当）",
+          "リアルタイム読解時間計測システムの設計・実装",
+          "学習進捗分析ダッシュボードの開発"
+        ],
+        "workItems": [
+          "Next.js App Router によるモダンな Web アプリケーション開発",
+          "PostgreSQL + Prisma ORM によるデータベース設計と最適化",
+          "ミリ秒精度でのリアルタイム読解時間計測機能",
+          "学習者レベル別テキスト配信システム",
+          "教師向け学習分析ダッシュボード（進捗可視化、理解度統計）",
+          "JWT 認証による安全な学習者・教師アカウント管理"
+        ],
+        "achievements": [
+          "500 名以上の学習者・100 名以上の同時接続に対応",
+          "CI/CD パイプライン構築で開発チーム 17 名の協働開発を効率化",
+          "A/B テスト機能実装により学習効果の定量的比較を可能化",
+          "国際研究チームとの英語コミュニケーションを主導"
+        ]
+      },
+      {
+        "id": "shinhan",
+        "start": "2022-06",
+        "end": "2022-11",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "株式会社 宸翰学園",
+        "product": "公式 Web サイト開発（多言語対応）",
+        "industry": "教育",
+        "role": "フルスタック（業務委託）",
+        "teamOverall": 3,
+        "teamSection": 2,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
+        "stack": [
+          "PHP",
+          "WordPress",
+          "JavaScript",
+          "HTML/CSS",
+          "MySQL",
+          "Linux",
+          "Apache",
+          "Git"
+        ],
+        "responsibilities": [
+          "WordPress ベースの CMS サイト設計・開発",
+          "カスタムテーマ・プラグインの独自開発",
+          "多言語対応（日本語・中国語）サイト構築"
+        ],
+        "workItems": [
+          "WordPress 環境の構築とカスタマイズ",
+          "PHP によるカスタム機能開発（問い合わせフォーム、コース管理システム）",
+          "レスポンシブデザインの実装と SEO 最適化",
+          "コンテンツ管理システムの構築と運用サポート",
+          "運用マニュアルの作成とクライアントへの操作研修"
+        ],
+        "achievements": [
+          "問い合わせ件数が従来サイト比で +40%",
+          "日中多言語サイトの実装で日中両国の顧客層にリーチ"
+        ]
       }
     ]
   },
@@ -211,7 +651,8 @@
   },
   "skills": {
     "title": "スキル・技術",
-    "subtitle": "フルスタック開発から機械学習まで",
+    "subtitle": "業務で扱った技術スタック（経験年数付き）",
+    "kicker": "Stack",
     "programming": "プログラミング言語",
     "frontend": "フロントエンド",
     "backend": "バックエンド",
@@ -224,10 +665,82 @@
     "jobTitle": "博士課程・研究",
     "ceoFounder": "CEO・創業者",
     "yearsExperience": "{years}年以上の経験",
+    "yearsLabel": "y",
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック",
     "proficiency": "習熟度",
     "technicalExpertise": "技術的専門性",
+    "categories": [
+      {
+        "id": "languages",
+        "titleKey": "programming",
+        "items": [
+          { "name": "JavaScript", "years": 5, "featured": true },
+          { "name": "TypeScript", "years": 3, "featured": true },
+          { "name": "Python", "years": 5, "featured": true },
+          { "name": "Swift", "years": 4 },
+          { "name": "PHP", "years": 3 },
+          { "name": "C", "years": 2 }
+        ]
+      },
+      {
+        "id": "frameworks",
+        "titleKey": "frontend",
+        "items": [
+          { "name": "React", "years": 3, "featured": true },
+          { "name": "Next.js", "featured": true },
+          { "name": "React Native", "years": 2 },
+          { "name": "Node.js / Express" },
+          { "name": "FastAPI", "featured": true },
+          { "name": "LangChain" },
+          { "name": "LangGraph", "featured": true },
+          { "name": "Transformers" },
+          { "name": "PyTorch" },
+          { "name": "DeepSpeed" },
+          { "name": "Dify" },
+          { "name": "WordPress" }
+        ]
+      },
+      {
+        "id": "databases",
+        "titleKey": "database",
+        "items": [
+          { "name": "MariaDB / MySQL", "years": 5 },
+          { "name": "PostgreSQL", "years": 3, "featured": true },
+          { "name": "MongoDB", "years": 2 },
+          { "name": "AWS Aurora" }
+        ]
+      },
+      {
+        "id": "infra",
+        "titleKey": "cloud",
+        "items": [
+          { "name": "Nginx", "years": 6 },
+          { "name": "Apache", "years": 5 },
+          { "name": "Linux", "years": 5 },
+          { "name": "Caddy", "years": 3 },
+          { "name": "AWS", "years": 3, "featured": true },
+          { "name": "Vercel" },
+          { "name": "Docker" }
+        ]
+      },
+      {
+        "id": "tools",
+        "titleKey": "ai",
+        "items": [
+          { "name": "Git", "years": 5 },
+          { "name": "Scikit-learn", "years": 3 },
+          { "name": "Word2Vec / gensim" },
+          { "name": "Jupyter" },
+          { "name": "Jest" },
+          { "name": "Figma" },
+          { "name": "Webpack" },
+          { "name": "PDF.js" },
+          { "name": "MeCab" },
+          { "name": "BERT" }
+        ]
+      }
+    ],
     "languageProficiency": {
       "japanese": "日本語",
       "japaneseLevel": "JLPT N1 満点・ネイティブレベル",
@@ -279,8 +792,10 @@
     }
   },
   "projects": {
-    "title": "プロジェクト実績",
-    "subtitle": "実用的なアプリケーションの開発",
+    "title": "個人プロダクト",
+    "subtitle": "業務委託とは別軸で運用している個人開発・OSS・教育系プロダクト",
+    "kicker": "Personal Products",
+    "intro": "Contract（業務委託）は『職務経歴』、Academic（研究）は『研究活動』、こちらは Personal / Product のみを掲載しています。",
     "projectsList": [
       {
         "title": "速読ゴリラ",
@@ -305,43 +820,12 @@
       },
       {
         "title": "語彙プロファイラー「まつのは」",
-        "description": "テキスト解析で単語の難易度を判定し、語彙レベルを可視化するウェブツール",
+        "description": "テキスト解析で単語の難易度を判定し、語彙レベルを可視化するウェブツール（個人版）",
         "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
         "features": [
           "Next.jsによるフルスタック開発",
           "AWS Lambda上でのMeCab形態素解析",
           "TypeScriptによる堅牢なコード設計"
-        ]
-      },
-      {
-        "title": "LandS英語学習アプリ",
-        "description": "リスニングとスピーキングに特化した英語学習アプリケーション",
-        "technologies": ["Google Cloud Platform", "Swift", "Nginx", "MariaDB"],
-        "features": [
-          "Google Cloudベースの堅牢なインフラ",
-          "Swiftによるネイティブ体験の実現",
-          "Nginxによる高速レスポンス"
-        ]
-      },
-      {
-        "title": "LLM分析・ファインチューニング研究",
-        "description": "外国語教育に特化したLLMの分析・カスタマイズ研究プロジェクト",
-        "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
-        "features": [
-          "TensorFlowによる大規模言語モデルの分析",
-          "外国語教育向けLLMカスタマイズ",
-          "Transformersライブラリ活用"
-        ]
-      },
-      {
-        "title": "LLM語彙難易度推定システム",
-        "description": "大規模言語モデルに既知の難易度データを学習させ、新たな語彙の難易度を予測するシステムの開発。国立国語研究所との共同研究プロジェクト。",
-        "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
-        "features": [
-          "BERT系モデルによる語彙難易度の自動予測",
-          "多様な言語特徴量を用いた機械学習モデル",
-          "国立国語研究所との産学連携研究",
-          "日本語学習者コーパスを活用した評価"
         ]
       },
       {
@@ -374,6 +858,21 @@
     },
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック"
+  },
+  "contactCTA": {
+    "kicker": "For Contract Work",
+    "accepting": "業務委託のご相談、受け付けています",
+    "headline": "医療 AI ／ 教育 AI ／ 言語処理の領域で、設計から実装・運用までお手伝いします",
+    "body": "ASR / LLM / マルチモーダルの研究と実装、要件定義からの伴走、研究機関との協働経験があります。お気軽にご連絡ください。",
+    "domains": [
+      "医療 AI（ASR・LLM 要約）",
+      "教育 AI（学習者コーパス・語彙難易度）",
+      "言語処理（多言語パイプライン・形態素解析）"
+    ],
+    "emailLabel": "Email",
+    "email": "ryo.shin.j85@kyoto-u.jp",
+    "socialLabel": "SNS",
+    "openToWork": "Open to contract work"
   },
   "contact": {
     "title": "お問い合わせ",
@@ -461,9 +960,9 @@
     "philosophyQuote": "言語学習は単に単語や文法を暗記することではありません。文化間の架け橋を築き、新しい機会への扉を開くことです。私の目標は、すべての学生の学習ジャーニーを効果的で楽しいものにすることです。"
   },
   "metadata": {
-    "title": "梁震（りょう しん）| AI研究者・MLエンジニア・日本語教師",
-    "description": "京都大学大学院博士課程で言語教育とAI技術の融合を研究。機械学習を活用した日本語教育システムの開発と、外国語習得支援技術の革新に取り組んでいます。",
-    "keywords": "梁震, りょうしん, 京都大学, AI研究, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア",
+    "title": "梁震（りょう しん）| AI エンジニア・研究者・日本語教師",
+    "description": "京都大学博士課程、株式会社EastLinker代表。GMOペパボ AIスペシャリスト。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",
+    "keywords": "梁震, りょうしん, 京都大学, AI研究, AIエンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ, EastLinker",
     "author": "梁震（りょう しん）",
     "creator": "梁震（りょう しん）",
     "publisher": "梁震（りょう しん）",
@@ -492,9 +991,11 @@
   },
   "badges": {
     "aboutMe": "プロフィール",
+    "professionalExperience": "職務経歴",
+    "highlights": "数字で見る成果",
     "technicalExpertise": "技術的専門性",
     "academicResearch": "学術研究",
-    "featuredProjects": "注目プロジェクト"
+    "featuredProjects": "個人プロダクト"
   },
   "status": {
     "completed": "完了",

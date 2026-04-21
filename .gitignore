@@ -45,3 +45,5 @@ next-env.d.ts
 
 # mcp runtime artifacts
 .playwright-mcp/
+.playwright-shots/
+.playwright-mcp/

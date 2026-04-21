@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "about": "About",
+    "experience": "Experience",
     "research": "Research",
     "publications": "Publications",
     "teaching": "Teaching",
@@ -27,18 +28,20 @@
   },
   "hero": {
     "title": "LIANG ZHEN (RYO SHIN)",
-    "subtitle": "Creating technology that connects people beyond language barriers",
+    "subtitle": "Crossing the boundary between language and speech with machine learning",
     "description": "PhD Student at Kyoto University",
     "roles": [
+      "AI Engineer",
       "Researcher",
-      "Engineer",
       "Japanese Teacher",
       "Full-Stack Developer"
     ],
     "origin": "Origin",
     "beijing": "Beijing",
     "current": "Current",
-    "kyoto": "Kyoto"
+    "kyoto": "Kyoto",
+    "coordinate": "N 35.0116° · E 135.7681°",
+    "currentlyAt": "GMO Pepabo / AI Specialist"
   },
   "heroZenn": {
     "latestPost": "Latest Article",
@@ -47,9 +50,61 @@
     "daysAgo": "{days} days ago",
     "readMore": "Read More"
   },
+  "highlights": {
+    "title": "Selected Results",
+    "subtitle": "Measured improvements, scale and speed",
+    "kicker": "Selected metrics",
+    "stats": [
+      {
+        "id": "asr-recall",
+        "hero": true,
+        "value": "82.26 → 89.72",
+        "unit": "%",
+        "label": "ASR recall (medical terms)",
+        "context": "LoRA fine-tuning on 190h of medical audio, evaluation design and training operations (medimo)"
+      },
+      {
+        "id": "morpho-speed",
+        "value": "×8",
+        "unit": "speedup",
+        "label": "Morphological analysis throughput",
+        "context": "5 min → ≤10 sec (NINJAL Vocabulary Profiler)"
+      },
+      {
+        "id": "corpus-effort",
+        "value": "−70",
+        "unit": "%",
+        "label": "Corpus-building effort reduction",
+        "context": "Versus prior manual workflow (CurpusMaker)"
+      },
+      {
+        "id": "ninjal-accuracy",
+        "value": "97",
+        "unit": "%",
+        "label": "Parsing accuracy (vocab difficulty)",
+        "context": "Delivered 2 weeks ahead of schedule (NINJAL)"
+      },
+      {
+        "id": "audio-annotation",
+        "value": "190",
+        "unit": "h",
+        "label": "Medical audio annotation",
+        "context": "Multi-GPU training operated via DeepSpeed ZeRO (medimo)"
+      },
+      {
+        "id": "shinhan-leads",
+        "value": "+40",
+        "unit": "%",
+        "label": "Inbound inquiries",
+        "context": "After custom WordPress build (Shinhan Academy)"
+      }
+    ]
+  },
   "about": {
     "title": "About Me",
     "subtitle": "Bridging Foreign Language Education and AI Technology",
+    "kicker": "About",
+    "pr": "I am a master's-and-PhD researcher at Kyoto University working on educational applications of large language models (LLMs). In October 2023 I founded EastLinker Inc. to commercialise research output, and at NINJAL (National Institute for Japanese Language and Linguistics) I led the Vocabulary Profiler project end-to-end, from requirements to deployment. From June 2025 I worked at medimo Inc. on improving medical-domain ASR accuracy and built a LangGraph-based prompt-generation pipeline, lifting medical-term ASR recall from 82.26% to 89.72%. From April 2026 I joined GMO Pepabo as an AI Specialist.",
     "education": "Education",
     "experience": "Experience",
     "teaching": "Teaching",
@@ -58,6 +113,35 @@
     "currentStatus": "Current Position",
     "kyotoUniversity": "PhD Student, Graduate School of Human and Environmental Studies, Kyoto University, Department of Cognitive Science in Language",
     "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
+    "expertiseLabel": "Specialisation",
+    "expertise": [
+      {
+        "id": "web",
+        "title": "Web Development",
+        "description": "Full-stack delivery centred on Next.js / React / TypeScript / FastAPI / Node.js, owning the loop from requirements to deployment and operations."
+      },
+      {
+        "id": "ml",
+        "title": "ML & LLM Engineering",
+        "description": "LoRA fine-tuning, agent design with LangChain / LangGraph, ASR improvement, multi-GPU training via DeepSpeed ZeRO, validation of LLM and multimodal models including stepaudio, phi4, Gemini."
+      },
+      {
+        "id": "language-edu",
+        "title": "Language Education Systems",
+        "description": "Learner-corpus analysis, vocabulary difficulty estimation, automated test generation, extensive-reading platforms — built in close collaboration with classrooms and research institutes."
+      }
+    ],
+    "capabilitiesLabel": "Strengths",
+    "capabilities": [
+      "System design & development",
+      "Project management",
+      "Research & development (R&D)"
+    ],
+    "credentials": {
+      "education": "Kyoto University (M.A. completed, PhD candidate)",
+      "founded": "Founder & CEO, EastLinker Inc. (founded Oct 2023)",
+      "github": "github.com/ryoshin0830"
+    },
     "fields": [
       "Foreign Language Education, Second Language Acquisition, Applied Linguistics",
       "Large Language Model (LLM) Fine-tuning and Development",
@@ -65,76 +149,382 @@
       "Educational Grammar and English for Academic Purposes"
     ],
     "timelineEvents": [
+      { "year": "1997", "title": "Birth", "description": "Born in Beijing, China", "icon": "birth" },
+      { "year": "1999", "title": "Move to Japan", "description": "Moved to Yokohama with family. Started kindergarten and elementary school in Japan", "icon": "plane" },
+      { "year": "2009", "title": "Return to China", "description": "Returned to Beijing and entered middle school", "icon": "plane" },
+      { "year": "2010", "title": "Japan Permanent Residency", "description": "Obtained permanent residency in Japan", "icon": "home" },
+      { "year": "2016", "title": "University Admission", "description": "Entered Capital University of Economics and Business, Information Systems Department", "icon": "university" },
+      { "year": "2021", "title": "Return to Japan", "description": "Moved to Kyoto", "icon": "plane" },
+      { "year": "2021", "title": "Master's Programme", "description": "Began Master's at Kyoto University, focusing on Foreign Language Education, SLA, and Applied Linguistics", "icon": "university" },
+      { "year": "2023", "title": "Founded EastLinker", "description": "Founded EastLinker Inc. to commercialise research output", "icon": "home" },
+      { "year": "2023", "title": "PhD Programme", "description": "Started PhD after completing M.A. Dissertation topic: 'LLM applications in foreign-language education'", "icon": "university" },
+      { "year": "2026", "title": "Joined GMO Pepabo", "description": "Joined GMO Pepabo as an AI Specialist (April 2026)", "icon": "home" }
+    ]
+  },
+  "experience": {
+    "title": "Professional Experience",
+    "subtitle": "Engagements as a contractor and full-time engineer",
+    "kicker": "Professional Experience",
+    "intro": "Contract work and full-time engagements only. Personal products live under Projects, academic work under Research.",
+    "currentLabel": "Present",
+    "viewDetail": "Read more",
+    "viewAll": "View all {count} engagements →",
+    "labels": {
+      "role": "Role",
+      "team": "Team",
+      "stack": "Stack",
+      "scope": "Phases owned",
+      "responsibilities": "Responsibilities",
+      "workItems": "Work items",
+      "achievements": "Outcomes",
+      "industry": "Industry",
+      "employment": "Employment"
+    },
+    "scopePhases": {
+      "req": "Requirements",
+      "basicDesign": "High-level design",
+      "detailDesign": "Detailed design",
+      "impl": "Implementation",
+      "test": "Test & review",
+      "ops": "Maintenance & ops"
+    },
+    "employmentTypes": {
+      "fulltime": "Full-time",
+      "contract": "Contract",
+      "internship": "Internship"
+    },
+    "teamFormat": "Org {overall} / Team {section}",
+    "soloFormat": "Solo",
+    "engagements": [
       {
-        "year": "1997",
-        "title": "Birth",
-        "description": "Born in Beijing, China",
-        "icon": "birth"
+        "id": "gmo-pepabo",
+        "start": "2026-04",
+        "end": null,
+        "isCurrent": true,
+        "employmentType": "fulltime",
+        "company": "GMO Pepabo, Inc.",
+        "product": "AI Specialist track",
+        "industry": "IT / Internet",
+        "role": "AI Specialist (Full-time)",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "detailDesign", "impl"],
+        "stack": ["Python", "LLM", "Machine Learning"],
+        "responsibilities": [
+          "Applying AI / LLM techniques to GMO Pepabo's product portfolio and conducting R&D"
+        ],
+        "workItems": [
+          "Embedding AI features into Pepabo services and running PoCs"
+        ],
+        "achievements": [
+          "Joined as an AI Specialist via the OneCareer new-graduate selection track"
+        ]
       },
       {
-        "year": "1999",
-        "title": "Move to Japan",
-        "description": "Moved to Yokohama with family. Started kindergarten and elementary school life in Japan",
-        "icon": "plane"
+        "id": "sapeet",
+        "start": "2026-02",
+        "end": "2026-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "Sapeet Inc.",
+        "product": "Automated bid extraction & company-scoring PoC for telecom-construction tenders",
+        "industry": "AI / SaaS",
+        "role": "AI Engineer (Contract)",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "impl", "test"],
+        "stack": ["Python", "LLM", "Information extraction", "Multilingual speech analysis"],
+        "responsibilities": [
+          "Scoping the bid PoC and designing / refining the extraction logic",
+          "Designing system topology, deployment operations and access control"
+        ],
+        "workItems": [
+          "Built an automated extraction pipeline for telecom-construction tender notices",
+          "Designed and implemented company-scoring logic",
+          "Classified and analysed multilingual fragmentary speech recordings",
+          "Drove weekly progress reviews and continuous improvement of extraction logic"
+        ],
+        "achievements": [
+          "Stood up a bid-extraction PoC and a company-scoring foundation in two months"
+        ]
       },
       {
-        "year": "2009",
-        "title": "Return to China",
-        "description": "Returned to Beijing and entered middle school",
-        "icon": "plane"
+        "id": "medimo",
+        "start": "2025-06",
+        "end": "2026-01",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "medimo Inc.",
+        "product": "medimo — automated medical-chart generation SaaS",
+        "industry": "Healthcare AI",
+        "role": "AI Engineer / requirements & design lead (Contract)",
+        "teamOverall": 40,
+        "teamSection": 25,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "stack": [
+          "Python",
+          "FastAPI",
+          "TypeScript",
+          "React",
+          "LangGraph",
+          "LangChain",
+          "Dify",
+          "PyTorch",
+          "Transformers",
+          "DeepSpeed",
+          "AWS Aurora",
+          "AWS",
+          "Docker",
+          "Figma",
+          "Jupyter"
+        ],
+        "responsibilities": [
+          "Owned requirements through design; also implemented and reviewed code",
+          "PoC, design and implementation of an auto-prompt-generation pipeline (LangGraph) covering per-doctor chart formats (SOAP / chronological etc.)",
+          "Drove ASR accuracy improvement: LoRA fine-tuning on ~190h of medical audio, evaluation design, training operations"
+        ],
+        "workItems": [
+          "Defined the spec under which uploaded historical charts auto-derive a per-doctor summary template",
+          "Designed and implemented the LangGraph prompt-generation flow, automatically applying templates per doctor / facility",
+          "Built execution and management surfaces in LangGraph so prompt generation and validation could be operated continuously",
+          "Built the prompt-generation UI and backend with FastAPI + React (collaborated with three engineers)",
+          "Validated and compared LLMs and multimodal models including stepaudio, phi4 and Gemini",
+          "Set up multi-GPU training and experiment workflows with DeepSpeed (ZeRO) to operate a continuous-improvement loop"
+        ],
+        "achievements": [
+          "Improved medical-term ASR recall from 82.26% to 89.72%",
+          "Replaced bespoke per-doctor prompt writing with an automated flow that scales across diverse chart formats"
+        ]
       },
       {
-        "year": "2010",
-        "title": "Japan Permanent Residency",
-        "description": "Obtained permanent residency status in Japan",
-        "icon": "home"
+        "id": "ninjal",
+        "start": "2023-11",
+        "end": "2025-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "NINJAL — National Institute for Japanese Language and Linguistics",
+        "product": "Vocabulary Profiler system",
+        "industry": "Research",
+        "role": "Project Lead (Contract)",
+        "teamOverall": 13,
+        "teamSection": 6,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "stack": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Vercel",
+          "AWS",
+          "Docker"
+        ],
+        "responsibilities": [
+          "Led the project end-to-end as PM, from requirements through implementation",
+          "Built the dashboard with React + Node.js",
+          "Implemented real-time data flow over WebSocket"
+        ],
+        "workItems": [
+          "Whole-team management and tech selection",
+          "Designed and implemented frontend (React) and backend (Node.js / Express)",
+          "Built a parallel-processing architecture for morphological analysis and vocab-difficulty scoring",
+          "Database design and performance tuning on PostgreSQL",
+          "Hardened security with SSL/TLS and token-based auth"
+        ],
+        "achievements": [
+          "Made morphological analysis 8× faster via parallel processing (5 min → ≤10 s)",
+          "Integrated a Word2Vec-based vocabulary-difficulty model as an API",
+          "Built a 5,000-term academic-vocabulary dictionary in collaboration with the institute's linguists",
+          "Delivered two weeks ahead of schedule with 97% parsing accuracy"
+        ]
       },
       {
-        "year": "2016",
-        "title": "University Admission",
-        "description": "Entered Capital University of Economics and Business, Information Systems Department",
-        "icon": "university"
+        "id": "ml-vocab",
+        "start": "2024-11",
+        "end": "2025-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "ML research project",
+        "product": "LLM-based vocabulary difficulty prediction",
+        "industry": "Research support / Linguistics",
+        "role": "ML R&D (Contract)",
+        "teamOverall": 3,
+        "teamSection": 3,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "stack": [
+          "Python",
+          "PyTorch",
+          "Transformers",
+          "Scikit-learn",
+          "MongoDB",
+          "Linux",
+          "Jupyter",
+          "Git",
+          "gensim"
+        ],
+        "responsibilities": [
+          "Built an automatic vocabulary-test generator using Word2Vec",
+          "Built an LLM fine-tuning pipeline for vocabulary-difficulty prediction"
+        ],
+        "workItems": [
+          "Pre-processed a large Japanese corpus and trained Word2Vec models",
+          "LLM fine-tuning with the Transformers library",
+          "Designed the ML pipeline and implemented evaluation metrics"
+        ],
+        "achievements": [
+          "Presented results at the Association for Natural Language Processing (2022 and 2024)",
+          "Productionised through joint research with NINJAL"
+        ]
       },
       {
-        "year": "2021",
-        "title": "Return to Japan",
-        "description": "Moved to Kyoto",
-        "icon": "plane"
+        "id": "corpus-maker",
+        "start": "2024-10",
+        "end": "2024-11",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "Solo contract",
+        "product": "CurpusMaker — corpus-building web app",
+        "industry": "Research support / Linguistics",
+        "role": "Full-stack (Contract, solo)",
+        "teamOverall": 1,
+        "teamSection": 1,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
+        "stack": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+          "PDF.js",
+          "Webpack",
+          "Git"
+        ],
+        "responsibilities": [
+          "Owned the full stack solo, from concept through deployment",
+          "Implemented PDF parsing and text extraction",
+          "Designed and built the user interface"
+        ],
+        "workItems": [
+          "Interactive frontend in React",
+          "PDF parsing via PDF.js",
+          "Range-based text extraction selected visually by the user",
+          "Markdown export",
+          "Drag-and-drop file upload"
+        ],
+        "achievements": [
+          "Cut corpus-building effort by 70% versus the prior manual workflow",
+          "High-accuracy text extraction across multiple PDF formats",
+          "Responsive layout supporting both desktop and tablet"
+        ]
       },
       {
-        "year": "2021",
-        "title": "Master's Program",
-        "description": "Entered Master's program at Kyoto University Graduate School of Human and Environmental Studies, majoring in Foreign Language Education, Second Language Acquisition, and Applied Linguistics",
-        "icon": "university"
+        "id": "lands",
+        "start": "2024-04",
+        "end": "2024-05",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "International research team",
+        "product": "LandS — Japanese extensive-reading platform for New Zealand learners",
+        "industry": "Education / Research",
+        "role": "Full-stack (Contract)",
+        "teamOverall": 17,
+        "teamSection": 6,
+        "scope": ["basicDesign", "detailDesign", "impl"],
+        "stack": [
+          "TypeScript",
+          "Next.js",
+          "React",
+          "Node.js",
+          "Prisma",
+          "PostgreSQL",
+          "Vercel",
+          "AWS",
+          "Docker",
+          "Jest",
+          "Figma"
+        ],
+        "responsibilities": [
+          "Full-stack delivery across frontend and backend",
+          "Designed and built the real-time reading-time measurement system",
+          "Built the learning-progress analytics dashboard"
+        ],
+        "workItems": [
+          "Modern web app on Next.js App Router",
+          "Database design and optimisation with PostgreSQL + Prisma ORM",
+          "Millisecond-precision real-time reading-time tracking",
+          "Level-adaptive text delivery for learners",
+          "Teacher-facing analytics dashboard (progress visualisation, comprehension stats)",
+          "JWT authentication for safe learner / teacher accounts"
+        ],
+        "achievements": [
+          "Designed for 500+ learners and 100+ concurrent connections",
+          "CI/CD pipeline streamlined collaboration across a 17-person team",
+          "A/B testing enabled quantitative comparison of learning outcomes",
+          "Drove English-language collaboration with the international research team"
+        ]
       },
       {
-        "year": "2023",
-        "title": "PhD Program",
-        "description": "Completed Master's degree and entered PhD program. Dissertation theme: 'Application of LLM in Foreign Language Education'",
-        "icon": "university"
+        "id": "shinhan",
+        "start": "2022-06",
+        "end": "2022-11",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "Shinhan Academy Inc.",
+        "product": "Bilingual official website",
+        "industry": "Education",
+        "role": "Full-stack (Contract)",
+        "teamOverall": 3,
+        "teamSection": 2,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
+        "stack": [
+          "PHP",
+          "WordPress",
+          "JavaScript",
+          "HTML/CSS",
+          "MySQL",
+          "Linux",
+          "Apache",
+          "Git"
+        ],
+        "responsibilities": [
+          "Designed and built a WordPress-based CMS site",
+          "Developed custom themes and plugins from scratch",
+          "Built bilingual (Japanese / Chinese) site structure"
+        ],
+        "workItems": [
+          "WordPress environment setup and customisation",
+          "PHP custom features (contact forms, course management)",
+          "Responsive design and SEO optimisation",
+          "CMS rollout and ongoing client support",
+          "Wrote operations manual and ran client training"
+        ],
+        "achievements": [
+          "+40% inbound inquiries versus the previous site",
+          "Bilingual site reached customer bases in both Japan and China"
+        ]
       }
     ]
   },
   "research": {
-    "title": "Research Activities",
-    "subtitle": "Innovating AI Technology in Language Education",
-    "projects": "Key Projects",
-    "publications": "Publications",
+    "title": "Research",
+    "subtitle": "Innovation in AI Technology for Language Education",
+    "projects": "Major Projects",
+    "publications": "Publications & Presentations",
     "peerReviewedPapers": "Peer-Reviewed Papers",
     "conferencePresentations": "Conference Presentations",
     "academicResearch": "Academic Research",
     "doi": "DOI →",
     "books": "Books",
-    "bookChapter": "Book Chapter",
+    "bookChapter": "Chapter Author",
     "ebookIsbn": "eBook ISBN",
     "printIsbn": "Print ISBN",
     "viewOnSpringer": "View on Springer Nature Link",
     "booksList": [
       {
-        "authors": "Liang, Z. (contributing author)",
+        "authors": "Liang, Z. (Chapter Author)",
         "year": "2026",
-        "title": "English Language Education: Current Issues and Future Prospects I",
-        "publisher": "Springer Nature Singapore",
+        "title": "English Language Education: Current Issues and Future Directions I",
+        "publisher": "Springer Nature (Singapore)",
         "role": "bookChapter",
         "isbn": "978-981-95-6163-6",
         "printIsbn": "978-981-95-6162-9",
@@ -145,7 +535,7 @@
       {
         "authors": "Wang, F., Kanamaru, T., & Liang, Z.",
         "year": "2025",
-        "title": "A Study on Role Language in Manga Used in Daily Conversation: From the Perspective of Japanese Language Education",
+        "title": "A Study on Role Language in Manga Used in Daily Conversations: From the Perspective of Japanese Language Education",
         "journal": "Kotoba",
         "volume": "46",
         "pages": "55–72",
@@ -154,8 +544,8 @@
       {
         "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
         "year": "2023",
-        "title": "Development and validation of an audio version of Japanese vocabulary size test for Chinese-Japanese bilinguals",
-        "journal": "Journal of Japanese Language Education",
+        "title": "Development and Validation of an Audio-based Japanese Vocabulary Size Test for Japanese-Chinese Bilinguals",
+        "journal": "Japanese Language Education",
         "volume": "185",
         "pages": "93–108"
       },
@@ -170,8 +560,8 @@
       {
         "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
         "year": "2022",
-        "title": "Use of subtitles in video content for Japanese language learning: From the perspective of language selection",
-        "journal": "Language and Culture Education Research",
+        "title": "Subtitle Use in Japanese Learning through Visual Media: From the Perspective of Language Selection",
+        "journal": "Journal of Language and Cultural Education Research",
         "volume": "20",
         "pages": "335–356"
       }
@@ -180,200 +570,231 @@
       {
         "authors": "Nakano, T., & Liang, Z.",
         "year": "2025",
-        "title": "Collocation analysis of English textbooks based on the new Courses of Study: From the perspective of elementary-junior-senior high school articulation",
-        "conference": "JASELE 50th Anniversary Saitama Research Conference"
+        "title": "Collocation Analysis of Authorized English Textbooks under the New Course of Study: From the Perspective of Continuity from Elementary to High School",
+        "conference": "JASELE 50th Saitama Research Conference"
       },
       {
         "authors": "Nakano, T., Liang, Z., & Sasao, Y.",
         "year": "2024",
-        "title": "Analysis of high-frequency collocations based on English proficiency test textbook corpus",
+        "title": "Analysis of High-Frequency Collocations Based on a Corpus of Authorized English Textbooks",
         "conference": "JASELE 49th Fukuoka Research Conference"
       },
       {
         "authors": "Liang, Z., & Sasao, Y.",
         "year": "2024",
-        "title": "Can general language models predict vocabulary difficulty based on Japanese learner data?",
-        "conference": "Annual Meeting of the Association for Natural Language Processing 2024"
+        "title": "Can General-Purpose LLMs Predict Vocabulary Difficulty Based on Japanese Learner Data?",
+        "conference": "Association for Natural Language Processing 2024"
       },
       {
         "authors": "Peng, Y., Liang, Z., & Sasao, Y.",
         "year": "2022",
-        "title": "Development and validation of an audio version of Japanese vocabulary size test for Chinese-Japanese bilinguals",
-        "conference": "Proceedings of the Autumn Conference of the Society for Teaching Japanese as a Foreign Language"
+        "title": "Development and Validation of an Audio-based Japanese Vocabulary Size Test for Japanese-Chinese Bilinguals",
+        "conference": "Society for Teaching Japanese as a Foreign Language Autumn Conference Proceedings"
       },
       {
         "authors": "Liang, Z., & Sasao, Y.",
         "year": "2022",
-        "title": "Development and verification of an automatic choice generation program for Japanese vocabulary questions",
-        "conference": "Proceedings of the Spring Conference of the Society for Teaching Japanese as a Foreign Language"
+        "title": "Development and Validation of an Automatic Distractor Generation Program for Japanese Vocabulary Questions",
+        "conference": "Society for Teaching Japanese as a Foreign Language Spring Conference Proceedings"
       }
     ]
   },
   "skills": {
-    "title": "Skills & Technologies",
-    "subtitle": "From Full-Stack Development to Machine Learning",
+    "title": "Skills & Stack",
+    "subtitle": "Technologies used in production, with years of experience",
+    "kicker": "Stack",
     "programming": "Programming Languages",
     "frontend": "Frontend",
     "backend": "Backend",
-    "database": "Database",
-    "mobile": "Mobile Development",
+    "database": "Databases",
+    "mobile": "Mobile",
     "infrastructure": "Infrastructure",
-    "cloud": "Cloud",
-    "ai": "AI & Machine Learning",
-    "languages": "Language Proficiency",
-    "jobTitle": "PhD Student • Research",
-    "ceoFounder": "CEO • Founder",
-    "yearsExperience": "{years}+ Years Experience",
-    "mainFeatures": "Main Features",
-    "techStack": "Technology Stack",
+    "cloud": "Cloud & Infra",
+    "ai": "AI & Tools",
+    "languages": "Languages",
+    "jobTitle": "PhD Student & Researcher",
+    "ceoFounder": "CEO & Founder",
+    "yearsExperience": "{years}+ years experience",
+    "yearsLabel": "y",
+    "mainFeatures": "Key Features",
+    "techStack": "Tech Stack",
     "proficiency": "Proficiency",
     "technicalExpertise": "Technical Expertise",
+    "categories": [
+      {
+        "id": "languages",
+        "titleKey": "programming",
+        "items": [
+          { "name": "JavaScript", "years": 5, "featured": true },
+          { "name": "TypeScript", "years": 3, "featured": true },
+          { "name": "Python", "years": 5, "featured": true },
+          { "name": "Swift", "years": 4 },
+          { "name": "PHP", "years": 3 },
+          { "name": "C", "years": 2 }
+        ]
+      },
+      {
+        "id": "frameworks",
+        "titleKey": "frontend",
+        "items": [
+          { "name": "React", "years": 3, "featured": true },
+          { "name": "Next.js", "featured": true },
+          { "name": "React Native", "years": 2 },
+          { "name": "Node.js / Express" },
+          { "name": "FastAPI", "featured": true },
+          { "name": "LangChain" },
+          { "name": "LangGraph", "featured": true },
+          { "name": "Transformers" },
+          { "name": "PyTorch" },
+          { "name": "DeepSpeed" },
+          { "name": "Dify" },
+          { "name": "WordPress" }
+        ]
+      },
+      {
+        "id": "databases",
+        "titleKey": "database",
+        "items": [
+          { "name": "MariaDB / MySQL", "years": 5 },
+          { "name": "PostgreSQL", "years": 3, "featured": true },
+          { "name": "MongoDB", "years": 2 },
+          { "name": "AWS Aurora" }
+        ]
+      },
+      {
+        "id": "infra",
+        "titleKey": "cloud",
+        "items": [
+          { "name": "Nginx", "years": 6 },
+          { "name": "Apache", "years": 5 },
+          { "name": "Linux", "years": 5 },
+          { "name": "Caddy", "years": 3 },
+          { "name": "AWS", "years": 3, "featured": true },
+          { "name": "Vercel" },
+          { "name": "Docker" }
+        ]
+      },
+      {
+        "id": "tools",
+        "titleKey": "ai",
+        "items": [
+          { "name": "Git", "years": 5 },
+          { "name": "Scikit-learn", "years": 3 },
+          { "name": "Word2Vec / gensim" },
+          { "name": "Jupyter" },
+          { "name": "Jest" },
+          { "name": "Figma" },
+          { "name": "Webpack" },
+          { "name": "PDF.js" },
+          { "name": "MeCab" },
+          { "name": "BERT" }
+        ]
+      }
+    ],
     "languageProficiency": {
       "japanese": "Japanese",
-      "japaneseLevel": "JLPT N1 Perfect Score • Native Level",
+      "japaneseLevel": "JLPT N1 Perfect Score, Native Level",
       "chinese": "Chinese",
-      "chineseLevel": "Native (Beijing)",
+      "chineseLevel": "Native Speaker (Beijing)",
       "english": "English",
-      "englishLevel": "CET Level 4 • Academic Writing"
+      "englishLevel": "CET Level 4, Academic Writing Level"
     },
     "certifications": {
       "title": "Certifications",
-      "subtitle": "Professional Qualifications & Achievements",
+      "subtitle": "Professional Certifications & Achievements",
       "list": [
-        {
-          "name": "JLPT N1 (Perfect Score)",
-          "description": "Japanese Language Proficiency Test - Highest level with perfect score",
-          "date": "2020"
-        },
-        {
-          "name": "ICT Proficiency Test",
-          "description": "Information and Communications Technology certification",
-          "date": "2019"
-        },
-        {
-          "name": "Japanese Driver's License",
-          "description": "Full driving license issued in Japan",
-          "date": "2022"
-        },
-        {
-          "name": "Chinese Driver's License",
-          "description": "Full driving license issued in China",
-          "date": "2018"
-        },
-        {
-          "name": "College English Test Level 4",
-          "description": "National English proficiency test for Chinese university students",
-          "date": "2018"
-        },
-        {
-          "name": "CATTI International Translation",
-          "description": "Chinese-Japanese Translation Certification - International version of China Accreditation Test for Translators and Interpreters",
-          "date": "2025"
-        },
-        {
-          "name": "CATTI International Interpretation",
-          "description": "Chinese-Japanese Interpretation Certification - International version of China Accreditation Test for Translators and Interpreters",
-          "date": "2025"
-        }
+        { "name": "JLPT N1 (Perfect Score)", "description": "Japanese Language Proficiency Test - Perfect score at highest level", "date": "2020" },
+        { "name": "ICT Proficiency Test", "description": "Information and Communication Technology certification", "date": "2019" },
+        { "name": "Japanese Driver's License", "description": "Standard automobile license issued in Japan", "date": "2022" },
+        { "name": "Chinese Driver's License", "description": "Standard automobile license issued in China", "date": "2018" },
+        { "name": "CET-4 (College English Test Band 4)", "description": "Standardized English proficiency test for Chinese university students", "date": "2018" },
+        { "name": "CATTI International (Translation)", "description": "Chinese-Japanese Translation - China Accreditation Test for Translators and Interpreters (International)", "date": "2025" },
+        { "name": "CATTI International (Interpretation)", "description": "Chinese-Japanese Interpretation - China Accreditation Test for Translators and Interpreters (International)", "date": "2025" }
       ]
     }
   },
   "projects": {
-    "title": "Project Portfolio",
-    "subtitle": "Practical Application Development",
+    "title": "Personal Products",
+    "subtitle": "Personal projects, OSS and education-domain tools — separate from contract work",
+    "kicker": "Personal Products",
+    "intro": "Contract work lives under Experience; academic work lives under Research; this section is personal / product only.",
     "projectsList": [
       {
-        "title": "Sokudoku Gorilla",
-        "description": "Interactive speed reading practice system for Japanese learners",
+        "title": "Sokudoku Gorilla (Speed-Reading Gorilla)",
+        "description": "Interactive speed-reading practice for Japanese learners",
         "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
         "features": [
-          "Level-based content from beginner to advanced",
-          "Real-time reading speed (WPM) and comprehension measurement",
-          "Interactive learning with quiz format",
-          "Progress visualization and tracking"
+          "Level-graded content from beginner to advanced",
+          "Real-time WPM and comprehension measurement",
+          "Quiz-style interactive learning",
+          "Visualisation and tracking of learning progress"
         ]
       },
       {
-        "title": "日雨日語 (Nichiu Nichigo)",
-        "description": "Efficient Japanese vocabulary learning and listening practice mobile application",
+        "title": "Nichiu Nichigo",
+        "description": "Mobile app for efficient Japanese vocabulary learning and listening practice",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
         "features": [
-          "Cross-platform support with React Native and Swift",
-          "Flexible data modeling with MongoDB",
+          "Cross-platform support via React Native + Swift",
+          "Flexible data modelling on MongoDB",
           "Serverless processing on AliCloud"
         ]
       },
       {
         "title": "Vocabulary Profiler 'Matsunoha'",
-        "description": "Web tool for text analysis that determines word difficulty and visualizes vocabulary levels",
+        "description": "Web tool that analyses text difficulty and visualises vocabulary level (personal edition)",
         "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
         "features": [
           "Full-stack development with Next.js",
           "MeCab morphological analysis on AWS Lambda",
-          "Robust code design with TypeScript"
+          "Robust codebase via TypeScript"
         ]
       },
       {
-        "title": "LandS English Learning App",
-        "description": "English learning application specialized in listening and speaking skills",
-        "technologies": ["Google Cloud Platform", "Swift", "Nginx", "MariaDB"],
-        "features": [
-          "Robust infrastructure based on Google Cloud",
-          "Native experience implementation with Swift",
-          "High-speed response with Nginx"
-        ]
-      },
-      {
-        "title": "LLM Analysis & Fine-tuning Research",
-        "description": "Research project for analyzing and customizing LLMs specialized for foreign language education",
-        "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
-        "features": [
-          "Large language model analysis with TensorFlow",
-          "LLM customization for foreign language education",
-          "Utilizing Transformers library"
-        ]
-      },
-      {
-        "title": "LLM Vocabulary Difficulty Estimation System",
-        "description": "Development of a system that predicts vocabulary difficulty by training large language models with known difficulty data. Joint research project with National Institute for Japanese Language and Linguistics.",
-        "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
-        "features": [
-          "Automatic vocabulary difficulty prediction using BERT-based models",
-          "Machine learning models utilizing diverse linguistic features",
-          "Industry-academia collaboration with National Institute for Japanese Language and Linguistics",
-          "Evaluation using Japanese learner corpus data"
-        ]
-      },
-      {
-        "title": "Education-Specialized LLM Development Project",
-        "description": "Research on developing education-specific large language models with novel architectures that overcome constraints of existing LLMs for foreign language education.",
+        "title": "Education-specific LLM Construction Project",
+        "description": "Building a domain-specific LLM for foreign-language education — exploring architecture beyond off-the-shelf models",
         "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
         "features": [
-          "Custom model architecture design for educational domains",
-          "Multilingual educational content generation",
-          "Learner-level adaptive text generation",
-          "Novel evaluation metrics development and validation"
+          "Education-domain model architecture design",
+          "Multilingual education-content generation",
+          "Learner-level-adaptive text generation",
+          "Custom evaluation metrics and validation"
         ]
       },
       {
-        "title": "Automatic Vocabulary Question Generation System",
-        "description": "Advanced vocabulary question generation system for Japanese language education utilizing Word2Vec embeddings and Latent Dirichlet Allocation (LDA). Leverages distributional semantics and topic modeling for high-precision distractor generation.",
+        "title": "Vocabulary Question Auto-Generation System",
+        "description": "Automatic generation of Japanese vocabulary questions using Word2Vec and LDA — high-quality distractor generation via distributed representations and topic modelling",
         "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
         "features": [
-          "Semantic similarity extraction using Word2Vec distributed representations",
-          "Contextual distractor generation through LDA topic modeling",
-          "Vocabulary difficulty estimation via MeCab morphological analysis",
-          "Automated quality assessment using machine learning algorithms"
+          "Semantic-similarity distractor extraction via Word2Vec",
+          "Context-sensitive distractor generation via LDA topic modelling",
+          "Vocabulary-difficulty estimation via MeCab morphological analysis",
+          "Automatic ML-based scoring of distractor quality"
         ]
       }
     ],
     "leadership": {
       "title": "Tech Leadership",
-      "description": "Spearheaded Agile development methodology implementation, CI/CD pipeline architecture, microservices design patterns, and DevOps culture cultivation. Comprehensive oversight from product management to technical architecture decisions.",
+      "description": "Introduced agile methodologies, built CI/CD pipelines, designed microservices architecture, and fostered DevOps culture. Comprehensive oversight from product management to technical architecture.",
       "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
     },
-    "mainFeatures": "Main Features",
-    "techStack": "Technology Stack"
+    "mainFeatures": "Key Features",
+    "techStack": "Tech Stack"
+  },
+  "contactCTA": {
+    "kicker": "For Contract Work",
+    "accepting": "Open to contract engagements",
+    "headline": "Available for contract work in medical AI, education AI and language processing — design, build and operations",
+    "body": "Background in ASR, LLM and multimodal research and shipping. Comfortable owning from requirements, and used to working with research institutes. Get in touch.",
+    "domains": [
+      "Medical AI (ASR, LLM summarisation)",
+      "Education AI (learner corpora, vocab difficulty)",
+      "Language processing (multilingual pipelines, morphological analysis)"
+    ],
+    "emailLabel": "Email",
+    "email": "ryo.shin.j85@kyoto-u.jp",
+    "socialLabel": "Social",
+    "openToWork": "Open to contract work"
   },
   "contact": {
     "title": "Contact",
@@ -383,17 +804,17 @@
   },
   "footer": {
     "copyright": "© 2024 LIANG ZHEN (RYO SHIN). All rights reserved.",
-    "builtWith": "Built with Next.js, TypeScript, and Tailwind CSS"
+    "builtWith": "Built with Next.js, TypeScript, Tailwind CSS"
   },
   "publications": {
-    "title": "Publications",
+    "title": "Publications & Presentations",
     "viewPaper": "View Paper",
     "totalPublications": "Total {count} publications"
   },
   "scroll": {
     "navigating": "Navigating to {section}...",
-    "pullUp": "Pull up to {section}",
-    "pullDown": "Pull down to {section}",
+    "pullUp": "Swipe up to {section}",
+    "pullDown": "Swipe down to {section}",
     "release": "Release to navigate"
   },
   "zennFeed": {
@@ -406,68 +827,68 @@
   },
   "teaching": {
     "title": "Teaching Experience",
-    "subtitle": "Japanese Language Education",
+    "subtitle": "Achievements as a Japanese Teacher",
     "perfectScore": "Perfect Score",
-    "perfectScoreDescription": "Highest achievement in Japanese proficiency",
+    "perfectScoreDescription": "Perfect score at the highest level of the Japanese Language Proficiency Test",
     "yearsExperience": "Years of Experience",
     "teachingHours": "Teaching Hours",
-    "studentsTotal": "Students Taught",
+    "studentsTotal": "Students",
     "passRate": "JLPT Pass Rate",
-    "experienceTitle": "Professional Teaching Background",
+    "experienceTitle": "Teaching Career",
     "newOriental": "New Oriental Education & Technology Group",
-    "experienceDescription": "As a senior Japanese language instructor at New Oriental, I have developed and delivered comprehensive Japanese language curricula for students at all levels, from beginners to advanced learners preparing for JLPT N1.",
+    "experienceDescription": "As a senior Japanese instructor at New Oriental, I developed and delivered comprehensive Japanese language education curricula to a wide range of students, from beginners to advanced learners aiming for JLPT N1.",
     "achievements": "Key Achievements",
-    "achievement1": "Developed original teaching materials and methods",
-    "achievement2": "Maintained 95% student JLPT pass rate",
-    "achievement3": "Recognized as Top Instructor multiple times",
-    "specialties": "Teaching Specialties",
-    "specialty1": "JLPT N1-N5 comprehensive preparation",
-    "specialty2": "Business Japanese for professionals",
-    "specialty3": "Conversational fluency development",
-    "coursesOffered": "Course Offerings",
+    "achievement1": "Developed original teaching materials and methodologies",
+    "achievement2": "Maintained 95% JLPT pass rate among students",
+    "achievement3": "Multiple Excellence in Teaching Awards",
+    "specialties": "Specialties",
+    "specialty1": "JLPT N1-N5 All Levels Preparation",
+    "specialty2": "Business Japanese for Working Professionals",
+    "specialty3": "Conversation Skills Enhancement",
+    "coursesOffered": "Courses Offered",
     "courses": {
       "basic": {
         "title": "Basic Japanese Course",
-        "description": "Foundation course for beginners starting their Japanese journey",
+        "description": "Foundational course for beginners starting their Japanese learning journey",
         "features": [
-          "Hiragana and Katakana mastery",
-          "Essential grammar patterns",
-          "Daily conversation skills",
-          "Cultural understanding"
+          "Complete mastery of Hiragana and Katakana",
+          "Basic grammar pattern acquisition",
+          "Daily conversation skill development",
+          "Understanding of Japanese culture"
         ]
       },
       "jlpt": {
-        "title": "JLPT Preparation",
-        "description": "Comprehensive test preparation for all JLPT levels",
+        "title": "JLPT Preparation Course",
+        "description": "Comprehensive preparation for JLPT examinations across all levels",
         "features": [
-          "Targeted vocabulary building",
-          "Grammar pattern mastery",
+          "Vocabulary expansion based on target level",
+          "Complete grammar pattern mastery",
           "Reading comprehension strategies",
           "Listening skill enhancement"
         ]
       },
       "business": {
-        "title": "Business Japanese",
-        "description": "Professional Japanese for workplace communication",
+        "title": "Business Japanese Course",
+        "description": "Practical course focused on workplace communication",
         "features": [
-          "Business etiquette and keigo",
-          "Email and document writing",
+          "Business etiquette and honorifics (keigo)",
+          "Email and document writing skills",
           "Meeting and presentation skills",
           "Industry-specific terminology"
         ]
       }
     },
     "philosophyTitle": "Teaching Philosophy",
-    "philosophyQuote": "Language learning is not just about memorizing words and grammar; it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's journey both effective and enjoyable."
+    "philosophyQuote": "Language learning is not just about memorizing words and grammar - it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's learning journey both effective and enjoyable."
   },
   "metadata": {
-    "title": "Ryo Shin (Liang Zhen) | AI Researcher・ML Engineer・Japanese Language Teacher",
-    "description": "PhD candidate at Kyoto University researching AI applications in language education. Developing innovative machine learning solutions for second language acquisition and Japanese language teaching methodologies.",
-    "keywords": "Ryo Shin, Liang Zhen, Kyoto University, AI research, language education, second language acquisition, LLM, Large Language Models, machine learning, Japanese language teaching, natural language processing, NLP, educational technology, EdTech, ML Engineer",
-    "author": "Ryo Shin (Liang Zhen)",
-    "creator": "Ryo Shin (Liang Zhen)",
-    "publisher": "Ryo Shin (Liang Zhen)",
-    "siteName": "Ryo Shin Portfolio"
+    "title": "LIANG ZHEN (RYO SHIN) | AI Engineer & Researcher",
+    "description": "Kyoto University PhD candidate, founder of EastLinker Inc. and AI Specialist at GMO Pepabo. Research and engineering across LLM, ASR, LangGraph for medical, educational and language-processing domains.",
+    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, AI Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo, EastLinker",
+    "author": "LIANG ZHEN (RYO SHIN)",
+    "creator": "LIANG ZHEN (RYO SHIN)",
+    "publisher": "LIANG ZHEN (RYO SHIN)",
+    "siteName": "LIANG ZHEN (RYO SHIN) Portfolio"
   },
   "common": {
     "close": "Close",
@@ -492,9 +913,11 @@
   },
   "badges": {
     "aboutMe": "About Me",
+    "professionalExperience": "Professional Experience",
+    "highlights": "Selected Results",
     "technicalExpertise": "Technical Expertise",
     "academicResearch": "Academic Research",
-    "featuredProjects": "Featured Projects"
+    "featuredProjects": "Personal Products"
   },
   "status": {
     "completed": "Completed",
@@ -517,11 +940,11 @@
   },
   "heroCategories": {
     "messaging": "Messaging",
-    "professional": "Developer",
+    "professional": "Development",
     "social": "Social"
   },
   "email": {
-    "contact": "Email Contact",
+    "contact": "Contact via Email",
     "address": "ryo.shin.j85@kyoto-u.jp"
   },
   "socialActions": {
@@ -534,6 +957,6 @@
     "japaneseFurigana": "りょう しん",
     "english": "RYO SHIN",
     "chinese": "LIANG ZHEN",
-    "shortName": "梁震"
+    "shortName": "RYO SHIN"
   }
 }

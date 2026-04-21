@@ -1,19 +1,20 @@
 {
   "nav": {
     "home": "首页",
-    "about": "关于我",
+    "about": "个人简介",
+    "experience": "工作经历",
     "research": "研究",
     "publications": "论文",
-    "teaching": "教学",
-    "certifications": "资格",
+    "teaching": "教学经验",
+    "certifications": "资格认证",
     "skills": "技能",
     "projects": "项目",
     "blog": "博客",
-    "contact": "联系",
+    "contact": "联系方式",
     "more": "更多",
-    "scrollToNext": "下一部分：",
-    "scrollToPrevious": "上一部分：",
-    "navigating": "正在跳转..."
+    "scrollToNext": "下一部分:",
+    "scrollToPrevious": "上一部分:",
+    "navigating": "正在切换..."
   },
   "languages": {
     "ja": "日本語",
@@ -27,114 +28,503 @@
   },
   "hero": {
     "title": "梁震",
-    "subtitle": "用技术打破语言壁垒，让世界更加紧密相连",
-    "description": "京都大学博士生",
+    "subtitle": "用机器学习跨越语言与语音的边界",
+    "description": "京都大学博士研究生",
     "roles": [
+      "AI 工程师",
       "研究者",
-      "工程师",
       "日语教师",
       "全栈开发者"
     ],
-    "origin": "故乡",
+    "origin": "出生地",
     "beijing": "北京",
     "current": "现居",
-    "kyoto": "京都"
+    "kyoto": "京都",
+    "coordinate": "N 35.0116° · E 135.7681°",
+    "currentlyAt": "GMO Pepabo ／ AI Specialist"
   },
   "heroZenn": {
     "latestPost": "最新文章",
-    "new": "新",
+    "new": "NEW",
     "today": "今天",
     "daysAgo": "{days}天前",
     "readMore": "阅读更多"
   },
+  "highlights": {
+    "title": "数据化的成果",
+    "subtitle": "可度量的性能、规模与速度",
+    "kicker": "Selected metrics",
+    "stats": [
+      {
+        "id": "asr-recall",
+        "hero": true,
+        "value": "82.26 → 89.72",
+        "unit": "%",
+        "label": "ASR 医学术语召回率",
+        "context": "基于约 190 小时医疗语音的 LoRA 微调、评估设计与训练运营（medimo）"
+      },
+      {
+        "id": "morpho-speed",
+        "value": "×8",
+        "unit": "提速",
+        "label": "形态素分析处理速度",
+        "context": "5 分钟 → 10 秒以内（国立国语研究所 语汇画像器）"
+      },
+      {
+        "id": "corpus-effort",
+        "value": "−70",
+        "unit": "%",
+        "label": "语料构建工时减少",
+        "context": "相比传统手工流程（CurpusMaker）"
+      },
+      {
+        "id": "ninjal-accuracy",
+        "value": "97",
+        "unit": "%",
+        "label": "解析精度（语汇难度判定）",
+        "context": "较原计划提前 2 周交付（国立国语研究所）"
+      },
+      {
+        "id": "audio-annotation",
+        "value": "190",
+        "unit": "h",
+        "label": "医疗语音标注",
+        "context": "借助 DeepSpeed ZeRO 多 GPU 训练运营（medimo）"
+      },
+      {
+        "id": "shinhan-leads",
+        "value": "+40",
+        "unit": "%",
+        "label": "咨询数量",
+        "context": "WordPress 定制实现后（宸翰学园）"
+      }
+    ]
+  },
   "about": {
-    "title": "关于我",
-    "subtitle": "将AI技术与外语教育完美结合",
+    "title": "个人简介",
+    "subtitle": "融合外语教育学与 AI 技术",
+    "kicker": "About",
+    "pr": "在京都大学硕博课程中从事大规模语言模型（LLM）的教育应用研究，并于 2023 年 10 月创立株式会社 EastLinker，推动研究成果落地。在国立国语研究所的项目中一贯负责从需求定义到实施。2025 年 6 月起加入株式会社 medimo,推进医疗语音识别（ASR）精度提升与基于 LangGraph 的自动生成提示词管线，将医学术语 ASR 召回率从 82.26% 提升至 89.72%。2026 年 4 月起加入 GMO Pepabo 担任 AI Specialist。",
     "education": "教育",
-    "experience": "工作经历",
-    "teaching": "教学",
-    "specialization": "专长领域",
-    "timeline": "人生轨迹",
-    "currentStatus": "现任",
-    "kyotoUniversity": "京都大学 人间·环境学研究科 博士课程 （语言科学方向）",
-    "japaneseTeacher": "新东方金牌日语讲师（7年教龄，授课超过5000小时）",
+    "experience": "经历",
+    "teaching": "教学活动",
+    "specialization": "专业领域",
+    "timeline": "人生时间线",
+    "currentStatus": "现状",
+    "kyotoUniversity": "京都大学人类与环境学研究科 共生・人间学专攻 语言科学讲座 博士课程",
+    "japaneseTeacher": "新东方日语教师（7 年，5000+ 小时教学经验）",
+    "expertiseLabel": "擅长领域",
+    "expertise": [
+      {
+        "id": "web",
+        "title": "Web 开发",
+        "description": "以 Next.js / React / TypeScript / FastAPI / Node.js 为核心的全栈开发，从需求定义到部署运维一贯负责。"
+      },
+      {
+        "id": "ml",
+        "title": "ML 与 LLM 工程",
+        "description": "LoRA 微调、LangChain / LangGraph 智能体设计、ASR 改进、DeepSpeed ZeRO 多 GPU 训练，以及 stepaudio / phi4 / Gemini 等 LLM 与多模态模型的验证。"
+      },
+      {
+        "id": "language-edu",
+        "title": "语言教育系统",
+        "description": "学习者语料分析、词汇难度判定、自动出题系统、多读平台——长期与教育现场与研究机构协作开发。"
+      }
+    ],
+    "capabilitiesLabel": "擅长业务",
+    "capabilities": [
+      "系统设计与开发",
+      "项目管理",
+      "研究开发（R&D）"
+    ],
+    "credentials": {
+      "education": "京都大学研究生院（硕士毕业・博士在读）",
+      "founded": "株式会社 EastLinker 代表（创立于 2023 年 10 月）",
+      "github": "github.com/ryoshin0830"
+    },
     "fields": [
-      "外语教育学・第二语言习得论・应用语言学",
-      "大语言模型（LLM）微调与构建",
+      "外语教育学・第二语言习得・应用语言学",
+      "大规模语言模型（LLM）的微调与构建",
       "基于机器学习的词汇难度预测与语言评估",
-      "教育语法及学术用途英语教育"
+      "教育语法与学术英语教学"
     ],
     "timelineEvents": [
+      { "year": "1997", "title": "出生", "description": "生于北京", "icon": "birth" },
+      { "year": "1999", "title": "赴日", "description": "与家人移居横滨。在日本开始幼儿园与小学生活", "icon": "plane" },
+      { "year": "2009", "title": "回国", "description": "返回北京，升入中学", "icon": "plane" },
+      { "year": "2010", "title": "取得日本永驻", "description": "取得日本永久居留资格", "icon": "home" },
+      { "year": "2016", "title": "入读大学", "description": "进入首都经济贸易大学信息系统学部", "icon": "university" },
+      { "year": "2021", "title": "再次赴日", "description": "移居京都", "icon": "plane" },
+      { "year": "2021", "title": "硕士入学", "description": "进入京都大学人类与环境学研究科硕士课程，专攻外语教育学・第二语言习得・应用语言学", "icon": "university" },
+      { "year": "2023", "title": "创立 EastLinker", "description": "创立株式会社 EastLinker，推动研究成果落地", "icon": "home" },
+      { "year": "2023", "title": "博士入学", "description": "硕士毕业后进入博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
+      { "year": "2026", "title": "加入 GMO Pepabo", "description": "以 AI Specialist 身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
+    ]
+  },
+  "experience": {
+    "title": "工作经历",
+    "subtitle": "以业务委托和正式员工身份参与的实施与研发项目",
+    "kicker": "Professional Experience",
+    "intro": "此处仅展示业务委托与正式员工身份的工作经历。个人作品见『个人产品』，学术研究见『研究活动』。",
+    "currentLabel": "至今",
+    "viewDetail": "查看详情",
+    "viewAll": "查看全部 {count} 项 →",
+    "labels": {
+      "role": "职责",
+      "team": "规模 / 体制",
+      "stack": "技术栈",
+      "scope": "担当阶段",
+      "responsibilities": "担当业务",
+      "workItems": "工作内容",
+      "achievements": "成果",
+      "industry": "行业",
+      "employment": "雇佣形式"
+    },
+    "scopePhases": {
+      "req": "需求定义",
+      "basicDesign": "概要设计",
+      "detailDesign": "详细设计",
+      "impl": "实现与开发",
+      "test": "测试与评审",
+      "ops": "维护与运营"
+    },
+    "employmentTypes": {
+      "fulltime": "正式员工",
+      "contract": "业务委托",
+      "internship": "实习"
+    },
+    "teamFormat": "整体 {overall} 人 / 团队 {section} 人",
+    "soloFormat": "独立",
+    "engagements": [
       {
-        "year": "1997",
-        "title": "出生",
-        "description": "在北京呼吸第一口空气",
-        "icon": "birth"
+        "id": "gmo-pepabo",
+        "start": "2026-04",
+        "end": null,
+        "isCurrent": true,
+        "employmentType": "fulltime",
+        "company": "GMO Pepabo 株式会社",
+        "product": "AI Specialist 岗位",
+        "industry": "IT・互联网",
+        "role": "AI Specialist（正式员工）",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "detailDesign", "impl"],
+        "stack": ["Python", "LLM", "Machine Learning"],
+        "responsibilities": [
+          "在 AI / LLM 领域推进产品化与研发"
+        ],
+        "workItems": [
+          "为 Pepabo 各项服务嵌入 AI 功能并开展实证"
+        ],
+        "achievements": [
+          "通过 OneCareer 新卒选拔渠道以 AI Specialist 身份加入"
+        ]
       },
       {
-        "year": "1999",
-        "title": "移居日本",
-        "description": "随家人移居横滨，开始在日本的求学之路",
-        "icon": "plane"
+        "id": "sapeet",
+        "start": "2026-02",
+        "end": "2026-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "株式会社 Sapeet",
+        "product": "信息通信工程招投标自动抽取与企业评分 PoC",
+        "industry": "AI / SaaS",
+        "role": "AI 工程师（业务委托）",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "impl", "test"],
+        "stack": ["Python", "LLM", "信息抽取", "多语言语音分析"],
+        "responsibilities": [
+          "招投标 PoC 的范围定义与抽取逻辑的设计・改进",
+          "系统结构、部署运营与权限管理的设计"
+        ],
+        "workItems": [
+          "构建信息通信工程招投标信息的自动抽取管线",
+          "设计并实现企业评分逻辑",
+          "多语言语音片段的分类与分析",
+          "主持周会进度共享并持续改进抽取逻辑"
+        ],
+        "achievements": [
+          "在 2 个月内完成招投标抽取 PoC，并搭建企业评分基础架构"
+        ]
       },
       {
-        "year": "2009",
-        "title": "回到中国",
-        "description": "回到故乡北京，继续中学学业",
-        "icon": "plane"
+        "id": "medimo",
+        "start": "2025-06",
+        "end": "2026-01",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "株式会社 medimo",
+        "product": "医疗病历自动生成 SaaS『medimo』",
+        "industry": "医疗 / 健康 AI",
+        "role": "AI 工程师・需求定义与设计主担当（业务委托）",
+        "teamOverall": 40,
+        "teamSection": 25,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "stack": [
+          "Python",
+          "FastAPI",
+          "TypeScript",
+          "React",
+          "LangGraph",
+          "LangChain",
+          "Dify",
+          "PyTorch",
+          "Transformers",
+          "DeepSpeed",
+          "AWS Aurora",
+          "AWS",
+          "Docker",
+          "Figma",
+          "Jupyter"
+        ],
+        "responsibilities": [
+          "主担当需求定义与设计，并负责实现与代码评审",
+          "面向医生专属病历格式（SOAP / 时序 等）的自动生成 Prompt 机制 PoC・设计・实现（LangGraph）",
+          "推进 ASR 精度提升（基于约 190 小时医疗语音标注，进行 LoRA 等微调、评估设计与训练运营）"
+        ],
+        "workItems": [
+          "整理『医生上传既往病历后，按样式自动生成摘要模板』的规格与需求",
+          "用 LangGraph 设计并实现 Prompt 生成流程，针对每位医生 / 机构自动适配模板",
+          "搭建可对 Prompt 生成与校验进行持续运营的 LangGraph 执行与管理通道",
+          "使用 FastAPI + React 开发 Prompt 自动生成 UI 与生成后端（与 3 名开发者协作）",
+          "对 stepaudio / phi4 / Gemini 等 LLM 与多模态模型进行验证与比较",
+          "基于 DeepSpeed（ZeRO 等）搭建多 GPU 训练与实验流程，运营持续改进循环"
+        ],
+        "achievements": [
+          "将医学术语 ASR 召回率从 82.26% 提升至 89.72%",
+          "把每位医生定制的摘要 Prompt 自动化，迁移到可随样式扩展的运营模式"
+        ]
       },
       {
-        "year": "2010",
-        "title": "取得日本永住权",
-        "description": "获得日本永住资格",
-        "icon": "home"
+        "id": "ninjal",
+        "start": "2023-11",
+        "end": "2025-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "国立国语研究所（NINJAL）",
+        "product": "语汇画像器系统开发",
+        "industry": "研究项目",
+        "role": "项目负责人（业务委托）",
+        "teamOverall": 13,
+        "teamSection": 6,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "stack": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+          "Express",
+          "PostgreSQL",
+          "Vercel",
+          "AWS",
+          "Docker"
+        ],
+        "responsibilities": [
+          "作为项目负责人统筹从需求定义到实施",
+          "基于 React + Node.js 构建仪表盘",
+          "基于 WebSocket 实现实时数据处理"
+        ],
+        "workItems": [
+          "团队整体管理与技术选型",
+          "前端（React）与后端（Node.js / Express）的设计与实现",
+          "形态素分析与词汇难度判定系统的并行处理架构",
+          "PostgreSQL 数据库设计与性能优化",
+          "通过 SSL/TLS 与令牌认证强化安全"
+        ],
+        "achievements": [
+          "通过形态素分析并行化，将处理速度提升 8 倍（5 分钟 → 10 秒以内）",
+          "将基于 Word2Vec 的词汇难度预测模型作为 API 集成",
+          "与研究所语言学家协作构建了 5,000 词学术专业词典",
+          "较原计划提前 2 周交付，解析精度达 97%"
+        ]
       },
       {
-        "year": "2016",
-        "title": "大学入学",
-        "description": "考入首都经济贸易大学信息系统学院",
-        "icon": "university"
+        "id": "ml-vocab",
+        "start": "2024-11",
+        "end": "2025-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "机器学习研究项目",
+        "product": "基于 LLM 的词汇难度预测系统",
+        "industry": "研究支持 / 语言学工具",
+        "role": "ML 研发（业务委托）",
+        "teamOverall": 3,
+        "teamSection": 3,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "stack": [
+          "Python",
+          "PyTorch",
+          "Transformers",
+          "Scikit-learn",
+          "MongoDB",
+          "Linux",
+          "Jupyter",
+          "Git",
+          "gensim"
+        ],
+        "responsibilities": [
+          "基于 Word2Vec 开发词汇测验自动生成系统",
+          "构建基于 LLM 微调的词汇难度预测模型"
+        ],
+        "workItems": [
+          "大规模日语语料的预处理与 Word2Vec 模型构建",
+          "使用 Transformers 库进行 LLM 微调",
+          "设计机器学习管线并实现评估指标"
+        ],
+        "achievements": [
+          "在言语处理学会发表研究成果（2022 年・2024 年）",
+          "通过与国立国语研究所的合作研究实现实用化"
+        ]
       },
       {
-        "year": "2021",
-        "title": "再次来日",
-        "description": "再次踏上日本土地，在京都开启新篇章",
-        "icon": "plane"
+        "id": "corpus-maker",
+        "start": "2024-10",
+        "end": "2024-11",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "个人委托",
+        "product": "CurpusMaker — 语料构建辅助 Web 应用",
+        "industry": "研究支持 / 语言学工具",
+        "role": "全栈（业务委托・独立）",
+        "teamOverall": 1,
+        "teamSection": 1,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
+        "stack": [
+          "JavaScript",
+          "TypeScript",
+          "React",
+          "Node.js",
+          "PDF.js",
+          "Webpack",
+          "Git"
+        ],
+        "responsibilities": [
+          "独立负责从策划到部署的全过程全栈开发",
+          "PDF 解析与文本抽取功能的实现",
+          "用户界面的设计与开发"
+        ],
+        "workItems": [
+          "基于 React 的交互式前端开发",
+          "利用 PDF.js 进行 PDF 解析",
+          "用户可视化选择范围的文本抽取功能",
+          "Markdown 格式的输出功能",
+          "直观的拖放文件上传"
+        ],
+        "achievements": [
+          "相比传统手工流程，语料构建工时减少 70%",
+          "实现对多种 PDF 格式的高精度文本抽取",
+          "响应式设计同时支持 PC 与平板"
+        ]
       },
       {
-        "year": "2021",
-        "title": "硕士课程入学",
-        "description": "考入京都大学硕士课程，潜心钻研外语教育学及应用语言学",
-        "icon": "university"
+        "id": "lands",
+        "start": "2024-04",
+        "end": "2024-05",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "国际研究团队",
+        "product": "LandS — 面向新西兰学习者的日语多读平台",
+        "industry": "教育 / 研究支持",
+        "role": "全栈（业务委托）",
+        "teamOverall": 17,
+        "teamSection": 6,
+        "scope": ["basicDesign", "detailDesign", "impl"],
+        "stack": [
+          "TypeScript",
+          "Next.js",
+          "React",
+          "Node.js",
+          "Prisma",
+          "PostgreSQL",
+          "Vercel",
+          "AWS",
+          "Docker",
+          "Jest",
+          "Figma"
+        ],
+        "responsibilities": [
+          "全栈开发，同时负责前端与后端",
+          "实时阅读时间测量系统的设计与实现",
+          "学习进度分析仪表盘的开发"
+        ],
+        "workItems": [
+          "基于 Next.js App Router 的现代 Web 应用开发",
+          "PostgreSQL + Prisma ORM 的数据库设计与优化",
+          "毫秒级精度的实时阅读时间测量",
+          "按学习者水平定制文本发放的系统",
+          "教师端学习分析仪表盘（进度可视化、理解度统计）",
+          "基于 JWT 的学习者与教师账户安全管理"
+        ],
+        "achievements": [
+          "面向 500+ 学习者、100+ 同时连接进行大规模系统设计",
+          "通过 CI/CD 管线提升 17 人开发团队的协作效率",
+          "引入 A/B 测试功能实现学习效果的定量比较",
+          "主导与国际研究团队的英文沟通"
+        ]
       },
       {
-        "year": "2023",
-        "title": "博士课程入学",
-        "description": "硕士毕业后继续攻读博士学位，研究方向：大语言模型在外语教育中的应用",
-        "icon": "university"
+        "id": "shinhan",
+        "start": "2022-06",
+        "end": "2022-11",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "株式会社 宸翰学园",
+        "product": "多语言官方网站开发",
+        "industry": "教育",
+        "role": "全栈（业务委托）",
+        "teamOverall": 3,
+        "teamSection": 2,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
+        "stack": [
+          "PHP",
+          "WordPress",
+          "JavaScript",
+          "HTML/CSS",
+          "MySQL",
+          "Linux",
+          "Apache",
+          "Git"
+        ],
+        "responsibilities": [
+          "基于 WordPress 的 CMS 站点设计与开发",
+          "自主开发定制主题与插件",
+          "构建多语言（日文・中文）站点"
+        ],
+        "workItems": [
+          "WordPress 环境的搭建与定制",
+          "基于 PHP 的自定义功能开发（咨询表单、课程管理系统）",
+          "响应式设计与 SEO 优化",
+          "CMS 上线与长期客户支持",
+          "运营手册编写与客户操作培训"
+        ],
+        "achievements": [
+          "咨询数量较原站点提升 +40%",
+          "多语言站点同时覆盖中日两地客户群"
+        ]
       }
     ]
   },
   "research": {
     "title": "研究活动",
-    "subtitle": "AI技术驱动语言教育革新",
-    "projects": "研究项目",
-    "publications": "学术成果",
-    "peerReviewedPapers": "核心期刊论文",
-    "conferencePresentations": "学术会议报告",
-    "academicResearch": "研究成果",
+    "subtitle": "语言教育领域的 AI 技术创新",
+    "projects": "主要项目",
+    "publications": "论文与发表",
+    "peerReviewedPapers": "同行评议论文",
+    "conferencePresentations": "学术会议发表",
+    "academicResearch": "学术研究",
     "doi": "DOI →",
     "books": "著作",
     "bookChapter": "分担执笔",
     "ebookIsbn": "电子书 ISBN",
-    "printIsbn": "纸质版 ISBN",
-    "viewOnSpringer": "在 Springer Nature Link 上查看",
+    "printIsbn": "印刷版 ISBN",
+    "viewOnSpringer": "在 Springer Nature Link 查看",
     "booksList": [
       {
         "authors": "梁震（分担执笔）",
         "year": "2026",
         "title": "英语教育：现状的课题与未来展望 I",
-        "publisher": "施普林格·自然（新加坡）",
+        "publisher": "Springer Nature（新加坡）",
         "role": "bookChapter",
         "isbn": "978-981-95-6163-6",
         "printIsbn": "978-981-95-6162-9",
@@ -143,18 +533,18 @@
     ],
     "peerReviewedList": [
       {
-        "authors": "王芳, 金丸敏幸, 梁震",
+        "authors": "王芳、金丸敏幸、梁震",
         "year": "2025",
-        "title": "日常会话中使用的漫画角色语言研究——从日语教育视角出发——",
+        "title": "关于日常会话中漫画角色语言的一点考察 ——从日语教育的视角出发——",
         "journal": "ことば",
         "volume": "46",
         "pages": "55–72",
         "doi": "https://doi.org/10.20741/kotoba.46.0_55"
       },
       {
-        "authors": "彭悦, 梁震, 笹尾洋介",
+        "authors": "彭悦、梁震、笹尾洋介",
         "year": "2023",
-        "title": "针对中日双语者的日语词汇量语音测试系统开发与验证",
+        "title": "面向中日双语者的日语语汇量测试音频版的开发与验证",
         "journal": "日语教育",
         "volume": "185",
         "pages": "93–108"
@@ -162,15 +552,15 @@
       {
         "authors": "Vincent, N. H., Liang, Z., & Sasao, Y.",
         "year": "2023",
-        "title": "VR环境中的运动与记忆：交互方式对外语正字法学习的影响",
+        "title": "VR 中的运动与记忆：VR 操控方式对外语正字法记忆的影响",
         "journal": "International Journal on Cybernetics & Informatics (IJCI)",
         "volume": "12(1)",
         "pages": "151–164"
       },
       {
-        "authors": "彭悦, 梁震, 笹尾洋介",
+        "authors": "彭悦、梁震、笹尾洋介",
         "year": "2022",
-        "title": "日语学习者观看影视作品时的字幕语言选择策略研究",
+        "title": "日语学习中影像作品字幕的利用——基于语言选择的视角——",
         "journal": "语言文化教育研究",
         "volume": "20",
         "pages": "335–356"
@@ -178,336 +568,336 @@
     ],
     "conferencePresentationsList": [
       {
-        "authors": "中野珠悠・梁震",
+        "authors": "中野珠悠、梁震",
         "year": "2025",
-        "title": "基于新学习指导要领的英语检定教科书搭配分析——从小中高衔接的视角",
-        "conference": "全国英语教育学会（JASELE）第50届纪念埼玉研究大会"
+        "title": "基于新学习指导要领的英语检定教科书搭配词分析——以小中高衔接为视角——",
+        "conference": "全国英语教育学会（JASELE）第 50 届纪念埼玉研究大会"
       },
       {
-        "authors": "中野珠悠・梁震・笹尾洋介",
+        "authors": "中野珠悠、梁震、笹尾洋介",
         "year": "2024",
-        "title": "英语教科书语料库中高频词汇搭配模式分析",
-        "conference": "全国英语教育学会 JASELE 第49届福冈研究大会"
+        "title": "基于英语检定教科书语料的高频搭配词分析",
+        "conference": "全国英语教育学会 JASELE 第 49 届福冈研究大会"
       },
       {
-        "authors": "梁震・笹尾洋介",
+        "authors": "梁震、笹尾洋介",
         "year": "2024",
-        "title": "大语言模型在日语词汇难度预测中的应用：基于学习者数据的验证",
-        "conference": "语言处理学会2024"
+        "title": "通用语言模型能否基于日语学习者数据预测词汇难度？",
+        "conference": "言语处理学会 2024"
       },
       {
-        "authors": "彭悦・梁震・笹尾洋介",
+        "authors": "彭悦、梁震、笹尾洋介",
         "year": "2022",
-        "title": "针对中日双语者的日语词汇量语音测试系统开发与验证",
-        "conference": "日语教育学会秋季大会论文集"
+        "title": "面向中日双语者的日语语汇量测试音频版的开发与验证",
+        "conference": "日语教育学会秋季大会预稿集"
       },
       {
-        "authors": "梁震・笹尾洋介",
+        "authors": "梁震、笹尾洋介",
         "year": "2022",
-        "title": "日语词汇测试题目自动生成系统的开发与实证研究",
-        "conference": "日语教育学会春季大会论文集"
+        "title": "日语词汇问题选项自动生成程序的开发与验证",
+        "conference": "日语教育学会春季大会预稿集"
       }
     ]
   },
   "skills": {
-    "title": "技能与技术",
-    "subtitle": "全栈开发 + 机器学习",
+    "title": "技能与技术栈",
+    "subtitle": "实际生产中使用的技术栈（附经验年限）",
+    "kicker": "Stack",
     "programming": "编程语言",
     "frontend": "前端",
     "backend": "后端",
     "database": "数据库",
     "mobile": "移动开发",
     "infrastructure": "基础设施",
-    "cloud": "云计算",
-    "ai": "AI・机器学习",
+    "cloud": "云与基础设施",
+    "ai": "AI 与工具",
     "languages": "语言能力",
-    "jobTitle": "博士研究生",
-    "ceoFounder": "创始人兼CEO",
-    "yearsExperience": "{years}年+经验",
-    "mainFeatures": "主要功能",
-    "techStack": "技术架构",
+    "jobTitle": "博士课程・研究",
+    "ceoFounder": "CEO・创始人",
+    "yearsExperience": "{years}年以上经验",
+    "yearsLabel": "y",
+    "mainFeatures": "主要功能・特点",
+    "techStack": "技术栈",
     "proficiency": "熟练度",
-    "technicalExpertise": "技能专长",
+    "technicalExpertise": "技术专长",
+    "categories": [
+      {
+        "id": "languages",
+        "titleKey": "programming",
+        "items": [
+          { "name": "JavaScript", "years": 5, "featured": true },
+          { "name": "TypeScript", "years": 3, "featured": true },
+          { "name": "Python", "years": 5, "featured": true },
+          { "name": "Swift", "years": 4 },
+          { "name": "PHP", "years": 3 },
+          { "name": "C", "years": 2 }
+        ]
+      },
+      {
+        "id": "frameworks",
+        "titleKey": "frontend",
+        "items": [
+          { "name": "React", "years": 3, "featured": true },
+          { "name": "Next.js", "featured": true },
+          { "name": "React Native", "years": 2 },
+          { "name": "Node.js / Express" },
+          { "name": "FastAPI", "featured": true },
+          { "name": "LangChain" },
+          { "name": "LangGraph", "featured": true },
+          { "name": "Transformers" },
+          { "name": "PyTorch" },
+          { "name": "DeepSpeed" },
+          { "name": "Dify" },
+          { "name": "WordPress" }
+        ]
+      },
+      {
+        "id": "databases",
+        "titleKey": "database",
+        "items": [
+          { "name": "MariaDB / MySQL", "years": 5 },
+          { "name": "PostgreSQL", "years": 3, "featured": true },
+          { "name": "MongoDB", "years": 2 },
+          { "name": "AWS Aurora" }
+        ]
+      },
+      {
+        "id": "infra",
+        "titleKey": "cloud",
+        "items": [
+          { "name": "Nginx", "years": 6 },
+          { "name": "Apache", "years": 5 },
+          { "name": "Linux", "years": 5 },
+          { "name": "Caddy", "years": 3 },
+          { "name": "AWS", "years": 3, "featured": true },
+          { "name": "Vercel" },
+          { "name": "Docker" }
+        ]
+      },
+      {
+        "id": "tools",
+        "titleKey": "ai",
+        "items": [
+          { "name": "Git", "years": 5 },
+          { "name": "Scikit-learn", "years": 3 },
+          { "name": "Word2Vec / gensim" },
+          { "name": "Jupyter" },
+          { "name": "Jest" },
+          { "name": "Figma" },
+          { "name": "Webpack" },
+          { "name": "PDF.js" },
+          { "name": "MeCab" },
+          { "name": "BERT" }
+        ]
+      }
+    ],
     "languageProficiency": {
       "japanese": "日语",
-      "japaneseLevel": "JLPT N1满分 · 母语级别",
+      "japaneseLevel": "JLPT N1 满分・母语水平",
       "chinese": "中文",
-      "chineseLevel": "母语（北京人）",
+      "chineseLevel": "母语（北京出身）",
       "english": "英语",
-      "englishLevel": "CET-4 · 学术论文写作"
+      "englishLevel": "CET-4・学术论文写作水平"
     },
     "certifications": {
-      "title": "资格证书",
+      "title": "资格与认证",
       "subtitle": "专业资格与成就",
       "list": [
-        {
-          "name": "JLPT N1满分",
-          "description": "日语能力测试最高级别180分满分通过",
-          "date": "2020年"
-        },
-        {
-          "name": "ICT专业认证",
-          "description": "信息通信技术专业资格",
-          "date": "2019年"
-        },
-        {
-          "name": "日本驾照",
-          "description": "日本全车型驾驶执照",
-          "date": "2022年"
-        },
-        {
-          "name": "中国驾照",
-          "description": "中国C1型驾驶执照",
-          "date": "2018年"
-        },
-        {
-          "name": "CET-4",
-          "description": "全国大学英语四级考试合格",
-          "date": "2018年"
-        },
-        {
-          "name": "CATTI国际版笔译",
-          "description": "中日笔译专业资格（国际通用）",
-          "date": "2025年"
-        },
-        {
-          "name": "CATTI国际版口译",
-          "description": "中日口译专业资格（国际通用）",
-          "date": "2025年"
-        }
+        { "name": "JLPT N1（满分）", "description": "日语能力考试 - 最高级别满分", "date": "2020年" },
+        { "name": "ICT 熟练度检定", "description": "信息通信技术相关资格", "date": "2019年" },
+        { "name": "日本驾驶证", "description": "在日本取得的普通汽车驾驶证", "date": "2022年" },
+        { "name": "中国驾驶证", "description": "在中国取得的普通汽车驾驶证", "date": "2018年" },
+        { "name": "大学英语四级", "description": "面向中国大学生的全国英语能力测试", "date": "2018年" },
+        { "name": "CATTI 国际版 翻译", "description": "中日翻译认定证书 - 国际通用翻译能力等级考试（CATTI 国际版）", "date": "2025年" },
+        { "name": "CATTI 国际版 口译", "description": "中日口译认定证书 - 国际通用口译能力等级考试（CATTI 国际版）", "date": "2025年" }
       ]
     }
   },
   "projects": {
-    "title": "项目作品",
-    "subtitle": "我开发的实用应用",
+    "title": "个人产品",
+    "subtitle": "与业务委托独立运营的个人开发、OSS 与教育类产品",
+    "kicker": "Personal Products",
+    "intro": "业务委托见『工作经历』，学术研究见『研究活动』，此处仅展示个人 / 产品类项目。",
     "projectsList": [
       {
         "title": "速读大猩猩",
-        "description": "专为日语学习者打造的互动式速读训练平台",
+        "description": "面向日语学习者的互动式速读练习系统",
         "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
         "features": [
-          "从初级到高级全阶段覆盖",
-          "实时监测阅读速度(WPM)和理解率",
-          "游戏化测验提升学习乐趣",
-          "个人学习数据可视化追踪"
+          "按初级到高级分层的学习内容",
+          "实时阅读速度（WPM）与理解度测量",
+          "小测验形式的互动学习",
+          "学习进度的可视化与跟踪"
         ]
       },
       {
         "title": "日雨日语",
-        "description": "高效提升日语词汇和听力的移动应用",
+        "description": "提供高效日语单词学习与听力练习的移动应用",
         "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
         "features": [
-          "React Native+Swift双平台兼容",
-          "MongoDB灵活数据建模",
-          "阿里云函数计算节省成本"
+          "React Native + Swift 的跨平台支持",
+          "基于 MongoDB 的灵活数据建模",
+          "基于 AliCloud 的无服务器处理"
         ]
       },
       {
-        "title": "词汇分析器「松叶」",
-        "description": "智能文本分析平台，精准判定词汇难度并可视化呈现",
+        "title": "词汇画像器『松の葉』",
+        "description": "通过文本分析判定单词难度并可视化词汇水平的 Web 工具（个人版）",
         "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
         "features": [
-          "Next.js全栈技本架构",
-          "AWS Lambda云端部署MeCab分词引擎",
-          "TypeScript类型安全保障"
+          "基于 Next.js 的全栈开发",
+          "在 AWS Lambda 上进行 MeCab 形态素分析",
+          "通过 TypeScript 实现健壮的代码设计"
         ]
       },
       {
-        "title": "LandS英语学习应用",
-        "description": "主攻听力及口语技能的英语学习应用",
-        "technologies": ["Google Cloud Platform", "Swift", "Nginx", "MariaDB"],
-        "features": [
-          "Google Cloud云基础设施稳定保障",
-          "Swift原生开发优质体验",
-          "Nginx反向代理高性能"
-        ]
-      },
-      {
-        "title": "LLM分析与微调研究",
-        "description": "面向外语教育领域的大语言模型研究与定制化开发",
-        "technologies": ["Python", "TensorFlow", "Transformers", "Axolotl"],
-        "features": [
-          "TensorFlow深度学习模型分析",
-          "教育场景专用LLM调优",
-          "Transformers框架应用实践"
-        ]
-      },
-      {
-        "title": "LLM词汇难度推定系统",
-        "description": "训练大语言模型学习现有词汇难度规律，构建新词难度预测智能系统。与日本国立国语研究所合作项目。",
-        "technologies": ["Python", "TensorFlow", "Transformers", "BERT", "Natural Language Processing"],
-        "features": [
-          "BERT模型驱动的词汇难度自动判定",
-          "融合多维语言特征的机器学习模型",
-          "日本国立国语研究所产学研合作",
-          "日语学习者语料库实证验证"
-        ]
-      },
-      {
-        "title": "教育特化LLM构建项目",
-        "description": "从零构建教育专用大语言模型，突破通用LLM在外语教育中的限制，实现更精准的教育应用。",
+        "title": "面向教育的 LLM 构建项目",
+        "description": "为外语教育定制大规模语言模型的独立开发项目，探索既有 LLM 之外的架构",
         "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
         "features": [
-          "教育场景专属模型架构设计",
-          "多语种教育内容智能生成",
-          "适应学习者能力的文本生成",
-          "教育效果评估新指标开发验证"
+          "面向教育领域的模型架构设计",
+          "多语言教育内容生成",
+          "按学习者水平自适应的文本生成",
+          "自研评估指标与验证"
         ]
       },
       {
-        "title": "词汇题目自动生成系统",
-        "description": "融合Word2Vec词向量技术和LDA主题建模，构建日语词汇题目自动生成平台。基于语义相似性分析，实现高质量干扰选项智能生成。",
+        "title": "词汇问题自动生成系统",
+        "description": "使用 Word2Vec 与 LDA 的日语词汇题自动生成系统，基于分布式表示与主题模型实现高质量的干扰项生成",
         "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
         "features": [
-          "Word2Vec词向量模型语义相似度计算",
-          "LDA主题模型生成上下文匹配干扰项",
-          "MeCab形态分析实现词汇难度等级判定",
-          "机器学习驱动的选项质量智能评估"
+          "基于 Word2Vec 分布式表示的语义相似词抽取",
+          "基于 LDA 主题模型的上下文干扰项生成",
+          "基于 MeCab 形态素分析的词汇难度估计",
+          "基于机器学习的选项质量自动评估"
         ]
       }
     ],
     "leadership": {
       "title": "技术领导力",
-      "description": "全面负责技术方向、团队管理及产品规划。主导实施敏捷开发、CI/CD自动化部署、微服务架构设计及DevOps文化建设。",
+      "description": "引入敏捷开发方法，主导 CI/CD 管线构建、微服务架构设计与 DevOps 文化。从产品管理到技术架构进行全面统筹。",
       "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
     },
-    "mainFeatures": "主要功能",
+    "mainFeatures": "主要功能・特点",
     "techStack": "技术栈"
+  },
+  "contactCTA": {
+    "kicker": "For Contract Work",
+    "accepting": "业务委托咨询，欢迎随时联系",
+    "headline": "医疗 AI／教育 AI／语言处理领域，提供设计、实现到运维的一贯服务",
+    "body": "具备 ASR / LLM / 多模态的研究与实施经验，擅长从需求定义开始的全流程合作，并与研究机构有长期协作经验。欢迎随时联系。",
+    "domains": [
+      "医疗 AI（ASR・LLM 摘要）",
+      "教育 AI（学习者语料・词汇难度）",
+      "语言处理（多语言管线・形态素分析）"
+    ],
+    "emailLabel": "Email",
+    "email": "ryo.shin.j85@kyoto-u.jp",
+    "socialLabel": "社交媒体",
+    "openToWork": "Open to contract work"
   },
   "contact": {
     "title": "联系方式",
-    "subtitle": "期待与您的交流合作",
-    "email": "邮件联系",
-    "social": "社交媒体"
+    "subtitle": "欢迎随时联系",
+    "email": "邮箱",
+    "social": "社交媒体与外部链接"
   },
   "footer": {
-    "copyright": "© 2024 梁震 · 版权所有",
-    "builtWith": "基于Next.js + TypeScript + Tailwind CSS构建"
+    "copyright": "© 2024 梁震. All rights reserved.",
+    "builtWith": "使用 Next.js、TypeScript、Tailwind CSS 构建"
   },
   "publications": {
-    "title": "论文发表",
-    "viewPaper": "阅读全文",
-    "totalPublications": "共发表 {count} 篇论文"
+    "title": "论文与学术发表",
+    "viewPaper": "查看论文",
+    "totalPublications": "共计 {count} 项成果"
   },
   "scroll": {
-    "navigating": "正在跳转至 {section}...",
-    "pullUp": "上滑跳转至 {section}",
-    "pullDown": "下滑跳转至 {section}",
-    "release": "释放跳转"
-  },
-  "certifications": {
-    "title": "资格证书",
-    "subtitle": "专业资格与成就",
-    "featured": "特色",
-    "continuousLearning": "持续学习，不断提升专业能力",
-    "jlptN1": {
-      "title": "JLPT N1满分",
-      "description": "日语能力测试最高级别180分满分通过",
-      "date": "2020年"
-    },
-    "ict": {
-      "title": "ICT专业认证",
-      "description": "信息通信技术专业资格",
-      "date": "2019年"
-    },
-    "japaneseDrivers": {
-      "title": "日本驾照",
-      "description": "日本全车型驾驶执照",
-      "date": "2022年"
-    },
-    "chineseDrivers": {
-      "title": "中国驾照",
-      "description": "中国C1型驾驶执照",
-      "date": "2018年"
-    },
-    "cet4": {
-      "title": "CET-4",
-      "description": "全国大学英语四级考试合格",
-      "date": "2018年"
-    }
+    "navigating": "正在切换到 {section}...",
+    "pullUp": "向上滑动切换到 {section}",
+    "pullDown": "向下滑动切换到 {section}",
+    "release": "释放以切换"
   },
   "zennFeed": {
-    "title": "Zenn博客",
-    "subtitle": "技术博客及经验分享",
-    "loading": "正在加载...",
-    "featured": "精选文章",
-    "readMore": "查看全文",
-    "viewAllArticles": "前往Zenn查看所有文章"
+    "title": "Zenn 文章",
+    "subtitle": "技术博客发布",
+    "loading": "正在加载文章...",
+    "featured": "最新文章",
+    "readMore": "阅读更多",
+    "viewAllArticles": "在 Zenn 查看全部文章"
   },
   "teaching": {
     "title": "教学经验",
-    "subtitle": "七年日语教学经验，专业值得信赖",
-    "perfectScore": "N1满分",
-    "perfectScoreDescription": "日语能力达到顶峰",
-    "yearsExperience": "年教龄",
-    "teachingHours": "课时",
-    "studentsTotal": "+学员",
-    "passRate": "考试通过率",
-    "experienceTitle": "教学经历与成就",
+    "subtitle": "作为日语教师的成就",
+    "perfectScore": "满分",
+    "perfectScoreDescription": "在日语能力考试最高级别取得完美成绩",
+    "yearsExperience": "年经验",
+    "teachingHours": "小时指导",
+    "studentsTotal": "名学生",
+    "passRate": "JLPT 合格率",
+    "experienceTitle": "教学履历",
     "newOriental": "新东方教育科技集团",
-    "experienceDescription": "在新东方担任金牌日语讲师期间，为不同级别的学员设计并授课全方位日语课程，从零基础入门到JLPT N1高级备考，数千学员在我的指导下成功掌握日语。",
-    "achievements": "教学成果",
-    "achievement1": "原创教学体系及高效学习法",
-    "achievement2": "学员JLPT通过率高达95%",
-    "achievement3": "连续获得“优秀讲师”荣誉称号",
-    "specialties": "擅长领域",
-    "specialty1": "JLPT N1-N5全级别考试辅导",
-    "specialty2": "职场商务日语实战技能",
-    "specialty3": "口语交流能力快速提升",
-    "coursesOffered": "主讲课程",
+    "experienceDescription": "在新东方担任资深日语讲师，为从初学者到备考 JLPT N1 的高级学员开发并提供综合性日语教学课程。",
+    "achievements": "主要成就",
+    "achievement1": "开发原创教材与教学方法",
+    "achievement2": "保持 95% 学生 JLPT 合格率",
+    "achievement3": "多次荣获优秀讲师奖",
+    "specialties": "专业领域",
+    "specialty1": "JLPT N1-N5 全级别备考",
+    "specialty2": "面向商务人士的商务日语",
+    "specialty3": "会话能力提升项目",
+    "coursesOffered": "提供课程",
     "courses": {
       "basic": {
-        "title": "日语入门基础班",
-        "description": "专为零基础学员打造的日语入门课程",
+        "title": "基础日语课程",
+        "description": "面向开始日语学习的初学者的基础课程",
         "features": [
-          "五十音图全面掌握（平片假名）",
-          "实用基础语法系统学习",
-          "日常交流对话实践",
-          "日本文化背景了解"
+          "完全掌握平假名和片假名",
+          "基本语法模式的掌握",
+          "日常会话技能的培养",
+          "日本文化的理解"
         ]
       },
       "jlpt": {
-        "title": "JLPT考级冲刺班",
-        "description": "N1-N5全级别精准备考，高效通关考级",
+        "title": "JLPT 应试课程",
+        "description": "全面支持各级别 JLPT 考试应对",
         "features": [
-          "按级别精准词汇突破",
-          "核心语法规则精讲",
-          "阅读理解技巧训练",
-          "听力反应速度强化"
+          "根据目标级别强化词汇能力",
+          "完全掌握语法模式",
+          "提高阅读理解能力的策略",
+          "听力技能的强化"
         ]
       },
       "business": {
-        "title": "职场商务日语班",
-        "description": "面向职场精英的商务日语实战课程",
+        "title": "商务日语课程",
+        "description": "专注于职场沟通的实用课程",
         "features": [
-          "商务礼仪及敬语精髓",
-          "商务邮件及文件写作",
-          "会议交流及报告演示",
-          "各行业专业词汇攻略"
+          "商务礼仪与敬语",
+          "邮件与文书写作技能",
+          "会议与演讲能力",
+          "行业专业术语"
         ]
       }
     },
-    "philosophyTitle": "教育初心",
-    "philosophyQuote": "学日语不只是背单词和学语法，更是搭建中日文化交流的桥梁，为人生开启新的可能。我的使命是让每一位学员都能在轻松愉快的氛围中高效掌握日语。"
+    "philosophyTitle": "教学理念",
+    "philosophyQuote": "语言学习不仅是背单词和语法，更是在不同文化之间架起桥梁、打开新机会之门。我的目标是让每个学生的学习之旅既有效又愉快。"
   },
   "metadata": {
-    "title": "梁震 | AI研究者 · 机器学习工程师 · 日语讲师",
-    "description": "京都大学博士研究生。专注AI技术在语言教育领域的创新应用，开发基于大语言模型的智能教育平台，推动日语学习方式的科技革新。",
-    "keywords": "梁震, 京都大学, AI研究, 语言教育, 第二语言习得, 大语言模型, LLM, 机器学习, 日语教育, 自然语言处理, NLP, 教育科技, EdTech, 全栈开发",
+    "title": "梁震 | AI 工程师・研究者・日语教师",
+    "description": "京都大学博士研究生，株式会社 EastLinker 代表，GMO Pepabo AI Specialist。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
+    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, AI 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo, EastLinker",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",
-    "siteName": "梁震个人网站"
+    "siteName": "梁震作品集"
   },
   "common": {
     "close": "关闭",
     "of": "的",
-    "viewMore": "查看全部",
+    "viewMore": "查看更多",
     "back": "返回",
-    "next": "下一页",
-    "previous": "上一页",
-    "loading": "正在加载...",
+    "next": "下一个",
+    "previous": "上一个",
+    "loading": "加载中...",
     "error": "错误",
     "retry": "重试",
     "cancel": "取消",
@@ -517,22 +907,24 @@
     "edit": "编辑",
     "submit": "提交",
     "search": "搜索",
-    "filter": "过滤",
-    "sort": "排序方式",
+    "filter": "筛选",
+    "sort": "排序",
     "all": "全部"
   },
   "badges": {
     "aboutMe": "个人简介",
-    "technicalExpertise": "技能专长",
-    "academicResearch": "研究成果",
-    "featuredProjects": "项目作品"
+    "professionalExperience": "工作经历",
+    "highlights": "数据化的成果",
+    "technicalExpertise": "技术专长",
+    "academicResearch": "学术研究",
+    "featuredProjects": "个人产品"
   },
   "status": {
     "completed": "已完成",
-    "active": "进行中",
-    "ongoing": "持续中",
-    "planned": "规划中",
-    "undefined": "待定"
+    "active": "运营中",
+    "ongoing": "进行中",
+    "planned": "计划中",
+    "undefined": "未定"
   },
   "locations": {
     "china": "中国",
@@ -542,22 +934,22 @@
     "yokohama": "横滨"
   },
   "dates": {
-    "present": "现在",
+    "present": "至今",
     "yearRange": "{start}-{end}",
-    "yearToPresent": "{year}-现在"
+    "yearToPresent": "{year}-至今"
   },
   "heroCategories": {
-    "messaging": "即时沟通",
-    "professional": "技术开发",
-    "social": "社交平台"
+    "messaging": "消息",
+    "professional": "开发",
+    "social": "社交"
   },
   "email": {
     "contact": "邮件联系",
     "address": "ryo.shin.j85@kyoto-u.jp"
   },
   "socialActions": {
-    "wechatQR": "微信扫码添加",
-    "whatsappQR": "WhatsApp扫码"
+    "wechatQR": "微信扫码",
+    "whatsappQR": "WhatsApp 扫码"
   },
   "names": {
     "fullName": "梁震",

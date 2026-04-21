@@ -3,19 +3,7 @@
 import { useTranslations } from "next-intl";
 import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { ExternalLink, BookOpen } from "lucide-react";
-
-type Publication = {
-  authors: string;
-  year: number;
-  title: string;
-  journal: string;
-  volume?: string;
-  pages?: string;
-  doi?: string;
-  link?: string;
-  type: "journal" | "conference";
-};
+import { ExternalLink } from "lucide-react";
 
 type PeerReviewedListItem = {
   authors: string;
@@ -47,24 +35,30 @@ type BookListItem = {
   link?: string;
 };
 
-type Book = BookListItem & { year: number };
+type Publication = {
+  authors: string;
+  year: number;
+  title: string;
+  journal: string;
+  volume?: string;
+  pages?: string;
+  doi?: string;
+  link?: string;
+  type: "journal" | "conference";
+};
 
 const ResearchSection = () => {
   const t = useTranslations("research");
+  const tBadges = useTranslations("badges");
   const pubT = useTranslations("publications");
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: true,
-  });
+  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   const peerReviewed = t.raw("peerReviewedList") as PeerReviewedListItem[];
-  const conferencePresentations = t.raw(
-    "conferencePresentationsList",
-  ) as ConferenceListItem[];
+  const conferencePresentations = t.raw("conferencePresentationsList") as ConferenceListItem[];
   const booksRaw = t.raw("booksList") as BookListItem[] | undefined;
 
-  const books: Book[] = (booksRaw ?? [])
-    .map((item) => ({ ...item, year: Number(item.year) }))
+  const books = (booksRaw ?? [])
+    .map((b) => ({ ...b, year: Number(b.year) }))
     .filter((b) => Number.isFinite(b.year))
     .sort((a, b) => b.year - a.year);
 
@@ -96,210 +90,156 @@ const ResearchSection = () => {
       return 0;
     });
 
-
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
-    <section id="research" className="pt-16 pb-20 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50" ref={ref}>
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="text-sm font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
-            {t("academicResearch")}
-          </div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
-            {t("title")}
-          </h2>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+    <section
+      id="research"
+      ref={ref}
+      className="section section--rule"
+    >
+      <div className="section__inner">
+        {/* Editorial section header */}
+        <header className="border-b border-[color:var(--color-rule)] pb-6 mb-12">
+          <div className="kicker mb-3">{tBadges("academicResearch")}</div>
+          <h2 className="display display--xl">{t("title")}</h2>
+          <p className="mt-4 max-w-2xl text-base text-[color:var(--color-ink-soft)]">
             {t("subtitle")}
           </p>
-        </div>
-
+        </header>
 
         {/* Books */}
         {books.length > 0 && (
-          <m.div
+          <m.section
             initial={{ opacity: 0 }}
             animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mt-12"
+            transition={{ delay: 0.1 }}
+            className="mb-16"
           >
-            <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
-              {t("books")}
-            </h3>
-
-            <m.div
-              variants={containerVariants}
-              initial="hidden"
-              animate={inView ? "visible" : "hidden"}
-              className="space-y-6 max-w-4xl mx-auto"
-            >
-              {books.map((book, index) => (
-                <m.div
-                  key={`book-${index}`}
-                  variants={itemVariants}
-                  className="bg-gradient-to-br from-amber-50/70 to-orange-50/40 dark:from-amber-900/10 dark:to-orange-900/5 rounded-xl p-6 border border-amber-200/60 dark:border-amber-800/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors duration-200"
+            <div className="kicker mb-4">{t("books")}</div>
+            <ol className="border-t border-[color:var(--color-rule-soft)]">
+              {books.map((book, i) => (
+                <li
+                  key={i}
+                  className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12 border-b border-[color:var(--color-rule-soft)] py-6"
                 >
-                  <div className="flex items-start justify-between flex-wrap gap-2">
-                    <div className="flex items-start gap-3 flex-1">
-                      <BookOpen className="text-amber-600 dark:text-amber-400 mt-1 flex-shrink-0" size={22} />
-                      <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white flex-1">
-                        {book.title}
-                      </h3>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium px-3 py-1 rounded-full text-amber-700 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/30">
-                        {book.year}
-                      </span>
-                      {book.role && (
-                        <span className="text-xs px-2 py-1 bg-amber-100/70 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 rounded">
-                          {t(book.role)}
-                        </span>
-                      )}
-                    </div>
+                  <div>
+                    <span className="font-mono num text-[15px] text-[color:var(--color-amber-mark)] tracking-wider">
+                      {book.year}
+                    </span>
+                    {book.role && (
+                      <div className="kicker mt-1">{t(book.role)}</div>
+                    )}
                   </div>
-
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 pl-9">
-                    {book.authors}
-                  </p>
-
-                  <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 italic pl-9">
-                    {book.publisher}
-                  </p>
-
-                  {(book.isbn || book.printIsbn) && (
-                    <div className="mt-2 pl-9 flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500 dark:text-gray-400">
-                      {book.isbn && (
-                        <span>
-                          <span className="font-medium">{t("ebookIsbn")}:</span> {book.isbn}
-                        </span>
-                      )}
-                      {book.printIsbn && (
-                        <span>
-                          <span className="font-medium">{t("printIsbn")}:</span> {book.printIsbn}
-                        </span>
-                      )}
-                    </div>
-                  )}
-
-                  {book.link && (
-                    <div className="mt-3 pl-9">
+                  <div>
+                    <h4 className="font-serif italic text-xl text-[color:var(--color-ink)] leading-tight mb-1">
+                      {book.title}
+                    </h4>
+                    <p className="text-sm text-[color:var(--color-ink-soft)] mb-1">
+                      {book.authors}
+                    </p>
+                    <p className="text-sm italic text-[color:var(--color-ink-soft)]">
+                      {book.publisher}
+                    </p>
+                    {(book.isbn || book.printIsbn) && (
+                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[color:var(--color-ink-soft)] font-mono">
+                        {book.isbn && (
+                          <span>
+                            <span className="uppercase tracking-[0.12em] mr-1">
+                              {t("ebookIsbn")}:
+                            </span>
+                            {book.isbn}
+                          </span>
+                        )}
+                        {book.printIsbn && (
+                          <span>
+                            <span className="uppercase tracking-[0.12em] mr-1">
+                              {t("printIsbn")}:
+                            </span>
+                            {book.printIsbn}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    {book.link && (
                       <a
                         href={book.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-amber-700 dark:text-amber-400 hover:underline inline-flex items-center gap-1"
+                        className="focus-edit mt-3 inline-flex items-center gap-1 text-sm font-mono uppercase tracking-[0.12em] text-[color:var(--color-amber-mark)] hover:underline underline-offset-4"
                       >
-                        {t("viewOnSpringer")} <ExternalLink size={14} />
+                        {t("viewOnSpringer")} <ExternalLink size={12} />
                       </a>
-                    </div>
-                  )}
-                </m.div>
+                    )}
+                  </div>
+                </li>
               ))}
-            </m.div>
-          </m.div>
+            </ol>
+          </m.section>
         )}
 
         {/* Publications */}
-        <m.div
+        <m.section
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-20"
+          transition={{ delay: 0.15 }}
         >
-          <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-12 text-center">
-            {t("publications")}
-          </h3>
-          
-          <m.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={inView ? "visible" : "hidden"}
-            className="space-y-6 max-w-4xl mx-auto"
-          >
-            {publications.map((pub, index) => (
-              <m.div
-                key={index}
-                variants={itemVariants}
-                className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-6 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 transition-colors duration-200"
+          <div className="kicker mb-4">{t("publications")}</div>
+          <ol className="border-t border-[color:var(--color-rule-soft)]">
+            {publications.map((p, i) => (
+              <li
+                key={i}
+                className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12 border-b border-[color:var(--color-rule-soft)] py-5"
               >
-                <div className="flex items-start justify-between flex-wrap gap-2">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex-1">
-                    {pub.title}
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-sm font-medium px-3 py-1 rounded-full ${
-                      pub.type === "journal" 
-                        ? "text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/30"
-                        : "text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/30"
-                    }`}>
-                      {pub.year}
-                    </span>
-                    <span className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">
-                      {pub.type === "journal" ? t("peerReviewedPapers") : t("conferencePresentations")}
-                    </span>
+                <div>
+                  <span className="font-mono num text-[15px] text-[color:var(--color-amber-mark)] tracking-wider">
+                    {p.year}
+                  </span>
+                  <div className="kicker mt-1">
+                    {p.type === "journal"
+                      ? t("peerReviewedPapers")
+                      : t("conferencePresentations")}
                   </div>
                 </div>
-                
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                  {pub.authors}
-                </p>
-                
-                <p className="text-sm text-gray-700 dark:text-gray-300 mt-1 italic">
-                  {pub.journal}
-                  {pub.volume && `, ${pub.volume}`}
-                  {pub.pages && `, pp. ${pub.pages}`}
-                </p>
-                
-                {(pub.doi || pub.link) && (
-                  <div className="mt-3">
-                    {pub.doi && (
-                      <a
-                        href={pub.doi}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline mr-4"
-                      >
-                        {t("doi")}
-                      </a>
-                    )}
-                    {pub.link && (
-                      <a
-                        href={pub.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
-                      >
-                        {pubT("viewPaper")} <ExternalLink size={14} />
-                      </a>
-                    )}
-                  </div>
-                )}
-              </m.div>
+                <div>
+                  <h4 className="font-serif italic text-lg text-[color:var(--color-ink)] leading-tight mb-1">
+                    {p.title}
+                  </h4>
+                  <p className="text-sm text-[color:var(--color-ink-soft)] mb-1">
+                    {p.authors}
+                  </p>
+                  <p className="text-sm italic text-[color:var(--color-ink-soft)]">
+                    {p.journal}
+                    {p.volume && `, ${p.volume}`}
+                    {p.pages && `, pp. ${p.pages}`}
+                  </p>
+                  {(p.doi || p.link) && (
+                    <div className="mt-2 flex gap-4">
+                      {p.doi && (
+                        <a
+                          href={p.doi}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="focus-edit text-xs font-mono uppercase tracking-[0.12em] text-[color:var(--color-teal-ink)] hover:underline underline-offset-4"
+                        >
+                          {t("doi")}
+                        </a>
+                      )}
+                      {p.link && (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="focus-edit text-xs font-mono uppercase tracking-[0.12em] text-[color:var(--color-teal-ink)] hover:underline underline-offset-4 inline-flex items-center gap-1"
+                        >
+                          {pubT("viewPaper")} <ExternalLink size={11} />
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </li>
             ))}
-          </m.div>
-
-        </m.div>
+          </ol>
+        </m.section>
       </div>
     </section>
   );

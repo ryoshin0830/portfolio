@@ -39,12 +39,73 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
       worksFor: [
         {
           "@type": "Organization",
-          name: "Kyoto University",
-          url: "https://www.kyoto-u.ac.jp/",
+          name: "GMO Pepabo, Inc.",
+          url: "https://pepabo.com/",
+        },
+        {
+          "@type": "Organization",
+          name: "EastLinker Inc.",
+        },
+      ],
+
+      hasOccupation: [
+        {
+          "@type": "Occupation",
+          name: "AI Specialist",
+          occupationLocation: {
+            "@type": "Place",
+            name: "GMO Pepabo, Inc.",
+          },
+          startDate: "2026-04",
+        },
+        {
+          "@type": "Occupation",
+          name: "AI Engineer (Contract)",
+          occupationLocation: {
+            "@type": "Place",
+            name: "Sapeet Inc.",
+          },
+          startDate: "2026-02",
+          endDate: "2026-03",
+        },
+        {
+          "@type": "Occupation",
+          name: "AI Engineer (Contract) — Medical SaaS",
+          occupationLocation: {
+            "@type": "Place",
+            name: "medimo Inc.",
+          },
+          startDate: "2025-06",
+          endDate: "2026-01",
+        },
+        {
+          "@type": "Occupation",
+          name: "Project Lead (Contract) — Vocabulary Profiler",
+          occupationLocation: {
+            "@type": "Place",
+            name: "NINJAL — National Institute for Japanese Language and Linguistics",
+          },
+          startDate: "2023-11",
+          endDate: "2025-03",
+        },
+        {
+          "@type": "Occupation",
+          name: "Founder & CEO",
+          occupationLocation: {
+            "@type": "Place",
+            name: "EastLinker Inc.",
+          },
+          startDate: "2023-10",
         },
       ],
 
       alumniOf: [
+        {
+          "@type": "EducationalOrganization",
+          name: "Kyoto University",
+          location: "Kyoto, Japan",
+          url: "https://www.kyoto-u.ac.jp/",
+        },
         {
           "@type": "EducationalOrganization",
           name: "Capital University of Economics and Business",

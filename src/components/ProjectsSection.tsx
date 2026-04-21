@@ -1,305 +1,77 @@
-"use client";
+import { getTranslations } from "next-intl/server";
 
-import { useTranslations } from "next-intl";
-import { Smartphone, Globe, Brain, BookOpen, Star, Users } from "lucide-react";
-import {
-  SiReact as SiReactnative,
-  SiSwift,
-  SiNextdotjs,
-  SiAwsamplify as SiAws,
-  SiMongodb,
-  SiPython,
-  SiTensorflow,
-  SiNodedotjs,
-  SiVercel,
-  SiGooglecloud,
-  SiNginx,
-  SiMariadb,
-  SiPostgresql,
-  SiTypescript,
-  SiTailwindcss,
-} from "react-icons/si";
+const ProjectsSection = async () => {
+  const t = await getTranslations("projects");
+  const tBadges = await getTranslations("badges");
 
-const ProjectsSection = () => {
-  const t = useTranslations("projects");
-  const tBadges = useTranslations("badges");
-  const tStatus = useTranslations("status");
-  const tDates = useTranslations("dates");
-
-  // Get projects from translations
   const projectsList = t.raw("projectsList") as Array<{
     title: string;
     description: string;
     technologies: string[];
     features: string[];
   }>;
-  
-  // Get leadership data from translations
-  const leadership = t.raw("leadership") as {
-    title: string;
-    description: string;
-    skills: string[];
-  };
-
-  const getTechIcon = (techName: string) => {
-    const lowerName = techName.toLowerCase();
-    if (lowerName.includes("react")) return SiReactnative;
-    if (lowerName.includes("swift")) return SiSwift;
-    if (lowerName.includes("next")) return SiNextdotjs;
-    if (lowerName.includes("aws")) return SiAws;
-    if (lowerName.includes("mongo")) return SiMongodb;
-    if (lowerName.includes("python")) return SiPython;
-    if (lowerName.includes("tensor")) return SiTensorflow;
-    if (lowerName.includes("node")) return SiNodedotjs;
-    if (lowerName.includes("vercel")) return SiVercel;
-    if (lowerName.includes("google") || lowerName.includes("gcp"))
-      return SiGooglecloud;
-    if (lowerName.includes("nginx")) return SiNginx;
-    if (lowerName.includes("maria")) return SiMariadb;
-    if (lowerName.includes("postgre")) return SiPostgresql;
-    if (lowerName.includes("typescript")) return SiTypescript;
-    if (lowerName.includes("tailwind")) return SiTailwindcss;
-    return SiReactnative; // Default icon
-  };
-
-  const projects = projectsList.map((project, index) => {
-    const icons = [Globe, Smartphone, Globe, BookOpen, Brain];
-    const colors = ["purple", "blue", "green", "orange", "red"];
-    const statuses = ["ongoing", "completed", "active", "completed", "ongoing"];
-    const years = [
-      tDates("yearToPresent", { year: "2025" }),
-      tDates("yearRange", { start: "2022", end: "2023" }),
-      tDates("yearRange", { start: "2023", end: "2024" }),
-      tDates("yearRange", { start: "2021", end: "2022" }),
-      tDates("yearToPresent", { year: "2023" })
-    ];
-
-    return {
-      ...project,
-      icon: icons[index] || Globe,
-      color: colors[index] || "gray",
-      status: statuses[index] || "ongoing",
-      year: years[index] || "2024",
-      technologies: project.technologies.map((tech) => ({
-        name: tech,
-        icon: getTechIcon(tech),
-      })),
-    };
-  });
-
-
-  const getColorClasses = (color: string) => {
-    switch (color) {
-      case "blue":
-        return {
-          bg: "bg-blue-50 dark:bg-blue-900/20",
-          border: "border-blue-200 dark:border-blue-800",
-          accent: "bg-blue-600",
-          text: "text-blue-600 dark:text-blue-400",
-        };
-      case "green":
-        return {
-          bg: "bg-green-50 dark:bg-green-900/20",
-          border: "border-green-200 dark:border-green-800",
-          accent: "bg-green-600",
-          text: "text-green-600 dark:text-green-400",
-        };
-      case "purple":
-        return {
-          bg: "bg-purple-50 dark:bg-purple-900/20",
-          border: "border-purple-200 dark:border-purple-800",
-          accent: "bg-purple-600",
-          text: "text-purple-600 dark:text-purple-400",
-        };
-      case "red":
-        return {
-          bg: "bg-red-50 dark:bg-red-900/20",
-          border: "border-red-200 dark:border-red-800",
-          accent: "bg-red-600",
-          text: "text-red-600 dark:text-red-400",
-        };
-      case "orange":
-        return {
-          bg: "bg-orange-50 dark:bg-orange-900/20",
-          border: "border-orange-200 dark:border-orange-800",
-          accent: "bg-orange-600",
-          text: "text-orange-600 dark:text-orange-400",
-        };
-      default:
-        return {
-          bg: "bg-gray-50 dark:bg-gray-900/20",
-          border: "border-gray-200 dark:border-gray-800",
-          accent: "bg-gray-600",
-          text: "text-gray-600 dark:text-gray-400",
-        };
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "completed":
-        return {
-          label: tStatus("completed"),
-          color:
-            "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400",
-        };
-      case "active":
-        return {
-          label: tStatus("active"),
-          color:
-            "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400",
-        };
-      case "ongoing":
-        return {
-          label: tStatus("ongoing"),
-          color:
-            "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400",
-        };
-      default:
-        return {
-          label: tStatus("undefined"),
-          color:
-            "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400",
-        };
-    }
-  };
 
   return (
-    <section id="projects" className="pt-24 pb-16 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 dark:from-slate-900/80 dark:via-slate-950 dark:to-slate-900/50">
-      <div className="container mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="text-sm font-medium uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">
-            {tBadges("featuredProjects")}
-          </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
-            {t("title")}
-          </h2>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
+    <section id="projects" className="section section--rule">
+      <div className="section__inner">
+        {/* Editorial section header */}
+        <header className="border-b border-[color:var(--color-rule)] pb-6 mb-12">
+          <div className="kicker mb-3">{tBadges("featuredProjects")}</div>
+          <h2 className="display display--xl">{t("title")}</h2>
+          <p className="mt-4 max-w-2xl text-base text-[color:var(--color-ink-soft)]">
             {t("subtitle")}
           </p>
-        </div>
+          <p className="mt-3 text-sm text-[color:var(--color-ink-soft)] italic max-w-2xl">
+            {t("intro")}
+          </p>
+        </header>
 
-        {/* Leadership Section */}
-        <div className="mb-16">
-          <div className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-2xl p-6 border-l-4 border-l-teal-500 shadow-md hover:shadow-lg transition-shadow duration-200">
-            <div className="flex items-start gap-6">
-              <div className="p-4 rounded-2xl bg-green-600 text-white shadow-lg">
-                <Users size={32} />
+        {/* Projects — 1-column editorial list with case-row pattern */}
+        <div className="border-t border-[color:var(--color-rule)]">
+          {projectsList.map((p, i) => (
+            <article
+              key={i}
+              className="grid grid-cols-1 md:grid-cols-[8rem_1fr] gap-4 md:gap-12 border-b border-[color:var(--color-rule-soft)] py-10"
+            >
+              <div>
+                <div className="kicker num mb-2">№ {String(i + 1).padStart(2, "0")}</div>
+                <span className="tag-mono">Personal</span>
               </div>
-              <div className="flex-1">
-                <h3 className="text-3xl font-bold text-slate-800 dark:text-white mb-4">
-                  {leadership.title}
+
+              <div>
+                <h3 className="font-serif italic text-2xl md:text-3xl leading-tight mb-3 text-[color:var(--color-ink)]">
+                  {p.title}
                 </h3>
-                <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-                  {leadership.description}
+                <p className="text-base leading-relaxed text-[color:var(--color-ink-soft)] mb-6 max-w-[68ch]">
+                  {p.description}
                 </p>
-                <div className="flex flex-wrap gap-3">
-                  {leadership.skills.map((skill, skillIndex) => (
-                    <span
-                      key={skillIndex}
-                      className="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-semibold border border-green-200 dark:border-green-800"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {projects.map((project, index) => {
-            const colors = getColorClasses(project.color);
-            const IconComponent = project.icon;
-            const statusBadge = getStatusBadge(project.status);
-
-            return (
-              <div
-                key={index}
-                className="group relative overflow-hidden bg-white dark:bg-slate-800 rounded-2xl p-6 border-l-4 border-l-teal-500 shadow-md hover:shadow-lg transition-shadow duration-200"
-              >
-                {/* Background gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-950/20 dark:via-purple-950/10 dark:to-pink-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                
-                <div className="relative z-10">
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="flex items-start gap-4">
-                      <div className={`p-4 rounded-2xl ${colors.accent} text-white shadow-lg transition-transform duration-200`}>
-                        <IconComponent size={28} />
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-                          {project.title}
-                        </h3>
-                        <div className="flex items-center gap-3">
-                          <span className={`px-3 py-1 rounded-full text-sm font-bold ${statusBadge.color} shadow-md transition-transform duration-200`}>
-                            {statusBadge.label}
-                          </span>
-                          <span className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1">
-                            <Star size={14} />
-                            {project.year}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed text-lg">
-                    {project.description}
-                  </p>
-
-                  {/* Features */}
-                  <div className="mb-6">
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                      {t("mainFeatures")}
-                    </h4>
-                    <ul className="space-y-3">
-                      {project.features.map((feature, featureIndex) => (
-                        <li
-                          key={featureIndex}
-                          className="text-slate-600 dark:text-slate-400 flex items-start gap-3"
-                        >
-                          <div className={`w-3 h-3 ${colors.accent} rounded-full mt-1.5 flex-shrink-0 shadow-md`} />
-                          <span className="font-medium">{feature}</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                  <div>
+                    <div className="kicker mb-2">{t("mainFeatures")}</div>
+                    <ul className="space-y-1.5 text-sm text-[color:var(--color-ink)]">
+                      {p.features.map((f, j) => (
+                        <li key={j} className="flex gap-2">
+                          <span className="text-[color:var(--color-amber-mark)]">·</span>
+                          <span className="leading-relaxed">{f}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
-
-                  {/* Technologies */}
                   <div>
-                    <h4 className="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                      {t("techStack")}
-                    </h4>
-                    <div className="flex flex-wrap gap-3">
-                      {project.technologies.map((tech, techIndex) => {
-                        const TechIcon = tech.icon;
-                        return (
-                          <div
-                            key={techIndex}
-                            className="flex items-center gap-2 px-4 py-2 bg-white/80 dark:bg-slate-700/80 backdrop-blur-sm border border-slate-200/50 dark:border-slate-600/50 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-                          >
-                            <TechIcon size={18} />
-                            <span className="text-sm text-slate-700 dark:text-slate-300 font-semibold">
-                              {tech.name}
-                            </span>
-                          </div>
-                        );
-                      })}
+                    <div className="kicker mb-2">{t("techStack")}</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.technologies.map((tech) => (
+                        <span key={tech} className="tag-mono">
+                          {tech}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
               </div>
-            );
-          })}
+            </article>
+          ))}
         </div>
       </div>
     </section>

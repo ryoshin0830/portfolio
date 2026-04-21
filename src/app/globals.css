@@ -211,3 +211,125 @@ hr, .rule {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─── Editorial utilities ─────────────────────────────────────── */
+
+/* Tabular numerals for metrics */
+.num {
+  font-feature-settings: "tnum", "lnum", "ss01";
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Page section wrapper: paper background, generous vertical rhythm,
+   container width clamps */
+.section {
+  position: relative;
+  padding: 6rem 1.5rem;
+  background: var(--color-paper);
+}
+.section--rule { border-top: 1px solid var(--color-rule); }
+.section--rule-soft { border-top: 1px solid var(--color-rule-soft); }
+.section__inner {
+  max-width: 78rem;
+  margin: 0 auto;
+}
+@media (min-width: 1024px) {
+  .section { padding: 8rem 2rem; }
+}
+
+/* Mono tag — uppercase, hairline border, ink */
+.tag-mono {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--color-rule-soft);
+  color: var(--color-ink);
+  line-height: 1;
+  border-radius: 2px;
+  background: transparent;
+}
+.tag-mono--featured {
+  border-color: var(--color-amber-mark);
+  color: var(--color-amber-mark);
+}
+
+/* Editorial display heading — oversized italic display serif */
+.display {
+  font-family: var(--font-instrument-serif, 'Instrument Serif'), var(--font-noto-serif-jp, 'Noto Serif JP'), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  color: var(--color-ink);
+}
+.display--xl { font-size: clamp(2.75rem, 6vw, 5.5rem); }
+.display--xxl { font-size: clamp(3.5rem, 9vw, 8rem); }
+
+/* Section header pattern — kicker (mono) + title (display) */
+.kicker {
+  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-amber-mark);
+}
+
+/* Two-column case-study row: period gutter + body */
+.case-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  border-top: 1px solid var(--color-rule);
+  padding: 2rem 0;
+}
+@media (min-width: 768px) {
+  .case-row { grid-template-columns: 12rem 1fr; gap: 3rem; }
+}
+.case-row__period {
+  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/* Hairline focus ring in editorial palette */
+.focus-edit:focus-visible {
+  outline: 2px solid var(--color-amber-mark);
+  outline-offset: 3px;
+}
+
+/* Highlights strip — keyframe fade-up */
+@keyframes hsFadeUp {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hs-fade {
+  animation: hsFadeUp 480ms ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hs-fade { animation: none; opacity: 1; transform: none; }
+}
+
+/* Snap carousel for mobile stat strip */
+.snap-x-strip {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-x-strip > * { scroll-snap-align: start; }
+
+/* Smaller dropcap for AboutSection PR (multi-line balance) */
+.dropcap-sm::first-letter {
+  font-family: var(--font-instrument-serif, 'Instrument Serif'), var(--font-noto-serif-jp, 'Noto Serif JP'), Georgia, serif;
+  font-style: italic;
+  font-size: 3.4em;
+  line-height: 0.85;
+  float: left;
+  padding: 0.08em 0.12em 0 0;
+  color: var(--color-amber-mark);
+}
