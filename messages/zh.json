@@ -41,7 +41,8 @@
     "current": "现居",
     "kyoto": "京都",
     "coordinate": "N 35.0116° · E 135.7681°",
-    "currentlyAt": "GMO Pepabo ／ AI Specialist"
+    "currentlyAt": "GMO Pepabo ／ AI Specialist",
+    "viewWork": "查看工作"
   },
   "heroZenn": {
     "latestPost": "最新文章",
@@ -169,6 +170,8 @@
     "currentLabel": "至今",
     "viewDetail": "查看详情",
     "viewAll": "查看全部 {count} 项 →",
+    "currentBadge": "在任",
+    "backToList": "查看全部工作经历",
     "labels": {
       "role": "职责",
       "team": "规模 / 体制",

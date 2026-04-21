@@ -41,7 +41,8 @@
     "current": "Current",
     "kyoto": "Kyoto",
     "coordinate": "N 35.0116° · E 135.7681°",
-    "currentlyAt": "GMO Pepabo / AI Specialist"
+    "currentlyAt": "GMO Pepabo / AI Specialist",
+    "viewWork": "View work"
   },
   "heroZenn": {
     "latestPost": "Latest Article",
@@ -169,6 +170,8 @@
     "currentLabel": "Present",
     "viewDetail": "Read more",
     "viewAll": "View all {count} engagements →",
+    "currentBadge": "Current",
+    "backToList": "All engagements",
     "labels": {
       "role": "Role",
       "team": "Team",

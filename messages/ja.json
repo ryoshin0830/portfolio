@@ -41,7 +41,8 @@
     "current": "現在",
     "kyoto": "京都",
     "coordinate": "N 35.0116° · E 135.7681°",
-    "currentlyAt": "GMO ペパボ ／ AI スペシャリスト"
+    "currentlyAt": "GMO ペパボ ／ AI スペシャリスト",
+    "viewWork": "実績を見る"
   },
   "heroZenn": {
     "latestPost": "最新記事",
@@ -219,6 +220,8 @@
     "currentLabel": "現在",
     "viewDetail": "詳細を読む",
     "viewAll": "全 {count} 件を見る →",
+    "currentBadge": "現任",
+    "backToList": "全ての職務経歴を見る",
     "labels": {
       "role": "役割",
       "team": "規模 / 体制",

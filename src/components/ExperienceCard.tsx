@@ -5,6 +5,7 @@ import { formatPeriod, durationMonths, formatDuration, isLocale } from "@/lib/fo
 interface ExperienceCardProps {
   engagement: Engagement;
   viewDetail: string;
+  currentBadge: string;
   locale: string;
   workHrefBase: string;
   employmentTypes: { fulltime: string; contract: string; internship: string };
@@ -13,6 +14,7 @@ interface ExperienceCardProps {
 export default function ExperienceCard({
   engagement: e,
   viewDetail,
+  currentBadge,
   locale,
   workHrefBase,
   employmentTypes,
@@ -42,7 +44,7 @@ export default function ExperienceCard({
             {e.product}
             {e.isCurrent && (
               <span className="ml-3 text-sm font-medium text-[color:var(--color-accent)] align-middle">
-                · Current
+                · {currentBadge}
               </span>
             )}
           </h3>

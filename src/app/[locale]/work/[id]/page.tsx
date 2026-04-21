@@ -189,11 +189,7 @@ export default async function WorkDetailPage({
             className="link-accent text-base"
           >
             <span aria-hidden>←</span>
-            {validLocale === "ja"
-              ? "全ての職務経歴を見る"
-              : validLocale === "zh"
-                ? "查看全部工作经历"
-                : "All engagements"}
+            {t.raw("backToList") as string}
           </Link>
         </nav>
       </article>

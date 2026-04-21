@@ -42,9 +42,9 @@ const HeroSection = () => {
           type="button"
           onClick={scrollToWork}
           className="btn-pill"
-          aria-label="View work"
+          aria-label={t("viewWork")}
         >
-          View work
+          {t("viewWork")}
           <span aria-hidden>→</span>
         </button>
       </div>
