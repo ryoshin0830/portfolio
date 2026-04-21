@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Engagement, ScopePhase } from "@/types/content";
 import { formatPeriod, durationMonths, formatDuration, isLocale } from "@/lib/formatPeriod";
 
@@ -16,27 +15,28 @@ interface Labels {
 
 interface ExperienceCardProps {
   engagement: Engagement;
-  viewDetail: string;
   currentBadge: string;
   labels: Labels;
   scopePhases: Record<ScopePhase, string>;
   teamFormat: string;
   soloFormat: string;
   locale: string;
-  workHrefBase: string;
   employmentTypes: { fulltime: string; contract: string; internship: string };
 }
 
+const LABEL_BASE =
+  "text-xs font-medium uppercase tracking-[0.12em] text-[color:var(--color-ink-muted)]";
+const SECTION_LABEL_CLASS = `${LABEL_BASE} mb-4`;
+const META_LABEL_CLASS = `${LABEL_BASE} mb-1`;
+
 export default function ExperienceCard({
   engagement: e,
-  viewDetail,
   currentBadge,
   labels,
   scopePhases,
   teamFormat,
   soloFormat,
   locale,
-  workHrefBase,
   employmentTypes,
 }: ExperienceCardProps) {
   const loc = isLocale(locale) ? locale : "ja";
@@ -50,8 +50,10 @@ export default function ExperienceCard({
           .replace("{section}", String(e.teamSection))
       : soloFormat;
 
+  const [heroAchievement, ...restAchievements] = e.achievements;
+
   return (
-    <article className="border-t border-[color:var(--color-rule-soft)] py-12 md:py-20">
+    <article className="border-t border-[color:var(--color-rule-soft)] py-16 md:py-24">
       <div className="grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-6 md:gap-16">
         {/* Period column */}
         <div>
@@ -76,20 +78,27 @@ export default function ExperienceCard({
               </span>
             )}
           </h3>
-          <p className="text-base text-[color:var(--color-ink-soft)] mb-8">
+          <p className="text-base text-[color:var(--color-ink-soft)] mb-10">
             {e.company} · {e.industry}
           </p>
 
+          {/* Hero achievement */}
+          {heroAchievement && (
+            <p className="text-xl md:text-2xl font-medium leading-[1.5] text-[color:var(--color-ink)] max-w-3xl mb-14">
+              {heroAchievement}
+            </p>
+          )}
+
           {/* Role + Team — 2 column meta */}
-          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mb-10 max-w-2xl">
+          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mb-12 max-w-2xl">
             <div>
-              <dt className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-1">
+              <dt className={META_LABEL_CLASS}>
                 {labels.role}
               </dt>
               <dd className="text-base text-[color:var(--color-ink)]">{e.role}</dd>
             </div>
             <div>
-              <dt className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-1">
+              <dt className={META_LABEL_CLASS}>
                 {labels.team}
               </dt>
               <dd className="text-base text-[color:var(--color-ink)] num">{team}</dd>
@@ -98,10 +107,8 @@ export default function ExperienceCard({
 
           {/* Scope phases */}
           {e.scope.length > 0 && (
-            <div className="mb-8">
-              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
-                {labels.scope}
-              </p>
+            <div className="mb-12">
+              <p className={SECTION_LABEL_CLASS}>{labels.scope}</p>
               <div className="flex flex-wrap gap-2">
                 {e.scope.map((p) => (
                   <span key={p} className="chip">
@@ -114,10 +121,8 @@ export default function ExperienceCard({
 
           {/* Stack — all chips */}
           {e.stack.length > 0 && (
-            <div className="mb-8">
-              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
-                {labels.stack}
-              </p>
+            <div className="mb-12">
+              <p className={SECTION_LABEL_CLASS}>{labels.stack}</p>
               <div className="flex flex-wrap gap-2">
                 {e.stack.map((s) => (
                   <span key={s} className="chip">{s}</span>
@@ -126,12 +131,17 @@ export default function ExperienceCard({
             </div>
           )}
 
+          {/* Divider between factual meta and narrative */}
+          {(e.responsibilities.length > 0 ||
+            e.workItems.length > 0 ||
+            restAchievements.length > 0) && (
+            <hr className="border-t border-[color:var(--color-rule-soft)] my-14" />
+          )}
+
           {/* Responsibilities */}
           {e.responsibilities.length > 0 && (
-            <div className="mb-8">
-              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
-                {labels.responsibilities}
-              </p>
+            <div className="mb-12">
+              <p className={SECTION_LABEL_CLASS}>{labels.responsibilities}</p>
               <ul className="space-y-2 text-base text-[color:var(--color-ink)] max-w-3xl">
                 {e.responsibilities.map((r, j) => (
                   <li key={j} className="flex gap-3">
@@ -145,10 +155,8 @@ export default function ExperienceCard({
 
           {/* Work items */}
           {e.workItems.length > 0 && (
-            <div className="mb-8">
-              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
-                {labels.workItems}
-              </p>
+            <div className="mb-12">
+              <p className={SECTION_LABEL_CLASS}>{labels.workItems}</p>
               <ul className="space-y-2 text-base text-[color:var(--color-ink)] max-w-3xl">
                 {e.workItems.map((w, j) => (
                   <li key={j} className="flex gap-3">
@@ -160,14 +168,12 @@ export default function ExperienceCard({
             </div>
           )}
 
-          {/* Achievements — all */}
-          {e.achievements.length > 0 && (
-            <div className="mb-10">
-              <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
-                {labels.achievements}
-              </p>
+          {/* Remaining achievements (hero lifted out) */}
+          {restAchievements.length > 0 && (
+            <div>
+              <p className={SECTION_LABEL_CLASS}>{labels.achievements}</p>
               <ul className="space-y-3 text-base text-[color:var(--color-ink)] max-w-3xl">
-                {e.achievements.map((a, j) => (
+                {restAchievements.map((a, j) => (
                   <li key={j} className="flex gap-3">
                     <span className="text-[color:var(--color-accent)] shrink-0">→</span>
                     <span className="leading-relaxed font-medium">{a}</span>
@@ -176,11 +182,6 @@ export default function ExperienceCard({
               </ul>
             </div>
           )}
-
-          <Link href={`${workHrefBase}/${e.id}`} className="link-accent text-base">
-            {viewDetail}
-            <span aria-hidden>→</span>
-          </Link>
         </div>
       </div>
     </article>

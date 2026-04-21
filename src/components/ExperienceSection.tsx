@@ -43,14 +43,12 @@ const ExperienceSection = async () => {
             <ExperienceCard
               key={e.id}
               engagement={e}
-              viewDetail={t.raw("viewDetail") as string}
               currentBadge={t.raw("currentBadge") as string}
               labels={labels}
               scopePhases={scopePhases}
               teamFormat={t.raw("teamFormat") as string}
               soloFormat={t.raw("soloFormat") as string}
               locale={locale}
-              workHrefBase={`/${locale}/work`}
               employmentTypes={employmentTypes}
             />
           ))}

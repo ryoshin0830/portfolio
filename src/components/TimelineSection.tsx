@@ -19,138 +19,23 @@ const flagFor: Record<Loc, string> = {
   japan: "🇯🇵",
 };
 
-// Location sequence aligned with ja.json timelineEvents (10 entries)
+// Location sequence aligned with ja.json timelineEvents.
+// Physical relocations (used to pick plane fly-in direction):
+//   1997 CN → 1999 JP (#1 来日)
+//   1999 JP → 2009 CN (#2 中国帰国)
+//   2016 CN → 2021 JP (#3 再来日)
+// 2010 永住許可取得 was granted remotely while resident in China.
 const LOC_SEQ: Loc[] = [
-  "china", // 1997 誕生
+  "china", // 1997 誕生（北京）
   "japan", // 1999 来日
   "china", // 2009 中国帰国
-  "japan", // 2010 永住
-  "china", // 2016 大学入学
+  "china", // 2010 永住許可取得（中国滞在中）
+  "china", // 2016 大学入学（北京）
   "japan", // 2021 再来日
-  "japan", // 2021 修士
-  "japan", // 2023 EastLinker
-  "japan", // 2023 博士
+  "japan", // 2021 修士課程
+  "japan", // 2023 博士課程
   "japan", // 2026 GMO ペパボ
 ];
-
-/**
- * Decorative flight transition rendered inside the arriving event's <li>.
- * Marked aria-hidden so screen readers skip the ornament but still read
- * the year / title / description of the event itself.
- */
-function FlightTransition({
-  from,
-  to,
-  fromLabel,
-  toLabel,
-  delay = 0,
-}: {
-  from: Loc;
-  to: Loc;
-  fromLabel: string;
-  toLabel: string;
-  delay?: number;
-}) {
-  const [ref, inView] = useInView({ threshold: 0.2, triggerOnce: true });
-  const flipPlane = from === "japan" && to === "china";
-
-  return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className="mb-4 md:mb-6"
-    >
-      <div className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12">
-        <div className="hidden md:block" />
-        <div className="relative overflow-hidden py-4 md:py-6">
-          <div className="flex items-center gap-4 md:gap-6">
-            <m.div
-              initial={{ opacity: 0, x: -8 }}
-              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-              transition={{ duration: 0.4, delay }}
-              className="flex items-center gap-2 shrink-0"
-            >
-              <span
-                className="text-2xl md:text-3xl leading-none"
-                style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.1))" }}
-              >
-                {flagFor[from]}
-              </span>
-              <span className="text-sm md:text-base font-semibold text-[color:var(--color-ink)]">
-                {fromLabel}
-              </span>
-            </m.div>
-
-            <div className="relative flex-1 min-w-0 h-10 md:h-12">
-              <svg
-                className="absolute inset-0 w-full h-full"
-                viewBox="0 0 400 40"
-                preserveAspectRatio="none"
-                focusable="false"
-              >
-                <m.path
-                  d="M 4 20 Q 200 2, 396 20"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeDasharray="4 6"
-                  className="text-[color:var(--color-accent)]"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={
-                    inView
-                      ? { pathLength: 1, opacity: 0.6 }
-                      : { pathLength: 0, opacity: 0 }
-                  }
-                  transition={{ duration: 1.2, delay: delay + 0.15, ease: "easeInOut" }}
-                />
-              </svg>
-
-              <m.div
-                className="absolute top-1/2 -translate-y-1/2"
-                initial={{ left: "0%", opacity: 0 }}
-                animate={
-                  inView
-                    ? { left: "calc(100% - 28px)", opacity: 1 }
-                    : { left: "0%", opacity: 0 }
-                }
-                transition={{ duration: 1.5, delay: delay + 0.2, ease: "easeInOut" }}
-              >
-                <m.span
-                  className="inline-flex text-[color:var(--color-accent)]"
-                  style={{
-                    transform: flipPlane ? "scaleX(-1) rotate(-8deg)" : "rotate(8deg)",
-                  }}
-                  animate={{ y: [0, -4, 0, -2, 0] }}
-                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Plane size={28} strokeWidth={2} fill="currentColor" />
-                </m.span>
-              </m.div>
-            </div>
-
-            <m.div
-              initial={{ opacity: 0, x: 8 }}
-              animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: 8 }}
-              transition={{ duration: 0.4, delay: delay + 1.0 }}
-              className="flex items-center gap-2 shrink-0"
-            >
-              <span className="text-sm md:text-base font-semibold text-[color:var(--color-ink)]">
-                {toLabel}
-              </span>
-              <span
-                className="text-2xl md:text-3xl leading-none"
-                style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.1))" }}
-              >
-                {flagFor[to]}
-              </span>
-            </m.div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 const TimelineSection = () => {
   const t = useTranslations("about");
@@ -163,9 +48,7 @@ const TimelineSection = () => {
     <ol ref={ref} className="relative">
       {events.map((event, i) => {
         const loc = LOC_SEQ[i];
-        const prev = i > 0 ? LOC_SEQ[i - 1] : null;
-        const transition =
-          prev && loc && prev !== loc ? { from: prev, to: loc } : null;
+        const isPlaneEvent = event.icon === "plane";
 
         return (
           <m.li
@@ -175,14 +58,41 @@ const TimelineSection = () => {
             transition={{ duration: 0.4, delay: 0.04 * i }}
             className="border-t border-[color:var(--color-rule-soft)] first:border-t-0"
           >
-            {transition && (
-              <FlightTransition
-                from={transition.from}
-                to={transition.to}
-                fromLabel={tLoc(transition.from)}
-                toLabel={tLoc(transition.to)}
-                delay={0.05 * i}
-              />
+            {isPlaneEvent && (
+              <div
+                aria-hidden="true"
+                className="flex justify-center pt-10 md:pt-14 pb-2"
+              >
+                <m.div
+                  className="relative"
+                  initial={{
+                    x: loc === "japan" ? -180 : 180,
+                    y: -20,
+                    opacity: 0,
+                  }}
+                  whileInView={{ x: 0, y: 0, opacity: 1 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 1.4, type: "spring" }}
+                >
+                  <m.div
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <Plane
+                      className="text-[color:var(--color-accent)] w-10 h-10 md:w-11 md:h-11"
+                      strokeWidth={1.5}
+                    />
+                  </m.div>
+                  <m.div
+                    className="absolute -bottom-3 left-1/2 -translate-x-1/2"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: [0, 1.4, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <div className="w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] opacity-70" />
+                  </m.div>
+                </m.div>
+              </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12 py-5">
               <div className="flex md:flex-col items-baseline md:items-start gap-2">
