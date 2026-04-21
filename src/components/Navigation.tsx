@@ -111,9 +111,22 @@ const Navigation = () => {
     setShowLangMenu(false);
   };
 
+  // True when we're on the locale root (homepage where the section anchors live).
+  // On other routes (e.g. /[locale]/work/[id]), section ids don't exist in the DOM,
+  // so clicking nav links must route to /[locale]#sectionId instead of just scrolling.
+  const isHomePage = (() => {
+    const segments = pathname.split("/").filter(Boolean);
+    return segments.length === 0 || (segments.length === 1 && ["ja", "en", "zh"].includes(segments[0]));
+  })();
+
   const navigateTo = (sectionId: string) => {
-    scrollToSection(sectionId);
     setShowMoreMenu(false);
+    if (isHomePage) {
+      scrollToSection(sectionId);
+    } else {
+      const target = sectionId === "hero" ? `/${locale}` : `/${locale}#${sectionId}`;
+      router.push(target);
+    }
   };
 
   return (
