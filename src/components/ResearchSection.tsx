@@ -1,8 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { m } from "framer-motion";
-import { useInView } from "react-intersection-observer";
 import { ExternalLink } from "lucide-react";
 
 type PeerReviewedListItem = {
@@ -49,9 +47,7 @@ type Publication = {
 
 const ResearchSection = () => {
   const t = useTranslations("research");
-  const tBadges = useTranslations("badges");
   const pubT = useTranslations("publications");
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
 
   const peerReviewed = t.raw("peerReviewedList") as PeerReviewedListItem[];
   const conferencePresentations = t.raw("conferencePresentationsList") as ConferenceListItem[];
@@ -91,134 +87,91 @@ const ResearchSection = () => {
     });
 
   return (
-    <section
-      id="research"
-      ref={ref}
-      className="section section--rule"
-    >
+    <section id="research" className="section">
       <div className="section__inner">
-        {/* Editorial section header */}
-        <header className="border-b border-[color:var(--color-rule)] pb-6 mb-12">
-          <div className="kicker mb-3">{tBadges("academicResearch")}</div>
-          <h2 className="display display--xl">{t("title")}</h2>
-          <p className="mt-4 max-w-2xl text-base text-[color:var(--color-ink-soft)]">
+        <header className="mb-20">
+          <h2 className="display display--xl mb-6">{t("title")}</h2>
+          <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
         </header>
 
-        {/* Books */}
         {books.length > 0 && (
-          <m.section
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-16"
-          >
-            <div className="kicker mb-4">{t("books")}</div>
-            <ol className="border-t border-[color:var(--color-rule-soft)]">
+          <div className="mb-24">
+            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
+              {t("books")}
+            </h3>
+            <ol className="space-y-10">
               {books.map((book, i) => (
                 <li
                   key={i}
-                  className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12 border-b border-[color:var(--color-rule-soft)] py-6"
+                  className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-3 md:gap-12"
                 >
+                  <span className="num text-base font-semibold text-[color:var(--color-accent)]">
+                    {book.year}
+                  </span>
                   <div>
-                    <span className="font-mono num text-[15px] text-[color:var(--color-amber-mark)] tracking-wider">
-                      {book.year}
-                    </span>
-                    {book.role && (
-                      <div className="kicker mt-1">{t(book.role)}</div>
-                    )}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)] leading-tight mb-1">
+                    <h4 className="text-xl md:text-2xl font-semibold tracking-tight leading-snug mb-2">
                       {book.title}
                     </h4>
-                    <p className="text-sm text-[color:var(--color-ink-soft)] mb-1">
+                    <p className="text-base text-[color:var(--color-ink-soft)] mb-1">
                       {book.authors}
                     </p>
-                    <p className="text-sm text-[color:var(--color-ink-soft)]">
+                    <p className="text-base text-[color:var(--color-ink-soft)]">
                       {book.publisher}
+                      {book.role && ` · ${t(book.role)}`}
                     </p>
-                    {(book.isbn || book.printIsbn) && (
-                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[color:var(--color-ink-soft)] font-mono">
-                        {book.isbn && (
-                          <span>
-                            <span className="uppercase tracking-[0.12em] mr-1">
-                              {t("ebookIsbn")}:
-                            </span>
-                            {book.isbn}
-                          </span>
-                        )}
-                        {book.printIsbn && (
-                          <span>
-                            <span className="uppercase tracking-[0.12em] mr-1">
-                              {t("printIsbn")}:
-                            </span>
-                            {book.printIsbn}
-                          </span>
-                        )}
-                      </div>
-                    )}
                     {book.link && (
                       <a
                         href={book.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="focus-edit mt-3 inline-flex items-center gap-1 text-sm font-mono uppercase tracking-[0.12em] text-[color:var(--color-amber-mark)] hover:underline underline-offset-4"
+                        className="link-accent text-sm mt-3"
                       >
-                        {t("viewOnSpringer")} <ExternalLink size={12} />
+                        {t("viewOnSpringer")}
+                        <ExternalLink size={12} />
                       </a>
                     )}
                   </div>
                 </li>
               ))}
             </ol>
-          </m.section>
+          </div>
         )}
 
-        {/* Publications */}
-        <m.section
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ delay: 0.15 }}
-        >
-          <div className="kicker mb-4">{t("publications")}</div>
-          <ol className="border-t border-[color:var(--color-rule-soft)]">
+        <div>
+          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
+            {t("publications")}
+          </h3>
+          <ol className="space-y-10">
             {publications.map((p, i) => (
               <li
                 key={i}
-                className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12 border-b border-[color:var(--color-rule-soft)] py-5"
+                className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-3 md:gap-12"
               >
+                <span className="num text-base font-semibold text-[color:var(--color-accent)]">
+                  {p.year}
+                </span>
                 <div>
-                  <span className="font-mono num text-[15px] text-[color:var(--color-amber-mark)] tracking-wider">
-                    {p.year}
-                  </span>
-                  <div className="kicker mt-1">
-                    {p.type === "journal"
-                      ? t("peerReviewedPapers")
-                      : t("conferencePresentations")}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-semibold tracking-tight text-lg text-[color:var(--color-ink)] leading-tight mb-1">
+                  <h4 className="text-xl font-semibold tracking-tight leading-snug mb-2">
                     {p.title}
                   </h4>
-                  <p className="text-sm text-[color:var(--color-ink-soft)] mb-1">
+                  <p className="text-base text-[color:var(--color-ink-soft)] mb-1">
                     {p.authors}
                   </p>
-                  <p className="text-sm text-[color:var(--color-ink-soft)]">
+                  <p className="text-base text-[color:var(--color-ink-soft)]">
                     {p.journal}
                     {p.volume && `, ${p.volume}`}
                     {p.pages && `, pp. ${p.pages}`}
                   </p>
                   {(p.doi || p.link) && (
-                    <div className="mt-2 flex gap-4">
+                    <div className="mt-3 flex gap-4">
                       {p.doi && (
                         <a
                           href={p.doi}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="focus-edit text-xs font-mono uppercase tracking-[0.12em] text-[color:var(--color-teal-ink)] hover:underline underline-offset-4"
+                          className="link-accent text-sm"
                         >
                           {t("doi")}
                         </a>
@@ -228,9 +181,10 @@ const ResearchSection = () => {
                           href={p.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="focus-edit text-xs font-mono uppercase tracking-[0.12em] text-[color:var(--color-teal-ink)] hover:underline underline-offset-4 inline-flex items-center gap-1"
+                          className="link-accent text-sm"
                         >
-                          {pubT("viewPaper")} <ExternalLink size={11} />
+                          {pubT("viewPaper")}
+                          <ExternalLink size={12} />
                         </a>
                       )}
                     </div>
@@ -239,7 +193,7 @@ const ResearchSection = () => {
               </li>
             ))}
           </ol>
-        </m.section>
+        </div>
       </div>
     </section>
   );

@@ -27,16 +27,15 @@ const Navigation = () => {
   const router = useRouter();
 
   const primaryNavItems = [
-    { key: "home", sectionId: "hero" },
     { key: "about", sectionId: "about" },
     { key: "experience", sectionId: "experience" },
+    { key: "projects", sectionId: "projects" },
     { key: "research", sectionId: "research" },
     { key: "skills", sectionId: "skills" },
-    { key: "projects", sectionId: "projects" },
+    { key: "teaching", sectionId: "teaching" },
   ];
   const secondaryNavItems = [
     { key: "blog", sectionId: "blog" },
-    { key: "teaching", sectionId: "teaching" },
     { key: "contact", sectionId: "contact" },
   ];
 
@@ -78,7 +77,7 @@ const Navigation = () => {
     const onScroll = () => {
       if (!ticking) {
         rafId = requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 50);
+          setIsScrolled(window.scrollY > 30);
           ticking = false;
         });
         ticking = true;
@@ -111,11 +110,6 @@ const Navigation = () => {
     setShowLangMenu(false);
   };
 
-  // True when the homepage layout is what's rendered.
-  // useScrollNavigation rewrites the URL to /[locale]/{sectionId} via history.replaceState
-  // while the user scrolls the homepage, so those URLs are still the homepage —
-  // section ids exist in the DOM and we should scroll, not router.push.
-  // Real sub-routes like /[locale]/work/[id] go through router.push.
   const isHomePage = (() => {
     const segments = pathname.split("/").filter(Boolean);
     if (segments.length === 0) return true;
@@ -145,26 +139,22 @@ const Navigation = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-[100] transition-colors ${
           isScrolled
-            ? "bg-[color:var(--color-paper)] border-b border-[color:var(--color-rule)]"
+            ? "bg-[color:var(--color-bg)]/85 backdrop-blur-xl border-b border-[color:var(--color-rule-soft)]"
             : "bg-transparent"
         }`}
+        style={{ WebkitBackdropFilter: isScrolled ? "blur(20px)" : "none" }}
       >
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
-          <div className="flex items-center justify-between h-14 lg:h-16">
-            {/* Editorial logo */}
+          <div className="flex items-center justify-between h-12 lg:h-14">
             <button
               type="button"
               onClick={() => navigateTo("hero")}
-              className="focus-edit flex items-baseline gap-3"
+              className="text-base font-semibold tracking-tight text-[color:var(--color-ink)]"
             >
-              <span className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
-                {namesT("shortName")}
-              </span>
-              <span className="hidden sm:inline kicker">PORTFOLIO</span>
+              {namesT("shortName")}
             </button>
 
-            {/* Desktop nav links */}
-            <div className="hidden lg:flex items-center gap-6 text-[13px] font-mono uppercase tracking-[0.16em]">
+            <div className="hidden lg:flex items-center gap-7 text-sm">
               {primaryNavItems.map((item) => {
                 const active = currentSection === item.sectionId;
                 return (
@@ -172,27 +162,23 @@ const Navigation = () => {
                     key={item.key}
                     type="button"
                     onClick={() => navigateTo(item.sectionId)}
-                    className={`focus-edit relative pb-1 transition-colors ${
+                    className={`relative pb-0.5 transition-colors font-medium ${
                       active
-                        ? "text-[color:var(--color-amber-mark)]"
-                        : "text-[color:var(--color-ink)] hover:text-[color:var(--color-amber-mark)]"
+                        ? "text-[color:var(--color-accent)]"
+                        : "text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
                     }`}
                   >
                     {t(item.key)}
-                    {active && (
-                      <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-[color:var(--color-amber-mark)]" />
-                    )}
                   </button>
                 );
               })}
             </div>
 
-            {/* Right controls */}
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="focus-edit p-2 border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-ink)] text-[color:var(--color-ink)] rounded-[2px] transition-colors"
+                className="p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                 aria-label="Toggle dark mode"
               >
                 {mounted ? (
@@ -224,16 +210,15 @@ const Navigation = () => {
                 )}
               </button>
 
-              {/* Language */}
               <div className="relative language-menu">
                 <button
                   type="button"
                   onClick={() => setShowLangMenu(!showLangMenu)}
-                  className="focus-edit flex items-center gap-2 px-2.5 py-2 border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-ink)] text-[color:var(--color-ink)] rounded-[2px] transition-colors"
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                 >
                   <span className="text-base">{languages.find((l) => l.code === locale)?.flag}</span>
-                  <span className="hidden sm:inline text-[11px] font-mono uppercase tracking-[0.16em]">
-                    {locale}
+                  <span className="hidden sm:inline">
+                    {locale.toUpperCase()}
                   </span>
                 </button>
                 <AnimatePresence>
@@ -243,7 +228,7 @@ const Navigation = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full right-0 mt-2 py-1 w-40 bg-[color:var(--color-paper)] border border-[color:var(--color-rule)]"
+                      className="absolute top-full right-0 mt-2 py-1 w-40 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-lg shadow-lg"
                     >
                       {languages.map((lang) => (
                         <button
@@ -252,8 +237,8 @@ const Navigation = () => {
                           onClick={() => handleLanguageChange(lang.code)}
                           className={`w-full text-left px-3 py-2 text-sm transition-colors ${
                             locale === lang.code
-                              ? "text-[color:var(--color-amber-mark)]"
-                              : "text-[color:var(--color-ink)] hover:bg-[color:var(--color-paper-deep)]"
+                              ? "text-[color:var(--color-accent)]"
+                              : "text-[color:var(--color-ink)] hover:bg-[color:var(--color-bg-soft)]"
                           }`}
                         >
                           <span className="flex items-center gap-2">
@@ -270,10 +255,10 @@ const Navigation = () => {
               <button
                 type="button"
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className="focus-edit lg:hidden p-2 border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-ink)] text-[color:var(--color-ink)] rounded-[2px]"
+                className="lg:hidden p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                 aria-label="Open menu"
               >
-                <Menu size={16} />
+                <Menu size={18} />
               </button>
             </div>
           </div>
@@ -283,7 +268,7 @@ const Navigation = () => {
       <AnimatePresence>
         {showMoreMenu && (
           <m.div
-            className="fixed inset-0 bg-[color:var(--color-paper)] z-[100000]"
+            className="fixed inset-0 bg-[color:var(--color-bg)] z-[100000]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -293,14 +278,13 @@ const Navigation = () => {
               <button
                 type="button"
                 onClick={() => setShowMoreMenu(false)}
-                className="focus-edit p-2 border border-[color:var(--color-rule-soft)] text-[color:var(--color-ink)] rounded-[2px]"
+                className="p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
                 aria-label="Close menu"
               >
                 <X size={20} />
               </button>
             </div>
             <div className="flex flex-col items-center justify-center min-h-screen p-6">
-              <span className="kicker mb-8">Menu</span>
               <ul className="space-y-4 text-center">
                 {[...primaryNavItems, ...secondaryNavItems].map((item) => {
                   const active = currentSection === item.sectionId;
@@ -309,10 +293,10 @@ const Navigation = () => {
                       <button
                         type="button"
                         onClick={() => navigateTo(item.sectionId)}
-                        className={`focus-edit font-semibold tracking-tight text-3xl md:text-4xl ${
+                        className={`text-3xl md:text-4xl font-semibold tracking-tight transition-colors ${
                           active
-                            ? "text-[color:var(--color-amber-mark)]"
-                            : "text-[color:var(--color-ink)] hover:text-[color:var(--color-amber-mark)]"
+                            ? "text-[color:var(--color-accent)]"
+                            : "text-[color:var(--color-ink)] hover:text-[color:var(--color-accent)]"
                         }`}
                       >
                         {t(item.key)}

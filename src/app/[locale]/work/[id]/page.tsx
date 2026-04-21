@@ -97,11 +97,9 @@ export default async function WorkDetailPage({
           .replace("{section}", String(e.teamSection))
       : soloFormat;
 
-  const folio = `Vol. ${String(idx + 1).padStart(2, "0")}`;
   const heroAchievement = e.achievements[0];
   const restAchievements = e.achievements.slice(1);
 
-  // JSON-LD WorkExperience-equivalent (using Person + hasOccupation reference)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -113,146 +111,111 @@ export default async function WorkDetailPage({
   };
 
   return (
-    <main className="bg-[color:var(--color-paper)]">
+    <main className="bg-[color:var(--color-bg)]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <article className="mx-auto max-w-5xl px-6 lg:px-10 pt-32 pb-24">
-        {/* Masthead */}
-        <header className="border-b border-[color:var(--color-rule)] pb-6 mb-12 flex items-baseline justify-between flex-wrap gap-3">
-          <div className="kicker num">
-            {folio} — {e.product}
-          </div>
-          <div className="kicker num">{period}</div>
-        </header>
+      <article className="mx-auto max-w-4xl px-6 lg:px-10 pt-32 pb-32">
+        {/* Period + employment */}
+        <p className="text-sm text-[color:var(--color-ink-soft)] num mb-6">
+          {period} · {dur} · {employmentTypes[e.employmentType]}
+        </p>
 
-        {/* Title block */}
-        <div className="mb-12">
-          <p className="kicker text-[color:var(--color-amber-mark)] mb-3">
-            {employmentTypes[e.employmentType]} · {e.industry}
-          </p>
-          <h1 className="display display--xxl mb-6">{e.product}</h1>
-          <p className="font-semibold tracking-tight text-2xl text-[color:var(--color-ink-soft)]">
-            {e.company}
-          </p>
-        </div>
+        {/* Title */}
+        <h1 className="display display--xl mb-6">{e.product}</h1>
+        <p className="text-xl md:text-2xl text-[color:var(--color-ink-soft)] mb-16">
+          {e.company} · {e.industry}
+        </p>
 
-        {/* Pull-quote — the hero metric */}
+        {/* Hero achievement */}
         {heroAchievement && (
-          <blockquote className="my-16 border-l-4 border-[color:var(--color-amber-mark)] pl-8 max-w-[60ch]">
-            <p className="font-semibold tracking-tight text-3xl md:text-4xl leading-tight text-[color:var(--color-ink)]">
-              “{heroAchievement}”
-            </p>
-            <footer className="kicker mt-4">— Outcome</footer>
-          </blockquote>
+          <p className="prose-body text-[color:var(--color-ink)] max-w-3xl mb-20" style={{ fontSize: "1.375rem", lineHeight: 1.5 }}>
+            {heroAchievement}
+          </p>
         )}
 
-        {/* Marginalia + body in 2 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-x-12 gap-y-8 border-t border-[color:var(--color-rule)] pt-10">
-          {/* Marginalia (left) */}
-          <aside className="md:sticky md:top-24 self-start space-y-6 text-sm">
-            <Marginalia label={labels.role} value={e.role} />
-            <Marginalia label={labels.team} value={team} mono />
-            <Marginalia label="Period" value={`${period} · ${dur}`} mono />
-            <div>
-              <div className="kicker mb-2">{labels.scope}</div>
-              <div className="flex flex-wrap gap-1.5">
-                {e.scope.map((p) => (
-                  <span key={p} className="tag-mono">
-                    {scopePhases[p]}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <div className="kicker mb-2">{labels.stack}</div>
-              <div className="flex flex-wrap gap-1.5">
-                {e.stack.map((s) => (
-                  <span key={s} className="tag-mono">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </aside>
-
-          {/* Body (right) */}
-          <div className="space-y-12 max-w-[68ch]">
-            <Section label={labels.responsibilities} items={e.responsibilities} />
-            <Section label={labels.workItems} items={e.workItems} />
-            {restAchievements.length > 0 && (
-              <div>
-                <div className="kicker mb-3">{labels.achievements}</div>
-                <ul className="space-y-3 text-base">
-                  {restAchievements.map((a, i) => (
-                    <li key={i} className="flex gap-3 text-[color:var(--color-ink)]">
-                      <span className="text-[color:var(--color-amber-mark)] shrink-0">→</span>
-                      <span className="leading-relaxed">{a}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+        {/* Meta block */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20 max-w-3xl">
+          <div>
+            <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-2">
+              {labels.role}
+            </p>
+            <p className="text-base text-[color:var(--color-ink)]">{e.role}</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-2">
+              {labels.team}
+            </p>
+            <p className="text-base text-[color:var(--color-ink)] num">{team}</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-2">
+              {labels.scope}
+            </p>
+            <p className="text-base text-[color:var(--color-ink)]">
+              {e.scope.map((p) => scopePhases[p]).join(" · ")}
+            </p>
           </div>
         </div>
 
-        {/* Footer nav */}
-        <nav className="mt-20 border-t border-[color:var(--color-rule)] pt-6 flex items-baseline justify-between flex-wrap gap-3">
+        {/* Stack */}
+        <div className="mb-20">
+          <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-4">
+            {labels.stack}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {e.stack.map((s) => (
+              <span key={s} className="chip">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Sections */}
+        <div className="space-y-16 max-w-3xl">
+          <Section label={labels.responsibilities} items={e.responsibilities} />
+          <Section label={labels.workItems} items={e.workItems} />
+          {restAchievements.length > 0 && (
+            <Section label={labels.achievements} items={restAchievements} />
+          )}
+        </div>
+
+        <nav className="mt-24 pt-8 border-t border-[color:var(--color-rule-soft)]">
           <Link
             href={`/${validLocale}#experience`}
-            className="focus-edit text-sm font-mono uppercase tracking-[0.12em] text-[color:var(--color-ink)] hover:text-[color:var(--color-amber-mark)]"
+            className="link-accent text-base"
           >
-            ← All engagements
+            <span aria-hidden>←</span>
+            {validLocale === "ja"
+              ? "全ての職務経歴を見る"
+              : validLocale === "zh"
+                ? "查看全部工作经历"
+                : "All engagements"}
           </Link>
-          <div className="kicker num">{folio}</div>
         </nav>
       </article>
     </main>
   );
 }
 
-function Marginalia({
-  label,
-  value,
-  mono = false,
-}: {
-  label: string;
-  value: string;
-  mono?: boolean;
-}) {
-  return (
-    <div>
-      <div className="kicker mb-1">{label}</div>
-      <div
-        className={
-          mono
-            ? "font-mono text-[13px] num text-[color:var(--color-ink)] leading-relaxed"
-            : "text-[color:var(--color-ink)] leading-relaxed"
-        }
-      >
-        {value}
-      </div>
-    </div>
-  );
-}
-
 function Section({ label, items }: { label: string; items: string[] }) {
   if (!items?.length) return null;
   return (
-    <div>
-      <div className="kicker mb-3">{label}</div>
-      <ul className="space-y-3 text-base">
+    <section>
+      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-6">
+        {label}
+      </h2>
+      <ul className="space-y-3">
         {items.map((i, idx) => (
-          <li key={idx} className="flex gap-3 text-[color:var(--color-ink)]">
-            <span className="text-[color:var(--color-amber-mark)] shrink-0 font-mono num text-sm">
-              {String(idx + 1).padStart(2, "0")}
-            </span>
+          <li key={idx} className="flex gap-3 text-base text-[color:var(--color-ink)]">
+            <span className="text-[color:var(--color-accent)] shrink-0">·</span>
             <span className="leading-relaxed">{i}</span>
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }

@@ -10,85 +10,64 @@ const HighlightsStrip = async () => {
   return (
     <section
       id="highlights"
-      className="section section--rule bg-[color:var(--color-paper)]"
+      className="section section--soft bg-[color:var(--color-bg-soft)]"
     >
-      <div className="section__inner">
-        <header className="border-b border-[color:var(--color-rule)] pb-4 mb-10 flex items-baseline justify-between">
-          <div className="kicker">{t("kicker")}</div>
-          <div className="kicker">{t("title")}</div>
-        </header>
-
-        {/* Hero metric — large */}
-        <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-12 items-end">
-          <article className="hs-fade">
-            <div
-              className="display num"
-              style={{
-                fontSize: "clamp(3rem, 9vw, 7rem)",
-                lineHeight: 0.95,
-                color: "var(--color-amber-mark)",
-              }}
+      <div className="section__inner text-center">
+        {/* Apple "Big number" hero metric */}
+        <div className="mb-20 fade-up">
+          <p
+            className="display num mb-6"
+            style={{
+              fontSize: "clamp(4rem, 13vw, 10rem)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.05em",
+              color: "var(--color-accent)",
+            }}
+          >
+            {hero.value}
+            <span
+              className="text-[color:var(--color-ink-soft)]"
+              style={{ fontSize: "0.4em", fontWeight: 500, marginLeft: "0.15em" }}
             >
-              {hero.value}
-              <span
-                className="font-semibold tracking-tight"
+              {hero.unit}
+            </span>
+          </p>
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
+            {hero.label}
+          </h2>
+          {hero.context && (
+            <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
+              {hero.context}
+            </p>
+          )}
+        </div>
+
+        {/* Supporting metrics — 5 column grid, generous, no borders */}
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-12 mt-20">
+          {supporting.map((s) => (
+            <div key={s.id} className="text-center">
+              <p
+                className="num text-[color:var(--color-ink)] mb-2"
                 style={{
-                  fontSize: "0.4em",
-                  marginLeft: "0.2em",
-                  color: "var(--color-ink-soft)",
-                  fontWeight: 500,
+                  fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
                 }}
               >
-                {hero.unit}
-              </span>
-            </div>
-            <div className="kicker mt-4">№ 01 — Hero metric</div>
-            <p className="mt-2 font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
-              {hero.label}
-            </p>
-            {hero.context && (
-              <p className="mt-2 text-sm text-[color:var(--color-ink-soft)] max-w-[42ch]">
-                {hero.context}
-              </p>
-            )}
-          </article>
-
-          {/* Supporting metrics — five smaller, right column */}
-          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6 border-l border-[color:var(--color-rule-soft)] pl-8">
-            {supporting.map((s, i) => (
-              <li
-                key={s.id}
-                className="hs-fade border-t border-[color:var(--color-rule-soft)] pt-3"
-                style={{ animationDelay: `${(i + 1) * 80}ms` }}
-              >
-                <div
-                  className="font-semibold tracking-tight num text-[color:var(--color-ink)]"
-                  style={{ fontSize: "1.75rem", lineHeight: 1.05 }}
+                {s.value}
+                <span
+                  className="text-[color:var(--color-ink-muted)]"
+                  style={{ fontSize: "0.5em", marginLeft: "0.2em", fontWeight: 500 }}
                 >
-                  {s.value}
-                  <span
-                    className="font-mono"
-                    style={{
-                      fontSize: "0.55em",
-                      marginLeft: "0.3em",
-                      color: "var(--color-ink-soft)",
-                      fontStyle: "normal",
-                      textTransform: "lowercase",
-                    }}
-                  >
-                    {s.unit}
-                  </span>
-                </div>
-                <div className="kicker num mt-1">№ 0{i + 2}</div>
-                <p className="mt-1 text-sm text-[color:var(--color-ink)]">{s.label}</p>
-                {s.context && (
-                  <p className="text-xs text-[color:var(--color-ink-soft)] mt-1 leading-relaxed">
-                    {s.context}
-                  </p>
-                )}
-              </li>
-            ))}
-          </ul>
+                  {s.unit}
+                </span>
+              </p>
+              <p className="text-sm text-[color:var(--color-ink-soft)] leading-snug">
+                {s.label}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

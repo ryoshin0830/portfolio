@@ -12,115 +12,66 @@ const TimelineSection = dynamic(() => import("./TimelineSection"), {
 
 const AboutSection = () => {
   const t = useTranslations("about");
-  const badgesT = useTranslations("badges");
-  const [ref, inView] = useInView({ threshold: 0.1, triggerOnce: true });
+  const [ref, inView] = useInView({ threshold: 0.05, triggerOnce: true });
 
-  const fields = t.raw("fields") as string[];
   const expertise = t.raw("expertise") as Expertise[];
-  const capabilities = t.raw("capabilities") as string[];
-  const credentials = t.raw("credentials") as { education: string; founded: string; github: string };
+  const credentials = t.raw("credentials") as {
+    education: string;
+    founded: string;
+    github: string;
+  };
 
   return (
-    <section
-      id="about"
-      ref={ref}
-      className="section section--rule bg-[color:var(--color-paper)]"
-    >
+    <section id="about" ref={ref} className="section">
       <div className="section__inner">
-        {/* Editorial section header */}
-        <header className="border-b border-[color:var(--color-rule)] pb-6 mb-12">
-          <div className="kicker mb-3">{badgesT("aboutMe")}</div>
-          <h2 className="display display--xl">{t("title")}</h2>
-          <p className="mt-4 max-w-2xl text-base text-[color:var(--color-ink-soft)]">
-            {t("subtitle")}
-          </p>
-        </header>
+        <h2 className="display display--xl mb-16">{t("title")}</h2>
 
-        {/* Lede paragraph with dropcap */}
         <m.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.5 }}
-          className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 mb-20"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-3xl"
         >
-          <p className="text-lg leading-[1.75] text-[color:var(--color-ink)] max-w-[68ch]">
+          <p className="prose-body text-[color:var(--color-ink)] mb-10">
             {t("pr")}
           </p>
-          <aside className="border-l border-[color:var(--color-rule-soft)] pl-6 text-sm space-y-3 self-start">
-            <div>
-              <div className="kicker mb-1">Education</div>
-              <div>{credentials.education}</div>
-            </div>
-            <div>
-              <div className="kicker mb-1">Company</div>
-              <div>{credentials.founded}</div>
-            </div>
-            <div>
-              <div className="kicker mb-1">GitHub</div>
-              <a
-                href="https://github.com/ryoshin0830"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-[0.875rem] text-[color:var(--color-teal-ink)] underline-offset-4 hover:underline focus-edit"
-              >
-                {credentials.github}
-              </a>
-            </div>
-          </aside>
+          <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
+            {credentials.education}　·　{credentials.founded}　·
+            <a
+              href="https://github.com/ryoshin0830"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-accent"
+            >
+              {credentials.github}
+            </a>
+          </p>
         </m.div>
 
-        {/* Expertise — 3 editorial cards */}
-        <div className="mb-20">
-          <div className="kicker mb-4">{t("expertiseLabel")}</div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-[color:var(--color-rule)]">
-            {expertise.map((e, i) => (
-              <m.article
-                key={e.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-                transition={{ delay: 0.1 + i * 0.08 }}
-                className="border-b border-[color:var(--color-rule-soft)] md:border-b-0 md:border-r last:border-r-0 px-6 py-8"
-              >
-                <div className="kicker num mb-3">№ 0{i + 1}</div>
-                <h3 className="font-semibold tracking-tight text-2xl leading-tight mb-3 text-[color:var(--color-ink)]">
-                  {e.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[color:var(--color-ink-soft)]">
-                  {e.description}
-                </p>
-              </m.article>
-            ))}
-          </div>
+        {/* Expertise — 3 large cards, Apple-style spacing */}
+        <div className="mt-32 grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+          {expertise.map((e, i) => (
+            <m.article
+              key={e.id}
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
+            >
+              <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
+                {e.title}
+              </h3>
+              <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
+                {e.description}
+              </p>
+            </m.article>
+          ))}
         </div>
 
-        {/* Capabilities — single horizontal row */}
-        <div className="mb-20">
-          <div className="kicker mb-3">{t("capabilitiesLabel")}</div>
-          <div className="flex flex-wrap gap-2">
-            {capabilities.map((c) => (
-              <span key={c} className="tag-mono">
-                {c}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Specialisation fields — list */}
-        <div className="mb-20">
-          <div className="kicker mb-3">{t("specialization")}</div>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-3 text-base">
-            {fields.map((f, i) => (
-              <li key={i} className="flex gap-3 border-t border-[color:var(--color-rule-soft)] pt-3">
-                <span className="kicker num shrink-0 pt-1">№ 0{i + 1}</span>
-                <span className="text-[color:var(--color-ink)]">{f}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Timeline */}
-        <div>
-          <div className="kicker mb-4">{t("timeline")}</div>
+        {/* Timeline — kept but visually quieter */}
+        <div className="mt-32">
+          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-12">
+            {t("timeline")}
+          </h3>
           <TimelineSection />
         </div>
       </div>
