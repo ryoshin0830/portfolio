@@ -42,10 +42,6 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
           name: "GMO Pepabo, Inc.",
           url: "https://pepabo.com/",
         },
-        {
-          "@type": "Organization",
-          name: "EastLinker Inc.",
-        },
       ],
 
       hasOccupation: [
@@ -87,15 +83,6 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
           },
           startDate: "2023-11",
           endDate: "2025-03",
-        },
-        {
-          "@type": "Occupation",
-          name: "Founder & CEO",
-          occupationLocation: {
-            "@type": "Place",
-            name: "EastLinker Inc.",
-          },
-          startDate: "2023-10",
         },
       ],
 

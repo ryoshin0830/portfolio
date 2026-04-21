@@ -19,7 +19,6 @@ const AboutSection = () => {
   const capabilities = t.raw("capabilities") as string[];
   const credentials = t.raw("credentials") as {
     education: string;
-    founded: string;
     github: string;
   };
 
@@ -43,7 +42,7 @@ const AboutSection = () => {
             {t("pr")}
           </p>
           <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
-            {credentials.education}　·　{credentials.founded}　·
+            {credentials.education}　·
             <a
               href="https://github.com/ryoshin0830"
               target="_blank"

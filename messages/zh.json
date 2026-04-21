@@ -105,7 +105,7 @@
     "title": "个人简介",
     "subtitle": "融合外语教育学与 AI 技术",
     "kicker": "About",
-    "pr": "在京都大学硕博课程中从事大规模语言模型（LLM）的教育应用研究，并于 2023 年 10 月创立株式会社 EastLinker，推动研究成果落地。在国立国语研究所的项目中一贯负责从需求定义到实施。2025 年 6 月起加入株式会社 medimo,推进医疗语音识别（ASR）精度提升与基于 LangGraph 的自动生成提示词管线，将医学术语 ASR 召回率从 82.26% 提升至 89.72%。2026 年 4 月起加入 GMO Pepabo 担任 AI Specialist。",
+    "pr": "在京都大学硕博课程中从事大规模语言模型（LLM）的教育应用研究。在国立国语研究所的项目中一贯负责从需求定义到实施。2025 年 6 月起加入株式会社 medimo,推进医疗语音识别（ASR）精度提升与基于 LangGraph 的自动生成提示词管线，将医学术语 ASR 召回率从 82.26% 提升至 89.72%。2026 年 4 月起加入 GMO Pepabo 担任 AI Specialist。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
@@ -140,7 +140,6 @@
     ],
     "credentials": {
       "education": "京都大学研究生院（硕士毕业・博士在读）",
-      "founded": "株式会社 EastLinker 代表（创立于 2023 年 10 月）",
       "github": "github.com/ryoshin0830"
     },
     "fields": [
@@ -157,7 +156,6 @@
       { "year": "2016", "title": "入读大学", "description": "进入首都经济贸易大学信息系统学部", "icon": "university" },
       { "year": "2021", "title": "再次赴日", "description": "移居京都", "icon": "plane" },
       { "year": "2021", "title": "硕士入学", "description": "进入京都大学人类与环境学研究科硕士课程，专攻外语教育学・第二语言习得・应用语言学", "icon": "university" },
-      { "year": "2023", "title": "创立 EastLinker", "description": "创立株式会社 EastLinker，推动研究成果落地", "icon": "home" },
       { "year": "2023", "title": "博士入学", "description": "硕士毕业后进入博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
       { "year": "2026", "title": "加入 GMO Pepabo", "description": "以 AI Specialist 身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
     ]
@@ -168,10 +166,8 @@
     "kicker": "Professional Experience",
     "intro": "此处仅展示业务委托与正式员工身份的工作经历。个人作品见『个人产品』，学术研究见『研究活动』。",
     "currentLabel": "至今",
-    "viewDetail": "查看详情",
     "viewAll": "查看全部 {count} 项 →",
     "currentBadge": "在任",
-    "backToList": "查看全部工作经历",
     "labels": {
       "role": "职责",
       "team": "规模 / 体制",
@@ -886,8 +882,8 @@
   },
   "metadata": {
     "title": "梁震 | AI 工程师・研究者・日语教师",
-    "description": "京都大学博士研究生，株式会社 EastLinker 代表，GMO Pepabo AI Specialist。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
-    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, AI 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo, EastLinker",
+    "description": "京都大学博士研究生，GMO Pepabo AI Specialist。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
+    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, AI 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",

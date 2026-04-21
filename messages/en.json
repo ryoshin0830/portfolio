@@ -105,7 +105,7 @@
     "title": "About Me",
     "subtitle": "Bridging Foreign Language Education and AI Technology",
     "kicker": "About",
-    "pr": "I am a master's-and-PhD researcher at Kyoto University working on educational applications of large language models (LLMs). In October 2023 I founded EastLinker Inc. to commercialise research output, and at NINJAL (National Institute for Japanese Language and Linguistics) I led the Vocabulary Profiler project end-to-end, from requirements to deployment. From June 2025 I worked at medimo Inc. on improving medical-domain ASR accuracy and built a LangGraph-based prompt-generation pipeline, lifting medical-term ASR recall from 82.26% to 89.72%. From April 2026 I joined GMO Pepabo as an AI Specialist.",
+    "pr": "I am a master's-and-PhD researcher at Kyoto University working on educational applications of large language models (LLMs). At NINJAL (National Institute for Japanese Language and Linguistics) I led the Vocabulary Profiler project end-to-end, from requirements to deployment. From June 2025 I worked at medimo Inc. on improving medical-domain ASR accuracy and built a LangGraph-based prompt-generation pipeline, lifting medical-term ASR recall from 82.26% to 89.72%. From April 2026 I joined GMO Pepabo as an AI Specialist.",
     "education": "Education",
     "experience": "Experience",
     "teaching": "Teaching",
@@ -140,7 +140,6 @@
     ],
     "credentials": {
       "education": "Kyoto University (M.A. completed, PhD candidate)",
-      "founded": "Founder & CEO, EastLinker Inc. (founded Oct 2023)",
       "github": "github.com/ryoshin0830"
     },
     "fields": [
@@ -157,7 +156,6 @@
       { "year": "2016", "title": "University Admission", "description": "Entered Capital University of Economics and Business, Information Systems Department", "icon": "university" },
       { "year": "2021", "title": "Return to Japan", "description": "Moved to Kyoto", "icon": "plane" },
       { "year": "2021", "title": "Master's Programme", "description": "Began Master's at Kyoto University, focusing on Foreign Language Education, SLA, and Applied Linguistics", "icon": "university" },
-      { "year": "2023", "title": "Founded EastLinker", "description": "Founded EastLinker Inc. to commercialise research output", "icon": "home" },
       { "year": "2023", "title": "PhD Programme", "description": "Started PhD after completing M.A. Dissertation topic: 'LLM applications in foreign-language education'", "icon": "university" },
       { "year": "2026", "title": "Joined GMO Pepabo", "description": "Joined GMO Pepabo as an AI Specialist (April 2026)", "icon": "home" }
     ]
@@ -168,10 +166,8 @@
     "kicker": "Professional Experience",
     "intro": "Contract work and full-time engagements only. Personal products live under Projects, academic work under Research.",
     "currentLabel": "Present",
-    "viewDetail": "Read more",
     "viewAll": "View all {count} engagements →",
     "currentBadge": "Current",
-    "backToList": "All engagements",
     "labels": {
       "role": "Role",
       "team": "Team",
@@ -886,8 +882,8 @@
   },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | AI Engineer & Researcher",
-    "description": "Kyoto University PhD candidate, founder of EastLinker Inc. and AI Specialist at GMO Pepabo. Research and engineering across LLM, ASR, LangGraph for medical, educational and language-processing domains.",
-    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, AI Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo, EastLinker",
+    "description": "Kyoto University PhD candidate and AI Specialist at GMO Pepabo. Research and engineering across LLM, ASR, LangGraph for medical, educational and language-processing domains.",
+    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, AI Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo",
     "author": "LIANG ZHEN (RYO SHIN)",
     "creator": "LIANG ZHEN (RYO SHIN)",
     "publisher": "LIANG ZHEN (RYO SHIN)",

@@ -105,7 +105,7 @@
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",
     "kicker": "About",
-    "pr": "京都大学大学院（修士・博士課程）で大規模言語モデル（LLM）の教育応用研究に従事し、2023 年 10 月に株式会社 EastLinker を創業。研究成果の社会実装を進めながら、国立国語研究所では要件定義から実装まで一貫して担当しました。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、ASR 医療用語リコールを 82.26% から 89.72% まで引き上げました。2026 年 4 月より GMO ペパボ AI スペシャリストとして参画。",
+    "pr": "京都大学大学院（修士・博士課程）で大規模言語モデル（LLM）の教育応用研究に従事。国立国語研究所では要件定義から実装まで一貫して担当しました。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、ASR 医療用語リコールを 82.26% から 89.72% まで引き上げました。2026 年 4 月より GMO ペパボ AI スペシャリストとして参画。",
     "education": "教育",
     "experience": "経験",
     "teaching": "教育活動",
@@ -140,7 +140,6 @@
     ],
     "credentials": {
       "education": "京都大学大学院（修士課程修了・博士課程在籍）",
-      "founded": "株式会社 EastLinker 代表（2023 年 10 月創業）",
       "github": "github.com/ryoshin0830"
     },
     "fields": [
@@ -194,12 +193,6 @@
       },
       {
         "year": "2023",
-        "title": "EastLinker 創業",
-        "description": "株式会社 EastLinker を創業。研究成果の社会実装を推進",
-        "icon": "home"
-      },
-      {
-        "year": "2023",
         "title": "博士課程入学",
         "description": "修士課程修了後、博士課程に入学。博士論文テーマ：「外国語教育におけるLLMの応用」",
         "icon": "university"
@@ -218,10 +211,8 @@
     "kicker": "Professional Experience",
     "intro": "Contract = 業務委託、Personal = 個人プロダクト、Academic = 研究と区別。下記はすべて Contract または Full-time。",
     "currentLabel": "現在",
-    "viewDetail": "詳細を読む",
     "viewAll": "全 {count} 件を見る →",
     "currentBadge": "現任",
-    "backToList": "全ての職務経歴を見る",
     "labels": {
       "role": "役割",
       "team": "規模 / 体制",
@@ -964,8 +955,8 @@
   },
   "metadata": {
     "title": "梁震（りょう しん）| AI エンジニア・研究者・日本語教師",
-    "description": "京都大学博士課程、株式会社EastLinker代表。GMOペパボ AIスペシャリスト。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",
-    "keywords": "梁震, りょうしん, 京都大学, AI研究, AIエンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ, EastLinker",
+    "description": "京都大学博士課程、GMOペパボ AIスペシャリスト。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",
+    "keywords": "梁震, りょうしん, 京都大学, AI研究, AIエンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ",
     "author": "梁震（りょう しん）",
     "creator": "梁震（りょう しん）",
     "publisher": "梁震（りょう しん）",
