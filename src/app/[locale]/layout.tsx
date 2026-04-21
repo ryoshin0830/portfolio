@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Serif, JetBrains_Mono, Noto_Serif_JP } from "next/font/google";
+import { Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Navigation from "@/components/Navigation";
@@ -10,28 +10,22 @@ import { themeScript } from "../theme-script";
 import "../globals.css";
 import Script from "next/script";
 
-const fraunces = Fraunces({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-inter",
   display: "swap",
-  axes: ["opsz", "SOFT"],
-});
-const instrumentSerif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
-  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
   display: "swap",
 });
-const notoSerifJP = Noto_Serif_JP({
+const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
-  variable: "--font-noto-serif-jp",
+  variable: "--font-noto-sans-jp",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 // メタデータを動的に生成する関数に変更
@@ -114,7 +108,7 @@ export default async function RootLayout({
   return (
     <html
       lang={validLocale}
-      className={`${fraunces.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${notoSerifJP.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansJP.variable}`}
       suppressHydrationWarning
       data-oid="bphv6.8"
     >

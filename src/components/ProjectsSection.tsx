@@ -21,7 +21,7 @@ const ProjectsSection = async () => {
           <p className="mt-4 max-w-2xl text-base text-[color:var(--color-ink-soft)]">
             {t("subtitle")}
           </p>
-          <p className="mt-3 text-sm text-[color:var(--color-ink-soft)] italic max-w-2xl">
+          <p className="mt-3 text-sm text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("intro")}
           </p>
         </header>
@@ -39,7 +39,7 @@ const ProjectsSection = async () => {
               </div>
 
               <div>
-                <h3 className="font-serif italic text-2xl md:text-3xl leading-tight mb-3 text-[color:var(--color-ink)]">
+                <h3 className="font-semibold tracking-tight text-2xl md:text-3xl leading-tight mb-3 text-[color:var(--color-ink)]">
                   {p.title}
                 </h3>
                 <p className="text-base leading-relaxed text-[color:var(--color-ink-soft)] mb-6 max-w-[68ch]">

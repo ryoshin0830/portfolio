@@ -37,7 +37,7 @@ const SkillsSection = async () => {
             <section key={cat.id} className="grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-4 md:gap-12 border-t border-[color:var(--color-rule-soft)] pt-8">
               <div>
                 <div className="kicker num mb-2">№ {cat.id.padStart(2, "0").slice(-2)}</div>
-                <h3 className="font-serif italic text-xl text-[color:var(--color-ink)]">
+                <h3 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
                   {t(cat.titleKey)}
                 </h3>
               </div>
@@ -75,7 +75,7 @@ const SkillsSection = async () => {
         <div className="mt-20 grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-4 md:gap-12 border-t border-[color:var(--color-rule)] pt-10">
           <div>
             <div className="kicker mb-2">Languages</div>
-            <h3 className="font-serif italic text-xl text-[color:var(--color-ink)]">
+            <h3 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
               {t("languages")}
             </h3>
           </div>
@@ -85,7 +85,7 @@ const SkillsSection = async () => {
                 key={l.name}
                 className="grid grid-cols-[7rem_1fr] gap-4 items-baseline border-b border-[color:var(--color-rule-soft)] pb-3"
               >
-                <span className="font-serif italic text-lg text-[color:var(--color-ink)]">
+                <span className="font-semibold tracking-tight text-lg text-[color:var(--color-ink)]">
                   {l.name}
                 </span>
                 <span className="text-sm text-[color:var(--color-ink-soft)]">{l.level}</span>
@@ -98,7 +98,7 @@ const SkillsSection = async () => {
         <div className="mt-20 grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-4 md:gap-12 border-t border-[color:var(--color-rule)] pt-10">
           <div>
             <div className="kicker mb-2">Certifications</div>
-            <h3 className="font-serif italic text-xl text-[color:var(--color-ink)]">
+            <h3 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
               {certifications.title}
             </h3>
             <p className="text-xs text-[color:var(--color-ink-soft)] mt-2">
@@ -112,7 +112,7 @@ const SkillsSection = async () => {
                 className="border-t border-[color:var(--color-rule-soft)] pt-3"
               >
                 <div className="flex items-baseline justify-between gap-3 mb-1">
-                  <span className="font-serif italic text-base text-[color:var(--color-ink)]">
+                  <span className="font-semibold tracking-tight text-base text-[color:var(--color-ink)]">
                     {c.name}
                   </span>
                   <span className="font-mono text-[11px] num text-[color:var(--color-ink-soft)] tracking-[0.05em]">

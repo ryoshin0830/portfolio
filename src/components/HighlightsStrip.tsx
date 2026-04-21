@@ -31,19 +31,19 @@ const HighlightsStrip = async () => {
             >
               {hero.value}
               <span
-                className="font-serif italic"
+                className="font-semibold tracking-tight"
                 style={{
                   fontSize: "0.4em",
                   marginLeft: "0.2em",
                   color: "var(--color-ink-soft)",
-                  fontStyle: "italic",
+                  fontWeight: 500,
                 }}
               >
                 {hero.unit}
               </span>
             </div>
             <div className="kicker mt-4">№ 01 — Hero metric</div>
-            <p className="mt-2 font-serif italic text-xl text-[color:var(--color-ink)]">
+            <p className="mt-2 font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
               {hero.label}
             </p>
             {hero.context && (
@@ -62,7 +62,7 @@ const HighlightsStrip = async () => {
                 style={{ animationDelay: `${(i + 1) * 80}ms` }}
               >
                 <div
-                  className="font-serif italic num text-[color:var(--color-ink)]"
+                  className="font-semibold tracking-tight num text-[color:var(--color-ink)]"
                   style={{ fontSize: "1.75rem", lineHeight: 1.05 }}
                 >
                   {s.value}

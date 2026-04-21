@@ -101,9 +101,9 @@ const HeroSection = () => {
           <span className="kicker num">{t("coordinate")}</span>
         </header>
 
-        {/* Display name — oversized italic display serif */}
+        {/* Display name */}
         <div className="mt-4">
-          <h1 className="display display--xxl break-words">
+          <h1 className="hero-name break-words">
             {names[currentNameIndex]}
           </h1>
           <p className="mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-[color:var(--color-ink-soft)]">
@@ -116,7 +116,7 @@ const HeroSection = () => {
           <div>
             <div className="kicker mb-2">Role</div>
             <div
-              className="font-serif text-2xl md:text-3xl italic text-[color:var(--color-ink)]"
+              className="font-semibold tracking-tight text-2xl md:text-3xl text-[color:var(--color-ink)]"
               aria-live="polite"
             >
               {roles[currentRoleIndex]}
@@ -180,7 +180,7 @@ const HeroSection = () => {
                                     }
                                   />
                                   <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-[color:var(--color-paper)] border border-[color:var(--color-rule)] z-50 max-w-sm mx-4">
-                                    <h3 className="text-lg italic text-[color:var(--color-ink)] mb-4 text-center">
+                                    <h3 className="text-lg font-semibold tracking-tight text-[color:var(--color-ink)] mb-4 text-center">
                                       {p.id === "wechat"
                                         ? tSocialActions("wechatQR")
                                         : tSocialActions("whatsappQR")}

@@ -157,7 +157,7 @@ const Navigation = () => {
               onClick={() => navigateTo("hero")}
               className="focus-edit flex items-baseline gap-3"
             >
-              <span className="font-serif italic text-xl text-[color:var(--color-ink)]">
+              <span className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)]">
                 {namesT("shortName")}
               </span>
               <span className="hidden sm:inline kicker">PORTFOLIO</span>
@@ -309,7 +309,7 @@ const Navigation = () => {
                       <button
                         type="button"
                         onClick={() => navigateTo(item.sectionId)}
-                        className={`focus-edit font-serif italic text-3xl md:text-4xl ${
+                        className={`focus-edit font-semibold tracking-tight text-3xl md:text-4xl ${
                           active
                             ? "text-[color:var(--color-amber-mark)]"
                             : "text-[color:var(--color-ink)] hover:text-[color:var(--color-amber-mark)]"

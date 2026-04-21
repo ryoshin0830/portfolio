@@ -97,7 +97,7 @@ export default function LatestZennArticle() {
                 <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--color-ink-soft)]">
                   {formatDate(a.pubDate)}
                 </span>
-                <span className="text-sm font-serif italic text-[color:var(--color-ink)] group-hover:text-[color:var(--color-amber-mark)] truncate">
+                <span className="text-sm font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-amber-mark)] truncate">
                   {a.title}
                 </span>
                 <ArrowUpRight

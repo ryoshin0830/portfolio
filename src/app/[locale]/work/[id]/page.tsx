@@ -134,7 +134,7 @@ export default async function WorkDetailPage({
             {employmentTypes[e.employmentType]} · {e.industry}
           </p>
           <h1 className="display display--xxl mb-6">{e.product}</h1>
-          <p className="font-serif italic text-2xl text-[color:var(--color-ink-soft)]">
+          <p className="font-semibold tracking-tight text-2xl text-[color:var(--color-ink-soft)]">
             {e.company}
           </p>
         </div>
@@ -142,7 +142,7 @@ export default async function WorkDetailPage({
         {/* Pull-quote — the hero metric */}
         {heroAchievement && (
           <blockquote className="my-16 border-l-4 border-[color:var(--color-amber-mark)] pl-8 max-w-[60ch]">
-            <p className="font-serif italic text-3xl md:text-4xl leading-tight text-[color:var(--color-ink)]">
+            <p className="font-semibold tracking-tight text-3xl md:text-4xl leading-tight text-[color:var(--color-ink)]">
               “{heroAchievement}”
             </p>
             <footer className="kicker mt-4">— Outcome</footer>

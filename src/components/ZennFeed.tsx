@@ -88,7 +88,7 @@ export default function ZennFeed() {
               {formatDate(featured.pubDate)}
             </span>
           </div>
-          <h3 className="font-serif italic text-2xl md:text-3xl leading-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-amber-mark)]">
+          <h3 className="font-semibold tracking-tight text-2xl md:text-3xl leading-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-amber-mark)]">
             {featured.title}
           </h3>
           <ExternalLink
@@ -110,7 +110,7 @@ export default function ZennFeed() {
                 <span className="font-mono text-[12px] text-[color:var(--color-ink-soft)] tracking-wider">
                   {formatDate(article.pubDate)}
                 </span>
-                <h4 className="font-serif italic text-lg text-[color:var(--color-ink)] group-hover:text-[color:var(--color-amber-mark)]">
+                <h4 className="font-semibold tracking-tight text-lg text-[color:var(--color-ink)] group-hover:text-[color:var(--color-amber-mark)]">
                   {article.title}
                 </h4>
                 <ExternalLink

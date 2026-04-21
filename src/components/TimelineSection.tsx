@@ -49,7 +49,7 @@ const TimelineSection = () => {
                 )}
               </div>
               <div>
-                <h4 className="font-serif italic text-xl text-[color:var(--color-ink)] leading-tight mb-1">
+                <h4 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)] leading-tight mb-1">
                   {event.title}
                 </h4>
                 <p className="text-sm leading-relaxed text-[color:var(--color-ink-soft)] max-w-[60ch]">

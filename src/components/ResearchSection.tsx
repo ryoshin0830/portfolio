@@ -130,13 +130,13 @@ const ResearchSection = () => {
                     )}
                   </div>
                   <div>
-                    <h4 className="font-serif italic text-xl text-[color:var(--color-ink)] leading-tight mb-1">
+                    <h4 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)] leading-tight mb-1">
                       {book.title}
                     </h4>
                     <p className="text-sm text-[color:var(--color-ink-soft)] mb-1">
                       {book.authors}
                     </p>
-                    <p className="text-sm italic text-[color:var(--color-ink-soft)]">
+                    <p className="text-sm text-[color:var(--color-ink-soft)]">
                       {book.publisher}
                     </p>
                     {(book.isbn || book.printIsbn) && (
@@ -200,13 +200,13 @@ const ResearchSection = () => {
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-serif italic text-lg text-[color:var(--color-ink)] leading-tight mb-1">
+                  <h4 className="font-semibold tracking-tight text-lg text-[color:var(--color-ink)] leading-tight mb-1">
                     {p.title}
                   </h4>
                   <p className="text-sm text-[color:var(--color-ink-soft)] mb-1">
                     {p.authors}
                   </p>
-                  <p className="text-sm italic text-[color:var(--color-ink-soft)]">
+                  <p className="text-sm text-[color:var(--color-ink-soft)]">
                     {p.journal}
                     {p.volume && `, ${p.volume}`}
                     {p.pages && `, pp. ${p.pages}`}

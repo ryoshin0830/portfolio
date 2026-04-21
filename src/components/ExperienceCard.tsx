@@ -86,7 +86,7 @@ export default function ExperienceCard({
         {/* Body */}
         <div>
           <div className="flex items-baseline gap-3 flex-wrap mb-1">
-            <h3 className="font-serif italic text-2xl md:text-3xl leading-tight text-[color:var(--color-ink)]">
+            <h3 className="font-semibold tracking-tight text-2xl md:text-3xl leading-tight text-[color:var(--color-ink)]">
               {e.product}
             </h3>
             {e.isCurrent && (

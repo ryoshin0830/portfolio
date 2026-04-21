@@ -43,7 +43,7 @@ const ExperienceSection = async () => {
           <p className="mt-4 max-w-2xl text-base text-[color:var(--color-ink-soft)]">
             {t("subtitle")}
           </p>
-          <p className="mt-3 max-w-2xl text-sm italic text-[color:var(--color-ink-soft)]">
+          <p className="mt-3 max-w-2xl text-sm text-[color:var(--color-ink-soft)]">
             {t("intro")}
           </p>
         </header>

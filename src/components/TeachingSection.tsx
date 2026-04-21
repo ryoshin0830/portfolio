@@ -65,11 +65,11 @@ export default function TeachingSection() {
               style={{ fontSize: "clamp(3rem, 7vw, 5.5rem)", lineHeight: 0.95 }}
             >
               180
-              <span className="font-serif italic text-[color:var(--color-ink-soft)]" style={{ fontSize: "0.4em", marginLeft: "0.1em" }}>
+              <span className="font-semibold tracking-tight text-[color:var(--color-ink-soft)]" style={{ fontSize: "0.4em", marginLeft: "0.1em" }}>
                 /180
               </span>
             </div>
-            <p className="mt-2 font-serif italic text-lg">{t("perfectScore")}</p>
+            <p className="mt-2 font-semibold tracking-tight text-lg">{t("perfectScore")}</p>
           </div>
           <p className="text-sm text-[color:var(--color-ink-soft)] leading-relaxed self-end">
             {t("perfectScoreDescription")}
@@ -110,7 +110,7 @@ export default function TeachingSection() {
         >
           <div>
             <div className="kicker mb-2">{t("experienceTitle")}</div>
-            <h3 className="font-serif italic text-2xl text-[color:var(--color-ink)]">
+            <h3 className="font-semibold tracking-tight text-2xl text-[color:var(--color-ink)]">
               {t("newOriental")}
             </h3>
           </div>
@@ -160,7 +160,7 @@ export default function TeachingSection() {
                 }`}
               >
                 <div className="kicker num mb-2">№ 0{i + 1}</div>
-                <h4 className="font-serif italic text-xl text-[color:var(--color-ink)] mb-2">
+                <h4 className="font-semibold tracking-tight text-xl text-[color:var(--color-ink)] mb-2">
                   {c.title}
                 </h4>
                 <p className="text-sm text-[color:var(--color-ink-soft)] mb-4 leading-relaxed">
@@ -187,7 +187,7 @@ export default function TeachingSection() {
           className="border-l-4 border-[color:var(--color-amber-mark)] pl-8 max-w-[60ch] mt-12"
         >
           <div className="kicker mb-3">{t("philosophyTitle")}</div>
-          <p className="font-serif italic text-2xl leading-tight text-[color:var(--color-ink)]">
+          <p className="font-semibold tracking-tight text-2xl leading-tight text-[color:var(--color-ink)]">
             &ldquo;{t("philosophyQuote")}&rdquo;
           </p>
         </m.blockquote>

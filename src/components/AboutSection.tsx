@@ -43,7 +43,7 @@ const AboutSection = () => {
           transition={{ duration: 0.5 }}
           className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 mb-20"
         >
-          <p className="dropcap-sm text-[1.05rem] leading-[1.8] text-[color:var(--color-ink)] max-w-[68ch]">
+          <p className="text-lg leading-[1.75] text-[color:var(--color-ink)] max-w-[68ch]">
             {t("pr")}
           </p>
           <aside className="border-l border-[color:var(--color-rule-soft)] pl-6 text-sm space-y-3 self-start">
@@ -82,7 +82,7 @@ const AboutSection = () => {
                 className="border-b border-[color:var(--color-rule-soft)] md:border-b-0 md:border-r last:border-r-0 px-6 py-8"
               >
                 <div className="kicker num mb-3">№ 0{i + 1}</div>
-                <h3 className="font-serif italic text-2xl leading-tight mb-3 text-[color:var(--color-ink)]">
+                <h3 className="font-semibold tracking-tight text-2xl leading-tight mb-3 text-[color:var(--color-ink)]">
                   {e.title}
                 </h3>
                 <p className="text-sm leading-relaxed text-[color:var(--color-ink-soft)]">

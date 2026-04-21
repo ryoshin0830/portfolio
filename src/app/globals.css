@@ -3,85 +3,103 @@
 @variant dark (&:is(:root.dark *));
 
 /* ─────────────────────────────────────────────────────────────
-   Editorial Academic tokens
-   paper + ink + hairline rule + single teal accent
+   Modern minimalist tokens
+   off-white + near-black + copper accent
    No gradients. No backdrop blur. No colored shadows.
    ──────────────────────────────────────────────────────────── */
 
 :root {
-  --color-paper: #f5f1e8;
-  --color-paper-deep: #ebe5d6;
-  --color-ink: #0b0a08;
-  --color-ink-soft: #2a2621;
-  --color-rule: #1a1815;
-  --color-rule-soft: #c9c0ad;
-  --color-teal-ink: #0f5f5c;
-  --color-amber-mark: #8a5a1c;
+  --color-bg: #ffffff;
+  --color-bg-soft: #fafafa;
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #525252;
+  --color-ink-muted: #737373;
+  --color-rule: #e5e5e5;
+  --color-rule-soft: #ededed;
+  --color-accent: #b87333;
+  --color-accent-soft: #d49968;
 
-  /* back-compat aliases so legacy class consumers don't break mid-refactor */
-  --background: var(--color-paper);
+  /* back-compat aliases (existing class consumers) */
+  --color-paper: var(--color-bg);
+  --color-paper-deep: var(--color-bg-soft);
+  --color-teal-ink: var(--color-accent);
+  --color-amber-mark: var(--color-accent);
+  --background: var(--color-bg);
   --foreground: var(--color-ink);
-  --primary: var(--color-teal-ink);
-  --primary-dark: #0b4744;
-  --secondary: var(--color-amber-mark);
-  --accent: var(--color-teal-ink);
-  --muted: var(--color-paper-deep);
-  --border: var(--color-rule-soft);
+  --primary: var(--color-accent);
+  --primary-dark: #8a5523;
+  --secondary: var(--color-accent);
+  --accent: var(--color-accent);
+  --muted: var(--color-bg-soft);
+  --border: var(--color-rule);
 }
 
 :root.dark {
-  --color-paper: #121010;
-  --color-paper-deep: #1a1816;
-  --color-ink: #ede7d6;
-  --color-ink-soft: #c9c0ad;
-  --color-rule: #ede7d6;
-  --color-rule-soft: #3a342b;
-  --color-teal-ink: #14b8a6;
-  --color-amber-mark: #d4a574;
+  --color-bg: #0a0a0a;
+  --color-bg-soft: #141414;
+  --color-ink: #fafafa;
+  --color-ink-soft: #a3a3a3;
+  --color-ink-muted: #737373;
+  --color-rule: #262626;
+  --color-rule-soft: #1f1f1f;
+  --color-accent: #d49968;
+  --color-accent-soft: #b87333;
 
-  --background: var(--color-paper);
+  --color-paper: var(--color-bg);
+  --color-paper-deep: var(--color-bg-soft);
+  --color-teal-ink: var(--color-accent);
+  --color-amber-mark: var(--color-accent);
+  --background: var(--color-bg);
   --foreground: var(--color-ink);
-  --primary: var(--color-teal-ink);
-  --primary-dark: #0d9488;
-  --secondary: var(--color-amber-mark);
-  --accent: var(--color-teal-ink);
-  --muted: var(--color-paper-deep);
-  --border: var(--color-rule-soft);
+  --primary: var(--color-accent);
+  --primary-dark: #b87333;
+  --secondary: var(--color-accent);
+  --accent: var(--color-accent);
+  --muted: var(--color-bg-soft);
+  --border: var(--color-rule);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-bg: var(--color-bg);
+  --color-bg-soft: var(--color-bg-soft);
   --color-paper: var(--color-paper);
   --color-paper-deep: var(--color-paper-deep);
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
+  --color-ink-muted: var(--color-ink-muted);
   --color-rule: var(--color-rule);
   --color-rule-soft: var(--color-rule-soft);
+  --color-accent: var(--color-accent);
   --color-teal-ink: var(--color-teal-ink);
   --color-amber-mark: var(--color-amber-mark);
 
-  --font-serif: var(--font-fraunces), var(--font-noto-serif-jp), 'Fraunces', 'IBM Plex Serif', 'Noto Serif JP', Georgia, serif;
-  --font-display: var(--font-instrument-serif), var(--font-noto-serif-jp), 'Instrument Serif', 'Fraunces', Georgia, serif;
-  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, monospace;
-  --font-sans: var(--font-fraunces), var(--font-noto-serif-jp), 'Fraunces', 'Noto Serif JP', Georgia, serif;
-  --font-cjk: var(--font-noto-serif-jp), 'Noto Serif JP', 'Hiragino Mincho ProN', 'YuMincho', serif;
+  --font-sans: var(--font-inter), var(--font-noto-sans-jp), 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: var(--font-inter), var(--font-noto-sans-jp), 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: var(--font-inter), var(--font-noto-sans-jp), 'Inter', 'Noto Sans JP', -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-cjk: var(--font-noto-sans-jp), 'Noto Sans JP', 'Hiragino Sans', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
-    --color-paper: #121010;
-    --color-paper-deep: #1a1816;
-    --color-ink: #ede7d6;
-    --color-ink-soft: #c9c0ad;
-    --color-rule: #ede7d6;
-    --color-rule-soft: #3a342b;
-    --color-teal-ink: #14b8a6;
-    --color-amber-mark: #d4a574;
-    --background: var(--color-paper);
+    --color-bg: #0a0a0a;
+    --color-bg-soft: #141414;
+    --color-ink: #fafafa;
+    --color-ink-soft: #a3a3a3;
+    --color-ink-muted: #737373;
+    --color-rule: #262626;
+    --color-rule-soft: #1f1f1f;
+    --color-accent: #d49968;
+    --color-paper: var(--color-bg);
+    --color-paper-deep: var(--color-bg-soft);
+    --color-teal-ink: var(--color-accent);
+    --color-amber-mark: var(--color-accent);
+    --background: var(--color-bg);
     --foreground: var(--color-ink);
-    --muted: var(--color-paper-deep);
-    --border: var(--color-rule-soft);
+    --muted: var(--color-bg-soft);
+    --border: var(--color-rule);
   }
 }
 
@@ -90,57 +108,38 @@
 html {
   overflow-x: hidden;
   width: 100%;
-  /* Resolve the serif stack at the element that carries the next/font CSS variables. */
   font-family:
-    var(--font-fraunces, 'Fraunces'),
-    var(--font-noto-serif-jp, 'Noto Serif JP'),
-    'IBM Plex Serif', Georgia, serif;
+    var(--font-inter, 'Inter'),
+    var(--font-noto-sans-jp, 'Noto Sans JP'),
+    -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-bg);
   color: var(--color-ink);
   font-family: inherit;
-  font-size: 1.0625rem;
+  font-size: 1.0625rem; /* 17px base — utilities bump body sections to 18px */
   line-height: 1.65;
   overflow-x: hidden;
   width: 100%;
   max-width: 100vw;
-  font-feature-settings: "ss01", "onum", "liga", "kern";
+  font-feature-settings: "ss01", "cv11", "kern";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   position: relative;
 }
 
-/* Paper grain — one fixed SVG, GPU-cheap */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  background-size: 240px 240px;
-  opacity: 0.55;
-  mix-blend-mode: multiply;
-}
-
-:root.dark body::before {
-  opacity: 0.35;
-  mix-blend-mode: screen;
-}
-
-/* Editorial typography */
+/* Modern minimalist headings — sans semibold, tight tracking */
 h1, h2, h3 {
   font-family:
-    var(--font-instrument-serif, 'Instrument Serif'),
-    var(--font-noto-serif-jp, 'Noto Serif JP'),
-    var(--font-fraunces, 'Fraunces'),
-    Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+    var(--font-inter, 'Inter'),
+    var(--font-noto-sans-jp, 'Noto Sans JP'),
+    -apple-system, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
   color: var(--color-ink);
 }
 
@@ -148,6 +147,7 @@ h4, h5, h6 {
   font-family: inherit;
   font-weight: 500;
   letter-spacing: -0.01em;
+  color: var(--color-ink);
 }
 
 /* Hairline rules */
@@ -162,39 +162,26 @@ hr, .rule {
   border-top: 1px solid var(--color-rule-soft);
 }
 
-/* Meta / caption text — mono, small caps vibe */
+/* Meta / caption text — mono, smaller */
 .meta {
   font-family:
     var(--font-jetbrains-mono, 'JetBrains Mono'),
     ui-monospace, Menlo, monospace;
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--color-ink-soft);
+  color: var(--color-ink-muted);
 }
 
-/* Drop cap for About / article openings */
-.dropcap::first-letter {
-  font-family:
-    var(--font-instrument-serif, 'Instrument Serif'),
-    var(--font-noto-serif-jp, 'Noto Serif JP'),
-    Georgia, serif;
-  font-style: italic;
-  font-size: 4.5em;
-  line-height: 0.85;
-  float: left;
-  padding: 0.1em 0.12em 0 0;
-  color: var(--color-ink);
-}
-
-/* Scrollbar — ink on paper */
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--color-paper-deep); }
-::-webkit-scrollbar-thumb { background: var(--color-rule); border-radius: 0; }
+/* Scrollbar — modern, subtle */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-rule); border-radius: 5px; border: 2px solid var(--color-bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-muted); }
 
 ::selection {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-accent);
+  color: var(--color-bg);
 }
 
 .responsive-container {
@@ -203,7 +190,7 @@ hr, .rule {
   overflow-x: hidden;
 }
 
-/* Respect reduced motion globally */
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -212,20 +199,19 @@ hr, .rule {
   }
 }
 
-/* ─── Editorial utilities ─────────────────────────────────────── */
+/* ─── Editorial / SaaS utilities ─────────────────────────────── */
 
 /* Tabular numerals for metrics */
 .num {
-  font-feature-settings: "tnum", "lnum", "ss01";
+  font-feature-settings: "tnum", "lnum";
   font-variant-numeric: tabular-nums lining-nums;
 }
 
-/* Page section wrapper: paper background, generous vertical rhythm,
-   container width clamps */
+/* Page section wrapper */
 .section {
   position: relative;
   padding: 6rem 1.5rem;
-  background: var(--color-paper);
+  background: var(--color-bg);
 }
 .section--rule { border-top: 1px solid var(--color-rule); }
 .section--rule-soft { border-top: 1px solid var(--color-rule-soft); }
@@ -233,75 +219,76 @@ hr, .rule {
   max-width: 78rem;
   margin: 0 auto;
 }
+@media (min-width: 768px) {
+  .section { padding: 8rem 2rem; font-size: 1.125rem; }
+}
 @media (min-width: 1024px) {
-  .section { padding: 8rem 2rem; }
+  .section { padding: 10rem 2rem; }
+  .section__inner { padding: 0 1rem; }
 }
 
-/* Mono tag — uppercase, hairline border, ink */
+/* Modern tag — minimal hairline border, sans, sentence case */
 .tag-mono {
   display: inline-flex;
   align-items: center;
   gap: 0.4em;
   font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, Menlo, monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.25rem 0.55rem;
-  border: 1px solid var(--color-rule-soft);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--color-rule);
   color: var(--color-ink);
   line-height: 1;
-  border-radius: 2px;
-  background: transparent;
+  border-radius: 4px;
+  background: var(--color-bg);
 }
 .tag-mono--featured {
-  border-color: var(--color-amber-mark);
-  color: var(--color-amber-mark);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
-/* Editorial display heading — oversized italic display serif */
+/* Display heading — modern sans, tight tracking */
 .display {
-  font-family: var(--font-instrument-serif, 'Instrument Serif'), var(--font-noto-serif-jp, 'Noto Serif JP'), Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 0.95;
+  font-family: var(--font-inter, 'Inter'), var(--font-noto-sans-jp, 'Noto Sans JP'), -apple-system, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
   color: var(--color-ink);
 }
-.display--xl { font-size: clamp(2.75rem, 6vw, 5.5rem); }
-.display--xxl { font-size: clamp(3.5rem, 9vw, 8rem); }
+.display--xl { font-size: clamp(2.5rem, 5.5vw, 4.5rem); }
+.display--xxl { font-size: clamp(3rem, 8vw, 7rem); font-weight: 700; letter-spacing: -0.04em; }
 
 /* Section header pattern — kicker (mono) + title (display) */
 .kicker {
   font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, Menlo, monospace;
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--color-amber-mark);
+  color: var(--color-ink-muted);
+  font-weight: 500;
+}
+.kicker--accent {
+  color: var(--color-accent);
 }
 
-/* Two-column case-study row: period gutter + body */
+/* Two-column case-study row */
 .case-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
   border-top: 1px solid var(--color-rule);
-  padding: 2rem 0;
+  padding: 2.5rem 0;
 }
 @media (min-width: 768px) {
-  .case-row { grid-template-columns: 12rem 1fr; gap: 3rem; }
-}
-.case-row__period {
-  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, Menlo, monospace;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-ink-soft);
+  .case-row { grid-template-columns: 14rem 1fr; gap: 4rem; }
 }
 
-/* Hairline focus ring in editorial palette */
+/* Hairline focus ring in copper */
 .focus-edit:focus-visible {
-  outline: 2px solid var(--color-amber-mark);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+  border-radius: 2px;
 }
 
 /* Highlights strip — keyframe fade-up */
@@ -323,13 +310,22 @@ hr, .rule {
 }
 .snap-x-strip > * { scroll-snap-align: start; }
 
-/* Smaller dropcap for AboutSection PR (multi-line balance) */
-.dropcap-sm::first-letter {
-  font-family: var(--font-instrument-serif, 'Instrument Serif'), var(--font-noto-serif-jp, 'Noto Serif JP'), Georgia, serif;
-  font-style: italic;
-  font-size: 3.4em;
-  line-height: 0.85;
-  float: left;
-  padding: 0.08em 0.12em 0 0;
-  color: var(--color-amber-mark);
+/* Body text utility — bumps to 18px on desktop sections */
+.prose-body {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+}
+@media (min-width: 768px) {
+  .prose-body { font-size: 1.125rem; line-height: 1.75; }
+}
+
+/* Hero name — pure sans, very tight */
+.hero-name {
+  font-family: var(--font-inter, 'Inter'), var(--font-noto-sans-jp, 'Noto Sans JP'), -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  color: var(--color-ink);
+  font-size: clamp(3rem, 9vw, 8rem);
 }
