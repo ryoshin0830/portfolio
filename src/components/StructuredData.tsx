@@ -66,6 +66,16 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
         },
         {
           "@type": "Occupation",
+          name: "Full-stack Engineer (Contract) — Japanese reading platform",
+          occupationLocation: {
+            "@type": "Place",
+            name: "Massey University, New Zealand",
+          },
+          startDate: "2025-06",
+          endDate: "2026-03",
+        },
+        {
+          "@type": "Occupation",
           name: "AI Engineer (Contract) — Medical SaaS",
           occupationLocation: {
             "@type": "Place",
@@ -150,7 +160,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
       },
       address: {
         "@type": "PostalAddress",
-        addressLocality: "Kyoto",
+        addressLocality: "Tokyo",
         addressCountry: "Japan",
       },
     };

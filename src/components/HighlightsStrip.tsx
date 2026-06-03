@@ -43,32 +43,34 @@ const HighlightsStrip = async () => {
         </div>
 
         {/* Supporting metrics — 5 column grid, generous, no borders */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-12 mt-20">
-          {supporting.map((s) => (
-            <div key={s.id} className="text-center">
-              <p
-                className="num text-[color:var(--color-ink)] mb-2"
-                style={{
-                  fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {s.value}
-                <span
-                  className="text-[color:var(--color-ink-muted)]"
-                  style={{ fontSize: "0.5em", marginLeft: "0.2em", fontWeight: 500 }}
+        {supporting.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-12 mt-20">
+            {supporting.map((s) => (
+              <div key={s.id} className="text-center">
+                <p
+                  className="num text-[color:var(--color-ink)] mb-2"
+                  style={{
+                    fontSize: "clamp(1.75rem, 3vw, 2.5rem)",
+                    fontWeight: 600,
+                    lineHeight: 1,
+                    letterSpacing: "-0.03em",
+                  }}
                 >
-                  {s.unit}
-                </span>
-              </p>
-              <p className="text-sm text-[color:var(--color-ink-soft)] leading-snug">
-                {s.label}
-              </p>
-            </div>
-          ))}
-        </div>
+                  {s.value}
+                  <span
+                    className="text-[color:var(--color-ink-muted)]"
+                    style={{ fontSize: "0.5em", marginLeft: "0.2em", fontWeight: 500 }}
+                  >
+                    {s.unit}
+                  </span>
+                </p>
+                <p className="text-sm text-[color:var(--color-ink-soft)] leading-snug">
+                  {s.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

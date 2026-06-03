@@ -11,12 +11,10 @@ export type EmploymentType = "fulltime" | "contract" | "internship";
 export interface Engagement {
   id:
     | "gmo-pepabo"
+    | "suiren"
     | "sapeet"
     | "medimo"
     | "ninjal"
-    | "ml-vocab"
-    | "corpus-maker"
-    | "lands"
     | "shinhan";
   start: string;
   end: string | null;

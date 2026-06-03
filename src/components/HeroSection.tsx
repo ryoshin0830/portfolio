@@ -64,15 +64,12 @@ const HeroSection = () => {
         </p>
 
         {/* Origin / current — small inline meta */}
-        <p className="text-sm text-[color:var(--color-ink-muted)] mb-3">
+        <p className="text-sm text-[color:var(--color-ink-muted)] mb-12">
           <span className="font-medium text-[color:var(--color-ink-soft)]">{t("origin")}</span> {t("beijing")}
           <span className="mx-3 text-[color:var(--color-rule)]">·</span>
-          <span className="font-medium text-[color:var(--color-ink-soft)]">{t("current")}</span> {t("kyoto")}
+          <span className="font-medium text-[color:var(--color-ink-soft)]">{t("current")}</span> {t("currentCity")}
           <span className="mx-3 text-[color:var(--color-rule)]">·</span>
           {t("description")}
-        </p>
-        <p className="text-xs text-[color:var(--color-ink-muted)] font-mono num mb-12 tracking-wider">
-          {t("coordinate")}
         </p>
 
         <button

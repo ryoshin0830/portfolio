@@ -30,11 +30,8 @@ const ExperienceSection = async () => {
       <div className="section__inner">
         <header className="mb-16">
           <h2 className="display display--xl mb-6">{t("title")}</h2>
-          <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mb-3">
+          <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
-          </p>
-          <p className="text-sm text-[color:var(--color-ink-muted)] max-w-2xl">
-            {t("intro")}
           </p>
         </header>
 
@@ -47,6 +44,7 @@ const ExperienceSection = async () => {
               labels={labels}
               scopePhases={scopePhases}
               teamFormat={t.raw("teamFormat") as string}
+              orgFormat={t.raw("orgFormat") as string}
               soloFormat={t.raw("soloFormat") as string}
               locale={locale}
               employmentTypes={employmentTypes}

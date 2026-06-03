@@ -10,12 +10,6 @@ const ProjectsSection = async () => {
     features: string[];
   }>;
 
-  const leadership = t.raw("leadership") as {
-    title: string;
-    description: string;
-    skills: string[];
-  };
-
   const featuresLabel = t.raw("mainFeatures") as string;
   const stackLabel = t.raw("techStack") as string;
 
@@ -69,21 +63,6 @@ const ProjectsSection = async () => {
               </div>
             </article>
           ))}
-        </div>
-
-        {/* Leadership block */}
-        <div className="mt-32 pt-20 border-t border-[color:var(--color-rule-soft)]">
-          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-6">
-            {leadership.title}
-          </h3>
-          <p className="prose-body text-[color:var(--color-ink-soft)] max-w-3xl mb-8">
-            {leadership.description}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {leadership.skills.map((s) => (
-              <span key={s} className="chip">{s}</span>
-            ))}
-          </div>
         </div>
       </div>
     </section>

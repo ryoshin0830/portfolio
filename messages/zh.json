@@ -39,8 +39,7 @@
     "origin": "出生地",
     "beijing": "北京",
     "current": "现居",
-    "kyoto": "京都",
-    "coordinate": "N 35.0116° · E 135.7681°",
+    "currentCity": "东京",
     "currentlyAt": "GMO Pepabo ／ 工程师",
     "viewWork": "查看工作"
   },
@@ -53,8 +52,8 @@
   },
   "highlights": {
     "title": "数据化的成果",
-    "subtitle": "可度量的性能、规模与速度",
-    "kicker": "Selected metrics",
+    "subtitle": "医疗 AI 项目中实测的精度提升",
+    "kicker": "Selected metric",
     "stats": [
       {
         "id": "asr-recall",
@@ -62,42 +61,7 @@
         "value": "82.26 → 89.72",
         "unit": "%",
         "label": "ASR 医学术语召回率",
-        "context": "基于约 190 小时医疗语音的 LoRA 微调、评估设计与训练运营（medimo）"
-      },
-      {
-        "id": "morpho-speed",
-        "value": "×8",
-        "unit": "提速",
-        "label": "形态素分析处理速度",
-        "context": "5 分钟 → 10 秒以内（国立国语研究所 语汇画像器）"
-      },
-      {
-        "id": "corpus-effort",
-        "value": "−70",
-        "unit": "%",
-        "label": "语料构建工时减少",
-        "context": "相比传统手工流程（CurpusMaker）"
-      },
-      {
-        "id": "ninjal-accuracy",
-        "value": "97",
-        "unit": "%",
-        "label": "解析精度（语汇难度判定）",
-        "context": "较原计划提前 2 周交付（国立国语研究所）"
-      },
-      {
-        "id": "audio-annotation",
-        "value": "190",
-        "unit": "h",
-        "label": "医疗语音标注",
-        "context": "借助 DeepSpeed ZeRO 多 GPU 训练运营（medimo）"
-      },
-      {
-        "id": "shinhan-leads",
-        "value": "+40",
-        "unit": "%",
-        "label": "咨询数量",
-        "context": "WordPress 定制实现后（宸翰学园）"
+        "context": "通过提升医疗语音识别（ASR）精度实现（medimo）"
       }
     ]
   },
@@ -105,7 +69,7 @@
     "title": "个人简介",
     "subtitle": "融合外语教育学与 AI 技术",
     "kicker": "About",
-    "pr": "在京都大学硕士・博士课程期间从事大规模语言模型（LLM）的教育应用研究，并取得博士学位。在国立国语研究所的项目中一贯负责从需求定义到实施。2025 年 6 月起加入株式会社 medimo,推进医疗语音识别（ASR）精度提升与基于 LangGraph 的自动生成提示词管线，将医学术语 ASR 召回率从 82.26% 提升至 89.72%。2026 年 4 月起加入 GMO Pepabo 担任工程师。",
+    "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，推进医疗语音识别（ASR）精度提升并构建基于 LangGraph 的提示词自动生成管线，将医学术语召回率从 82.26% 提升至 89.72%。2026 年 2 月参与株式会社 Sapeet 的招投标信息抽取 PoC。2026 年 4 月起作为工程师加入 GMO Pepabo。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
@@ -153,10 +117,15 @@
       { "year": "1999", "title": "赴日", "description": "与家人移居横滨。在日本开始幼儿园与小学生活", "icon": "plane" },
       { "year": "2009", "title": "回国", "description": "返回北京，升入中学", "icon": "plane" },
       { "year": "2010", "title": "取得日本永驻", "description": "取得日本永久居留资格", "icon": "home" },
-      { "year": "2016", "title": "入读大学", "description": "进入首都经济贸易大学信息系统学部", "icon": "university" },
+      { "year": "2016", "title": "入读大学", "description": "进入首都经济贸易大学 信息系统专业", "icon": "university" },
       { "year": "2021", "title": "再次赴日", "description": "移居京都", "icon": "plane" },
       { "year": "2021", "title": "硕士入学", "description": "进入京都大学人类与环境学研究科硕士课程，专攻外语教育学・第二语言习得・应用语言学", "icon": "university" },
-      { "year": "2023", "title": "博士入学", "description": "硕士毕业后进入博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
+      { "year": "2023", "title": "硕士毕业", "description": "于京都大学研究生院硕士课程毕业（外语教育学・第二语言习得・应用语言学）", "icon": "university" },
+      { "year": "2023", "title": "博士入学", "description": "进入京都大学研究生院博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
+      { "year": "2023", "title": "参与国立国语研究所项目", "description": "参与语汇画像器开发项目，负责从需求定义到实现与运营（至 2025 年）", "icon": "university" },
+      { "year": "2025", "title": "加入 medimo", "description": "在株式会社 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）", "icon": "home" },
+      { "year": "2025", "title": "参与梅西大学项目", "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（原名『速读大猩猩』）（至 2026 年）", "icon": "home" },
+      { "year": "2026", "title": "参与 Sapeet", "description": "参与株式会社 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）", "icon": "home" },
       { "year": "2026", "title": "博士毕业", "description": "于京都大学研究生院博士课程毕业并取得博士学位（2026 年 3 月）", "icon": "university" },
       { "year": "2026", "title": "加入 GMO Pepabo", "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
     ]
@@ -165,7 +134,6 @@
     "title": "工作经历",
     "subtitle": "以业务委托和正式员工身份参与的实施与研发项目",
     "kicker": "Professional Experience",
-    "intro": "此处仅展示业务委托与正式员工身份的工作经历。个人作品见『个人产品』，学术研究见『研究活动』。",
     "currentLabel": "至今",
     "viewAll": "查看全部 {count} 项 →",
     "currentBadge": "在任",
@@ -194,6 +162,7 @@
       "internship": "实习"
     },
     "teamFormat": "整体 {overall} 人 / 团队 {section} 人",
+    "orgFormat": "全公司 {overall} 人",
     "soloFormat": "独立",
     "engagements": [
       {
@@ -206,19 +175,13 @@
         "product": "工程师岗位",
         "industry": "IT・互联网",
         "role": "工程师（正式员工）",
-        "teamOverall": null,
+        "teamOverall": 362,
         "teamSection": null,
-        "scope": ["req", "basicDesign", "detailDesign", "impl"],
-        "stack": ["Python", "LLM", "Machine Learning"],
-        "responsibilities": [
-          "在 AI / LLM 领域推进产品化与研发"
-        ],
-        "workItems": [
-          "为 Pepabo 各项服务嵌入 AI 功能并开展实证"
-        ],
-        "achievements": [
-          "通过 OneCareer 新卒选拔渠道以工程师身份加入"
-        ]
+        "scope": [],
+        "stack": [],
+        "responsibilities": [],
+        "workItems": [],
+        "achievements": []
       },
       {
         "id": "sapeet",
@@ -230,10 +193,10 @@
         "product": "信息通信工程招投标自动抽取与企业评分 PoC",
         "industry": "AI / SaaS",
         "role": "AI 工程师（业务委托）",
-        "teamOverall": null,
-        "teamSection": null,
+        "teamOverall": 5,
+        "teamSection": 5,
         "scope": ["req", "basicDesign", "impl", "test"],
-        "stack": ["Python", "LLM", "信息抽取", "多语言语音分析"],
+        "stack": ["Python", "LLM", "信息抽取"],
         "responsibilities": [
           "招投标 PoC 的范围定义与抽取逻辑的设计・改进",
           "系统结构、部署运营与权限管理的设计"
@@ -241,11 +204,38 @@
         "workItems": [
           "构建信息通信工程招投标信息的自动抽取管线",
           "设计并实现企业评分逻辑",
-          "多语言语音片段的分类与分析",
           "主持周会进度共享并持续改进抽取逻辑"
         ],
         "achievements": [
-          "在 2 个月内完成招投标抽取 PoC，并搭建企业评分基础架构"
+          "完成招投标抽取 PoC，并搭建企业评分基础架构"
+        ]
+      },
+      {
+        "id": "suiren",
+        "start": "2025-06",
+        "end": "2026-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "梅西大学（新西兰）",
+        "product": "SUIREN — 面向日语学习者的速读练习平台",
+        "industry": "教育 / 研究支持",
+        "role": "全栈开发（业务委托）",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "responsibilities": [
+          "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，设计并开发速读练习平台",
+          "设计并实现阅读速度（WPM）与理解度测量功能"
+        ],
+        "workItems": [
+          "按等级划分的速读内容与出题流程",
+          "实时阅读速度（WPM）与理解度测量",
+          "小测验形式的互动学习",
+          "学习进度的可视化与跟踪面板"
+        ],
+        "achievements": [
+          "构建面向日语学习者的速读练习平台『SUIREN』（原名『速读大猩猩』）"
         ]
       },
       {
@@ -328,139 +318,13 @@
         "workItems": [
           "团队整体管理与技术选型",
           "前端（React）与后端（Node.js / Express）的设计与实现",
-          "形态素分析与词汇难度判定系统的并行处理架构",
+          "形态素分析与词汇难度判定的数据处理管线构建",
           "PostgreSQL 数据库设计与性能优化",
           "通过 SSL/TLS 与令牌认证强化安全"
         ],
         "achievements": [
-          "通过形态素分析并行化，将处理速度提升 8 倍（5 分钟 → 10 秒以内）",
-          "将基于 Word2Vec 的词汇难度预测模型作为 API 集成",
-          "与研究所语言学家协作构建了 5,000 词学术专业词典",
-          "较原计划提前 2 周交付，解析精度达 97%"
-        ]
-      },
-      {
-        "id": "ml-vocab",
-        "start": "2024-11",
-        "end": "2025-03",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "机器学习研究项目",
-        "product": "基于 LLM 的词汇难度预测系统",
-        "industry": "研究支持 / 语言学工具",
-        "role": "ML 研发（业务委托）",
-        "teamOverall": 3,
-        "teamSection": 3,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
-        "stack": [
-          "Python",
-          "PyTorch",
-          "Transformers",
-          "Scikit-learn",
-          "MongoDB",
-          "Linux",
-          "Jupyter",
-          "Git",
-          "gensim"
-        ],
-        "responsibilities": [
-          "基于 Word2Vec 开发词汇测验自动生成系统",
-          "构建基于 LLM 微调的词汇难度预测模型"
-        ],
-        "workItems": [
-          "大规模日语语料的预处理与 Word2Vec 模型构建",
-          "使用 Transformers 库进行 LLM 微调",
-          "设计机器学习管线并实现评估指标"
-        ],
-        "achievements": [
-          "在言语处理学会发表研究成果（2022 年・2024 年）",
-          "通过与国立国语研究所的合作研究实现实用化"
-        ]
-      },
-      {
-        "id": "corpus-maker",
-        "start": "2024-10",
-        "end": "2024-11",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "个人委托",
-        "product": "CurpusMaker — 语料构建辅助 Web 应用",
-        "industry": "研究支持 / 语言学工具",
-        "role": "全栈（业务委托・独立）",
-        "teamOverall": 1,
-        "teamSection": 1,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
-        "stack": [
-          "JavaScript",
-          "TypeScript",
-          "React",
-          "Node.js",
-          "PDF.js",
-          "Webpack",
-          "Git"
-        ],
-        "responsibilities": [
-          "独立负责从策划到部署的全过程全栈开发",
-          "PDF 解析与文本抽取功能的实现",
-          "用户界面的设计与开发"
-        ],
-        "workItems": [
-          "基于 React 的交互式前端开发",
-          "利用 PDF.js 进行 PDF 解析",
-          "用户可视化选择范围的文本抽取功能",
-          "Markdown 格式的输出功能",
-          "直观的拖放文件上传"
-        ],
-        "achievements": [
-          "相比传统手工流程，语料构建工时减少 70%",
-          "实现对多种 PDF 格式的高精度文本抽取",
-          "响应式设计同时支持 PC 与平板"
-        ]
-      },
-      {
-        "id": "lands",
-        "start": "2024-04",
-        "end": "2024-05",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "国际研究团队",
-        "product": "LandS — 面向新西兰学习者的日语多读平台",
-        "industry": "教育 / 研究支持",
-        "role": "全栈（业务委托）",
-        "teamOverall": 17,
-        "teamSection": 6,
-        "scope": ["basicDesign", "detailDesign", "impl"],
-        "stack": [
-          "TypeScript",
-          "Next.js",
-          "React",
-          "Node.js",
-          "Prisma",
-          "PostgreSQL",
-          "Vercel",
-          "AWS",
-          "Docker",
-          "Jest",
-          "Figma"
-        ],
-        "responsibilities": [
-          "全栈开发，同时负责前端与后端",
-          "实时阅读时间测量系统的设计与实现",
-          "学习进度分析仪表盘的开发"
-        ],
-        "workItems": [
-          "基于 Next.js App Router 的现代 Web 应用开发",
-          "PostgreSQL + Prisma ORM 的数据库设计与优化",
-          "毫秒级精度的实时阅读时间测量",
-          "按学习者水平定制文本发放的系统",
-          "教师端学习分析仪表盘（进度可视化、理解度统计）",
-          "基于 JWT 的学习者与教师账户安全管理"
-        ],
-        "achievements": [
-          "面向 500+ 学习者、100+ 同时连接进行大规模系统设计",
-          "通过 CI/CD 管线提升 17 人开发团队的协作效率",
-          "引入 A/B 测试功能实现学习效果的定量比较",
-          "主导与国际研究团队的英文沟通"
+          "以国立国语研究所松下达彦先生的语汇研究（《日本語を読むための語彙データベース》／VDRJ）为基础，对输入的日语文本进行即时分析，并按词汇难度与使用频率进行可视化的语汇画像器",
+          "将基于 Word2Vec 的词汇难度预测模型作为 API 集成，输出便于研究与教学使用的画像结果"
         ]
       },
       {
@@ -499,7 +363,6 @@
           "运营手册编写与客户操作培训"
         ],
         "achievements": [
-          "咨询数量较原站点提升 +40%",
           "多语言站点同时覆盖中日两地客户群"
         ]
       }
@@ -720,48 +583,6 @@
     "intro": "业务委托见『工作经历』，学术研究见『研究活动』，此处仅展示个人 / 产品类项目。",
     "projectsList": [
       {
-        "title": "速读大猩猩",
-        "description": "面向日语学习者的互动式速读练习系统",
-        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
-        "features": [
-          "按初级到高级分层的学习内容",
-          "实时阅读速度（WPM）与理解度测量",
-          "小测验形式的互动学习",
-          "学习进度的可视化与跟踪"
-        ]
-      },
-      {
-        "title": "日雨日语",
-        "description": "提供高效日语单词学习与听力练习的移动应用",
-        "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
-        "features": [
-          "React Native + Swift 的跨平台支持",
-          "基于 MongoDB 的灵活数据建模",
-          "基于 AliCloud 的无服务器处理"
-        ]
-      },
-      {
-        "title": "词汇画像器『松の葉』",
-        "description": "通过文本分析判定单词难度并可视化词汇水平的 Web 工具（个人版）",
-        "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
-        "features": [
-          "基于 Next.js 的全栈开发",
-          "在 AWS Lambda 上进行 MeCab 形态素分析",
-          "通过 TypeScript 实现健壮的代码设计"
-        ]
-      },
-      {
-        "title": "面向教育的 LLM 构建项目",
-        "description": "为外语教育定制大规模语言模型的独立开发项目，探索既有 LLM 之外的架构",
-        "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
-        "features": [
-          "面向教育领域的模型架构设计",
-          "多语言教育内容生成",
-          "按学习者水平自适应的文本生成",
-          "自研评估指标与验证"
-        ]
-      },
-      {
         "title": "词汇问题自动生成系统",
         "description": "使用 Word2Vec 与 LDA 的日语词汇题自动生成系统，基于分布式表示与主题模型实现高质量的干扰项生成",
         "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
@@ -773,11 +594,6 @@
         ]
       }
     ],
-    "leadership": {
-      "title": "技术领导力",
-      "description": "引入敏捷开发方法，主导 CI/CD 管线构建、微服务架构设计与 DevOps 文化。从产品管理到技术架构进行全面统筹。",
-      "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
-    },
     "mainFeatures": "主要功能・特点",
     "techStack": "技术栈"
   },

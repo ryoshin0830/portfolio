@@ -39,8 +39,7 @@
     "origin": "出身",
     "beijing": "北京",
     "current": "現在",
-    "kyoto": "京都",
-    "coordinate": "N 35.0116° · E 135.7681°",
+    "currentCity": "東京",
     "currentlyAt": "GMO ペパボ ／ エンジニア",
     "viewWork": "実績を見る"
   },
@@ -53,8 +52,8 @@
   },
   "highlights": {
     "title": "数字で見る成果",
-    "subtitle": "計測された改善・規模・速度",
-    "kicker": "Selected metrics",
+    "subtitle": "医療 AI プロジェクトで計測された精度改善",
+    "kicker": "Selected metric",
     "stats": [
       {
         "id": "asr-recall",
@@ -62,42 +61,7 @@
         "value": "82.26 → 89.72",
         "unit": "%",
         "label": "ASR 医療用語リコール",
-        "context": "医療音声 190 時間で LoRA 微調整・評価設計・学習運用（medimo）"
-      },
-      {
-        "id": "morpho-speed",
-        "value": "×8",
-        "unit": "speedup",
-        "label": "形態素解析の高速化",
-        "context": "5 分 → 10 秒以内（NINJAL 語彙プロファイラー）"
-      },
-      {
-        "id": "corpus-effort",
-        "value": "−70",
-        "unit": "%",
-        "label": "コーパス作成工数の削減",
-        "context": "従来手作業比（CurpusMaker）"
-      },
-      {
-        "id": "ninjal-accuracy",
-        "value": "97",
-        "unit": "%",
-        "label": "解析精度（語彙難易度判定）",
-        "context": "予定より 2 週間早期納品（NINJAL）"
-      },
-      {
-        "id": "audio-annotation",
-        "value": "190",
-        "unit": "h",
-        "label": "医療音声アノテーション",
-        "context": "DeepSpeed ZeRO によるマルチ GPU 学習で運用（medimo）"
-      },
-      {
-        "id": "shinhan-leads",
-        "value": "+40",
-        "unit": "%",
-        "label": "問い合わせ件数",
-        "context": "WordPress カスタム実装後（宸翰学園）"
+        "context": "医療向け音声認識（ASR）の精度改善で達成（medimo）"
       }
     ]
   },
@@ -105,7 +69,7 @@
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",
     "kicker": "About",
-    "pr": "京都大学大学院（修士・博士課程）で大規模言語モデル（LLM）の教育応用研究に従事し、博士号を取得。国立国語研究所では要件定義から実装まで一貫して担当しました。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、ASR 医療用語リコールを 82.26% から 89.72% まで引き上げました。2026 年 4 月より GMO ペパボ エンジニアとして参画。",
+    "pr": "京都大学大学院の修士課程・博士課程で学び、大規模言語モデル（LLM）の教育応用を研究して博士号を取得しました。国立国語研究所の語彙プロファイラー開発では、要件定義から実装・運用まで一貫して担当。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、医療用語リコールを 82.26% から 89.72% まで改善しました。2026 年 2 月には株式会社 Sapeet の入札情報抽出 PoC に参画。2026 年 4 月より GMO ペパボにエンジニアとして入社しています。",
     "education": "教育",
     "experience": "経験",
     "teaching": "教育活動",
@@ -176,7 +140,7 @@
       {
         "year": "2016",
         "title": "大学入学",
-        "description": "首都経済貿易大学情報システム学部に入学",
+        "description": "首都経済貿易大学 情報システム専攻に入学",
         "icon": "university"
       },
       {
@@ -188,14 +152,44 @@
       {
         "year": "2021",
         "title": "修士課程入学",
-        "description": "京都大学人間・環境学研究科修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
+        "description": "京都大学人間・環境学研究科 修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "修士課程修了",
+        "description": "京都大学大学院 修士課程を修了（外国語教育学・第二言語習得論・応用言語学）",
         "icon": "university"
       },
       {
         "year": "2023",
         "title": "博士課程入学",
-        "description": "修士課程修了後、博士課程に入学。博士論文テーマ：「外国語教育におけるLLMの応用」",
+        "description": "京都大学大学院 博士課程に進学。博士論文テーマ：「外国語教育における LLM の応用」",
         "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "国立国語研究所プロジェクト参画",
+        "description": "語彙プロファイラー開発プロジェクトに参画し、要件定義から実装・運用まで担当（〜2025 年）",
+        "icon": "university"
+      },
+      {
+        "year": "2025",
+        "title": "medimo 参画",
+        "description": "株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph 基盤を開発（〜2026 年）",
+        "icon": "home"
+      },
+      {
+        "year": "2025",
+        "title": "Massey University プロジェクト参画",
+        "description": "Dr. Mitsue Tabata-Sandom の日本語多読研究と連携し、速読練習プラットフォーム『SUIREN』（旧称：速読ゴリラ）を開発（〜2026 年）",
+        "icon": "home"
+      },
+      {
+        "year": "2026",
+        "title": "Sapeet 参画",
+        "description": "株式会社 Sapeet の入札情報抽出・スコアリング PoC に参画（2026 年 2 月）",
+        "icon": "home"
       },
       {
         "year": "2026",
@@ -215,7 +209,6 @@
     "title": "職務経歴",
     "subtitle": "業務委託・正社員として担当した実装と研究開発",
     "kicker": "Professional Experience",
-    "intro": "Contract = 業務委託、Personal = 個人プロダクト、Academic = 研究と区別。下記はすべて Contract または Full-time。",
     "currentLabel": "現在",
     "viewAll": "全 {count} 件を見る →",
     "currentBadge": "現任",
@@ -244,6 +237,7 @@
       "internship": "インターン"
     },
     "teamFormat": "全体 {overall} 名 / チーム {section} 名",
+    "orgFormat": "全社 {overall} 名",
     "soloFormat": "単独",
     "engagements": [
       {
@@ -256,19 +250,13 @@
         "product": "エンジニア職",
         "industry": "IT・インターネット",
         "role": "エンジニア（正社員）",
-        "teamOverall": null,
+        "teamOverall": 362,
         "teamSection": null,
-        "scope": ["req", "basicDesign", "detailDesign", "impl"],
-        "stack": ["Python", "LLM", "Machine Learning"],
-        "responsibilities": [
-          "AI / LLM 領域でのプロダクト適用と研究開発"
-        ],
-        "workItems": [
-          "ペパボ各サービスへの AI 機能組み込み・実証実験"
-        ],
-        "achievements": [
-          "新卒採用（OneCareer 経由）にてエンジニア職として参画"
-        ]
+        "scope": [],
+        "stack": [],
+        "responsibilities": [],
+        "workItems": [],
+        "achievements": []
       },
       {
         "id": "sapeet",
@@ -280,10 +268,10 @@
         "product": "情報通信工事入札 自動抽出・スコアリング PoC",
         "industry": "AI / SaaS",
         "role": "AI エンジニア（業務委託）",
-        "teamOverall": null,
-        "teamSection": null,
+        "teamOverall": 5,
+        "teamSection": 5,
         "scope": ["req", "basicDesign", "impl", "test"],
-        "stack": ["Python", "LLM", "情報抽出", "多言語音声分析"],
+        "stack": ["Python", "LLM", "情報抽出"],
         "responsibilities": [
           "入札 PoC の範囲定義と抽出ロジックの設計・改善",
           "システム構成・デプロイ運用・権限管理の設計"
@@ -291,11 +279,38 @@
         "workItems": [
           "情報通信工事入札情報の自動抽出パイプライン構築",
           "企業スコアリングロジックの設計・実装",
-          "多言語発話の断片的記録の分類・分析",
           "週次会議での開発進捗共有と抽出ロジック改善"
         ],
         "achievements": [
-          "入札情報抽出 PoC を 2 ヶ月で立ち上げ、企業スコアリング基盤を整備"
+          "入札情報抽出 PoC を立ち上げ、企業スコアリング基盤を整備"
+        ]
+      },
+      {
+        "id": "suiren",
+        "start": "2025-06",
+        "end": "2026-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "Massey University（ニュージーランド）",
+        "product": "SUIREN — 日本語学習者向け速読練習プラットフォーム",
+        "industry": "教育 / 研究支援",
+        "role": "フルスタック開発（業務委託）",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "responsibilities": [
+          "Massey University・Dr. Mitsue Tabata-Sandom の日本語多読研究と連携し、速読練習プラットフォームを設計・開発",
+          "読書速度（WPM）・理解度の計測機能の設計・実装"
+        ],
+        "workItems": [
+          "レベル別の速読コンテンツと出題フローの実装",
+          "リアルタイムの読書速度（WPM）と理解度測定",
+          "クイズ形式のインタラクティブ学習機能",
+          "学習進捗の可視化・追跡ダッシュボード"
+        ],
+        "achievements": [
+          "日本語学習者向けの速読練習プラットフォーム『SUIREN』（旧称：速読ゴリラ）を設計・開発"
         ]
       },
       {
@@ -378,139 +393,13 @@
         "workItems": [
           "チーム全体のマネジメントと技術選定",
           "フロントエンド（React）とバックエンド（Node.js / Express）の設計・実装",
-          "形態素解析と語彙難易度判定システムの並列処理アーキテクチャ構築",
+          "形態素解析と語彙難易度判定のデータ処理パイプライン構築",
           "PostgreSQL のデータベース設計とパフォーマンス最適化",
           "SSL/TLS 認証とトークンベース認証によるセキュリティ強化"
         ],
         "achievements": [
-          "形態素解析の並列処理実装により処理速度を 8 倍向上（従来 5 分 → 10 秒以内）",
-          "Word2Vec ベースの語彙難易度予測モデルを API として統合",
-          "研究所の言語学者との協働で学術専門用語辞書（5,000 語）を構築",
-          "予定より 2 週間早期納品を実現し、解析精度 97% を達成"
-        ]
-      },
-      {
-        "id": "ml-vocab",
-        "start": "2024-11",
-        "end": "2025-03",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "機械学習研究プロジェクト",
-        "product": "LLM を活用した語彙難易度予測システム",
-        "industry": "研究支援・言語学ツール",
-        "role": "ML 研究開発（業務委託）",
-        "teamOverall": 3,
-        "teamSection": 3,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
-        "stack": [
-          "Python",
-          "PyTorch",
-          "Transformers",
-          "Scikit-learn",
-          "MongoDB",
-          "Linux",
-          "Jupyter",
-          "Git",
-          "gensim"
-        ],
-        "responsibilities": [
-          "Word2Vec による語彙テスト自動生成システム開発",
-          "LLM ファインチューニングによる語彙難易度予測モデル構築"
-        ],
-        "workItems": [
-          "大規模日本語コーパスの前処理と Word2Vec モデル構築",
-          "Transformers ライブラリを活用した LLM ファインチューニング",
-          "機械学習パイプラインの設計と評価指標の実装"
-        ],
-        "achievements": [
-          "言語処理学会で研究成果を発表（2022 年・2024 年）",
-          "国立国語研究所との共同研究による実用化"
-        ]
-      },
-      {
-        "id": "corpus-maker",
-        "start": "2024-10",
-        "end": "2024-11",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "個人受託",
-        "product": "CurpusMaker — コーパス作成支援 Web アプリ",
-        "industry": "研究支援・言語学ツール",
-        "role": "フルスタック（業務委託・単独）",
-        "teamOverall": 1,
-        "teamSection": 1,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
-        "stack": [
-          "JavaScript",
-          "TypeScript",
-          "React",
-          "Node.js",
-          "PDF.js",
-          "Webpack",
-          "Git"
-        ],
-        "responsibilities": [
-          "フルスタック開発（企画からデプロイまで全工程を単独担当）",
-          "PDF 解析・テキスト抽出機能の実装",
-          "ユーザーインターフェースの設計・開発"
-        ],
-        "workItems": [
-          "React によるインタラクティブなフロントエンド開発",
-          "PDF.js を活用した PDF 解析機能",
-          "ユーザーが指定した範囲のテキスト抽出機能",
-          "Markdown 形式での出力機能",
-          "ドラッグ & ドロップによる直感的なファイルアップロード"
-        ],
-        "achievements": [
-          "コーパス作成の工数を従来手作業比で 70% 削減",
-          "複数の PDF フォーマットに対応した高精度テキスト抽出を実現",
-          "レスポンシブデザインで PC・タブレット両対応"
-        ]
-      },
-      {
-        "id": "lands",
-        "start": "2024-04",
-        "end": "2024-05",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "国際研究チーム",
-        "product": "LandS — ニュージーランド向け日本語多読支援プラットフォーム",
-        "industry": "教育 / 研究支援",
-        "role": "フルスタック（業務委託）",
-        "teamOverall": 17,
-        "teamSection": 6,
-        "scope": ["basicDesign", "detailDesign", "impl"],
-        "stack": [
-          "TypeScript",
-          "Next.js",
-          "React",
-          "Node.js",
-          "Prisma",
-          "PostgreSQL",
-          "Vercel",
-          "AWS",
-          "Docker",
-          "Jest",
-          "Figma"
-        ],
-        "responsibilities": [
-          "フルスタック開発（フロントエンド・バックエンド両方を担当）",
-          "リアルタイム読解時間計測システムの設計・実装",
-          "学習進捗分析ダッシュボードの開発"
-        ],
-        "workItems": [
-          "Next.js App Router によるモダンな Web アプリケーション開発",
-          "PostgreSQL + Prisma ORM によるデータベース設計と最適化",
-          "ミリ秒精度でのリアルタイム読解時間計測機能",
-          "学習者レベル別テキスト配信システム",
-          "教師向け学習分析ダッシュボード（進捗可視化、理解度統計）",
-          "JWT 認証による安全な学習者・教師アカウント管理"
-        ],
-        "achievements": [
-          "500 名以上の学習者・100 名以上の同時接続に対応",
-          "CI/CD パイプライン構築で開発チーム 17 名の協働開発を効率化",
-          "A/B テスト機能実装により学習効果の定量的比較を可能化",
-          "国際研究チームとの英語コミュニケーションを主導"
+          "国立国語研究所・松下達彦先生の語彙研究（『日本語を読むための語彙データベース』など）を基に、入力した日本語テキストの語彙を即時解析し、語彙難易度・使用頻度の観点で可視化する語彙プロファイラーを構築",
+          "Word2Vec ベースの語彙難易度予測モデルを API として統合し、研究・教育現場で使いやすいプロファイル出力を実現"
         ]
       },
       {
@@ -549,7 +438,6 @@
           "運用マニュアルの作成とクライアントへの操作研修"
         ],
         "achievements": [
-          "問い合わせ件数が従来サイト比で +40%",
           "日中多言語サイトの実装で日中両国の顧客層にリーチ"
         ]
       }
@@ -798,48 +686,6 @@
     "intro": "Contract（業務委託）は『職務経歴』、Academic（研究）は『研究活動』、こちらは Personal / Product のみを掲載しています。",
     "projectsList": [
       {
-        "title": "速読ゴリラ",
-        "description": "日本語学習者向けのインタラクティブな速読練習システム",
-        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
-        "features": [
-          "初級から上級までレベル別のコンテンツ",
-          "リアルタイムの読書速度（WPM）と理解度測定",
-          "クイズ形式でのインタラクティブな学習",
-          "学習進捗の可視化と追跡"
-        ]
-      },
-      {
-        "title": "日雨日語",
-        "description": "効率的な日本語単語学習とリスニング練習を提供するモバイルアプリ",
-        "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
-        "features": [
-          "React NativeとSwiftでクロスプラットフォーム対応",
-          "MongoDBによる柔軟なデータモデリング",
-          "AliCloudでのサーバーレス処理"
-        ]
-      },
-      {
-        "title": "語彙プロファイラー「まつのは」",
-        "description": "テキスト解析で単語の難易度を判定し、語彙レベルを可視化するウェブツール（個人版）",
-        "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
-        "features": [
-          "Next.jsによるフルスタック開発",
-          "AWS Lambda上でのMeCab形態素解析",
-          "TypeScriptによる堅牢なコード設計"
-        ]
-      },
-      {
-        "title": "教育特化型LLM構築プロジェクト",
-        "description": "外国語教育に特化した独自大規模言語モデルの開発。既存LLMの制約を回避した新しいアーキテクチャの研究開発。",
-        "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
-        "features": [
-          "教育ドメイン特化のモデルアーキテクチャ設計",
-          "多言語対応の教育コンテンツ生成",
-          "学習者レベル適応型テキスト生成",
-          "評価指標の独自開発と検証"
-        ]
-      },
-      {
         "title": "語彙問題自動生成システム",
         "description": "Word2VecとLatent Dirichlet Allocation（LDA）を活用した日本語教育向け語彙問題の自動生成システム。分散表現とトピックモデリングによる高精度な誤答選択肢生成を実現。",
         "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
@@ -851,11 +697,6 @@
         ]
       }
     ],
-    "leadership": {
-      "title": "テックリーダーシップ",
-      "description": "アジャイル開発手法を導入し、CI/CDパイプライン構築、マイクロサービスアーキテクチャ設計、DevOps文化の醸成を主導。プロダクトマネジメントからテクニカルアーキテクチャまで包括的に統括。",
-      "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
-    },
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック"
   },

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import dynamic from "next/dynamic";
+import { FaGithub } from "react-icons/fa";
 import type { Expertise } from "@/types/content";
 
 const TimelineSection = dynamic(() => import("./TimelineSection"), {
@@ -41,17 +42,19 @@ const AboutSection = () => {
           <p className="prose-body text-[color:var(--color-ink)] mb-10">
             {t("pr")}
           </p>
-          <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
-            {credentials.education}　·
-            <a
-              href="https://github.com/ryoshin0830"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link-accent"
-            >
-              {credentials.github}
-            </a>
+          <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed mb-6">
+            {credentials.education}
           </p>
+          <a
+            href="https://github.com/ryoshin0830"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`GitHub: ${credentials.github}`}
+            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-rule)] px-4 py-2 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+          >
+            <FaGithub className="w-4 h-4 shrink-0" aria-hidden />
+            <span className="num">{credentials.github}</span>
+          </a>
         </m.div>
 
         {/* Capabilities — strengths chips */}

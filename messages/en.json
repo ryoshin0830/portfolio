@@ -39,8 +39,7 @@
     "origin": "Origin",
     "beijing": "Beijing",
     "current": "Current",
-    "kyoto": "Kyoto",
-    "coordinate": "N 35.0116° · E 135.7681°",
+    "currentCity": "Tokyo",
     "currentlyAt": "GMO Pepabo / Engineer",
     "viewWork": "View work"
   },
@@ -53,8 +52,8 @@
   },
   "highlights": {
     "title": "Selected Results",
-    "subtitle": "Measured improvements, scale and speed",
-    "kicker": "Selected metrics",
+    "subtitle": "Measured accuracy improvement from a medical-AI project",
+    "kicker": "Selected metric",
     "stats": [
       {
         "id": "asr-recall",
@@ -62,42 +61,7 @@
         "value": "82.26 → 89.72",
         "unit": "%",
         "label": "ASR recall (medical terms)",
-        "context": "LoRA fine-tuning on 190h of medical audio, evaluation design and training operations (medimo)"
-      },
-      {
-        "id": "morpho-speed",
-        "value": "×8",
-        "unit": "speedup",
-        "label": "Morphological analysis throughput",
-        "context": "5 min → ≤10 sec (NINJAL Vocabulary Profiler)"
-      },
-      {
-        "id": "corpus-effort",
-        "value": "−70",
-        "unit": "%",
-        "label": "Corpus-building effort reduction",
-        "context": "Versus prior manual workflow (CurpusMaker)"
-      },
-      {
-        "id": "ninjal-accuracy",
-        "value": "97",
-        "unit": "%",
-        "label": "Parsing accuracy (vocab difficulty)",
-        "context": "Delivered 2 weeks ahead of schedule (NINJAL)"
-      },
-      {
-        "id": "audio-annotation",
-        "value": "190",
-        "unit": "h",
-        "label": "Medical audio annotation",
-        "context": "Multi-GPU training operated via DeepSpeed ZeRO (medimo)"
-      },
-      {
-        "id": "shinhan-leads",
-        "value": "+40",
-        "unit": "%",
-        "label": "Inbound inquiries",
-        "context": "After custom WordPress build (Shinhan Academy)"
+        "context": "Achieved by improving medical-domain ASR accuracy (medimo)"
       }
     ]
   },
@@ -105,7 +69,7 @@
     "title": "About Me",
     "subtitle": "Bridging Foreign Language Education and AI Technology",
     "kicker": "About",
-    "pr": "I earned my master's and PhD at Kyoto University, where I researched educational applications of large language models (LLMs). At NINJAL (National Institute for Japanese Language and Linguistics) I led the Vocabulary Profiler project end-to-end, from requirements to deployment. From June 2025 I worked at medimo Inc. on improving medical-domain ASR accuracy and built a LangGraph-based prompt-generation pipeline, lifting medical-term ASR recall from 82.26% to 89.72%. From April 2026 I joined GMO Pepabo as an Engineer.",
+    "pr": "I studied in the master's and doctoral programmes at Kyoto University, researching educational applications of large language models (LLMs) and earning my PhD. At NINJAL (National Institute for Japanese Language and Linguistics) I built the Vocabulary Profiler end-to-end, from requirements through deployment and operations. From June 2025 I worked at medimo Inc. on improving medical-domain ASR accuracy and built a LangGraph-based prompt-generation pipeline, lifting medical-term recall from 82.26% to 89.72%. In February 2026 I joined Sapeet Inc.'s bid-extraction PoC, and since April 2026 I have been an Engineer at GMO Pepabo.",
     "education": "Education",
     "experience": "Experience",
     "teaching": "Teaching",
@@ -153,10 +117,15 @@
       { "year": "1999", "title": "Move to Japan", "description": "Moved to Yokohama with family. Started kindergarten and elementary school in Japan", "icon": "plane" },
       { "year": "2009", "title": "Return to China", "description": "Returned to Beijing and entered middle school", "icon": "plane" },
       { "year": "2010", "title": "Japan Permanent Residency", "description": "Obtained permanent residency in Japan", "icon": "home" },
-      { "year": "2016", "title": "University Admission", "description": "Entered Capital University of Economics and Business, Information Systems Department", "icon": "university" },
+      { "year": "2016", "title": "University Admission", "description": "Entered Capital University of Economics and Business, majoring in Information Systems", "icon": "university" },
       { "year": "2021", "title": "Return to Japan", "description": "Moved to Kyoto", "icon": "plane" },
       { "year": "2021", "title": "Master's Programme", "description": "Began Master's at Kyoto University, focusing on Foreign Language Education, SLA, and Applied Linguistics", "icon": "university" },
-      { "year": "2023", "title": "PhD Programme", "description": "Started PhD after completing M.A. Dissertation topic: 'LLM applications in foreign-language education'", "icon": "university" },
+      { "year": "2023", "title": "Master's Completed", "description": "Completed the Master's programme at Kyoto University (Foreign Language Education, SLA, Applied Linguistics)", "icon": "university" },
+      { "year": "2023", "title": "PhD Programme", "description": "Entered the doctoral programme at Kyoto University. Dissertation topic: 'LLM applications in foreign-language education'", "icon": "university" },
+      { "year": "2023", "title": "NINJAL Project", "description": "Joined the Vocabulary Profiler project, owning requirements through implementation and operations (until 2025)", "icon": "university" },
+      { "year": "2025", "title": "Joined medimo", "description": "Improved medical-domain ASR accuracy and built a LangGraph pipeline at medimo Inc. (until 2026)", "icon": "home" },
+      { "year": "2025", "title": "Massey University Project", "description": "Built the speed-reading platform 'SUIREN' (formerly 'Sokudoku Gorilla') with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University (until 2026)", "icon": "home" },
+      { "year": "2026", "title": "Joined Sapeet", "description": "Joined Sapeet Inc.'s bid-extraction & scoring PoC (February 2026)", "icon": "home" },
       { "year": "2026", "title": "PhD Completed", "description": "Completed the doctoral programme at Kyoto University and earned a PhD (March 2026)", "icon": "university" },
       { "year": "2026", "title": "Joined GMO Pepabo", "description": "Joined GMO Pepabo as an Engineer (April 2026)", "icon": "home" }
     ]
@@ -165,7 +134,6 @@
     "title": "Professional Experience",
     "subtitle": "Engagements as a contractor and full-time engineer",
     "kicker": "Professional Experience",
-    "intro": "Contract work and full-time engagements only. Personal products live under Projects, academic work under Research.",
     "currentLabel": "Present",
     "viewAll": "View all {count} engagements →",
     "currentBadge": "Current",
@@ -194,6 +162,7 @@
       "internship": "Internship"
     },
     "teamFormat": "Org {overall} / Team {section}",
+    "orgFormat": "{overall} employees company-wide",
     "soloFormat": "Solo",
     "engagements": [
       {
@@ -206,19 +175,13 @@
         "product": "Engineer track",
         "industry": "IT / Internet",
         "role": "Engineer (Full-time)",
-        "teamOverall": null,
+        "teamOverall": 362,
         "teamSection": null,
-        "scope": ["req", "basicDesign", "detailDesign", "impl"],
-        "stack": ["Python", "LLM", "Machine Learning"],
-        "responsibilities": [
-          "Applying AI / LLM techniques to GMO Pepabo's product portfolio and conducting R&D"
-        ],
-        "workItems": [
-          "Embedding AI features into Pepabo services and running PoCs"
-        ],
-        "achievements": [
-          "Joined as an Engineer via the OneCareer new-graduate selection track"
-        ]
+        "scope": [],
+        "stack": [],
+        "responsibilities": [],
+        "workItems": [],
+        "achievements": []
       },
       {
         "id": "sapeet",
@@ -230,10 +193,10 @@
         "product": "Automated bid extraction & company-scoring PoC for telecom-construction tenders",
         "industry": "AI / SaaS",
         "role": "AI Engineer (Contract)",
-        "teamOverall": null,
-        "teamSection": null,
+        "teamOverall": 5,
+        "teamSection": 5,
         "scope": ["req", "basicDesign", "impl", "test"],
-        "stack": ["Python", "LLM", "Information extraction", "Multilingual speech analysis"],
+        "stack": ["Python", "LLM", "Information extraction"],
         "responsibilities": [
           "Scoping the bid PoC and designing / refining the extraction logic",
           "Designing system topology, deployment operations and access control"
@@ -241,11 +204,38 @@
         "workItems": [
           "Built an automated extraction pipeline for telecom-construction tender notices",
           "Designed and implemented company-scoring logic",
-          "Classified and analysed multilingual fragmentary speech recordings",
           "Drove weekly progress reviews and continuous improvement of extraction logic"
         ],
         "achievements": [
-          "Stood up a bid-extraction PoC and a company-scoring foundation in two months"
+          "Stood up a bid-extraction PoC and a company-scoring foundation"
+        ]
+      },
+      {
+        "id": "suiren",
+        "start": "2025-06",
+        "end": "2026-03",
+        "isCurrent": false,
+        "employmentType": "contract",
+        "company": "Massey University (New Zealand)",
+        "product": "SUIREN — speed-reading practice platform for Japanese learners",
+        "industry": "Education / Research",
+        "role": "Full-stack (Contract)",
+        "teamOverall": null,
+        "teamSection": null,
+        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "responsibilities": [
+          "Designed and built a speed-reading practice platform in collaboration with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University",
+          "Designed and implemented reading-speed (WPM) and comprehension measurement"
+        ],
+        "workItems": [
+          "Level-graded speed-reading content and question flow",
+          "Real-time reading-speed (WPM) and comprehension measurement",
+          "Quiz-style interactive learning",
+          "Progress visualisation and tracking dashboard"
+        ],
+        "achievements": [
+          "Built the speed-reading platform 'SUIREN' (formerly 'Sokudoku Gorilla') for Japanese learners"
         ]
       },
       {
@@ -328,139 +318,13 @@
         "workItems": [
           "Whole-team management and tech selection",
           "Designed and implemented frontend (React) and backend (Node.js / Express)",
-          "Built a parallel-processing architecture for morphological analysis and vocab-difficulty scoring",
+          "Built the data-processing pipeline for morphological analysis and vocab-difficulty scoring",
           "Database design and performance tuning on PostgreSQL",
           "Hardened security with SSL/TLS and token-based auth"
         ],
         "achievements": [
-          "Made morphological analysis 8× faster via parallel processing (5 min → ≤10 s)",
-          "Integrated a Word2Vec-based vocabulary-difficulty model as an API",
-          "Built a 5,000-term academic-vocabulary dictionary in collaboration with the institute's linguists",
-          "Delivered two weeks ahead of schedule with 97% parsing accuracy"
-        ]
-      },
-      {
-        "id": "ml-vocab",
-        "start": "2024-11",
-        "end": "2025-03",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "ML research project",
-        "product": "LLM-based vocabulary difficulty prediction",
-        "industry": "Research support / Linguistics",
-        "role": "ML R&D (Contract)",
-        "teamOverall": 3,
-        "teamSection": 3,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
-        "stack": [
-          "Python",
-          "PyTorch",
-          "Transformers",
-          "Scikit-learn",
-          "MongoDB",
-          "Linux",
-          "Jupyter",
-          "Git",
-          "gensim"
-        ],
-        "responsibilities": [
-          "Built an automatic vocabulary-test generator using Word2Vec",
-          "Built an LLM fine-tuning pipeline for vocabulary-difficulty prediction"
-        ],
-        "workItems": [
-          "Pre-processed a large Japanese corpus and trained Word2Vec models",
-          "LLM fine-tuning with the Transformers library",
-          "Designed the ML pipeline and implemented evaluation metrics"
-        ],
-        "achievements": [
-          "Presented results at the Association for Natural Language Processing (2022 and 2024)",
-          "Productionised through joint research with NINJAL"
-        ]
-      },
-      {
-        "id": "corpus-maker",
-        "start": "2024-10",
-        "end": "2024-11",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "Solo contract",
-        "product": "CurpusMaker — corpus-building web app",
-        "industry": "Research support / Linguistics",
-        "role": "Full-stack (Contract, solo)",
-        "teamOverall": 1,
-        "teamSection": 1,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
-        "stack": [
-          "JavaScript",
-          "TypeScript",
-          "React",
-          "Node.js",
-          "PDF.js",
-          "Webpack",
-          "Git"
-        ],
-        "responsibilities": [
-          "Owned the full stack solo, from concept through deployment",
-          "Implemented PDF parsing and text extraction",
-          "Designed and built the user interface"
-        ],
-        "workItems": [
-          "Interactive frontend in React",
-          "PDF parsing via PDF.js",
-          "Range-based text extraction selected visually by the user",
-          "Markdown export",
-          "Drag-and-drop file upload"
-        ],
-        "achievements": [
-          "Cut corpus-building effort by 70% versus the prior manual workflow",
-          "High-accuracy text extraction across multiple PDF formats",
-          "Responsive layout supporting both desktop and tablet"
-        ]
-      },
-      {
-        "id": "lands",
-        "start": "2024-04",
-        "end": "2024-05",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "International research team",
-        "product": "LandS — Japanese extensive-reading platform for New Zealand learners",
-        "industry": "Education / Research",
-        "role": "Full-stack (Contract)",
-        "teamOverall": 17,
-        "teamSection": 6,
-        "scope": ["basicDesign", "detailDesign", "impl"],
-        "stack": [
-          "TypeScript",
-          "Next.js",
-          "React",
-          "Node.js",
-          "Prisma",
-          "PostgreSQL",
-          "Vercel",
-          "AWS",
-          "Docker",
-          "Jest",
-          "Figma"
-        ],
-        "responsibilities": [
-          "Full-stack delivery across frontend and backend",
-          "Designed and built the real-time reading-time measurement system",
-          "Built the learning-progress analytics dashboard"
-        ],
-        "workItems": [
-          "Modern web app on Next.js App Router",
-          "Database design and optimisation with PostgreSQL + Prisma ORM",
-          "Millisecond-precision real-time reading-time tracking",
-          "Level-adaptive text delivery for learners",
-          "Teacher-facing analytics dashboard (progress visualisation, comprehension stats)",
-          "JWT authentication for safe learner / teacher accounts"
-        ],
-        "achievements": [
-          "Designed for 500+ learners and 100+ concurrent connections",
-          "CI/CD pipeline streamlined collaboration across a 17-person team",
-          "A/B testing enabled quantitative comparison of learning outcomes",
-          "Drove English-language collaboration with the international research team"
+          "Built a vocabulary profiler grounded in Prof. Tatsuhiko Matsushita's vocabulary research (the Vocabulary Database for Reading Japanese, VDRJ): it analyses input Japanese text in real time and visualises it by vocabulary difficulty and usage frequency",
+          "Integrated a Word2Vec-based vocabulary-difficulty model as an API, delivering profile output usable in research and classrooms"
         ]
       },
       {
@@ -499,7 +363,6 @@
           "Wrote operations manual and ran client training"
         ],
         "achievements": [
-          "+40% inbound inquiries versus the previous site",
           "Bilingual site reached customer bases in both Japan and China"
         ]
       }
@@ -720,48 +583,6 @@
     "intro": "Contract work lives under Experience; academic work lives under Research; this section is personal / product only.",
     "projectsList": [
       {
-        "title": "Sokudoku Gorilla (Speed-Reading Gorilla)",
-        "description": "Interactive speed-reading practice for Japanese learners",
-        "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
-        "features": [
-          "Level-graded content from beginner to advanced",
-          "Real-time WPM and comprehension measurement",
-          "Quiz-style interactive learning",
-          "Visualisation and tracking of learning progress"
-        ]
-      },
-      {
-        "title": "Nichiu Nichigo",
-        "description": "Mobile app for efficient Japanese vocabulary learning and listening practice",
-        "technologies": ["React Native", "Swift", "Node.js", "MongoDB", "AliCloud Function Compute"],
-        "features": [
-          "Cross-platform support via React Native + Swift",
-          "Flexible data modelling on MongoDB",
-          "Serverless processing on AliCloud"
-        ]
-      },
-      {
-        "title": "Vocabulary Profiler 'Matsunoha'",
-        "description": "Web tool that analyses text difficulty and visualises vocabulary level (personal edition)",
-        "technologies": ["Next.js", "AWS Lambda", "Node.js", "Vercel Postgres", "TypeScript"],
-        "features": [
-          "Full-stack development with Next.js",
-          "MeCab morphological analysis on AWS Lambda",
-          "Robust codebase via TypeScript"
-        ]
-      },
-      {
-        "title": "Education-specific LLM Construction Project",
-        "description": "Building a domain-specific LLM for foreign-language education — exploring architecture beyond off-the-shelf models",
-        "technologies": ["PyTorch", "Transformers", "Hugging Face", "Custom Architecture", "Fine-tuning"],
-        "features": [
-          "Education-domain model architecture design",
-          "Multilingual education-content generation",
-          "Learner-level-adaptive text generation",
-          "Custom evaluation metrics and validation"
-        ]
-      },
-      {
         "title": "Vocabulary Question Auto-Generation System",
         "description": "Automatic generation of Japanese vocabulary questions using Word2Vec and LDA — high-quality distractor generation via distributed representations and topic modelling",
         "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
@@ -773,11 +594,6 @@
         ]
       }
     ],
-    "leadership": {
-      "title": "Tech Leadership",
-      "description": "Introduced agile methodologies, built CI/CD pipelines, designed microservices architecture, and fostered DevOps culture. Comprehensive oversight from product management to technical architecture.",
-      "skills": ["Agile/Scrum", "CI/CD", "Microservices", "DevOps", "Product Management", "Technical Architecture"]
-    },
     "mainFeatures": "Key Features",
     "techStack": "Tech Stack"
   },

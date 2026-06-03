@@ -1,5 +1,5 @@
 import type { Engagement, ScopePhase } from "@/types/content";
-import { formatPeriod, durationMonths, formatDuration, isLocale } from "@/lib/formatPeriod";
+import { formatPeriod, isLocale } from "@/lib/formatPeriod";
 
 interface Labels {
   role: string;
@@ -19,6 +19,7 @@ interface ExperienceCardProps {
   labels: Labels;
   scopePhases: Record<ScopePhase, string>;
   teamFormat: string;
+  orgFormat: string;
   soloFormat: string;
   locale: string;
   employmentTypes: { fulltime: string; contract: string; internship: string };
@@ -35,20 +36,21 @@ export default function ExperienceCard({
   labels,
   scopePhases,
   teamFormat,
+  orgFormat,
   soloFormat,
   locale,
   employmentTypes,
 }: ExperienceCardProps) {
   const loc = isLocale(locale) ? locale : "ja";
   const period = formatPeriod(e.start, e.end, loc);
-  const months = durationMonths(e.start, e.end);
-  const dur = formatDuration(months, loc);
   const team =
     e.teamOverall != null && e.teamSection != null
       ? teamFormat
           .replace("{overall}", String(e.teamOverall))
           .replace("{section}", String(e.teamSection))
-      : soloFormat;
+      : e.teamOverall != null
+        ? orgFormat.replace("{overall}", String(e.teamOverall))
+        : soloFormat;
 
   const [heroAchievement, ...restAchievements] = e.achievements;
 
@@ -59,9 +61,6 @@ export default function ExperienceCard({
         <div>
           <p className="text-base text-[color:var(--color-ink)] num font-medium">
             {period}
-          </p>
-          <p className="text-sm text-[color:var(--color-ink-muted)] num mt-1">
-            {dur}
           </p>
           <p className="text-sm text-[color:var(--color-ink-soft)] mt-3">
             {employmentTypes[e.employmentType]}
