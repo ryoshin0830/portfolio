@@ -295,8 +295,8 @@
         "product": "SUIREN — 日本語学習者向け速読練習プラットフォーム",
         "industry": "教育 / 研究支援",
         "role": "フルスタック開発（業務委託）",
-        "teamOverall": null,
-        "teamSection": null,
+        "teamOverall": 3,
+        "teamSection": 3,
         "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
         "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
         "responsibilities": [

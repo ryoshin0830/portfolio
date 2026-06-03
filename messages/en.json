@@ -220,8 +220,8 @@
         "product": "SUIREN — speed-reading practice platform for Japanese learners",
         "industry": "Education / Research",
         "role": "Full-stack (Contract)",
-        "teamOverall": null,
-        "teamSection": null,
+        "teamOverall": 3,
+        "teamSection": 3,
         "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
         "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
         "responsibilities": [
