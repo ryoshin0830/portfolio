@@ -29,7 +29,7 @@
   "hero": {
     "title": "梁 震（りょう しん）",
     "subtitle": "言語と音声の境界を、機械学習で越える",
-    "description": "京都大学博士課程",
+    "description": "京都大学 博士号取得",
     "roles": [
       "AI エンジニア",
       "研究者",
@@ -41,7 +41,7 @@
     "current": "現在",
     "kyoto": "京都",
     "coordinate": "N 35.0116° · E 135.7681°",
-    "currentlyAt": "GMO ペパボ ／ AI スペシャリスト",
+    "currentlyAt": "GMO ペパボ ／ エンジニア",
     "viewWork": "実績を見る"
   },
   "heroZenn": {
@@ -105,14 +105,14 @@
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",
     "kicker": "About",
-    "pr": "京都大学大学院（修士・博士課程）で大規模言語モデル（LLM）の教育応用研究に従事。国立国語研究所では要件定義から実装まで一貫して担当しました。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、ASR 医療用語リコールを 82.26% から 89.72% まで引き上げました。2026 年 4 月より GMO ペパボ AI スペシャリストとして参画。",
+    "pr": "京都大学大学院（修士・博士課程）で大規模言語モデル（LLM）の教育応用研究に従事し、博士号を取得。国立国語研究所では要件定義から実装まで一貫して担当しました。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、ASR 医療用語リコールを 82.26% から 89.72% まで引き上げました。2026 年 4 月より GMO ペパボ エンジニアとして参画。",
     "education": "教育",
     "experience": "経験",
     "teaching": "教育活動",
     "specialization": "専門分野",
     "timeline": "人生のタイムライン",
     "currentStatus": "現在",
-    "kyotoUniversity": "京都大学人間・環境学研究科 共生・人間学専攻 言語科学講座 博士課程",
+    "kyotoUniversity": "京都大学人間・環境学研究科 共生・人間学専攻 言語科学講座 博士課程修了（博士号取得）",
     "japaneseTeacher": "新東方日本語教師（7年間、5,000時間以上の指導経験）",
     "expertiseLabel": "得意分野",
     "expertise": [
@@ -139,7 +139,7 @@
       "研究開発（R&D）"
     ],
     "credentials": {
-      "education": "京都大学大学院（修士課程修了・博士課程在籍）",
+      "education": "京都大学大学院（修士課程修了・博士号取得）",
       "github": "github.com/ryoshin0830"
     },
     "fields": [
@@ -199,8 +199,14 @@
       },
       {
         "year": "2026",
+        "title": "博士課程修了",
+        "description": "京都大学大学院 博士課程を修了し、博士号を取得（2026 年 3 月）。博士論文テーマ：「外国語教育における LLM の応用」",
+        "icon": "university"
+      },
+      {
+        "year": "2026",
         "title": "GMO ペパボ 参画",
-        "description": "AI スペシャリスト職として正社員入社（2026 年 4 月）",
+        "description": "エンジニア職として正社員入社（2026 年 4 月）",
         "icon": "home"
       }
     ]
@@ -247,9 +253,9 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO ペパボ株式会社",
-        "product": "AI スペシャリスト職",
+        "product": "エンジニア職",
         "industry": "IT・インターネット",
-        "role": "AI スペシャリスト（正社員）",
+        "role": "エンジニア（正社員）",
         "teamOverall": null,
         "teamSection": null,
         "scope": ["req", "basicDesign", "detailDesign", "impl"],
@@ -261,7 +267,7 @@
           "ペパボ各サービスへの AI 機能組み込み・実証実験"
         ],
         "achievements": [
-          "新卒採用（OneCareer 経由）にて AI スペシャリスト職として参画"
+          "新卒採用（OneCareer 経由）にてエンジニア職として参画"
         ]
       },
       {
@@ -656,7 +662,7 @@
     "cloud": "クラウド",
     "ai": "AI・機械学習",
     "languages": "言語能力",
-    "jobTitle": "博士課程・研究",
+    "jobTitle": "博士・研究者",
     "ceoFounder": "CEO・創業者",
     "yearsExperience": "{years}年以上の経験",
     "yearsLabel": "y",
@@ -955,7 +961,7 @@
   },
   "metadata": {
     "title": "梁震（りょう しん）| AI エンジニア・研究者・日本語教師",
-    "description": "京都大学博士課程、GMOペパボ AIスペシャリスト。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",
+    "description": "京都大学にて博士号取得、GMO ペパボ エンジニア。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",
     "keywords": "梁震, りょうしん, 京都大学, AI研究, AIエンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ",
     "author": "梁震（りょう しん）",
     "creator": "梁震（りょう しん）",

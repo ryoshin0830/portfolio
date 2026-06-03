@@ -34,6 +34,7 @@ const LOC_SEQ: Loc[] = [
   "japan", // 2021 再来日
   "japan", // 2021 修士課程
   "japan", // 2023 博士課程
+  "japan", // 2026 博士課程修了
   "japan", // 2026 GMO ペパボ
 ];
 

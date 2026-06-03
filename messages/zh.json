@@ -29,7 +29,7 @@
   "hero": {
     "title": "梁震",
     "subtitle": "用机器学习跨越语言与语音的边界",
-    "description": "京都大学博士研究生",
+    "description": "京都大学博士",
     "roles": [
       "AI 工程师",
       "研究者",
@@ -41,7 +41,7 @@
     "current": "现居",
     "kyoto": "京都",
     "coordinate": "N 35.0116° · E 135.7681°",
-    "currentlyAt": "GMO Pepabo ／ AI Specialist",
+    "currentlyAt": "GMO Pepabo ／ 工程师",
     "viewWork": "查看工作"
   },
   "heroZenn": {
@@ -105,14 +105,14 @@
     "title": "个人简介",
     "subtitle": "融合外语教育学与 AI 技术",
     "kicker": "About",
-    "pr": "在京都大学硕博课程中从事大规模语言模型（LLM）的教育应用研究。在国立国语研究所的项目中一贯负责从需求定义到实施。2025 年 6 月起加入株式会社 medimo,推进医疗语音识别（ASR）精度提升与基于 LangGraph 的自动生成提示词管线，将医学术语 ASR 召回率从 82.26% 提升至 89.72%。2026 年 4 月起加入 GMO Pepabo 担任 AI Specialist。",
+    "pr": "在京都大学硕士・博士课程期间从事大规模语言模型（LLM）的教育应用研究，并取得博士学位。在国立国语研究所的项目中一贯负责从需求定义到实施。2025 年 6 月起加入株式会社 medimo,推进医疗语音识别（ASR）精度提升与基于 LangGraph 的自动生成提示词管线，将医学术语 ASR 召回率从 82.26% 提升至 89.72%。2026 年 4 月起加入 GMO Pepabo 担任工程师。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
     "specialization": "专业领域",
     "timeline": "人生时间线",
     "currentStatus": "现状",
-    "kyotoUniversity": "京都大学人类与环境学研究科 共生・人间学专攻 语言科学讲座 博士课程",
+    "kyotoUniversity": "京都大学人类与环境学研究科 共生・人间学专攻 语言科学讲座 博士课程毕业（已取得博士学位）",
     "japaneseTeacher": "新东方日语教师（7 年，5000+ 小时教学经验）",
     "expertiseLabel": "擅长领域",
     "expertise": [
@@ -139,7 +139,7 @@
       "研究开发（R&D）"
     ],
     "credentials": {
-      "education": "京都大学研究生院（硕士毕业・博士在读）",
+      "education": "京都大学研究生院（硕士毕业・博士毕业，已取得博士学位）",
       "github": "github.com/ryoshin0830"
     },
     "fields": [
@@ -157,7 +157,8 @@
       { "year": "2021", "title": "再次赴日", "description": "移居京都", "icon": "plane" },
       { "year": "2021", "title": "硕士入学", "description": "进入京都大学人类与环境学研究科硕士课程，专攻外语教育学・第二语言习得・应用语言学", "icon": "university" },
       { "year": "2023", "title": "博士入学", "description": "硕士毕业后进入博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
-      { "year": "2026", "title": "加入 GMO Pepabo", "description": "以 AI Specialist 身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
+      { "year": "2026", "title": "博士毕业", "description": "于京都大学研究生院博士课程毕业并取得博士学位（2026 年 3 月）", "icon": "university" },
+      { "year": "2026", "title": "加入 GMO Pepabo", "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
     ]
   },
   "experience": {
@@ -202,9 +203,9 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo 株式会社",
-        "product": "AI Specialist 岗位",
+        "product": "工程师岗位",
         "industry": "IT・互联网",
-        "role": "AI Specialist（正式员工）",
+        "role": "工程师（正式员工）",
         "teamOverall": null,
         "teamSection": null,
         "scope": ["req", "basicDesign", "detailDesign", "impl"],
@@ -216,7 +217,7 @@
           "为 Pepabo 各项服务嵌入 AI 功能并开展实证"
         ],
         "achievements": [
-          "通过 OneCareer 新卒选拔渠道以 AI Specialist 身份加入"
+          "通过 OneCareer 新卒选拔渠道以工程师身份加入"
         ]
       },
       {
@@ -611,7 +612,7 @@
     "cloud": "云与基础设施",
     "ai": "AI 与工具",
     "languages": "语言能力",
-    "jobTitle": "博士课程・研究",
+    "jobTitle": "博士・研究者",
     "ceoFounder": "CEO・创始人",
     "yearsExperience": "{years}年以上经验",
     "yearsLabel": "y",
@@ -882,7 +883,7 @@
   },
   "metadata": {
     "title": "梁震 | AI 工程师・研究者・日语教师",
-    "description": "京都大学博士研究生，GMO Pepabo AI Specialist。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
+    "description": "京都大学博士，GMO Pepabo 工程师。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
     "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, AI 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
     "author": "梁震",
     "creator": "梁震",

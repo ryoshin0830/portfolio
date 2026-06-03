@@ -15,7 +15,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
             : "梁震（りょう しん）",
       alternateName: ["梁震", "りょう しん", "RYO SHIN", "LIANG ZHEN"],
       jobTitle: [
-        "PhD Student",
+        "Engineer",
         "ML Engineer",
         "AI Researcher",
         "Japanese Language Teacher",
@@ -24,10 +24,10 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
 
       description:
         locale === "en"
-          ? "PhD candidate at Kyoto University researching AI applications in language education. Developing innovative machine learning solutions for second language acquisition and Japanese language teaching methodologies."
+          ? "PhD from Kyoto University and AI/ML engineer working on AI applications in language education. Builds machine learning solutions for second language acquisition and Japanese language teaching methodologies."
           : locale === "zh"
-            ? "京都大学博士研究生，专注于人工智能在语言教育中的应用研究。开发基于机器学习的第二语言习得支持系统，推进日语教育方法论的技术革新。"
-            : "京都大学大学院博士課程で言語教育とAI技術の融合を研究。機械学習を活用した日本語教育システムの開発と、外国語習得支援技術の革新に取り組んでいます。",
+            ? "京都大学博士，AI／ML 工程师，专注于人工智能在语言教育中的应用研究。开发基于机器学习的第二语言习得支持系统，推进日语教育方法论的技术革新。"
+            : "京都大学大学院で博士号を取得し、言語教育とAI技術の融合を研究。機械学習を活用した日本語教育システムの開発と、外国語習得支援技術の革新に取り組んでいます。",
       url: "https://ryosh.in",
       image: "https://ryosh.in/logo.svg",
       sameAs: [
@@ -47,7 +47,7 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
       hasOccupation: [
         {
           "@type": "Occupation",
-          name: "AI Specialist",
+          name: "Engineer",
           occupationLocation: {
             "@type": "Place",
             name: "GMO Pepabo, Inc.",
@@ -166,10 +166,10 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
     url: "https://ryosh.in",
     description:
       locale === "en"
-        ? "Personal portfolio of LIANG ZHEN (RYO SHIN), PhD student and AI researcher specializing in language education technology and second language acquisition"
+        ? "Personal portfolio of LIANG ZHEN (RYO SHIN), PhD and AI/ML engineer specializing in language education technology and second language acquisition"
         : locale === "zh"
-          ? "梁震个人作品集，京都大学博士研究生，AI研究者，专注于语言教育技术与第二语言习得研究"
-          : "梁震（りょう しん）のポートフォリオサイト。京都大学博士課程・AI研究者。言語教育技術と第二言語習得の研究に専念",
+          ? "梁震个人作品集，京都大学博士，AI 工程师，专注于语言教育技术与第二语言习得研究"
+          : "梁震（りょう しん）のポートフォリオサイト。京都大学にて博士号取得・AIエンジニア。言語教育技術と第二言語習得の研究に専念",
     inLanguage: [locale],
     potentialAction: {
       "@type": "SearchAction",
