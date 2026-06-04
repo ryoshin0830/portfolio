@@ -31,15 +31,10 @@
     "subtitle": "用机器学习跨越语言与语音的边界",
     "description": "京都大学博士",
     "roles": [
-      "AI 工程师",
+      "工程师",
       "研究者",
-      "日语教师",
-      "全栈开发者"
+      "ML 工程师"
     ],
-    "origin": "出生地",
-    "beijing": "北京",
-    "current": "现居",
-    "currentCity": "东京",
     "currentlyAt": "GMO Pepabo ／ 工程师",
     "viewWork": "查看工作"
   },
@@ -77,7 +72,7 @@
     "timeline": "人生时间线",
     "currentStatus": "现状",
     "kyotoUniversity": "京都大学人类与环境学研究科 共生・人间学专攻 语言科学讲座 博士课程毕业（已取得博士学位）",
-    "japaneseTeacher": "新东方日语教师（7 年，5000+ 小时教学经验）",
+    "japaneseTeacher": "在新东方有 7 年、5000+ 小时的日语教学经验",
     "expertiseLabel": "擅长领域",
     "expertise": [
       {
@@ -172,6 +167,7 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo 株式会社",
+        "logo": "/pepabo-logo.svg",
         "product": "工程师岗位",
         "industry": "IT・互联网",
         "role": "工程师（正式员工）",
@@ -192,7 +188,7 @@
         "company": "株式会社 Sapeet",
         "product": "信息通信工程招投标自动抽取与企业评分 PoC",
         "industry": "AI / SaaS",
-        "role": "AI 工程师（业务委托）",
+        "role": "工程师（业务委托）",
         "teamOverall": 5,
         "teamSection": 5,
         "scope": ["req", "basicDesign", "impl", "test"],
@@ -247,7 +243,7 @@
         "company": "株式会社 medimo",
         "product": "医疗病历自动生成 SaaS『medimo』",
         "industry": "医疗 / 健康 AI",
-        "role": "AI 工程师・需求定义与设计主担当（业务委托）",
+        "role": "工程师・需求定义与设计主担当（业务委托）",
         "teamOverall": 40,
         "teamSection": 25,
         "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
@@ -643,7 +639,7 @@
   },
   "teaching": {
     "title": "教学经验",
-    "subtitle": "作为日语教师的成就",
+    "subtitle": "语言教育的成果",
     "perfectScore": "满分",
     "perfectScoreDescription": "在日语能力考试最高级别取得完美成绩",
     "yearsExperience": "年经验",
@@ -698,9 +694,9 @@
     "philosophyQuote": "语言学习不仅是背单词和语法，更是在不同文化之间架起桥梁、打开新机会之门。我的目标是让每个学生的学习之旅既有效又愉快。"
   },
   "metadata": {
-    "title": "梁震 | AI 工程师・研究者・日语教师",
+    "title": "梁震 | 工程师・研究者",
     "description": "京都大学博士，GMO Pepabo 工程师。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
-    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, AI 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
+    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",

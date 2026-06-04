@@ -31,15 +31,10 @@
     "subtitle": "Crossing the boundary between language and speech with machine learning",
     "description": "PhD, Kyoto University",
     "roles": [
-      "AI Engineer",
+      "Engineer",
       "Researcher",
-      "Japanese Teacher",
-      "Full-Stack Developer"
+      "ML Engineer"
     ],
-    "origin": "Origin",
-    "beijing": "Beijing",
-    "current": "Current",
-    "currentCity": "Tokyo",
     "currentlyAt": "GMO Pepabo / Engineer",
     "viewWork": "View work"
   },
@@ -77,7 +72,7 @@
     "timeline": "Life Timeline",
     "currentStatus": "Current Position",
     "kyotoUniversity": "PhD, Graduate School of Human and Environmental Studies, Kyoto University, Department of Cognitive Science in Language",
-    "japaneseTeacher": "Japanese Teacher at New Oriental (7 years, 5,000+ hours of teaching)",
+    "japaneseTeacher": "7 years and 5,000+ hours of Japanese instruction at New Oriental",
     "expertiseLabel": "Specialisation",
     "expertise": [
       {
@@ -172,6 +167,7 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo, Inc.",
+        "logo": "/pepabo-logo.svg",
         "product": "Engineer track",
         "industry": "IT / Internet",
         "role": "Engineer (Full-time)",
@@ -192,7 +188,7 @@
         "company": "Sapeet Inc.",
         "product": "Automated bid extraction & company-scoring PoC for telecom-construction tenders",
         "industry": "AI / SaaS",
-        "role": "AI Engineer (Contract)",
+        "role": "Engineer (Contract)",
         "teamOverall": 5,
         "teamSection": 5,
         "scope": ["req", "basicDesign", "impl", "test"],
@@ -247,7 +243,7 @@
         "company": "medimo Inc.",
         "product": "medimo — automated medical-chart generation SaaS",
         "industry": "Healthcare AI",
-        "role": "AI Engineer / requirements & design lead (Contract)",
+        "role": "Engineer / requirements & design lead (Contract)",
         "teamOverall": 40,
         "teamSection": 25,
         "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
@@ -643,7 +639,7 @@
   },
   "teaching": {
     "title": "Teaching Experience",
-    "subtitle": "Achievements as a Japanese Teacher",
+    "subtitle": "Achievements in language education",
     "perfectScore": "Perfect Score",
     "perfectScoreDescription": "Perfect score at the highest level of the Japanese Language Proficiency Test",
     "yearsExperience": "Years of Experience",
@@ -698,9 +694,9 @@
     "philosophyQuote": "Language learning is not just about memorizing words and grammar - it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's learning journey both effective and enjoyable."
   },
   "metadata": {
-    "title": "LIANG ZHEN (RYO SHIN) | AI Engineer & Researcher",
+    "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",
     "description": "Kyoto University PhD and Engineer at GMO Pepabo. Research and engineering across LLM, ASR, LangGraph for medical, educational and language-processing domains.",
-    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, AI Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo",
+    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo",
     "author": "LIANG ZHEN (RYO SHIN)",
     "creator": "LIANG ZHEN (RYO SHIN)",
     "publisher": "LIANG ZHEN (RYO SHIN)",

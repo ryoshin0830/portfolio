@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Engagement, ScopePhase } from "@/types/content";
 import { formatPeriod, isLocale } from "@/lib/formatPeriod";
 
@@ -77,9 +78,23 @@ export default function ExperienceCard({
               </span>
             )}
           </h3>
-          <p className="text-base text-[color:var(--color-ink-soft)] mb-10">
-            {e.company} · {e.industry}
-          </p>
+          <div className="flex items-center gap-3 mb-10">
+            {e.logo && (
+              <span className="inline-flex items-center rounded-md bg-white px-2 py-1 ring-1 ring-[color:var(--color-rule-soft)]">
+                <Image
+                  src={e.logo}
+                  alt={`${e.company} logo`}
+                  width={72}
+                  height={24}
+                  unoptimized
+                  className="h-5 w-auto"
+                />
+              </span>
+            )}
+            <p className="text-base text-[color:var(--color-ink-soft)]">
+              {e.company} · {e.industry}
+            </p>
+          </div>
 
           {/* Hero achievement */}
           {heroAchievement && (

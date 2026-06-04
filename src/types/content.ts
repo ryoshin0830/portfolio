@@ -21,6 +21,7 @@ export interface Engagement {
   isCurrent: boolean;
   employmentType: EmploymentType;
   company: string;
+  logo?: string;
   product: string;
   industry: string;
   role: string;

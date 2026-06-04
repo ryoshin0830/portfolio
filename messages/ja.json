@@ -31,15 +31,10 @@
     "subtitle": "言語と音声の境界を、機械学習で越える",
     "description": "京都大学 博士号取得",
     "roles": [
-      "AI エンジニア",
+      "エンジニア",
       "研究者",
-      "日本語教師",
-      "フルスタック開発者"
+      "ML エンジニア"
     ],
-    "origin": "出身",
-    "beijing": "北京",
-    "current": "現在",
-    "currentCity": "東京",
     "currentlyAt": "GMO ペパボ ／ エンジニア",
     "viewWork": "実績を見る"
   },
@@ -77,7 +72,7 @@
     "timeline": "人生のタイムライン",
     "currentStatus": "現在",
     "kyotoUniversity": "京都大学人間・環境学研究科 共生・人間学専攻 言語科学講座 博士課程修了（博士号取得）",
-    "japaneseTeacher": "新東方日本語教師（7年間、5,000時間以上の指導経験）",
+    "japaneseTeacher": "新東方で7年間・5,000時間以上の日本語指導経験",
     "expertiseLabel": "得意分野",
     "expertise": [
       {
@@ -247,6 +242,7 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO ペパボ株式会社",
+        "logo": "/pepabo-logo.svg",
         "product": "エンジニア職",
         "industry": "IT・インターネット",
         "role": "エンジニア（正社員）",
@@ -267,7 +263,7 @@
         "company": "株式会社 Sapeet",
         "product": "情報通信工事入札 自動抽出・スコアリング PoC",
         "industry": "AI / SaaS",
-        "role": "AI エンジニア（業務委託）",
+        "role": "エンジニア（業務委託）",
         "teamOverall": 5,
         "teamSection": 5,
         "scope": ["req", "basicDesign", "impl", "test"],
@@ -322,7 +318,7 @@
         "company": "株式会社 medimo",
         "product": "医療カルテ自動生成 SaaS『medimo』",
         "industry": "医療 / ヘルスケア AI",
-        "role": "AI エンジニア／要件定義〜設計主担当（業務委託）",
+        "role": "エンジニア／要件定義〜設計主担当（業務委託）",
         "teamOverall": 40,
         "teamSection": 25,
         "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
@@ -746,7 +742,7 @@
   },
   "teaching": {
     "title": "教育経験",
-    "subtitle": "日本語教師としての実績",
+    "subtitle": "言語教育の実績",
     "perfectScore": "満点",
     "perfectScoreDescription": "日本語能力試験最高レベルでの完璧な成績",
     "yearsExperience": "年の経験",
@@ -801,9 +797,9 @@
     "philosophyQuote": "言語学習は単に単語や文法を暗記することではありません。文化間の架け橋を築き、新しい機会への扉を開くことです。私の目標は、すべての学生の学習ジャーニーを効果的で楽しいものにすることです。"
   },
   "metadata": {
-    "title": "梁震（りょう しん）| AI エンジニア・研究者・日本語教師",
+    "title": "梁震（りょう しん）| エンジニア・研究者",
     "description": "京都大学にて博士号取得、GMO ペパボ エンジニア。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",
-    "keywords": "梁震, りょうしん, 京都大学, AI研究, AIエンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ",
+    "keywords": "梁震, りょうしん, 京都大学, AI研究, エンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ",
     "author": "梁震（りょう しん）",
     "creator": "梁震（りょう しん）",
     "publisher": "梁震（りょう しん）",
