@@ -5,7 +5,6 @@
     "experience": "工作经历",
     "research": "研究",
     "publications": "论文",
-    "teaching": "教学经验",
     "certifications": "资格认证",
     "skills": "技能",
     "projects": "项目",
@@ -53,10 +52,10 @@
       {
         "id": "asr-recall",
         "hero": true,
-        "value": "82.26 → 89.72",
-        "unit": "%",
-        "label": "ASR 医学术语召回率",
-        "context": "通过提升医疗语音识别（ASR）精度实现（medimo）"
+        "value": "82.26% → 89.72%",
+        "unit": "",
+        "label": "医疗术语识别准确率（ASR 召回率）",
+        "context": "衡量 AI 将医生语音转写为文本时，能否不遗漏地识别出病历所需的医疗术语。通过约 190 小时医疗语音数据，利用 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对 ASR 模型进行领域适配，从而实现提升。"
       }
     ]
   },
@@ -64,7 +63,7 @@
     "title": "个人简介",
     "subtitle": "融合外语教育学与 AI 技术",
     "kicker": "About",
-    "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，推进医疗语音识别（ASR）精度提升并构建基于 LangGraph 的提示词自动生成管线，将医学术语召回率从 82.26% 提升至 89.72%。2026 年 2 月参与株式会社 Sapeet 的招投标信息抽取 PoC。2026 年 4 月起作为工程师加入 GMO Pepabo。",
+    "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，通过 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对医疗语音识别（ASR）模型进行微调，将医学术语召回率从 82.26% 提升至 89.72%；并构建了基于 LangGraph 的提示词自动生成管线。2026 年 2 月参与株式会社 Sapeet 的招投标信息抽取 PoC。2026 年 4 月起作为工程师加入 GMO Pepabo。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
@@ -113,13 +112,14 @@
       { "year": "2009", "title": "回国", "description": "返回北京，升入中学", "icon": "plane" },
       { "year": "2010", "title": "取得日本永驻", "description": "取得日本永久居留资格", "icon": "home" },
       { "year": "2016", "title": "入读大学", "description": "进入首都经济贸易大学 信息系统专业", "icon": "university" },
+      { "year": "2020", "title": "大学毕业", "description": "毕业于首都经济贸易大学 信息系统专业", "icon": "university" },
       { "year": "2021", "title": "再次赴日", "description": "移居京都", "icon": "plane" },
       { "year": "2021", "title": "硕士入学", "description": "进入京都大学人类与环境学研究科硕士课程，专攻外语教育学・第二语言习得・应用语言学", "icon": "university" },
       { "year": "2023", "title": "硕士毕业", "description": "于京都大学研究生院硕士课程毕业（外语教育学・第二语言习得・应用语言学）", "icon": "university" },
       { "year": "2023", "title": "博士入学", "description": "进入京都大学研究生院博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
       { "year": "2023", "title": "参与国立国语研究所项目", "description": "参与语汇画像器开发项目，负责从需求定义到实现与运营（至 2025 年）", "icon": "university" },
       { "year": "2025", "title": "加入 medimo", "description": "在株式会社 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）", "icon": "home" },
-      { "year": "2025", "title": "参与梅西大学项目", "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（原名『速读大猩猩』）（至 2026 年）", "icon": "home" },
+      { "year": "2025", "title": "参与梅西大学项目", "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（至 2026 年）", "icon": "home" },
       { "year": "2026", "title": "参与 Sapeet", "description": "参与株式会社 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）", "icon": "home" },
       { "year": "2026", "title": "博士毕业", "description": "于京都大学研究生院博士课程毕业并取得博士学位（2026 年 3 月）", "icon": "university" },
       { "year": "2026", "title": "加入 GMO Pepabo", "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
@@ -167,7 +167,6 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo 株式会社",
-        "logo": "/pepabo-logo.svg",
         "product": "工程师岗位",
         "industry": "IT・互联网",
         "role": "工程师（正式员工）",
@@ -231,7 +230,7 @@
           "学习进度的可视化与跟踪面板"
         ],
         "achievements": [
-          "构建面向日语学习者的速读练习平台『SUIREN』（原名『速读大猩猩』）"
+          "构建面向日语学习者的速读练习平台『SUIREN』"
         ]
       },
       {
@@ -321,45 +320,6 @@
         "achievements": [
           "以国立国语研究所松下达彦先生的语汇研究（《日本語を読むための語彙データベース》／VDRJ）为基础，对输入的日语文本进行即时分析，并按词汇难度与使用频率进行可视化的语汇画像器",
           "将基于 Word2Vec 的词汇难度预测模型作为 API 集成，输出便于研究与教学使用的画像结果"
-        ]
-      },
-      {
-        "id": "shinhan",
-        "start": "2022-06",
-        "end": "2022-11",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "株式会社 宸翰学园",
-        "product": "多语言官方网站开发",
-        "industry": "教育",
-        "role": "全栈（业务委托）",
-        "teamOverall": 3,
-        "teamSection": 2,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
-        "stack": [
-          "PHP",
-          "WordPress",
-          "JavaScript",
-          "HTML/CSS",
-          "MySQL",
-          "Linux",
-          "Apache",
-          "Git"
-        ],
-        "responsibilities": [
-          "基于 WordPress 的 CMS 站点设计与开发",
-          "自主开发定制主题与插件",
-          "构建多语言（日文・中文）站点"
-        ],
-        "workItems": [
-          "WordPress 环境的搭建与定制",
-          "基于 PHP 的自定义功能开发（咨询表单、课程管理系统）",
-          "响应式设计与 SEO 优化",
-          "CMS 上线与长期客户支持",
-          "运营手册编写与客户操作培训"
-        ],
-        "achievements": [
-          "多语言站点同时覆盖中日两地客户群"
         ]
       }
     ]
@@ -576,7 +536,6 @@
     "title": "个人产品",
     "subtitle": "与业务委托独立运营的个人开发、OSS 与教育类产品",
     "kicker": "Personal Products",
-    "intro": "业务委托见『工作经历』，学术研究见『研究活动』，此处仅展示个人 / 产品类项目。",
     "projectsList": [
       {
         "title": "词汇问题自动生成系统",
@@ -636,62 +595,6 @@
     "featured": "最新文章",
     "readMore": "阅读更多",
     "viewAllArticles": "在 Zenn 查看全部文章"
-  },
-  "teaching": {
-    "title": "教学经验",
-    "subtitle": "语言教育的成果",
-    "perfectScore": "满分",
-    "perfectScoreDescription": "在日语能力考试最高级别取得完美成绩",
-    "yearsExperience": "年经验",
-    "teachingHours": "小时指导",
-    "studentsTotal": "名学生",
-    "passRate": "JLPT 合格率",
-    "experienceTitle": "教学履历",
-    "newOriental": "新东方教育科技集团",
-    "experienceDescription": "在新东方担任资深日语讲师，为从初学者到备考 JLPT N1 的高级学员开发并提供综合性日语教学课程。",
-    "achievements": "主要成就",
-    "achievement1": "开发原创教材与教学方法",
-    "achievement2": "保持 95% 学生 JLPT 合格率",
-    "achievement3": "多次荣获优秀讲师奖",
-    "specialties": "专业领域",
-    "specialty1": "JLPT N1-N5 全级别备考",
-    "specialty2": "面向商务人士的商务日语",
-    "specialty3": "会话能力提升项目",
-    "coursesOffered": "提供课程",
-    "courses": {
-      "basic": {
-        "title": "基础日语课程",
-        "description": "面向开始日语学习的初学者的基础课程",
-        "features": [
-          "完全掌握平假名和片假名",
-          "基本语法模式的掌握",
-          "日常会话技能的培养",
-          "日本文化的理解"
-        ]
-      },
-      "jlpt": {
-        "title": "JLPT 应试课程",
-        "description": "全面支持各级别 JLPT 考试应对",
-        "features": [
-          "根据目标级别强化词汇能力",
-          "完全掌握语法模式",
-          "提高阅读理解能力的策略",
-          "听力技能的强化"
-        ]
-      },
-      "business": {
-        "title": "商务日语课程",
-        "description": "专注于职场沟通的实用课程",
-        "features": [
-          "商务礼仪与敬语",
-          "邮件与文书写作技能",
-          "会议与演讲能力",
-          "行业专业术语"
-        ]
-      }
-    },
-    "philosophyTitle": "教学理念",
-    "philosophyQuote": "语言学习不仅是背单词和语法，更是在不同文化之间架起桥梁、打开新机会之门。我的目标是让每个学生的学习之旅既有效又愉快。"
   },
   "metadata": {
     "title": "梁震 | 工程师・研究者",

@@ -7,7 +7,6 @@ import ResearchSection from "@/components/ResearchSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import SkillsSection from "@/components/SkillsSection";
 import ZennFeed from "@/components/ZennFeed";
-import TeachingSection from "@/components/TeachingSection";
 import ContractCTA from "@/components/ContractCTA";
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
-      <TeachingSection />
       <ZennFeed />
       <ContractCTA />
     </main>

@@ -5,7 +5,6 @@
     "experience": "Experience",
     "research": "Research",
     "publications": "Publications",
-    "teaching": "Teaching",
     "certifications": "Certifications",
     "skills": "Skills",
     "projects": "Projects",
@@ -53,10 +52,10 @@
       {
         "id": "asr-recall",
         "hero": true,
-        "value": "82.26 → 89.72",
-        "unit": "%",
-        "label": "ASR recall (medical terms)",
-        "context": "Achieved by improving medical-domain ASR accuracy (medimo)"
+        "value": "82.26% → 89.72%",
+        "unit": "",
+        "label": "Medical-term recognition (ASR recall)",
+        "context": "Measures how reliably the speech-to-text AI captures the medical terms that belong in a clinical record, without dropping them. Improved by fine-tuning the ASR model on ~190 hours of medical audio with LoRA and DeepSpeed ZeRO-3 multi-GPU distributed training."
       }
     ]
   },
@@ -64,7 +63,7 @@
     "title": "About Me",
     "subtitle": "Bridging Foreign Language Education and AI Technology",
     "kicker": "About",
-    "pr": "I studied in the master's and doctoral programmes at Kyoto University, researching educational applications of large language models (LLMs) and earning my PhD. At NINJAL (National Institute for Japanese Language and Linguistics) I built the Vocabulary Profiler end-to-end, from requirements through deployment and operations. From June 2025 I worked at medimo Inc. on improving medical-domain ASR accuracy and built a LangGraph-based prompt-generation pipeline, lifting medical-term recall from 82.26% to 89.72%. In February 2026 I joined Sapeet Inc.'s bid-extraction PoC, and since April 2026 I have been an Engineer at GMO Pepabo.",
+    "pr": "I studied in the master's and doctoral programmes at Kyoto University, researching educational applications of large language models (LLMs) and earning my PhD. At NINJAL (National Institute for Japanese Language and Linguistics) I built the Vocabulary Profiler end-to-end, from requirements through deployment and operations. From June 2025 at medimo Inc. I fine-tuned the medical-domain ASR model with LoRA and DeepSpeed ZeRO-3 multi-GPU distributed training, lifting medical-term recall from 82.26% to 89.72%, and also built a LangGraph-based prompt-generation pipeline. In February 2026 I joined Sapeet Inc.'s bid-extraction PoC, and since April 2026 I have been an Engineer at GMO Pepabo.",
     "education": "Education",
     "experience": "Experience",
     "teaching": "Teaching",
@@ -113,13 +112,14 @@
       { "year": "2009", "title": "Return to China", "description": "Returned to Beijing and entered middle school", "icon": "plane" },
       { "year": "2010", "title": "Japan Permanent Residency", "description": "Obtained permanent residency in Japan", "icon": "home" },
       { "year": "2016", "title": "University Admission", "description": "Entered Capital University of Economics and Business, majoring in Information Systems", "icon": "university" },
+      { "year": "2020", "title": "University Graduation", "description": "Graduated from Capital University of Economics and Business (Information Systems)", "icon": "university" },
       { "year": "2021", "title": "Return to Japan", "description": "Moved to Kyoto", "icon": "plane" },
       { "year": "2021", "title": "Master's Programme", "description": "Began Master's at Kyoto University, focusing on Foreign Language Education, SLA, and Applied Linguistics", "icon": "university" },
       { "year": "2023", "title": "Master's Completed", "description": "Completed the Master's programme at Kyoto University (Foreign Language Education, SLA, Applied Linguistics)", "icon": "university" },
       { "year": "2023", "title": "PhD Programme", "description": "Entered the doctoral programme at Kyoto University. Dissertation topic: 'LLM applications in foreign-language education'", "icon": "university" },
       { "year": "2023", "title": "NINJAL Project", "description": "Joined the Vocabulary Profiler project, owning requirements through implementation and operations (until 2025)", "icon": "university" },
       { "year": "2025", "title": "Joined medimo", "description": "Improved medical-domain ASR accuracy and built a LangGraph pipeline at medimo Inc. (until 2026)", "icon": "home" },
-      { "year": "2025", "title": "Massey University Project", "description": "Built the speed-reading platform 'SUIREN' (formerly 'Sokudoku Gorilla') with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University (until 2026)", "icon": "home" },
+      { "year": "2025", "title": "Massey University Project", "description": "Built the speed-reading platform 'SUIREN' with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University (until 2026)", "icon": "home" },
       { "year": "2026", "title": "Joined Sapeet", "description": "Joined Sapeet Inc.'s bid-extraction & scoring PoC (February 2026)", "icon": "home" },
       { "year": "2026", "title": "PhD Completed", "description": "Completed the doctoral programme at Kyoto University and earned a PhD (March 2026)", "icon": "university" },
       { "year": "2026", "title": "Joined GMO Pepabo", "description": "Joined GMO Pepabo as an Engineer (April 2026)", "icon": "home" }
@@ -167,7 +167,6 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo, Inc.",
-        "logo": "/pepabo-logo.svg",
         "product": "Engineer track",
         "industry": "IT / Internet",
         "role": "Engineer (Full-time)",
@@ -231,7 +230,7 @@
           "Progress visualisation and tracking dashboard"
         ],
         "achievements": [
-          "Built the speed-reading platform 'SUIREN' (formerly 'Sokudoku Gorilla') for Japanese learners"
+          "Built the speed-reading platform 'SUIREN' for Japanese learners"
         ]
       },
       {
@@ -321,45 +320,6 @@
         "achievements": [
           "Built a vocabulary profiler grounded in Prof. Tatsuhiko Matsushita's vocabulary research (the Vocabulary Database for Reading Japanese, VDRJ): it analyses input Japanese text in real time and visualises it by vocabulary difficulty and usage frequency",
           "Integrated a Word2Vec-based vocabulary-difficulty model as an API, delivering profile output usable in research and classrooms"
-        ]
-      },
-      {
-        "id": "shinhan",
-        "start": "2022-06",
-        "end": "2022-11",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "Shinhan Academy Inc.",
-        "product": "Bilingual official website",
-        "industry": "Education",
-        "role": "Full-stack (Contract)",
-        "teamOverall": 3,
-        "teamSection": 2,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
-        "stack": [
-          "PHP",
-          "WordPress",
-          "JavaScript",
-          "HTML/CSS",
-          "MySQL",
-          "Linux",
-          "Apache",
-          "Git"
-        ],
-        "responsibilities": [
-          "Designed and built a WordPress-based CMS site",
-          "Developed custom themes and plugins from scratch",
-          "Built bilingual (Japanese / Chinese) site structure"
-        ],
-        "workItems": [
-          "WordPress environment setup and customisation",
-          "PHP custom features (contact forms, course management)",
-          "Responsive design and SEO optimisation",
-          "CMS rollout and ongoing client support",
-          "Wrote operations manual and ran client training"
-        ],
-        "achievements": [
-          "Bilingual site reached customer bases in both Japan and China"
         ]
       }
     ]
@@ -576,7 +536,6 @@
     "title": "Personal Products",
     "subtitle": "Personal projects, OSS and education-domain tools — separate from contract work",
     "kicker": "Personal Products",
-    "intro": "Contract work lives under Experience; academic work lives under Research; this section is personal / product only.",
     "projectsList": [
       {
         "title": "Vocabulary Question Auto-Generation System",
@@ -636,62 +595,6 @@
     "featured": "Latest Article",
     "readMore": "Read More",
     "viewAllArticles": "View All Articles on Zenn"
-  },
-  "teaching": {
-    "title": "Teaching Experience",
-    "subtitle": "Achievements in language education",
-    "perfectScore": "Perfect Score",
-    "perfectScoreDescription": "Perfect score at the highest level of the Japanese Language Proficiency Test",
-    "yearsExperience": "Years of Experience",
-    "teachingHours": "Teaching Hours",
-    "studentsTotal": "Students",
-    "passRate": "JLPT Pass Rate",
-    "experienceTitle": "Teaching Career",
-    "newOriental": "New Oriental Education & Technology Group",
-    "experienceDescription": "As a senior Japanese instructor at New Oriental, I developed and delivered comprehensive Japanese language education curricula to a wide range of students, from beginners to advanced learners aiming for JLPT N1.",
-    "achievements": "Key Achievements",
-    "achievement1": "Developed original teaching materials and methodologies",
-    "achievement2": "Maintained 95% JLPT pass rate among students",
-    "achievement3": "Multiple Excellence in Teaching Awards",
-    "specialties": "Specialties",
-    "specialty1": "JLPT N1-N5 All Levels Preparation",
-    "specialty2": "Business Japanese for Working Professionals",
-    "specialty3": "Conversation Skills Enhancement",
-    "coursesOffered": "Courses Offered",
-    "courses": {
-      "basic": {
-        "title": "Basic Japanese Course",
-        "description": "Foundational course for beginners starting their Japanese learning journey",
-        "features": [
-          "Complete mastery of Hiragana and Katakana",
-          "Basic grammar pattern acquisition",
-          "Daily conversation skill development",
-          "Understanding of Japanese culture"
-        ]
-      },
-      "jlpt": {
-        "title": "JLPT Preparation Course",
-        "description": "Comprehensive preparation for JLPT examinations across all levels",
-        "features": [
-          "Vocabulary expansion based on target level",
-          "Complete grammar pattern mastery",
-          "Reading comprehension strategies",
-          "Listening skill enhancement"
-        ]
-      },
-      "business": {
-        "title": "Business Japanese Course",
-        "description": "Practical course focused on workplace communication",
-        "features": [
-          "Business etiquette and honorifics (keigo)",
-          "Email and document writing skills",
-          "Meeting and presentation skills",
-          "Industry-specific terminology"
-        ]
-      }
-    },
-    "philosophyTitle": "Teaching Philosophy",
-    "philosophyQuote": "Language learning is not just about memorizing words and grammar - it's about building bridges between cultures and opening doors to new opportunities. My goal is to make every student's learning journey both effective and enjoyable."
   },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",

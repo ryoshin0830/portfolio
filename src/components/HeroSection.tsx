@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { FaEnvelope, FaGithub } from "react-icons/fa";
+import { SiX } from "react-icons/si";
+import NeuralBackground from "./NeuralBackground";
 
 const HeroSection = () => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
@@ -43,12 +47,9 @@ const HeroSection = () => {
       id="hero"
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[color:var(--color-bg)] px-6 pt-24 pb-20"
     >
-      <div className="text-center max-w-5xl mx-auto fade-up">
-        {/* Tiny eyebrow above name — currently at */}
-        <p className="text-sm md:text-base text-[color:var(--color-ink-muted)] mb-6 font-medium">
-          {t("currentlyAt")}
-        </p>
+      <NeuralBackground />
 
+      <div className="relative z-10 text-center max-w-5xl mx-auto fade-up">
         <h1 className="display display--xxl mb-8">{names[currentNameIndex]}</h1>
 
         {/* Rotating role under name */}
@@ -77,12 +78,57 @@ const HeroSection = () => {
           {t("viewWork")}
           <span aria-hidden>→</span>
         </button>
+
+        {/* Contact links */}
+        <div className="mt-10 flex items-center justify-center gap-6">
+          <a
+            href="mailto:ryo.shin.j85@kyoto-u.jp"
+            aria-label="Email"
+            className="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
+          >
+            <FaEnvelope size={20} />
+          </a>
+          <a
+            href="https://github.com/ryoshin0830"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
+          >
+            <FaGithub size={20} />
+          </a>
+          <a
+            href="https://x.com/ryoshin0830"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X"
+            className="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
+          >
+            <SiX size={20} />
+          </a>
+          <a
+            href="https://zenn.dev/ryoushin"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Zenn"
+            className="text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
+          >
+            <Image
+              src="/logo-only.svg"
+              alt="Zenn"
+              width={20}
+              height={20}
+              unoptimized
+              className="w-5 h-5"
+            />
+          </a>
+        </div>
       </div>
 
       <button
         type="button"
         onClick={scrollToWork}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
         aria-label="Scroll down"
       >
         <ChevronDown size={28} className="scroll-hint" />

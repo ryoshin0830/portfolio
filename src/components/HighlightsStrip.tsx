@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { HighlightStat } from "@/types/content";
+import HighlightsHeroMetric from "@/components/HighlightsHeroMetric";
 
 const HighlightsStrip = async () => {
   const t = await getTranslations("highlights");
@@ -13,34 +14,13 @@ const HighlightsStrip = async () => {
       className="section section--soft bg-[color:var(--color-bg-soft)]"
     >
       <div className="section__inner text-center">
-        {/* Apple "Big number" hero metric */}
-        <div className="mb-20 fade-up">
-          <p
-            className="display num mb-6"
-            style={{
-              fontSize: "clamp(4rem, 13vw, 10rem)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.05em",
-              color: "var(--color-accent)",
-            }}
-          >
-            {hero.value}
-            <span
-              className="text-[color:var(--color-ink-soft)]"
-              style={{ fontSize: "0.4em", fontWeight: 500, marginLeft: "0.15em" }}
-            >
-              {hero.unit}
-            </span>
-          </p>
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
-            {hero.label}
-          </h2>
-          {hero.context && (
-            <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
-              {hero.context}
-            </p>
-          )}
-        </div>
+        {/* Apple "Big number" hero metric — animated neural-net treatment */}
+        <HighlightsHeroMetric
+          value={hero.value}
+          unit={hero.unit}
+          label={hero.label}
+          context={hero.context}
+        />
 
         {/* Supporting metrics — 5 column grid, generous, no borders */}
         {supporting.length > 0 && (

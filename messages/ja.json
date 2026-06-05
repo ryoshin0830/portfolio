@@ -5,7 +5,6 @@
     "experience": "職務経歴",
     "research": "研究",
     "publications": "論文",
-    "teaching": "教育経験",
     "certifications": "資格",
     "skills": "スキル",
     "projects": "プロジェクト",
@@ -53,10 +52,10 @@
       {
         "id": "asr-recall",
         "hero": true,
-        "value": "82.26 → 89.72",
-        "unit": "%",
-        "label": "ASR 医療用語リコール",
-        "context": "医療向け音声認識（ASR）の精度改善で達成（medimo）"
+        "value": "82.26% → 89.72%",
+        "unit": "",
+        "label": "医療用語の認識精度（ASR リコール）",
+        "context": "医師の発話を AI がテキスト化する際に、カルテに記載すべき医療用語をどれだけ漏れなく認識できたかを示す指標。約 190 時間の医療音声データに対し、LoRA と DeepSpeed ZeRO-3 によるマルチ GPU 分散学習で ASR モデルをドメイン適応させることで改善しました。"
       }
     ]
   },
@@ -64,7 +63,7 @@
     "title": "プロフィール",
     "subtitle": "外国語教育学とAI技術の融合",
     "kicker": "About",
-    "pr": "京都大学大学院の修士課程・博士課程で学び、大規模言語モデル（LLM）の教育応用を研究して博士号を取得しました。国立国語研究所の語彙プロファイラー開発では、要件定義から実装・運用まで一貫して担当。2025 年 6 月からは株式会社 medimo にて医療向け音声認識（ASR）の精度改善と LangGraph によるプロンプト自動生成基盤を構築し、医療用語リコールを 82.26% から 89.72% まで改善しました。2026 年 2 月には株式会社 Sapeet の入札情報抽出 PoC に参画。2026 年 4 月より GMO ペパボにエンジニアとして入社しています。",
+    "pr": "京都大学大学院の修士課程・博士課程で学び、大規模言語モデル（LLM）の教育応用を研究して博士号を取得しました。国立国語研究所の語彙プロファイラー開発では、要件定義から実装・運用まで一貫して担当。2025 年 6 月からは株式会社 medimo にて、医療向け音声認識（ASR）モデルを LoRA と DeepSpeed ZeRO-3 によるマルチ GPU 分散学習でファインチューニングし、医療用語リコールを 82.26% から 89.72% へ改善。あわせて LangGraph によるプロンプト自動生成基盤も構築しました。2026 年 2 月には株式会社 Sapeet の入札情報抽出 PoC に参画。2026 年 4 月より GMO ペパボにエンジニアとして入社しています。",
     "education": "教育",
     "experience": "経験",
     "teaching": "教育活動",
@@ -139,6 +138,12 @@
         "icon": "university"
       },
       {
+        "year": "2020",
+        "title": "大学卒業",
+        "description": "首都経済貿易大学 情報システム専攻を卒業",
+        "icon": "university"
+      },
+      {
         "year": "2021",
         "title": "再来日",
         "description": "京都へ移住",
@@ -177,7 +182,7 @@
       {
         "year": "2025",
         "title": "Massey University プロジェクト参画",
-        "description": "Dr. Mitsue Tabata-Sandom の日本語多読研究と連携し、速読練習プラットフォーム『SUIREN』（旧称：速読ゴリラ）を開発（〜2026 年）",
+        "description": "Dr. Mitsue Tabata-Sandom の日本語多読研究と連携し、速読練習プラットフォーム『SUIREN』を開発（〜2026 年）",
         "icon": "home"
       },
       {
@@ -242,7 +247,6 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO ペパボ株式会社",
-        "logo": "/pepabo-logo.svg",
         "product": "エンジニア職",
         "industry": "IT・インターネット",
         "role": "エンジニア（正社員）",
@@ -306,7 +310,7 @@
           "学習進捗の可視化・追跡ダッシュボード"
         ],
         "achievements": [
-          "日本語学習者向けの速読練習プラットフォーム『SUIREN』（旧称：速読ゴリラ）を設計・開発"
+          "日本語学習者向けの速読練習プラットフォーム『SUIREN』を設計・開発"
         ]
       },
       {
@@ -396,45 +400,6 @@
         "achievements": [
           "国立国語研究所・松下達彦先生の語彙研究（『日本語を読むための語彙データベース』など）を基に、入力した日本語テキストの語彙を即時解析し、語彙難易度・使用頻度の観点で可視化する語彙プロファイラーを構築",
           "Word2Vec ベースの語彙難易度予測モデルを API として統合し、研究・教育現場で使いやすいプロファイル出力を実現"
-        ]
-      },
-      {
-        "id": "shinhan",
-        "start": "2022-06",
-        "end": "2022-11",
-        "isCurrent": false,
-        "employmentType": "contract",
-        "company": "株式会社 宸翰学園",
-        "product": "公式 Web サイト開発（多言語対応）",
-        "industry": "教育",
-        "role": "フルスタック（業務委託）",
-        "teamOverall": 3,
-        "teamSection": 2,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test", "ops"],
-        "stack": [
-          "PHP",
-          "WordPress",
-          "JavaScript",
-          "HTML/CSS",
-          "MySQL",
-          "Linux",
-          "Apache",
-          "Git"
-        ],
-        "responsibilities": [
-          "WordPress ベースの CMS サイト設計・開発",
-          "カスタムテーマ・プラグインの独自開発",
-          "多言語対応（日本語・中国語）サイト構築"
-        ],
-        "workItems": [
-          "WordPress 環境の構築とカスタマイズ",
-          "PHP によるカスタム機能開発（問い合わせフォーム、コース管理システム）",
-          "レスポンシブデザインの実装と SEO 最適化",
-          "コンテンツ管理システムの構築と運用サポート",
-          "運用マニュアルの作成とクライアントへの操作研修"
-        ],
-        "achievements": [
-          "日中多言語サイトの実装で日中両国の顧客層にリーチ"
         ]
       }
     ]
@@ -679,7 +644,6 @@
     "title": "個人プロダクト",
     "subtitle": "業務委託とは別軸で運用している個人開発・OSS・教育系プロダクト",
     "kicker": "Personal Products",
-    "intro": "Contract（業務委託）は『職務経歴』、Academic（研究）は『研究活動』、こちらは Personal / Product のみを掲載しています。",
     "projectsList": [
       {
         "title": "語彙問題自動生成システム",
@@ -739,62 +703,6 @@
     "featured": "最新記事",
     "readMore": "続きを読む",
     "viewAllArticles": "Zennで全ての記事を見る"
-  },
-  "teaching": {
-    "title": "教育経験",
-    "subtitle": "言語教育の実績",
-    "perfectScore": "満点",
-    "perfectScoreDescription": "日本語能力試験最高レベルでの完璧な成績",
-    "yearsExperience": "年の経験",
-    "teachingHours": "時間の指導",
-    "studentsTotal": "人の学生",
-    "passRate": "JLPT合格率",
-    "experienceTitle": "教育経歴",
-    "newOriental": "新東方教育科技集団",
-    "experienceDescription": "新東方でシニア日本語講師として、初級者からJLPT N1を目指す上級者まで、幅広いレベルの学生に包括的な日本語教育カリキュラムを開発・提供してきました。",
-    "achievements": "主な実績",
-    "achievement1": "オリジナル教材・教授法の開発",
-    "achievement2": "95%の学生JLPT合格率を維持",
-    "achievement3": "優秀講師賞を複数回受賞",
-    "specialties": "専門分野",
-    "specialty1": "JLPT N1〜N5全レベル対策",
-    "specialty2": "ビジネスパーソン向けビジネス日本語",
-    "specialty3": "会話力向上プログラム",
-    "coursesOffered": "提供コース",
-    "courses": {
-      "basic": {
-        "title": "基礎日本語コース",
-        "description": "日本語学習を始める初心者向けの基礎コース",
-        "features": [
-          "ひらがな・カタカナの完全習得",
-          "基本文法パターンの習得",
-          "日常会話スキルの育成",
-          "日本文化の理解"
-        ]
-      },
-      "jlpt": {
-        "title": "JLPT対策コース",
-        "description": "全レベルのJLPT試験対策を包括的にサポート",
-        "features": [
-          "目標レベルに応じた語彙力強化",
-          "文法パターンの完全習得",
-          "読解力向上戦略",
-          "リスニングスキルの強化"
-        ]
-      },
-      "business": {
-        "title": "ビジネス日本語コース",
-        "description": "職場でのコミュニケーションに特化した実践コース",
-        "features": [
-          "ビジネスマナーと敬語",
-          "メール・文書作成スキル",
-          "会議・プレゼンテーション能力",
-          "業界別専門用語"
-        ]
-      }
-    },
-    "philosophyTitle": "教育理念",
-    "philosophyQuote": "言語学習は単に単語や文法を暗記することではありません。文化間の架け橋を築き、新しい機会への扉を開くことです。私の目標は、すべての学生の学習ジャーニーを効果的で楽しいものにすることです。"
   },
   "metadata": {
     "title": "梁震（りょう しん）| エンジニア・研究者",

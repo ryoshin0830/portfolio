@@ -32,7 +32,6 @@ const Navigation = () => {
     { key: "projects", sectionId: "projects" },
     { key: "research", sectionId: "research" },
     { key: "skills", sectionId: "skills" },
-    { key: "teaching", sectionId: "teaching" },
   ];
   const secondaryNavItems = [
     { key: "blog", sectionId: "blog" },

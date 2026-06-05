@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
@@ -43,21 +42,9 @@ const AboutSection = () => {
           <p className="prose-body text-[color:var(--color-ink)] mb-10">
             {t("pr")}
           </p>
-          <div className="flex items-start gap-4 mb-6">
-            <span className="inline-flex shrink-0 items-center rounded-md bg-white px-2 py-1.5 ring-1 ring-[color:var(--color-rule-soft)]">
-              <Image
-                src="/kyoto-u-logo.svg"
-                alt="Kyoto University"
-                width={32}
-                height={32}
-                unoptimized
-                className="h-8 w-auto"
-              />
-            </span>
-            <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
-              {credentials.education}
-            </p>
-          </div>
+          <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed mb-6">
+            {credentials.education}
+          </p>
           <a
             href="https://github.com/ryoshin0830"
             target="_blank"
