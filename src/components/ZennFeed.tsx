@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -13,6 +13,7 @@ interface ZennArticle {
 
 export default function ZennFeed() {
   const t = useTranslations("zennFeed");
+  const locale = useLocale();
   const [articles, setArticles] = useState<ZennArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -52,14 +53,15 @@ export default function ZennFeed() {
   }, []);
 
   const formatDate = (s: string) =>
-    new Intl.DateTimeFormat("ja-JP", {
+    new Intl.DateTimeFormat(locale, {
       year: "numeric",
       month: "short",
       day: "numeric",
     }).format(new Date(s));
 
-  if (loading || error || articles.length === 0) return null;
-
+  // Always render the section so the #blog nav anchor never points at nothing.
+  // The article list shows only when the RSS fetch succeeds; otherwise the
+  // header's "view all on Zenn" link is the graceful fallback.
   return (
     <section id="blog" className="section">
       <div className="section__inner">
@@ -81,9 +83,10 @@ export default function ZennFeed() {
           </Link>
         </header>
 
+        {articles.length > 0 && (
         <ul>
-          {articles.map((a, i) => (
-            <li key={i}>
+          {articles.map((a) => (
+            <li key={a.link}>
               <Link
                 href={a.link}
                 target="_blank"
@@ -104,6 +107,28 @@ export default function ZennFeed() {
             </li>
           ))}
         </ul>
+        )}
+
+        {/* Loading skeleton — reserves height so the section doesn't shift in. */}
+        {loading && (
+          <ul aria-hidden>
+            {[0, 1, 2].map((i) => (
+              <li
+                key={i}
+                className="border-t border-[color:var(--color-rule-soft)] py-6 last:border-b"
+              >
+                <div className="h-5 w-2/3 rounded bg-[color:var(--color-bg-soft)]" />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* Fetch failed — keep the section present with the Zenn link above. */}
+        {error && !loading && (
+          <p className="text-base text-[color:var(--color-ink-soft)]">
+            {t("subtitle")}
+          </p>
+        )}
       </div>
     </section>
   );

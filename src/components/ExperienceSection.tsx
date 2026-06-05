@@ -35,7 +35,7 @@ const ExperienceSection = async () => {
           </p>
         </header>
 
-        <div>
+        <div className="[&>article:first-child]:border-t-0 [&>article:first-child]:pt-0">
           {engagements.map((e) => (
             <ExperienceCard
               key={e.id}

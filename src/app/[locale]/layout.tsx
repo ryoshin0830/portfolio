@@ -110,9 +110,8 @@ export default async function RootLayout({
       lang={validLocale}
       className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansJP.variable}`}
       suppressHydrationWarning
-      data-oid="bphv6.8"
     >
-      <head data-oid="8k2pgtd">
+      <head>
         {/* Theme script to prevent flash */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         
@@ -129,7 +128,7 @@ export default async function RootLayout({
         {/* SVGファビコン（フォールバック） */}
         <link rel="icon" href="/logo.svg" type="image/svg+xml" />
         <link rel="mask-icon" href="/logo.svg" color="#000000" />
-        <StructuredData locale={validLocale} data-oid="lnhag03" />
+        <StructuredData locale={validLocale} />
 
         {/* Google Analytics */}
         <Script
@@ -148,24 +147,22 @@ export default async function RootLayout({
       <body
         className="antialiased overflow-x-hidden w-full max-w-full"
         suppressHydrationWarning
-        data-oid="1ogajcn"
       >
-        <NextIntlClientProvider messages={messages} data-oid="q3ce1r0">
+        <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
             <MotionProvider>
-              <Navigation data-oid="hk5vrem" />
-              <main className="min-h-screen w-full overflow-x-hidden" data-oid="cjsbd45">
+              <Navigation />
+              <main className="min-h-screen w-full overflow-x-hidden">
                 {children}
               </main>
-              <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden" data-oid="9d4m8i:">
+              <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden">
                 <div
                   className="container mx-auto px-6 max-w-6xl flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
-                  data-oid="67z3cll"
                 >
-                  <p className="meta" data-oid="lswazss">
+                  <p className="meta">
                     {messages.footer.copyright}
                   </p>
-                  <p className="meta opacity-70" data-oid="ujmiq13">
+                  <p className="meta opacity-70">
                     {messages.footer.builtWith}
                   </p>
                 </div>

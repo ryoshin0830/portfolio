@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import {
@@ -38,6 +38,19 @@ export default function ContractCTA() {
 
   const [showWeChatQR, setShowWeChatQR] = useState(false);
   const [showWhatsAppQR, setShowWhatsAppQR] = useState(false);
+  const qrDialogRef = useRef<HTMLDivElement>(null);
+  const qrTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const openQR = (id: string, trigger: HTMLButtonElement) => {
+    qrTriggerRef.current = trigger;
+    // exclusive — only one QR dialog open at a time
+    setShowWeChatQR(id === "wechat");
+    setShowWhatsAppQR(id === "whatsapp");
+  };
+  const closeQR = () => {
+    setShowWeChatQR(false);
+    setShowWhatsAppQR(false);
+  };
 
   const domains = t.raw("domains") as string[];
 
@@ -173,6 +186,46 @@ export default function ContractCTA() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
+  // QR dialog: Escape to close, move focus in on open, trap Tab within it, and
+  // return focus to the trigger button on close (keyboard accessibility).
+  useEffect(() => {
+    if (!showWeChatQR && !showWhatsAppQR) return;
+    const node = qrDialogRef.current;
+    const trigger = qrTriggerRef.current;
+    const getFocusable = () =>
+      node
+        ? Array.from(
+            node.querySelectorAll<HTMLElement>(
+              'button, a[href], [tabindex]:not([tabindex="-1"])',
+            ),
+          ).filter((el) => el.offsetParent !== null)
+        : [];
+    getFocusable()[0]?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeQR();
+        return;
+      }
+      if (e.key !== "Tab" || !node) return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      trigger?.focus();
+    };
+  }, [showWeChatQR, showWhatsAppQR]);
+
   return (
     <section id="contact" className="section section--soft">
       <div className="section__inner text-center">
@@ -252,13 +305,13 @@ export default function ContractCTA() {
                         <div key={p.id} className="qr-container relative">
                           <button
                             type="button"
-                            onClick={() =>
-                              p.id === "wechat"
-                                ? setShowWeChatQR((v) => !v)
-                                : setShowWhatsAppQR((v) => !v)
+                            onClick={(e) =>
+                              showQR ? closeQR() : openQR(p.id, e.currentTarget)
                             }
-                            className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
+                            className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
                             aria-label={p.name}
+                            aria-haspopup="dialog"
+                            aria-expanded={showQR}
                           >
                             {renderIcon()}
                           </button>
@@ -266,13 +319,19 @@ export default function ContractCTA() {
                             <>
                               <div
                                 className="fixed inset-0 bg-[color:var(--color-ink)]/40 z-40"
-                                onClick={() =>
-                                  p.id === "wechat"
-                                    ? setShowWeChatQR(false)
-                                    : setShowWhatsAppQR(false)
-                                }
+                                onClick={closeQR}
                               />
-                              <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-2xl z-50 max-w-sm mx-4 shadow-2xl">
+                              <div
+                                ref={qrDialogRef}
+                                role="dialog"
+                                aria-modal="true"
+                                aria-label={
+                                  p.id === "wechat"
+                                    ? tSocialActions("wechatQR")
+                                    : tSocialActions("whatsappQR")
+                                }
+                                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-2xl z-50 max-w-sm mx-4"
+                              >
                                 <h3 className="text-lg font-semibold tracking-tight text-[color:var(--color-ink)] mb-4 text-center">
                                   {p.id === "wechat"
                                     ? tSocialActions("wechatQR")
@@ -290,11 +349,7 @@ export default function ContractCTA() {
                                 </div>
                                 <button
                                   type="button"
-                                  onClick={() =>
-                                    p.id === "wechat"
-                                      ? setShowWeChatQR(false)
-                                      : setShowWhatsAppQR(false)
-                                  }
+                                  onClick={closeQR}
                                   className="mt-4 w-full px-4 py-2 rounded-full border border-[color:var(--color-rule)] text-[color:var(--color-ink)] text-sm hover:bg-[color:var(--color-bg-soft)] transition-colors"
                                 >
                                   {tCommon("close")}
@@ -306,13 +361,14 @@ export default function ContractCTA() {
                       );
                     }
 
+                    const isExternal = p.href.startsWith("http");
                     return (
                       <a
                         key={p.id}
                         href={p.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
                         aria-label={p.name}
                       >
                         {renderIcon()}

@@ -1,6 +1,7 @@
 "use client";
 
-import { m, useReducedMotion } from "framer-motion";
+import { m } from "framer-motion";
+import { useActiveAnimation } from "@/hooks/useActiveAnimation";
 
 /**
  * Faint animated "neural network" graph behind the hero.
@@ -50,10 +51,15 @@ const EDGES: ReadonlyArray<readonly [number, number]> = [
 const ACCENT_NODES = new Set<number>([3, 10, 17]);
 
 export default function NeuralBackground() {
-  const reduce = useReducedMotion();
+  // Pause the 19 infinite loops when the hero is off-screen, the tab is hidden,
+  // or the user prefers reduced motion. The hero is full-screen, so threshold 0
+  // keeps the breathing alive while any sliver is visible and tears it down
+  // (framer-motion → plain <circle>, zero RAF) the moment it fully leaves.
+  const { ref, active } = useActiveAnimation({ threshold: 0 });
 
   return (
     <div
+      ref={ref}
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 -z-0"
     >
@@ -88,7 +94,7 @@ export default function NeuralBackground() {
             ? "var(--color-accent)"
             : "var(--color-ink-muted)";
 
-          if (reduce) {
+          if (!active) {
             return (
               <circle key={i} cx={n.cx} cy={n.cy} r={3} fill={fill} opacity={0.28} />
             );

@@ -112,7 +112,7 @@ const AboutSection = () => {
         </div>
 
         {/* Timeline */}
-        <div className="mt-32">
+        <div className="mt-20">
           <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-12">
             {t("timeline")}
           </h3>

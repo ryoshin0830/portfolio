@@ -4,7 +4,6 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import {
   m,
-  useReducedMotion,
   useMotionValue,
   useMotionValueEvent,
   useSpring,
@@ -12,7 +11,7 @@ import {
   animate,
   type MotionValue,
 } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useActiveAnimation } from "@/hooks/useActiveAnimation";
 
 /**
  * Layered feedforward-network treatment for the hero recall metric.
@@ -153,8 +152,10 @@ function InputNeuron({
 }
 
 export default function HighlightsHeroMetric({ value, unit, label, context }: Props) {
-  const reduce = useReducedMotion();
-  const [ref, inView] = useInView({ threshold: 0.25, triggerOnce: true });
+  // `active` gates the looping cascade (clears off-screen / hidden tab);
+  // `inView` is a live, non-once boolean used only to fire the count-up once.
+  const { ref, active, inView, reduce } = useActiveAnimation({ threshold: 0.25 });
+  const hasCountedUp = useRef(false);
 
   const range = useMemo(() => parseRange(value), [value]);
   const canCountUp = range !== null && !reduce;
@@ -204,9 +205,12 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
     }
   };
 
-  // Count up once, when scrolled into view.
+  // Count up exactly once, the first time it scrolls into view. Uses `inView`
+  // (not `active`) so a backgrounded tab still gets its one count-up, and a
+  // ref latch prevents a re-count if the metric scrolls out and back in.
   useEffect(() => {
-    if (!canCountUp || !inView || !range) return;
+    if (!canCountUp || !inView || !range || hasCountedUp.current) return;
+    hasCountedUp.current = true;
     const controls = animate(mv, range.to, { duration: 1.6, ease: [0.16, 1, 0.3, 1] });
     return () => controls.stop();
   }, [canCountUp, inView, mv, range]);
@@ -215,7 +219,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
   // Skips a tick if the user moved the pointer recently (so it doesn't fight
   // the cursor-driven cascade).
   useEffect(() => {
-    if (reduce || !inView) return;
+    if (!active) return; // reduced-motion OR off-screen OR tab hidden → no interval
     const id = window.setInterval(() => {
       if (movedRecentlyRef.current) {
         movedRecentlyRef.current = false;
@@ -227,7 +231,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
       setFireKey((k) => k + 1);
     }, AUTO_MS);
     return () => window.clearInterval(id);
-  }, [reduce, inView]);
+  }, [active]);
 
   /* number: "82.26% → " static prefix + counting tail */
   const renderNumber = () => {
@@ -279,7 +283,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
         className="pointer-events-none absolute inset-0 -z-0 flex items-center justify-center"
       >
         <svg
-          className="h-[155%] w-full"
+          className="h-[125%] w-full"
           viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
           preserveAspectRatio="xMidYMid meet"
           fill="none"
@@ -343,7 +347,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
           })}
 
           {/* ---------- forward-propagation cascade (re-fires on fireKey) ---------- */}
-          {!reduce && inView && (
+          {active && (
             <g key={fireKey}>
               {/* edge highlights + traveling pulses, hop by hop */}
               {activePath.edges.map((edgeIdx, hop) => {
@@ -415,12 +419,15 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
             fontSize: "clamp(4rem, 13vw, 10rem)",
             lineHeight: 0.95,
             letterSpacing: "-0.05em",
-            color: "var(--color-accent)",
+            // Ink (not accent) so the number is the readable "result" and the
+            // accent-blue neural net behind it reads as the visible protagonist
+            // computing it — instead of blue-on-blue where both got lost.
+            color: "var(--color-ink)",
           }}
         >
           <span aria-hidden="true">{renderNumber()}</span>
         </p>
-        <h2 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">{label}</h2>
+        <p className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">{label}</p>
         {context && (
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
             {context}

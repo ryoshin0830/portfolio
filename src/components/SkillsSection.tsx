@@ -16,6 +16,11 @@ const SkillsSection = async () => {
     { name: t("languageProficiency.english"), level: t("languageProficiency.englishLevel") },
   ];
 
+  // Show certifications newest-first (JSON order is unsorted → dates jumped around).
+  const certList = [...certifications.list].sort(
+    (a, b) => (parseInt(b.date, 10) || 0) - (parseInt(a.date, 10) || 0),
+  );
+
   return (
     <section id="skills" className="section section--soft">
       <div className="section__inner">
@@ -36,7 +41,7 @@ const SkillsSection = async () => {
               <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
                 {t(cat.titleKey)}
               </h3>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 min-w-0">
                 {cat.items.map((item) => (
                   <span
                     key={item.name}
@@ -79,8 +84,8 @@ const SkillsSection = async () => {
             {certifications.title}
           </h3>
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
-            {certifications.list.map((c, i) => (
-              <li key={i}>
+            {certList.map((c) => (
+              <li key={`${c.date}-${c.name}`}>
                 <p className="num text-sm text-[color:var(--color-accent)] font-semibold mb-1">
                   {c.date}
                 </p>

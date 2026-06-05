@@ -18,14 +18,19 @@ export function useScrollNavigation() {
   const [currentSection, setCurrentSection] = useState("hero");
 
   // セクションのIDリスト
+  // DOM order on the page (page.tsx). Must include every section the nav links
+  // to, in the order they appear, so the active-highlight observer tracks them
+  // all (experience & contact were missing → never highlighted).
   const sectionIds = useMemo(
     () => [
       "hero",
       "about",
+      "experience",
+      "projects",
       "research",
       "skills",
-      "projects",
       "blog",
+      "contact",
     ],
     []
   );

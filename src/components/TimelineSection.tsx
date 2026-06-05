@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Plane } from "lucide-react";
+import { useActiveAnimation } from "@/hooks/useActiveAnimation";
 
 type TimelineEvent = {
   year: string;
@@ -47,12 +48,21 @@ const LOC_SEQ: Loc[] = [
 const TimelineSection = () => {
   const t = useTranslations("about");
   const tLoc = useTranslations("locations");
-  const [ref, inView] = useInView({ threshold: 0.05, triggerOnce: true });
+  // reveal stagger fires once; `active` gates the looping plane animations so
+  // they stop when the whole timeline is off-screen / tab hidden.
+  const [revealRef, inView] = useInView({ threshold: 0.05, triggerOnce: true });
+  const { ref: activeRef, active } = useActiveAnimation({ threshold: 0 });
 
   const events = t.raw("timelineEvents") as TimelineEvent[];
 
   return (
-    <ol ref={ref} className="relative">
+    <ol
+      ref={(node) => {
+        revealRef(node);
+        activeRef(node);
+      }}
+      className="relative"
+    >
       {events.map((event, i) => {
         const loc = LOC_SEQ[i];
         const isPlaneEvent = event.icon === "plane";
@@ -82,8 +92,10 @@ const TimelineSection = () => {
                   transition={{ duration: 1.4, type: "spring" }}
                 >
                   <m.div
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    animate={active ? { rotate: [0, 10, -10, 0] } : { rotate: 0 }}
+                    transition={
+                      active ? { duration: 2, repeat: Infinity } : { duration: 0 }
+                    }
                   >
                     <Plane
                       className="text-[color:var(--color-accent)] w-10 h-10 md:w-11 md:h-11"
@@ -93,8 +105,10 @@ const TimelineSection = () => {
                   <m.div
                     className="absolute -bottom-3 left-1/2 -translate-x-1/2"
                     initial={{ scale: 0 }}
-                    animate={{ scale: [0, 1.4, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    animate={active ? { scale: [0, 1.4, 0] } : { scale: 0 }}
+                    transition={
+                      active ? { duration: 1.5, repeat: Infinity } : { duration: 0 }
+                    }
                   >
                     <div className="w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] opacity-70" />
                   </m.div>

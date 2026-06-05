@@ -10,13 +10,23 @@ next-intl による多言語対応（ja/en/zh）、framer-motion によるアニ
 ## Commands
 
 ```bash
-npm run dev      # 開発サーバー (http://localhost:3000) — Turbopack なし、通常の next dev
-npm run build    # 本番ビルド
-npm run start    # ビルド済み本番サーバー
-npm run lint     # next lint (eslint-config-next, flat config: eslint.config.mjs)
+npm run dev       # 開発サーバー (http://localhost:3000) — Turbopack なし、通常の next dev
+npm run build     # 本番ビルド
+npm run start     # ビルド済み本番サーバー
+npm run lint      # next lint (eslint-config-next, flat config: eslint.config.mjs)
+npm run lint:fix  # next lint --fix
+npm run typecheck # tsc --noEmit（型検査のみ。eslint は完全な型検査をしないため別途必要）
 ```
 
-テストフレームワークは導入されていない。検証はビルド + lint + ブラウザ確認（Playwright MCP）で行う。
+テストフレームワークは導入されていない。検証はビルド + lint + typecheck + ブラウザ確認（Playwright / Chrome DevTools MCP）で行う。
+
+### Git フック（simple-git-hooks + lint-staged）
+
+`npm install` 時に `prepare` スクリプトが `simple-git-hooks` を実行し `.git/hooks` を登録する。設定は `package.json` 内（`simple-git-hooks` / `lint-staged` キー）。
+
+- **pre-commit**: `lint-staged` → staged の `*.{ts,tsx}` に `eslint --fix`（高速）。
+- **pre-push**: `npm run typecheck && npm run lint`（型・lint エラーを push 前に検出。本番ビルドは Vercel 側に任せる）。
+- 緊急時は `SKIP_SIMPLE_GIT_HOOKS=1 git commit ...` でスキップ可能。フック定義を変えたら `npx simple-git-hooks` で再登録。
 
 ## Architecture
 
@@ -70,6 +80,29 @@ const engagements = t.raw("engagements") as Engagement[];
 - ダークモード: `layout.tsx` の `<head>` にインラインの `themeScript`（`src/app/theme-script.ts`）を埋め込み、
   ハイドレーション前に `<html>` へ `dark`/`light` クラスを付与してフラッシュを防ぐ。`ThemeContext` は
   その DOM 状態を読むだけ。**localStorage に保存せず、毎回デバイス設定に従う**（トグルはそのセッション限り）。
+
+### アニメーション性能ルール（高性能を維持するためのチェックリスト）
+
+新しいアニメーションを足すときは必ず以下を守る。実測（Chrome DevTools MCP / 本番ビルド /
+モバイル 4x CPU スロットリング）で検証した方針:
+
+- **ループ系は必ず `useActiveAnimation` でゲートする。** `repeat: Infinity` の framer-motion や
+  `setInterval` / `requestAnimationFrame` ループは、`src/hooks/useActiveAnimation.ts` が返す `active`
+  （= prefers-reduced-motion ∧ in-view ∧ document可視）で制御し、`active` が false のときは
+  **静止フレームを描画**してループ／タイマーを破棄する。画面外やタブ非表示で回し続けない
+  （バッテリ・CPU の無駄）。実例: `NeuralBackground.tsx`, `HighlightsHeroMetric.tsx`, `TimelineSection.tsx`。
+- **「一度きり」と「可視中だけ」を分離する。** 数え上げ等の一回限り演出は `triggerOnce` ではなく
+  ref ラッチ（例 `hasCountedUp`）で1回に固定し、ループ部分は別途 `active` ゲートする
+  （`triggerOnce: true` の `inView` は永続 true になり、タイマーが止まらなくなる）。
+- **中央寄せの回転／巡回テキストは CLS を出さない。** 幅の異なるテキストを差し替えるときは固定
+  `min-height`（単一行は `whitespace-nowrap`）を予約し、**Grid スタック（`gridArea: 1/1`）+ opacity
+  クロスフェード**で重ねる。Hero の名前（`--hero-name-h`）・肩書き（`--hero-role-h`）が実例。
+  `aria-live` 領域は**単一ノードを保持**してテキストのみ差し替える（複数ノード化は読み上げを壊す）。
+- **LCP テキストは LCP 計測ウィンドウ中に差し替えない。** Hero の主要名はサーバーレンダリングで静止させ、
+  回転は数秒遅延して開始する（`HeroSection.tsx` の `rotate` ゲート）。
+- framer-motion は `LazyMotion`(`domAnimation`) 経由（`MotionProvider`）で使い、`m.*` を用いる。
+- 検証は `npm run build && npm run typecheck && npm run lint` + MCP 再トレースで CLS < 0.1・LCP 安定・
+  画面外 RAF 停止を確認する。
 
 ### SEO
 

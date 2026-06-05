@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { m, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
@@ -18,6 +18,9 @@ const Navigation = () => {
   const { theme, toggleTheme, mounted } = useTheme();
 
   const { currentSection, scrollToSection } = useScrollNavigation();
+
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   const params = useParams<{ locale?: string }>();
   const defaultLocale = useLocale();
@@ -42,6 +45,41 @@ const Navigation = () => {
     document.body.style.overflow = showMoreMenu ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
+    };
+  }, [showMoreMenu]);
+
+  // Mobile-menu focus management: move focus into the dialog on open, trap Tab
+  // within it, and return focus to the trigger on close (keyboard a11y).
+  useEffect(() => {
+    if (!showMoreMenu) return;
+    const node = mobileMenuRef.current;
+    if (!node) return;
+    const trigger = menuTriggerRef.current; // hamburger; stable while menu is open
+    const getFocusable = () =>
+      Array.from(
+        node.querySelectorAll<HTMLElement>(
+          'button, a[href], [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => el.offsetParent !== null);
+    getFocusable()[0]?.focus();
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const items = getFocusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    node.addEventListener("keydown", onKeyDown);
+    return () => {
+      node.removeEventListener("keydown", onKeyDown);
+      trigger?.focus();
     };
   }, [showMoreMenu]);
 
@@ -99,12 +137,27 @@ const Navigation = () => {
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [showLangMenu]);
 
+  // Escape closes whichever menu is open (keyboard accessibility).
+  useEffect(() => {
+    if (!showLangMenu && !showMoreMenu) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowLangMenu(false);
+        setShowMoreMenu(false);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [showLangMenu, showMoreMenu]);
+
   const handleLanguageChange = (langCode: string) => {
     const segments = pathname.split("/").filter(Boolean);
     if (segments.length > 0 && ["ja", "en", "zh"].includes(segments[0])) {
       segments.shift();
     }
-    const newPath = `/${langCode}${segments.length > 0 ? "/" + segments.join("/") : ""}`;
+    // Preserve the current section anchor so switching language keeps your place.
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    const newPath = `/${langCode}${segments.length > 0 ? "/" + segments.join("/") : ""}${hash}`;
     router.push(newPath);
     setShowLangMenu(false);
   };
@@ -138,10 +191,9 @@ const Navigation = () => {
       <nav
         className={`fixed top-0 left-0 right-0 z-[100] transition-colors ${
           isScrolled
-            ? "bg-[color:var(--color-bg)]/85 backdrop-blur-xl border-b border-[color:var(--color-rule-soft)]"
+            ? "bg-[color:var(--color-bg)] border-b border-[color:var(--color-rule-soft)]"
             : "bg-transparent"
         }`}
-        style={{ WebkitBackdropFilter: isScrolled ? "blur(20px)" : "none" }}
       >
         <div className="mx-auto max-w-7xl px-4 lg:px-8">
           <div className="flex items-center justify-between h-12 lg:h-14">
@@ -177,8 +229,9 @@ const Navigation = () => {
               <button
                 type="button"
                 onClick={toggleTheme}
-                className="p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                 aria-label="Toggle dark mode"
+                aria-pressed={mounted ? theme === "dark" : undefined}
               >
                 {mounted ? (
                   <AnimatePresence mode="wait">
@@ -213,9 +266,12 @@ const Navigation = () => {
                 <button
                   type="button"
                   onClick={() => setShowLangMenu(!showLangMenu)}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 text-sm font-medium text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
+                  className="inline-flex items-center gap-1.5 min-h-11 px-2.5 text-sm font-medium text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
+                  aria-haspopup="menu"
+                  aria-expanded={showLangMenu}
+                  aria-label={`Language: ${getLanguageName(locale)}`}
                 >
-                  <span className="text-base">{languages.find((l) => l.code === locale)?.flag}</span>
+                  <span className="text-base" aria-hidden>{languages.find((l) => l.code === locale)?.flag}</span>
                   <span className="hidden sm:inline">
                     {locale.toUpperCase()}
                   </span>
@@ -227,21 +283,23 @@ const Navigation = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute top-full right-0 mt-2 py-1 w-40 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-lg shadow-lg"
+                      role="menu"
+                      className="absolute top-full right-0 mt-2 py-1 w-40 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-lg"
                     >
                       {languages.map((lang) => (
                         <button
                           key={lang.code}
                           type="button"
+                          role="menuitem"
                           onClick={() => handleLanguageChange(lang.code)}
-                          className={`w-full text-left px-3 py-2 text-sm transition-colors ${
+                          className={`w-full text-left px-3 min-h-11 flex items-center text-sm transition-colors ${
                             locale === lang.code
                               ? "text-[color:var(--color-accent)]"
                               : "text-[color:var(--color-ink)] hover:bg-[color:var(--color-bg-soft)]"
                           }`}
                         >
                           <span className="flex items-center gap-2">
-                            <span>{lang.flag}</span>
+                            <span aria-hidden>{lang.flag}</span>
                             <span>{lang.name}</span>
                           </span>
                         </button>
@@ -252,10 +310,14 @@ const Navigation = () => {
               </div>
 
               <button
+                ref={menuTriggerRef}
                 type="button"
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
-                className="lg:hidden p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
+                className="lg:hidden inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                 aria-label="Open menu"
+                aria-haspopup="dialog"
+                aria-expanded={showMoreMenu}
+                aria-controls="mobile-menu"
               >
                 <Menu size={18} />
               </button>
@@ -267,6 +329,11 @@ const Navigation = () => {
       <AnimatePresence>
         {showMoreMenu && (
           <m.div
+            ref={mobileMenuRef}
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label={namesT("shortName")}
             className="fixed inset-0 bg-[color:var(--color-bg)] z-[100000]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -277,7 +344,7 @@ const Navigation = () => {
               <button
                 type="button"
                 onClick={() => setShowMoreMenu(false)}
-                className="p-2 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
+                className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
                 aria-label="Close menu"
               >
                 <X size={20} />
