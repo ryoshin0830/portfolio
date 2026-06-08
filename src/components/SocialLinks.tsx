@@ -314,9 +314,14 @@ export default function SocialLinks() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-5">
-      {groups.map((g) => (
-        <div key={g.category} className="flex flex-col items-center gap-2.5">
+    <div className="flex flex-col items-center gap-6 md:flex-row md:items-stretch md:justify-center md:gap-0">
+      {groups.map((g, i) => (
+        <div
+          key={g.category}
+          className={`flex flex-col items-center gap-2.5 md:px-6 ${
+            i > 0 ? "md:border-l md:border-[color:var(--color-rule-soft)]" : ""
+          }`}
+        >
           <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium">
             {g.label}
           </p>

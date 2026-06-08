@@ -100,8 +100,8 @@ const HeroSection = () => {
     };
   }, []);
 
-  const scrollToWork = () => {
-    document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
+  const scrollToHighlights = () => {
+    document.getElementById("highlights")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const formatDate = (s: string) =>
@@ -165,8 +165,8 @@ const HeroSection = () => {
 
         <button
           type="button"
-          onClick={scrollToWork}
-          className="btn-pill"
+          onClick={scrollToHighlights}
+          className="btn-pill btn-pill--ghost"
           aria-label={t("viewWork")}
         >
           {t("viewWork")}
@@ -181,8 +181,7 @@ const HeroSection = () => {
         {/* Latest Zenn articles — reserved-height container prevents CLS while
             the feed loads; rows stagger in once fetched (one-time entrance). */}
         <div
-          className="mx-auto mt-12 max-w-xl text-left"
-          style={{ minHeight: "8.5rem" }}
+          className="mx-auto mt-12 max-w-3xl min-h-[18rem] md:min-h-[8rem]"
         >
           {articles.length > 0 && (
             <>
@@ -190,7 +189,7 @@ const HeroSection = () => {
                 {tZenn("latestPost")}
               </p>
               <m.ul
-                className="divide-y divide-[color:var(--color-rule-soft)]"
+                className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3 md:gap-y-0"
                 initial="hidden"
                 animate="show"
                 variants={{
@@ -211,18 +210,18 @@ const HeroSection = () => {
                       href={a.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-baseline gap-4 py-2.5 group"
+                      className="flex h-full flex-col border-t border-[color:var(--color-rule-soft)] pt-4 group"
                     >
-                      <span className="flex-1 text-sm md:text-base font-medium text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] truncate transition-colors">
+                      <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors line-clamp-2 min-h-[2.5rem]">
                         {a.title}
                       </span>
-                      <span className="text-xs text-[color:var(--color-ink-muted)] num shrink-0 whitespace-nowrap">
+                      <span className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--color-ink-muted)] num">
                         {formatDate(a.pubDate)}
+                        <ArrowUpRight
+                          size={12}
+                          className="group-hover:text-[color:var(--color-accent)] transition-colors"
+                        />
                       </span>
-                      <ArrowUpRight
-                        size={14}
-                        className="text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors shrink-0"
-                      />
                     </Link>
                   </m.li>
                 ))}
@@ -234,7 +233,7 @@ const HeroSection = () => {
 
       <button
         type="button"
-        onClick={scrollToWork}
+        onClick={scrollToHighlights}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
         aria-label="Scroll down"
       >

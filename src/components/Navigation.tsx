@@ -194,7 +194,7 @@ const Navigation = () => {
             : "bg-transparent"
         }`}
       >
-        <div className="mx-auto max-w-7xl px-4 lg:px-8">
+        <div className="w-full gutter-x">
           <div className="flex items-center justify-between h-12 lg:h-14">
             <button
               type="button"

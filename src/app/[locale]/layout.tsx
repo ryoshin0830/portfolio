@@ -157,7 +157,7 @@ export default async function RootLayout({
               </main>
               <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden">
                 <div
-                  className="container mx-auto px-6 max-w-6xl flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
+                  className="w-full gutter-x flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
                 >
                   <p className="meta">
                     {messages.footer.copyright}

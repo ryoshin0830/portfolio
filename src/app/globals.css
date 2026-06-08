@@ -27,6 +27,12 @@
   --hero-name-h: clamp(3.7rem, 12.6vw, 9.5rem);
   --hero-role-h: 3.75rem;
 
+  /* Fluid page gutter — scales with the viewport instead of a fixed content
+     width, so the layout fills wide monitors yet keeps a safe minimum on
+     phones. Shared by the nav, all content sections, and the footer so their
+     left/right edges line up. */
+  --page-pad-x: clamp(1.5rem, 5vw, 8rem);
+
   /* back-compat aliases (keep older class consumers happy) */
   --color-paper: var(--color-bg);
   --color-paper-deep: var(--color-bg-soft);
@@ -199,19 +205,25 @@ hr, .rule {
 /* Section wrapper — Apple-style generous vertical rhythm */
 .section {
   position: relative;
-  padding: 5rem 1.5rem;
+  padding-block: 5rem;
+  padding-inline: var(--page-pad-x);
   background: var(--color-bg);
 }
 .section--soft { background: var(--color-bg-soft); }
 .section__inner {
-  max-width: 64rem;
+  width: 100%;
   margin: 0 auto;
 }
+/* Shared fluid gutter for non-.section regions (nav, footer) so their
+   left/right edges align with the content sections. */
+.gutter-x {
+  padding-inline: var(--page-pad-x);
+}
 @media (min-width: 768px) {
-  .section { padding: 6rem 2rem; }
+  .section { padding-block: 6rem; }
 }
 @media (min-width: 1024px) {
-  .section { padding: 8rem 2rem; }
+  .section { padding-block: 8rem; }
 }
 
 /* Tighter boundary so two adjacent sections read as continuous
