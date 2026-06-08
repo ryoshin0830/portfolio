@@ -8,7 +8,7 @@
     "certifications": "资格认证",
     "skills": "技能",
     "projects": "项目",
-    "blog": "博客",
+    "blog": "文章",
     "more": "更多",
     "scrollToNext": "下一部分:",
     "scrollToPrevious": "上一部分:",
@@ -36,12 +36,9 @@
     "currentlyAt": "GMO Pepabo ／ 工程师",
     "viewWork": "查看成果"
   },
-  "heroZenn": {
+  "heroWriting": {
     "latestPost": "最新文章",
-    "new": "NEW",
-    "today": "今天",
-    "daysAgo": "{days}天前",
-    "readMore": "阅读更多"
+    "viewAll": "查看全部文章"
   },
   "highlights": {
     "title": "数据化的成果",
@@ -827,13 +824,12 @@
     "pullDown": "向下滑动切换到 {section}",
     "release": "释放以切换"
   },
-  "zennFeed": {
-    "title": "Zenn 文章",
-    "subtitle": "技术博客发布",
-    "loading": "正在加载文章...",
-    "featured": "最新文章",
-    "readMore": "阅读更多",
-    "viewAllArticles": "在 Zenn 查看全部文章"
+  "writingFeed": {
+    "title": "文章",
+    "subtitle": "在 Zenn 与 Qiita 的技术分享",
+    "filterAll": "全部",
+    "viewOnZenn": "在 Zenn 查看",
+    "viewOnQiita": "在 Qiita 查看"
   },
   "metadata": {
     "title": "梁震 | 工程师・研究者",

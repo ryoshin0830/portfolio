@@ -8,7 +8,7 @@
     "certifications": "Certifications",
     "skills": "Skills",
     "projects": "Projects",
-    "blog": "Blog",
+    "blog": "Writing",
     "more": "More",
     "scrollToNext": "Next Section:",
     "scrollToPrevious": "Previous Section:",
@@ -36,12 +36,9 @@
     "currentlyAt": "GMO Pepabo / Engineer",
     "viewWork": "See the results"
   },
-  "heroZenn": {
-    "latestPost": "Latest Article",
-    "new": "NEW",
-    "today": "Today",
-    "daysAgo": "{days} days ago",
-    "readMore": "Read More"
+  "heroWriting": {
+    "latestPost": "Latest Writing",
+    "viewAll": "View all articles"
   },
   "highlights": {
     "title": "Selected Results",
@@ -827,13 +824,12 @@
     "pullDown": "Swipe down to {section}",
     "release": "Release to navigate"
   },
-  "zennFeed": {
-    "title": "Zenn Articles",
-    "subtitle": "Technical Blog Posts",
-    "loading": "Loading articles...",
-    "featured": "Latest Article",
-    "readMore": "Read More",
-    "viewAllArticles": "View All Articles on Zenn"
+  "writingFeed": {
+    "title": "Writing",
+    "subtitle": "Technical writing on Zenn and Qiita",
+    "filterAll": "All",
+    "viewOnZenn": "View on Zenn",
+    "viewOnQiita": "View on Qiita"
   },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",

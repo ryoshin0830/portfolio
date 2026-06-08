@@ -8,7 +8,7 @@
     "certifications": "資格",
     "skills": "スキル",
     "projects": "プロジェクト",
-    "blog": "ブログ",
+    "blog": "記事",
     "more": "その他",
     "scrollToNext": "次のセクション：",
     "scrollToPrevious": "前のセクション：",
@@ -36,12 +36,9 @@
     "currentlyAt": "GMO ペパボ ／ エンジニア",
     "viewWork": "成果を見る"
   },
-  "heroZenn": {
+  "heroWriting": {
     "latestPost": "最新記事",
-    "new": "NEW",
-    "today": "今日",
-    "daysAgo": "{days}日前",
-    "readMore": "続きを読む"
+    "viewAll": "全ての記事を見る"
   },
   "highlights": {
     "title": "数字で見る成果",
@@ -827,13 +824,12 @@
     "pullDown": "{section}へ下にスワイプ",
     "release": "離して遷移"
   },
-  "zennFeed": {
-    "title": "Zenn記事",
-    "subtitle": "技術ブログでの発信",
-    "loading": "記事を読み込んでいます...",
-    "featured": "最新記事",
-    "readMore": "続きを読む",
-    "viewAllArticles": "Zennで全ての記事を見る"
+  "writingFeed": {
+    "title": "記事",
+    "subtitle": "ZennとQiitaでの技術発信",
+    "filterAll": "すべて",
+    "viewOnZenn": "Zennで見る",
+    "viewOnQiita": "Qiitaで見る"
   },
   "metadata": {
     "title": "梁震（りょう しん）| エンジニア・研究者",

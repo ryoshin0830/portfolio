@@ -5,7 +5,7 @@ import ExperienceSection from "@/components/ExperienceSection";
 import ResearchSection from "@/components/ResearchSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import SkillsSection from "@/components/SkillsSection";
-import ZennFeed from "@/components/ZennFeed";
+import WritingFeed from "@/components/WritingFeed";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
-      <ZennFeed />
+      <WritingFeed />
     </main>
   );
 }

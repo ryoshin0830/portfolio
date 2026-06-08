@@ -2,27 +2,29 @@
 
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ChevronDown, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { m } from "framer-motion";
 import Link from "next/link";
 import NeuralBackground from "./NeuralBackground";
 import SocialLinks from "./SocialLinks";
+import type { ArticleSource, MergedArticle } from "@/types/articles";
 
-interface ZennArticle {
-  title: string;
-  link: string;
-  pubDate: string;
-}
+// Typography-only source badge, matching the editorial monochrome palette.
+const SourceBadge = ({ source }: { source: ArticleSource }) => (
+  <span className="rounded-sm border border-[color:var(--color-rule)] px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[color:var(--color-ink-muted)]">
+    {source === "zenn" ? "Zenn" : "Qiita"}
+  </span>
+);
 
 const HeroSection = () => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [rotate, setRotate] = useState(false);
   const [docVisible, setDocVisible] = useState(true);
-  const [articles, setArticles] = useState<ZennArticle[]>([]);
+  const [articles, setArticles] = useState<MergedArticle[]>([]);
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
-  const tZenn = useTranslations("heroZenn");
+  const tWriting = useTranslations("heroWriting");
   const locale = useLocale();
 
   const names = [
@@ -66,32 +68,20 @@ const HeroSection = () => {
     return () => clearInterval(i);
   }, [rotate, docVisible, roles.length]);
 
-  // Latest Zenn articles (top 3) — fetched client-side; rendered below the fold
-  // of the centered hero, so it never affects the LCP name candidate. The list
-  // sits in a reserved-height container so late arrival doesn't shift the hero.
+  // Latest articles (top 3, merged Zenn + Qiita) — fetched client-side and
+  // rendered below the fold of the centered hero, so it never affects the LCP
+  // name candidate. The list sits in a reserved-height container so late
+  // arrival doesn't shift the hero.
   useEffect(() => {
     let cancelled = false;
     const run = async () => {
       try {
-        const RSS_URL = "https://zenn.dev/ryoushin/feed";
-        const res = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`,
-        );
+        const res = await fetch("/api/articles");
         if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        if (data.items && !cancelled) {
-          setArticles(
-            data.items
-              .slice(0, 3)
-              .map((i: { title: string; link: string; pubDate: string }) => ({
-                title: i.title,
-                link: i.link,
-                pubDate: i.pubDate,
-              })),
-          );
-        }
+        const data = (await res.json()) as { articles: MergedArticle[] };
+        if (!cancelled) setArticles(data.articles.slice(0, 3));
       } catch (err) {
-        console.error("Error fetching latest Zenn articles:", err);
+        console.error("Error fetching latest articles:", err);
       }
     };
     run();
@@ -102,6 +92,10 @@ const HeroSection = () => {
 
   const scrollToHighlights = () => {
     document.getElementById("highlights")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToBlog = () => {
+    document.getElementById("blog")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const formatDate = (s: string) =>
@@ -178,15 +172,17 @@ const HeroSection = () => {
           <SocialLinks />
         </div>
 
-        {/* Latest Zenn articles — reserved-height container prevents CLS while
-            the feed loads; rows stagger in once fetched (one-time entrance). */}
+        {/* Latest articles (Zenn + Qiita) — reserved-height container prevents
+            CLS while the feed loads; rows stagger in once fetched (one-time
+            entrance). Height accounts for the source-badge row above each card
+            plus the "view all" action below. */}
         <div
-          className="mx-auto mt-12 max-w-3xl min-h-[18rem] md:min-h-[8rem]"
+          className="mx-auto mt-12 max-w-3xl min-h-[25rem] md:min-h-[13rem]"
         >
           {articles.length > 0 && (
             <>
               <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium mb-3 text-center">
-                {tZenn("latestPost")}
+                {tWriting("latestPost")}
               </p>
               <m.ul
                 className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3 md:gap-y-0"
@@ -199,7 +195,7 @@ const HeroSection = () => {
               >
                 {articles.map((a) => (
                   <m.li
-                    key={a.link}
+                    key={a.zennUrl ?? a.qiitaUrl}
                     variants={{
                       hidden: { opacity: 0, y: 8 },
                       show: { opacity: 1, y: 0 },
@@ -207,16 +203,20 @@ const HeroSection = () => {
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <Link
-                      href={a.link}
+                      href={a.zennUrl ?? a.qiitaUrl ?? "#"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-full flex-col border-t border-[color:var(--color-rule-soft)] pt-4 group"
+                      className="flex h-full flex-col border-t border-[color:var(--color-rule-soft)] pt-4 group text-left"
                     >
+                      <span className="mb-2 flex gap-1.5">
+                        {a.zennUrl && <SourceBadge source="zenn" />}
+                        {a.qiitaUrl && <SourceBadge source="qiita" />}
+                      </span>
                       <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors line-clamp-2 min-h-[2.5rem]">
                         {a.title}
                       </span>
                       <span className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--color-ink-muted)] num">
-                        {formatDate(a.pubDate)}
+                        {formatDate(a.date)}
                         <ArrowUpRight
                           size={12}
                           className="group-hover:text-[color:var(--color-accent)] transition-colors"
@@ -226,19 +226,24 @@ const HeroSection = () => {
                   </m.li>
                 ))}
               </m.ul>
+
+              {/* Secondary action — jumps to the full archive (#blog) at the
+                  bottom of the page. The down arrow signals an in-page move,
+                  distinct from each card's ↗ which opens the article off-site. */}
+              <div className="mt-8 flex justify-center">
+                <button
+                  type="button"
+                  onClick={scrollToBlog}
+                  className="link-accent text-base min-h-11"
+                >
+                  {tWriting("viewAll")}
+                  <ArrowDown size={16} aria-hidden />
+                </button>
+              </div>
             </>
           )}
         </div>
       </div>
-
-      <button
-        type="button"
-        onClick={scrollToHighlights}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)] transition-colors"
-        aria-label="Scroll down"
-      >
-        <ChevronDown size={28} className="scroll-hint" />
-      </button>
     </section>
   );
 };

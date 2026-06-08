@@ -205,7 +205,7 @@ const Navigation = () => {
             </button>
 
             <div className="hidden lg:flex items-center gap-7 text-sm">
-              {primaryNavItems.map((item) => {
+              {[...primaryNavItems, ...secondaryNavItems].map((item) => {
                 const active = currentSection === item.sectionId;
                 return (
                   <button
