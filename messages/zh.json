@@ -829,7 +829,8 @@
     "subtitle": "在 Zenn 与 Qiita 的技术分享",
     "filterAll": "全部",
     "viewOnZenn": "在 Zenn 查看",
-    "viewOnQiita": "在 Qiita 查看"
+    "viewOnQiita": "在 Qiita 查看",
+    "empty": "暂无文章。"
   },
   "metadata": {
     "title": "梁震 | 工程师・研究者",
@@ -859,7 +860,8 @@
     "search": "搜索",
     "filter": "筛选",
     "sort": "排序",
-    "all": "全部"
+    "all": "全部",
+    "opensInNewTab": "在新标签页中打开"
   },
   "badges": {
     "aboutMe": "个人简介",

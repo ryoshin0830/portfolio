@@ -829,7 +829,8 @@
     "subtitle": "ZennとQiitaでの技術発信",
     "filterAll": "すべて",
     "viewOnZenn": "Zennで見る",
-    "viewOnQiita": "Qiitaで見る"
+    "viewOnQiita": "Qiitaで見る",
+    "empty": "該当する記事がありません。"
   },
   "metadata": {
     "title": "梁震（りょう しん）| エンジニア・研究者",
@@ -859,7 +860,8 @@
     "search": "検索",
     "filter": "フィルター",
     "sort": "並び替え",
-    "all": "すべて"
+    "all": "すべて",
+    "opensInNewTab": "新しいタブで開きます"
   },
   "badges": {
     "aboutMe": "プロフィール",

@@ -11,20 +11,24 @@ import type { ArticleSource, MergedArticle } from "@/types/articles";
 
 // Typography-only source badge, matching the editorial monochrome palette.
 const SourceBadge = ({ source }: { source: ArticleSource }) => (
-  <span className="rounded-sm border border-[color:var(--color-rule)] px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[color:var(--color-ink-muted)]">
+  <span className="rounded-sm border border-[color:var(--color-rule)] px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[color:var(--color-ink-soft)]">
     {source === "zenn" ? "Zenn" : "Qiita"}
   </span>
 );
 
-const HeroSection = () => {
+const HeroSection = ({
+  latestArticles,
+}: {
+  latestArticles: MergedArticle[];
+}) => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [rotate, setRotate] = useState(false);
   const [docVisible, setDocVisible] = useState(true);
-  const [articles, setArticles] = useState<MergedArticle[]>([]);
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
   const tWriting = useTranslations("heroWriting");
+  const tc = useTranslations("common");
   const locale = useLocale();
 
   const names = [
@@ -68,35 +72,23 @@ const HeroSection = () => {
     return () => clearInterval(i);
   }, [rotate, docVisible, roles.length]);
 
-  // Latest articles (top 3, merged Zenn + Qiita) — fetched client-side and
-  // rendered below the fold of the centered hero, so it never affects the LCP
-  // name candidate. The list sits in a reserved-height container so late
-  // arrival doesn't shift the hero.
-  useEffect(() => {
-    let cancelled = false;
-    const run = async () => {
-      try {
-        const res = await fetch("/api/articles");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = (await res.json()) as { articles: MergedArticle[] };
-        if (!cancelled) setArticles(data.articles.slice(0, 3));
-      } catch (err) {
-        console.error("Error fetching latest articles:", err);
-      }
-    };
-    run();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  // Latest articles (top 3, merged Zenn + Qiita) come in as a prop from the
+  // server — rendered below the fold of the centered hero, so they never affect
+  // the LCP name candidate.
+  const articles = latestArticles;
 
-  const scrollToHighlights = () => {
-    document.getElementById("highlights")?.scrollIntoView({ behavior: "smooth" });
+  // Honor prefers-reduced-motion for programmatic scrolls (CSS scroll-behavior
+  // is already reset for it, but scrollIntoView's JS option is not).
+  const scrollTo = (id: string) => {
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
   };
-
-  const scrollToBlog = () => {
-    document.getElementById("blog")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const scrollToHighlights = () => scrollTo("highlights");
+  const scrollToBlog = () => scrollTo("blog");
 
   const formatDate = (s: string) =>
     new Intl.DateTimeFormat(locale, {
@@ -172,10 +164,9 @@ const HeroSection = () => {
           <SocialLinks />
         </div>
 
-        {/* Latest articles (Zenn + Qiita) — reserved-height container prevents
-            CLS while the feed loads; rows stagger in once fetched (one-time
-            entrance). Height accounts for the source-badge row above each card
-            plus the "view all" action below. */}
+        {/* Latest articles (Zenn + Qiita) — server-rendered from props, so the
+            list is in the initial HTML (no client fetch). The min-height keeps
+            a stable floor; rows stagger in once on mount (one-time entrance). */}
         <div
           className="mx-auto mt-12 max-w-3xl min-h-[25rem] md:min-h-[13rem]"
         >
@@ -195,7 +186,7 @@ const HeroSection = () => {
               >
                 {articles.map((a) => (
                   <m.li
-                    key={a.zennUrl ?? a.qiitaUrl}
+                    key={a.zennUrl ?? a.qiitaUrl ?? a.title}
                     variants={{
                       hidden: { opacity: 0, y: 8 },
                       show: { opacity: 1, y: 0 },
@@ -214,11 +205,16 @@ const HeroSection = () => {
                       </span>
                       <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors line-clamp-2 min-h-[2.5rem]">
                         {a.title}
+                        <span className="sr-only"> — {tc("opensInNewTab")}</span>
                       </span>
-                      <span className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--color-ink-muted)] num">
+                      <span
+                        className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--color-ink-muted)] num"
+                        suppressHydrationWarning
+                      >
                         {formatDate(a.date)}
                         <ArrowUpRight
                           size={12}
+                          aria-hidden
                           className="group-hover:text-[color:var(--color-accent)] transition-colors"
                         />
                       </span>

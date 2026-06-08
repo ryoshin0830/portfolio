@@ -829,7 +829,8 @@
     "subtitle": "Technical writing on Zenn and Qiita",
     "filterAll": "All",
     "viewOnZenn": "View on Zenn",
-    "viewOnQiita": "View on Qiita"
+    "viewOnQiita": "View on Qiita",
+    "empty": "No articles to show."
   },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",
@@ -859,7 +860,8 @@
     "search": "Search",
     "filter": "Filter",
     "sort": "Sort",
-    "all": "All"
+    "all": "All",
+    "opensInNewTab": "opens in new tab"
   },
   "badges": {
     "aboutMe": "About Me",
