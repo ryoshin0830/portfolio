@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache";
 import type { XPost } from "@/types/articles";
 
 // Server-side fetch of the user's own recent X (Twitter) posts via the X API v2
@@ -7,8 +6,12 @@ import type { XPost } from "@/types/articles";
 // API sends no CORS headers. The result is passed to client components as props.
 //
 // Cost control: the X API is pay-per-use (billed per post returned). We cap each
-// fetch at 10 posts and memoize for a full day with unstable_cache, so upstream
-// is hit at most once per 24h regardless of traffic — ~10 reads/day.
+// fetch at 10 posts and cache the response for a full day via Next's native
+// fetch cache (`next: { revalidate }`), so upstream is hit at most ~once/24h.
+//
+// We deliberately do NOT use `unstable_cache` here: wrapping this request in it
+// caused the X API to reject it with 400 (a bare fetch of the same URL returns
+// 200), so we rely on the fetch-level cache instead.
 //
 // User ID is hardcoded to skip a lookup request (one fewer billed call). It is
 // the stable numeric ID for @ryoshin0830.
@@ -17,24 +20,24 @@ const X_USERNAME = "ryoshin0830";
 const MAX_POSTS = 10;
 const CACHE_TTL_SECONDS = 86_400; // once per day
 
-async function buildPosts(): Promise<XPost[]> {
+export async function getPosts(): Promise<XPost[]> {
   const token = process.env.X_BEARER_TOKEN;
-  // No token configured (e.g. local dev without secrets) — return empty. This
-  // *is* cached: with no token there's nothing to retry until a deploy adds one.
+  // No token configured (e.g. local dev without secrets) — degrade to empty.
   if (!token) return [];
 
-  const url =
-    `https://api.x.com/2/users/${X_USER_ID}/tweets` +
-    `?max_results=${MAX_POSTS}&exclude=retweets,replies&tweet.fields=created_at`;
+  const params = new URLSearchParams({
+    max_results: String(MAX_POSTS),
+    exclude: "retweets,replies",
+    "tweet.fields": "created_at",
+  });
+  const url = `https://api.x.com/2/users/${X_USER_ID}/tweets?${params}`;
+
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
-    cache: "no-store",
+    next: { revalidate: CACHE_TTL_SECONDS },
   });
-  // Do NOT cache a failed fetch. unstable_cache skips storing a thrown
-  // rejection, so the next request retries instead of pinning an empty list for
-  // a full day. The caller (page.tsx) catches and degrades to []. Without this,
-  // a single early failure (e.g. before the token was set) would persist in the
-  // cross-deploy Data Cache until the 24h TTL expired.
+  // Throw on failure so a bad response isn't cached; the caller (page.tsx)
+  // catches and degrades to an empty list, and the next request retries.
   if (!res.ok) {
     throw new Error(`X API responded ${res.status}`);
   }
@@ -47,8 +50,7 @@ async function buildPosts(): Promise<XPost[]> {
   return data.data.map((t) => {
     // Strip t.co short-links (X auto-appends one per attached media/quote/URL)
     // and collapse whitespace — the card itself links to the post, so the raw
-    // link is just noise. Fall back to the original text if cleaning empties it
-    // (e.g. a post that was only a link).
+    // link is just noise. Fall back to the original text if cleaning empties it.
     const cleaned = t.text
       .replace(/https:\/\/t\.co\/\S+/g, "")
       .replace(/\s+/g, " ")
@@ -61,11 +63,5 @@ async function buildPosts(): Promise<XPost[]> {
     };
   });
 }
-
-// Cache key carries a version suffix so bumping it busts the persistent
-// (cross-deployment) Data Cache when the cached shape or upstream changes.
-export const getPosts = unstable_cache(buildPosts, ["x-posts-v2"], {
-  revalidate: CACHE_TTL_SECONDS,
-});
 
 export { X_USERNAME };
