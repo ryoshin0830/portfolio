@@ -19,48 +19,52 @@ const CACHE_TTL_SECONDS = 86_400; // once per day
 
 async function buildPosts(): Promise<XPost[]> {
   const token = process.env.X_BEARER_TOKEN;
-  // No token configured (e.g. local dev without secrets, or unset in prod) —
-  // degrade silently; the posts block just won't render.
+  // No token configured (e.g. local dev without secrets) — return empty. This
+  // *is* cached: with no token there's nothing to retry until a deploy adds one.
   if (!token) return [];
 
-  try {
-    const url =
-      `https://api.x.com/2/users/${X_USER_ID}/tweets` +
-      `?max_results=${MAX_POSTS}&exclude=retweets,replies&tweet.fields=created_at`;
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
-      cache: "no-store",
-    });
-    if (!res.ok) return [];
-
-    const data = (await res.json()) as {
-      data?: { id: string; text: string; created_at: string }[];
-    };
-    if (!data.data?.length) return [];
-
-    return data.data.map((t) => {
-      // Strip t.co short-links (X auto-appends one per attached media/quote/URL)
-      // and collapse whitespace — the card itself links to the post, so the raw
-      // link is just noise. Fall back to the original text if cleaning empties it
-      // (e.g. a post that was only a link).
-      const cleaned = t.text
-        .replace(/https:\/\/t\.co\/\S+/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-      return {
-        id: t.id,
-        text: cleaned || t.text.trim(),
-        date: t.created_at,
-        url: `https://x.com/${X_USERNAME}/status/${t.id}`,
-      };
-    });
-  } catch {
-    // Network error / malformed response — never let X take down the page.
-    return [];
+  const url =
+    `https://api.x.com/2/users/${X_USER_ID}/tweets` +
+    `?max_results=${MAX_POSTS}&exclude=retweets,replies&tweet.fields=created_at`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+  // Do NOT cache a failed fetch. unstable_cache skips storing a thrown
+  // rejection, so the next request retries instead of pinning an empty list for
+  // a full day. The caller (page.tsx) catches and degrades to []. Without this,
+  // a single early failure (e.g. before the token was set) would persist in the
+  // cross-deploy Data Cache until the 24h TTL expired.
+  if (!res.ok) {
+    throw new Error(`X API responded ${res.status}`);
   }
+
+  const data = (await res.json()) as {
+    data?: { id: string; text: string; created_at: string }[];
+  };
+  if (!data.data?.length) return [];
+
+  return data.data.map((t) => {
+    // Strip t.co short-links (X auto-appends one per attached media/quote/URL)
+    // and collapse whitespace — the card itself links to the post, so the raw
+    // link is just noise. Fall back to the original text if cleaning empties it
+    // (e.g. a post that was only a link).
+    const cleaned = t.text
+      .replace(/https:\/\/t\.co\/\S+/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    return {
+      id: t.id,
+      text: cleaned || t.text.trim(),
+      date: t.created_at,
+      url: `https://x.com/${X_USERNAME}/status/${t.id}`,
+    };
+  });
 }
 
-export const getPosts = unstable_cache(buildPosts, ["x-posts"], {
+// Cache key carries a version suffix so bumping it busts the persistent
+// (cross-deployment) Data Cache when the cached shape or upstream changes.
+export const getPosts = unstable_cache(buildPosts, ["x-posts-v2"], {
   revalidate: CACHE_TTL_SECONDS,
 });
 
