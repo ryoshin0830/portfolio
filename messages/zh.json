@@ -37,7 +37,8 @@
     "viewWork": "查看成果"
   },
   "heroWriting": {
-    "latestPost": "最新动态",
+    "latestArticles": "最新文章",
+    "latestPosts": "最新动态",
     "viewAll": "查看全部动态"
   },
   "highlights": {

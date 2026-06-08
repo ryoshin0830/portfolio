@@ -37,7 +37,8 @@
     "viewWork": "See the results"
   },
   "heroWriting": {
-    "latestPost": "Latest activity",
+    "latestArticles": "Latest articles",
+    "latestPosts": "Latest posts",
     "viewAll": "View all activity"
   },
   "highlights": {

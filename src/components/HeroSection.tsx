@@ -19,9 +19,11 @@ const SourceMark = ({ source }: { source: FeedSource }) => (
 );
 
 const HeroSection = ({
-  latestItems,
+  latestArticles,
+  latestPosts,
 }: {
-  latestItems: FeedItem[];
+  latestArticles: FeedItem[];
+  latestPosts: FeedItem[];
 }) => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
@@ -74,10 +76,7 @@ const HeroSection = ({
     return () => clearInterval(i);
   }, [rotate, docVisible, roles.length]);
 
-  // Latest activity (top 3 of the merged Zenn + Qiita + X feed) comes in as a
-  // prop from the server — rendered below the fold of the centered hero, so it
-  // never affects the LCP name candidate.
-  const items = latestItems;
+  const hasActivity = latestArticles.length > 0 || latestPosts.length > 0;
 
   // Honor prefers-reduced-motion for programmatic scrolls (CSS scroll-behavior
   // is already reset for it, but scrollIntoView's JS option is not).
@@ -98,6 +97,66 @@ const HeroSection = ({
       month: "short",
       day: "numeric",
     }).format(new Date(s));
+
+  // One labelled column (Articles or Posts) of feed rows. A plain render
+  // function (not a nested component) so it shares scope and isn't remounted.
+  const renderColumn = (label: string, columnItems: FeedItem[]) => (
+    <div>
+      <p className="mb-3 border-b border-[color:var(--color-rule)] pb-2 text-xs font-medium uppercase tracking-wider text-[color:var(--color-ink-muted)]">
+        {label}
+      </p>
+      <m.ul
+        className="flex flex-col"
+        initial="hidden"
+        animate="show"
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.06 } },
+        }}
+      >
+        {columnItems.map((i) => (
+          <m.li
+            key={i.id}
+            variants={{
+              hidden: { opacity: 0, y: 8 },
+              show: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Link
+              href={i.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col gap-1 border-b border-[color:var(--color-rule-soft)] py-3 last:border-b-0"
+            >
+              <span className="flex items-start gap-2">
+                <span className="flex shrink-0 translate-y-0.5 items-center gap-1">
+                  {i.sources.map((s) => (
+                    <SourceMark key={s} source={s} />
+                  ))}
+                </span>
+                <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] transition-colors line-clamp-2 group-hover:text-[color:var(--color-accent)]">
+                  {i.text}
+                  <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                </span>
+              </span>
+              <span
+                className="flex items-center gap-1.5 pl-[1.4rem] text-xs text-[color:var(--color-ink-muted)] num"
+                suppressHydrationWarning
+              >
+                {formatDate(i.date)}
+                <ArrowUpRight
+                  size={11}
+                  aria-hidden
+                  className="transition-colors group-hover:text-[color:var(--color-accent)]"
+                />
+              </span>
+            </Link>
+          </m.li>
+        ))}
+      </m.ul>
+    </div>
+  );
 
   return (
     <section
@@ -166,71 +225,32 @@ const HeroSection = ({
           <SocialLinks />
         </div>
 
-        {/* Latest activity (Zenn + Qiita + X) — server-rendered from props, so
-            the list is in the initial HTML (no client fetch). The min-height
-            keeps a stable floor; rows stagger in once on mount (one-time
-            entrance). */}
-        <div
-          className="mx-auto mt-12 max-w-3xl min-h-[25rem] md:min-h-[13rem]"
-        >
-          {items.length > 0 && (
+        {/* Latest activity — articles and posts as two separate columns (mixing
+            them by date buries the less-frequent articles). Server-rendered from
+            props, so it's in the initial HTML; rows stagger in once on mount. */}
+        <div className="mx-auto mt-14 w-full max-w-3xl min-h-[36rem] text-left md:min-h-[22rem]">
+          {hasActivity && (
             <>
-              <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium mb-3 text-center">
-                {tWriting("latestPost")}
-              </p>
-              <m.ul
-                className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-3 md:gap-y-0"
-                initial="hidden"
-                animate="show"
-                variants={{
-                  hidden: {},
-                  show: { transition: { staggerChildren: 0.08 } },
-                }}
-              >
-                {items.map((i) => (
-                  <m.li
-                    key={i.id}
-                    variants={{
-                      hidden: { opacity: 0, y: 8 },
-                      show: { opacity: 1, y: 0 },
-                    }}
-                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              <div className="grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-2">
+                {latestArticles.length > 0 &&
+                  renderColumn(tWriting("latestArticles"), latestArticles)}
+                {latestPosts.length > 0 && (
+                  <div
+                    className={
+                      latestArticles.length > 0
+                        ? "md:border-l md:border-[color:var(--color-rule)] md:pl-12"
+                        : undefined
+                    }
                   >
-                    <Link
-                      href={i.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-full flex-col border-t border-[color:var(--color-rule-soft)] pt-4 group text-left"
-                    >
-                      <span className="mb-2 flex gap-1.5">
-                        {i.sources.map((s) => (
-                          <SourceMark key={s} source={s} />
-                        ))}
-                      </span>
-                      <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors line-clamp-2 min-h-[2.5rem]">
-                        {i.text}
-                        <span className="sr-only"> — {tc("opensInNewTab")}</span>
-                      </span>
-                      <span
-                        className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--color-ink-muted)] num"
-                        suppressHydrationWarning
-                      >
-                        {formatDate(i.date)}
-                        <ArrowUpRight
-                          size={12}
-                          aria-hidden
-                          className="group-hover:text-[color:var(--color-accent)] transition-colors"
-                        />
-                      </span>
-                    </Link>
-                  </m.li>
-                ))}
-              </m.ul>
+                    {renderColumn(tWriting("latestPosts"), latestPosts)}
+                  </div>
+                )}
+              </div>
 
               {/* Secondary action — jumps to the full archive (#blog) at the
                   bottom of the page. The down arrow signals an in-page move,
-                  distinct from each card's ↗ which opens the article off-site. */}
-              <div className="mt-8 flex justify-center">
+                  distinct from each row's ↗ which opens the item off-site. */}
+              <div className="mt-10 flex justify-center">
                 <button
                   type="button"
                   onClick={scrollToBlog}

@@ -37,7 +37,8 @@
     "viewWork": "成果を見る"
   },
   "heroWriting": {
-    "latestPost": "最新の発信",
+    "latestArticles": "最新記事",
+    "latestPosts": "最新ポスト",
     "viewAll": "すべての発信を見る"
   },
   "highlights": {

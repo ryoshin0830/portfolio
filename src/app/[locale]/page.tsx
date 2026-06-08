@@ -21,10 +21,15 @@ export default async function Home() {
     getPosts().catch(() => []),
   ]);
   const feed = buildFeed(articles, posts);
+  // The Hero shows articles and posts as two separate columns (mixing them by
+  // date buries the articles under the more-frequent posts), so split the feed
+  // by kind there. The bottom section keeps the merged, date-sorted stream.
+  const latestArticles = feed.filter((i) => i.kind === "article").slice(0, 5);
+  const latestPosts = feed.filter((i) => i.kind === "post").slice(0, 5);
 
   return (
     <main>
-      <HeroSection latestItems={feed.slice(0, 3)} />
+      <HeroSection latestArticles={latestArticles} latestPosts={latestPosts} />
       <HighlightsStrip />
       <AboutSection />
       <ExperienceSection />
