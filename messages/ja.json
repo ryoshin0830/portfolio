@@ -832,6 +832,11 @@
     "viewOnQiita": "Qiitaで見る",
     "empty": "該当する記事がありません。"
   },
+  "posts": {
+    "title": "X での発信",
+    "subtitle": "@ryoshin0830 の最新ポスト。",
+    "viewProfile": "X でプロフィールを見る"
+  },
   "metadata": {
     "title": "梁震（りょう しん）| エンジニア・研究者",
     "description": "京都大学にて博士号取得、GMO ペパボ エンジニア。LLM・ASR・LangGraph などを用いた医療・教育・言語処理領域の研究開発と実装。",

@@ -10,3 +10,13 @@ export interface MergedArticle {
 }
 
 export type ArticleSource = "zenn" | "qiita";
+
+// A single X (Twitter) post. Posts have no title — just body text — so they are
+// NOT merged into the title-deduplicated article feed; they render as their own
+// block. Fetched server-side from the X API (app-only Bearer auth).
+export interface XPost {
+  id: string;
+  text: string;
+  date: string; // ISO 8601 (created_at)
+  url: string; // https://x.com/<username>/status/<id>
+}

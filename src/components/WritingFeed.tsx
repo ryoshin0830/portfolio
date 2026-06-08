@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import type { ArticleSource, MergedArticle } from "@/types/articles";
+import type { ArticleSource, MergedArticle, XPost } from "@/types/articles";
 
 // Articles are fetched and merged server-side (cross-posts deduplicated) and
 // passed in as a prop — no client fetch. The list is small, so we reveal it in
@@ -23,8 +23,15 @@ function SourceBadge({ source }: { source: ArticleSource }) {
   );
 }
 
-export default function WritingFeed({ articles }: { articles: MergedArticle[] }) {
+export default function WritingFeed({
+  articles,
+  posts = [],
+}: {
+  articles: MergedArticle[];
+  posts?: XPost[];
+}) {
   const t = useTranslations("writingFeed");
+  const tPosts = useTranslations("posts");
   const tc = useTranslations("common");
   const locale = useLocale();
   const [filter, setFilter] = useState<Filter>("all");
@@ -170,6 +177,61 @@ export default function WritingFeed({ articles }: { articles: MergedArticle[] })
           <p className="prose-body text-[color:var(--color-ink-soft)]">
             {t("empty")}
           </p>
+        )}
+
+        {/* X (Twitter) posts — a distinct block, not merged into the article
+            list (posts have no titles). Only renders when the X feed returned
+            something; degrades to nothing if the token is unset or the API
+            fails. Post text stays in its original language (not translated). */}
+        {posts.length > 0 && (
+          <div className="mt-20 border-t border-[color:var(--color-rule)] pt-12">
+            <header className="mb-8">
+              <h3 className="display display--xl mb-3">{tPosts("title")}</h3>
+              <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
+                {tPosts("subtitle")}
+              </p>
+            </header>
+            <ul className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
+              {posts.map((p) => (
+                <li key={p.id}>
+                  <Link
+                    href={p.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex h-full flex-col gap-3 border-t border-[color:var(--color-rule-soft)] py-5"
+                  >
+                    <p className="text-base leading-relaxed text-[color:var(--color-ink)] line-clamp-4 group-hover:text-[color:var(--color-accent)] transition-colors">
+                      {p.text}
+                      <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                    </p>
+                    <span
+                      className="mt-auto flex items-center gap-1.5 text-sm text-[color:var(--color-ink-muted)] num"
+                      suppressHydrationWarning
+                    >
+                      {formatDate(p.date)}
+                      <ArrowUpRight
+                        size={14}
+                        aria-hidden
+                        className="text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors"
+                      />
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8">
+              <Link
+                href="https://x.com/ryoshin0830"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-accent text-base"
+              >
+                {tPosts("viewProfile")}
+                <ArrowUpRight size={16} aria-hidden />
+                <span className="sr-only"> — {tc("opensInNewTab")}</span>
+              </Link>
+            </div>
+          </div>
         )}
 
         {/* Profile links — always available, even if the feed is empty. */}

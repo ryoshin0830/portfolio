@@ -832,6 +832,11 @@
     "viewOnQiita": "View on Qiita",
     "empty": "No articles to show."
   },
+  "posts": {
+    "title": "Posts on X",
+    "subtitle": "Latest posts from @ryoshin0830.",
+    "viewProfile": "View profile on X"
+  },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",
     "description": "Kyoto University PhD and Engineer at GMO Pepabo. Research and engineering across LLM, ASR, LangGraph for medical, educational and language-processing domains.",

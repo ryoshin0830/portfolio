@@ -832,6 +832,11 @@
     "viewOnQiita": "在 Qiita 查看",
     "empty": "暂无文章。"
   },
+  "posts": {
+    "title": "X 上的动态",
+    "subtitle": "来自 @ryoshin0830 的最新动态。",
+    "viewProfile": "在 X 查看主页"
+  },
   "metadata": {
     "title": "梁震 | 工程师・研究者",
     "description": "京都大学博士，GMO Pepabo 工程师。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",

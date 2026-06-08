@@ -7,13 +7,17 @@ import ResearchSection from "@/components/ResearchSection";
 import SkillsSection from "@/components/SkillsSection";
 import WritingFeed from "@/components/WritingFeed";
 import { getArticles } from "@/lib/articles";
+import { getPosts } from "@/lib/posts";
 
 export default async function Home() {
-  // Fetch the merged Zenn + Qiita feed once on the server (cached for an hour)
-  // and hand it to both consumers as props — no duplicate client requests, and
-  // the article list is in the initial HTML. Degrade to an empty list if both
-  // upstream feeds are unreachable; the sections handle the empty state.
-  const articles = await getArticles().catch(() => []);
+  // Fetch the merged Zenn + Qiita feed and the X posts once on the server (each
+  // cached on its own schedule — articles hourly, posts daily) and hand them to
+  // consumers as props: no duplicate client requests, content in the initial
+  // HTML. Both degrade to an empty list on failure; the sections handle empty.
+  const [articles, posts] = await Promise.all([
+    getArticles().catch(() => []),
+    getPosts().catch(() => []),
+  ]);
 
   return (
     <main>
@@ -24,7 +28,7 @@ export default async function Home() {
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
-      <WritingFeed articles={articles} />
+      <WritingFeed articles={articles} posts={posts} />
     </main>
   );
 }
