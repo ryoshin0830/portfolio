@@ -26,7 +26,7 @@ const ExperienceSection = async () => {
   };
 
   return (
-    <section id="experience" className="section">
+    <section id="experience" className="section section--pt-tight">
       <div className="section__inner">
         <header className="mb-16">
           <h2 className="display display--xl mb-6">{t("title")}</h2>

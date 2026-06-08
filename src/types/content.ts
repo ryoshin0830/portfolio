@@ -58,16 +58,6 @@ export interface Expertise {
   description: string;
 }
 
-export interface ContactCTAContent {
-  accepting: string;
-  headline: string;
-  body: string;
-  domains: string[];
-  emailLabel: string;
-  email: string;
-  socialLabel: string;
-}
-
 export type Translator = (key: string) => unknown;
 
 export function getRaw<T>(t: { raw: (key: string) => unknown }, key: string): T {

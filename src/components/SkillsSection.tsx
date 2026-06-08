@@ -21,6 +21,19 @@ const SkillsSection = async () => {
     (a, b) => (parseInt(b.date, 10) || 0) - (parseInt(a.date, 10) || 0),
   );
 
+  // Group skills by proficiency instead of showing cryptic "5y" badges / an
+  // unexplained blue accent. Tier is derived from the existing data: featured
+  // skills are "core", anything with ≥3 years is "proficient", the rest are
+  // "familiar". The tier label carries the meaning; chips stay monochrome.
+  type SkillItem = SkillCategory["items"][number];
+  const levelOf = (i: SkillItem): "core" | "proficient" | "familiar" =>
+    i.featured ? "core" : (i.years ?? 0) >= 3 ? "proficient" : "familiar";
+  const tiers = [
+    { key: "core", label: t("levelCore") },
+    { key: "proficient", label: t("levelProficient") },
+    { key: "familiar", label: t("levelFamiliar") },
+  ] as const;
+
   return (
     <section id="skills" className="section section--soft">
       <div className="section__inner">
@@ -41,21 +54,33 @@ const SkillsSection = async () => {
               <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
                 {t(cat.titleKey)}
               </h3>
-              <div className="flex flex-wrap gap-2 min-w-0">
-                {cat.items.map((item) => (
-                  <span
-                    key={item.name}
-                    className={`chip ${item.featured ? "chip--accent" : ""}`}
-                  >
-                    {item.name}
-                    {item.years !== undefined && (
-                      <span className="chip__years">
-                        {item.years}
-                        {t("yearsLabel")}
+              <div className="space-y-5 min-w-0">
+                {tiers.map((tier) => {
+                  const items = cat.items.filter(
+                    (i) => levelOf(i) === tier.key,
+                  );
+                  if (items.length === 0) return null;
+                  return (
+                    <div
+                      key={tier.key}
+                      className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-2 sm:gap-6"
+                    >
+                      <span className="text-sm text-[color:var(--color-ink-muted)] pt-1.5">
+                        {tier.label}
                       </span>
-                    )}
-                  </span>
-                ))}
+                      <div className="flex flex-wrap gap-2">
+                        {items.map((item) => (
+                          <span
+                            key={item.name}
+                            className={`chip ${tier.key === "core" ? "chip--core" : ""}`}
+                          >
+                            {item.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

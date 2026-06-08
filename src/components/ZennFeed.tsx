@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
@@ -11,12 +11,16 @@ interface ZennArticle {
   pubDate: string;
 }
 
+const BATCH = 6;
+
 export default function ZennFeed() {
   const t = useTranslations("zennFeed");
   const locale = useLocale();
   const [articles, setArticles] = useState<ZennArticle[]>([]);
+  const [visibleCount, setVisibleCount] = useState(BATCH);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -30,13 +34,13 @@ export default function ZennFeed() {
         const data = await res.json();
         if (data.items && !cancelled) {
           setArticles(
-            data.items
-              .slice(0, 6)
-              .map((i: { title: string; link: string; pubDate: string }) => ({
+            data.items.map(
+              (i: { title: string; link: string; pubDate: string }) => ({
                 title: i.title,
                 link: i.link,
                 pubDate: i.pubDate,
-              })),
+              }),
+            ),
           );
         }
       } catch (e) {
@@ -51,6 +55,27 @@ export default function ZennFeed() {
       cancelled = true;
     };
   }, []);
+
+  // Infinite scroll: reveal another batch whenever the sentinel enters view,
+  // until every fetched article is shown (then the observer disconnects). The
+  // Zenn RSS feed only exposes the most recent posts, so this progressively
+  // reveals the available feed rather than unbounded history.
+  const hasMore = visibleCount < articles.length;
+  useEffect(() => {
+    if (!hasMore) return;
+    const node = sentinelRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleCount((c) => Math.min(c + BATCH, articles.length));
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [hasMore, articles.length]);
 
   const formatDate = (s: string) =>
     new Intl.DateTimeFormat(locale, {
@@ -85,7 +110,7 @@ export default function ZennFeed() {
 
         {articles.length > 0 && (
         <ul>
-          {articles.map((a) => (
+          {articles.slice(0, visibleCount).map((a) => (
             <li key={a.link}>
               <Link
                 href={a.link}
@@ -108,6 +133,9 @@ export default function ZennFeed() {
           ))}
         </ul>
         )}
+
+        {/* Infinite-scroll sentinel — reveals the next batch when it enters view. */}
+        {hasMore && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
 
         {/* Loading skeleton — reserves height so the section doesn't shift in. */}
         {loading && (

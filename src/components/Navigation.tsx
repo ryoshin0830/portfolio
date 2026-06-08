@@ -38,7 +38,6 @@ const Navigation = () => {
   ];
   const secondaryNavItems = [
     { key: "blog", sectionId: "blog" },
-    { key: "contact", sectionId: "contact" },
   ];
 
   useEffect(() => {

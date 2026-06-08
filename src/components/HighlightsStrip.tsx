@@ -10,7 +10,7 @@ const HighlightsStrip = async () => {
   return (
     <section
       id="highlights"
-      className="section section--soft bg-[color:var(--color-bg-soft)]"
+      className="section section--soft section--pb-tight bg-[color:var(--color-bg-soft)]"
     >
       <div className="section__inner text-center">
         {/* Section context (uses the previously-unused title/subtitle so the

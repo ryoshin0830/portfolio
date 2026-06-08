@@ -9,7 +9,6 @@
     "skills": "スキル",
     "projects": "プロジェクト",
     "blog": "ブログ",
-    "contact": "お問い合わせ",
     "more": "その他",
     "scrollToNext": "次のセクション：",
     "scrollToPrevious": "前のセクション：",
@@ -116,7 +115,7 @@
       {
         "year": "1999",
         "title": "来日",
-        "description": "家族と共に横浜に移住。日本での幼稚園・小学校生活を開始",
+        "description": "家族と共に横浜へ移住。幼稚園から小学校までの約10年間を日本で過ごす。",
         "icon": "plane"
       },
       {
@@ -133,14 +132,14 @@
       },
       {
         "year": "2016",
-        "title": "大学入学",
-        "description": "首都経済貿易大学 情報システム専攻に入学",
+        "title": "首都経済貿易大学 入学",
+        "description": "情報システムを専攻",
         "icon": "university"
       },
       {
         "year": "2020",
-        "title": "大学卒業",
-        "description": "首都経済貿易大学 情報システム専攻を卒業",
+        "title": "首都経済貿易大学 卒業",
+        "description": "情報システムを専攻",
         "icon": "university"
       },
       {
@@ -151,20 +150,20 @@
       },
       {
         "year": "2021",
-        "title": "修士課程入学",
-        "description": "京都大学人間・環境学研究科 修士課程に入学。外国語教育学・第二言語習得論・応用言語学を専攻",
+        "title": "京都大学大学院 修士課程入学",
+        "description": "人間・環境学研究科。外国語教育学・第二言語習得論・応用言語学を専攻",
         "icon": "university"
       },
       {
         "year": "2023",
-        "title": "修士課程修了",
-        "description": "京都大学大学院 修士課程を修了（外国語教育学・第二言語習得論・応用言語学）",
+        "title": "京都大学大学院 修士課程修了",
+        "description": "外国語教育学・第二言語習得論・応用言語学を専攻",
         "icon": "university"
       },
       {
         "year": "2023",
-        "title": "博士課程入学",
-        "description": "京都大学大学院 博士課程に進学。博士論文テーマ：「外国語教育における LLM の応用」",
+        "title": "京都大学大学院 博士課程進学",
+        "description": "博士論文テーマ：「外国語教育における LLM の応用」",
         "icon": "university"
       },
       {
@@ -193,8 +192,8 @@
       },
       {
         "year": "2026",
-        "title": "博士課程修了",
-        "description": "京都大学大学院 博士課程を修了し、博士号を取得（2026 年 3 月）。博士論文テーマ：「外国語教育における LLM の応用」",
+        "title": "京都大学大学院 博士課程修了",
+        "description": "博士号を取得（2026 年 3 月）。博士論文テーマ：「外国語教育における LLM の応用」",
         "icon": "university"
       },
       {
@@ -270,8 +269,17 @@
         "role": "エンジニア（業務委託）",
         "teamOverall": 5,
         "teamSection": 5,
-        "scope": ["req", "basicDesign", "impl", "test"],
-        "stack": ["Python", "LLM", "情報抽出"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "impl",
+          "test"
+        ],
+        "stack": [
+          "Python",
+          "LLM",
+          "情報抽出"
+        ],
         "responsibilities": [
           "入札 PoC の範囲定義と抽出ロジックの設計・改善",
           "システム構成・デプロイ運用・権限管理の設計"
@@ -297,8 +305,20 @@
         "role": "フルスタック開発（業務委託）",
         "teamOverall": 3,
         "teamSection": 3,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
-        "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "ops"
+        ],
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Vercel",
+          "PostgreSQL"
+        ],
         "responsibilities": [
           "Massey University・Dr. Mitsue Tabata-Sandom の日本語多読研究と連携し、速読練習プラットフォームを設計・開発",
           "読書速度（WPM）・理解度の計測機能の設計・実装"
@@ -325,7 +345,13 @@
         "role": "エンジニア／要件定義〜設計主担当（業務委託）",
         "teamOverall": 40,
         "teamSection": 25,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "test"
+        ],
         "stack": [
           "Python",
           "FastAPI",
@@ -373,7 +399,13 @@
         "role": "プロジェクトリーダー（業務委託）",
         "teamOverall": 13,
         "teamSection": 6,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "ops"
+        ],
         "stack": [
           "JavaScript",
           "TypeScript",
@@ -500,7 +532,7 @@
   },
   "skills": {
     "title": "スキル・技術",
-    "subtitle": "業務で扱った技術スタック（経験年数付き）",
+    "subtitle": "業務で扱った技術スタック（習熟度別）",
     "kicker": "Stack",
     "programming": "プログラミング言語",
     "frontend": "フロントエンド",
@@ -515,6 +547,9 @@
     "ceoFounder": "CEO・創業者",
     "yearsExperience": "{years}年以上の経験",
     "yearsLabel": "y",
+    "levelCore": "主力",
+    "levelProficient": "実務レベル",
+    "levelFamiliar": "経験あり",
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック",
     "proficiency": "習熟度",
@@ -524,69 +559,174 @@
         "id": "languages",
         "titleKey": "programming",
         "items": [
-          { "name": "JavaScript", "years": 5, "featured": true },
-          { "name": "TypeScript", "years": 3, "featured": true },
-          { "name": "Python", "years": 5, "featured": true },
-          { "name": "Swift", "years": 4 },
-          { "name": "PHP", "years": 3 },
-          { "name": "C", "years": 2 }
+          {
+            "name": "JavaScript",
+            "years": 5,
+            "featured": true
+          },
+          {
+            "name": "TypeScript",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Python",
+            "years": 5,
+            "featured": true
+          },
+          {
+            "name": "Swift",
+            "years": 4
+          },
+          {
+            "name": "PHP",
+            "years": 3
+          },
+          {
+            "name": "C",
+            "years": 2
+          }
         ]
       },
       {
         "id": "frameworks",
         "titleKey": "frontend",
         "items": [
-          { "name": "React", "years": 3, "featured": true },
-          { "name": "Next.js", "featured": true },
-          { "name": "React Native", "years": 2 },
-          { "name": "Node.js / Express" },
-          { "name": "FastAPI", "featured": true },
-          { "name": "LangChain" },
-          { "name": "LangGraph", "featured": true },
-          { "name": "Transformers" },
-          { "name": "PyTorch" },
-          { "name": "DeepSpeed" },
-          { "name": "Dify" },
-          { "name": "WordPress" }
+          {
+            "name": "React",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Next.js",
+            "featured": true
+          },
+          {
+            "name": "React Native",
+            "years": 2
+          },
+          {
+            "name": "Node.js / Express"
+          },
+          {
+            "name": "FastAPI",
+            "featured": true
+          },
+          {
+            "name": "LangChain"
+          },
+          {
+            "name": "LangGraph",
+            "featured": true
+          },
+          {
+            "name": "Transformers"
+          },
+          {
+            "name": "PyTorch"
+          },
+          {
+            "name": "DeepSpeed"
+          },
+          {
+            "name": "Dify"
+          },
+          {
+            "name": "WordPress"
+          }
         ]
       },
       {
         "id": "databases",
         "titleKey": "database",
         "items": [
-          { "name": "MariaDB / MySQL", "years": 5 },
-          { "name": "PostgreSQL", "years": 3, "featured": true },
-          { "name": "MongoDB", "years": 2 },
-          { "name": "AWS Aurora" }
+          {
+            "name": "MariaDB / MySQL",
+            "years": 5
+          },
+          {
+            "name": "PostgreSQL",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "MongoDB",
+            "years": 2
+          },
+          {
+            "name": "AWS Aurora"
+          }
         ]
       },
       {
         "id": "infra",
         "titleKey": "cloud",
         "items": [
-          { "name": "Nginx", "years": 6 },
-          { "name": "Apache", "years": 5 },
-          { "name": "Linux", "years": 5 },
-          { "name": "Caddy", "years": 3 },
-          { "name": "AWS", "years": 3, "featured": true },
-          { "name": "Vercel" },
-          { "name": "Docker" }
+          {
+            "name": "Nginx",
+            "years": 6
+          },
+          {
+            "name": "Apache",
+            "years": 5
+          },
+          {
+            "name": "Linux",
+            "years": 5
+          },
+          {
+            "name": "Caddy",
+            "years": 3
+          },
+          {
+            "name": "AWS",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Vercel"
+          },
+          {
+            "name": "Docker"
+          }
         ]
       },
       {
         "id": "tools",
         "titleKey": "ai",
         "items": [
-          { "name": "Git", "years": 5 },
-          { "name": "Scikit-learn", "years": 3 },
-          { "name": "Word2Vec / gensim" },
-          { "name": "Jupyter" },
-          { "name": "Jest" },
-          { "name": "Figma" },
-          { "name": "Webpack" },
-          { "name": "PDF.js" },
-          { "name": "MeCab" },
-          { "name": "BERT" }
+          {
+            "name": "Git",
+            "years": 5
+          },
+          {
+            "name": "Scikit-learn",
+            "years": 3
+          },
+          {
+            "name": "Word2Vec / gensim"
+          },
+          {
+            "name": "Jupyter"
+          },
+          {
+            "name": "Jest"
+          },
+          {
+            "name": "Figma"
+          },
+          {
+            "name": "Webpack"
+          },
+          {
+            "name": "PDF.js"
+          },
+          {
+            "name": "MeCab"
+          },
+          {
+            "name": "BERT"
+          }
         ]
       }
     ],
@@ -648,7 +788,14 @@
       {
         "title": "語彙問題自動生成システム",
         "description": "Word2VecとLatent Dirichlet Allocation（LDA）を活用した日本語教育向け語彙問題の自動生成システム。分散表現とトピックモデリングによる高精度な誤答選択肢生成を実現。",
-        "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
+        "technologies": [
+          "Python",
+          "Word2Vec",
+          "scikit-learn",
+          "Gensim",
+          "NLTK",
+          "MeCab"
+        ],
         "features": [
           "Word2Vec分散表現による意味的類似語の抽出",
           "LDAトピックモデリングによる文脈的誤答選択肢生成",
@@ -660,21 +807,6 @@
     "mainFeatures": "主な機能・特徴",
     "techStack": "技術スタック"
   },
-  "contactCTA": {
-    "kicker": "For Contract Work",
-    "accepting": "業務委託のご相談、受け付けています",
-    "headline": "医療 AI ／ 教育 AI ／ 言語処理の領域で、設計から実装・運用までお手伝いします",
-    "body": "ASR / LLM / マルチモーダルの研究と実装、要件定義からの伴走、研究機関との協働経験があります。お気軽にご連絡ください。",
-    "domains": [
-      "医療 AI（ASR・LLM 要約）",
-      "教育 AI（学習者コーパス・語彙難易度）",
-      "言語処理（多言語パイプライン・形態素解析）"
-    ],
-    "emailLabel": "Email",
-    "email": "ryo.shin.j85@kyoto-u.jp",
-    "socialLabel": "SNS",
-    "openToWork": "Open to contract work"
-  },
   "contact": {
     "title": "お問い合わせ",
     "subtitle": "お気軽にご連絡ください",
@@ -682,7 +814,7 @@
     "social": "SNS・外部リンク"
   },
   "footer": {
-    "copyright": "© 2024 梁 震（りょう しん）. All rights reserved.",
+    "copyright": "© 2026 梁 震（りょう しん）. All rights reserved.",
     "builtWith": "Next.js、TypeScript、Tailwind CSSで構築"
   },
   "publications": {

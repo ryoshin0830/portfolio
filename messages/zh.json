@@ -9,7 +9,6 @@
     "skills": "技能",
     "projects": "项目",
     "blog": "博客",
-    "contact": "联系方式",
     "more": "更多",
     "scrollToNext": "下一部分:",
     "scrollToPrevious": "上一部分:",
@@ -107,22 +106,102 @@
       "教育语法与学术英语教学"
     ],
     "timelineEvents": [
-      { "year": "1997", "title": "出生", "description": "生于北京", "icon": "birth" },
-      { "year": "1999", "title": "赴日", "description": "与家人移居横滨。在日本开始幼儿园与小学生活", "icon": "plane" },
-      { "year": "2009", "title": "回国", "description": "返回北京，升入中学", "icon": "plane" },
-      { "year": "2010", "title": "取得日本永驻", "description": "取得日本永久居留资格", "icon": "home" },
-      { "year": "2016", "title": "入读大学", "description": "进入首都经济贸易大学 信息系统专业", "icon": "university" },
-      { "year": "2020", "title": "大学毕业", "description": "毕业于首都经济贸易大学 信息系统专业", "icon": "university" },
-      { "year": "2021", "title": "再次赴日", "description": "移居京都", "icon": "plane" },
-      { "year": "2021", "title": "硕士入学", "description": "进入京都大学人类与环境学研究科硕士课程，专攻外语教育学・第二语言习得・应用语言学", "icon": "university" },
-      { "year": "2023", "title": "硕士毕业", "description": "于京都大学研究生院硕士课程毕业（外语教育学・第二语言习得・应用语言学）", "icon": "university" },
-      { "year": "2023", "title": "博士入学", "description": "进入京都大学研究生院博士课程。博士论文方向：『LLM 在外语教育中的应用』", "icon": "university" },
-      { "year": "2023", "title": "参与国立国语研究所项目", "description": "参与语汇画像器开发项目，负责从需求定义到实现与运营（至 2025 年）", "icon": "university" },
-      { "year": "2025", "title": "加入 medimo", "description": "在株式会社 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）", "icon": "home" },
-      { "year": "2025", "title": "参与梅西大学项目", "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（至 2026 年）", "icon": "home" },
-      { "year": "2026", "title": "参与 Sapeet", "description": "参与株式会社 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）", "icon": "home" },
-      { "year": "2026", "title": "博士毕业", "description": "于京都大学研究生院博士课程毕业并取得博士学位（2026 年 3 月）", "icon": "university" },
-      { "year": "2026", "title": "加入 GMO Pepabo", "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）", "icon": "home" }
+      {
+        "year": "1997",
+        "title": "出生",
+        "description": "生于北京",
+        "icon": "birth"
+      },
+      {
+        "year": "1999",
+        "title": "赴日",
+        "description": "与家人一同移居横滨。此后从幼儿园到小学，在日本度过了约十年的童年时光。",
+        "icon": "plane"
+      },
+      {
+        "year": "2009",
+        "title": "回国",
+        "description": "返回北京，升入中学",
+        "icon": "plane"
+      },
+      {
+        "year": "2010",
+        "title": "取得日本永驻",
+        "description": "取得日本永久居留资格",
+        "icon": "home"
+      },
+      {
+        "year": "2016",
+        "title": "入读首都经济贸易大学",
+        "description": "信息系统专业",
+        "icon": "university"
+      },
+      {
+        "year": "2020",
+        "title": "毕业于首都经济贸易大学",
+        "description": "信息系统专业",
+        "icon": "university"
+      },
+      {
+        "year": "2021",
+        "title": "再次赴日",
+        "description": "移居京都",
+        "icon": "plane"
+      },
+      {
+        "year": "2021",
+        "title": "京都大学研究生院 硕士入学",
+        "description": "人类与环境学研究科，专攻外语教育学・第二语言习得・应用语言学",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "京都大学研究生院 硕士毕业",
+        "description": "外语教育学・第二语言习得・应用语言学",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "京都大学研究生院 博士入学",
+        "description": "博士论文方向：『LLM 在外语教育中的应用』",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "参与国立国语研究所项目",
+        "description": "参与语汇画像器开发项目，负责从需求定义到实现与运营（至 2025 年）",
+        "icon": "university"
+      },
+      {
+        "year": "2025",
+        "title": "加入 medimo",
+        "description": "在株式会社 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）",
+        "icon": "home"
+      },
+      {
+        "year": "2025",
+        "title": "参与梅西大学项目",
+        "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（至 2026 年）",
+        "icon": "home"
+      },
+      {
+        "year": "2026",
+        "title": "参与 Sapeet",
+        "description": "参与株式会社 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）",
+        "icon": "home"
+      },
+      {
+        "year": "2026",
+        "title": "京都大学研究生院 博士毕业",
+        "description": "取得博士学位（2026 年 3 月）。博士论文方向：『LLM 在外语教育中的应用』",
+        "icon": "university"
+      },
+      {
+        "year": "2026",
+        "title": "加入 GMO Pepabo",
+        "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）",
+        "icon": "home"
+      }
     ]
   },
   "experience": {
@@ -190,8 +269,17 @@
         "role": "工程师（业务委托）",
         "teamOverall": 5,
         "teamSection": 5,
-        "scope": ["req", "basicDesign", "impl", "test"],
-        "stack": ["Python", "LLM", "信息抽取"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "impl",
+          "test"
+        ],
+        "stack": [
+          "Python",
+          "LLM",
+          "信息抽取"
+        ],
         "responsibilities": [
           "招投标 PoC 的范围定义与抽取逻辑的设计・改进",
           "系统结构、部署运营与权限管理的设计"
@@ -217,8 +305,20 @@
         "role": "全栈开发（业务委托）",
         "teamOverall": 3,
         "teamSection": 3,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
-        "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "ops"
+        ],
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Vercel",
+          "PostgreSQL"
+        ],
         "responsibilities": [
           "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，设计并开发速读练习平台",
           "设计并实现阅读速度（WPM）与理解度测量功能"
@@ -245,7 +345,13 @@
         "role": "工程师・需求定义与设计主担当（业务委托）",
         "teamOverall": 40,
         "teamSection": 25,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "test"
+        ],
         "stack": [
           "Python",
           "FastAPI",
@@ -293,7 +399,13 @@
         "role": "项目负责人（业务委托）",
         "teamOverall": 13,
         "teamSection": 6,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "ops"
+        ],
         "stack": [
           "JavaScript",
           "TypeScript",
@@ -420,7 +532,7 @@
   },
   "skills": {
     "title": "技能与技术栈",
-    "subtitle": "实际生产中使用的技术栈（附经验年限）",
+    "subtitle": "实际生产中使用的技术栈（按熟练度分组）",
     "kicker": "Stack",
     "programming": "编程语言",
     "frontend": "前端",
@@ -435,6 +547,9 @@
     "ceoFounder": "CEO・创始人",
     "yearsExperience": "{years}年以上经验",
     "yearsLabel": "y",
+    "levelCore": "主力",
+    "levelProficient": "熟练",
+    "levelFamiliar": "了解",
     "mainFeatures": "主要功能・特点",
     "techStack": "技术栈",
     "proficiency": "熟练度",
@@ -444,69 +559,174 @@
         "id": "languages",
         "titleKey": "programming",
         "items": [
-          { "name": "JavaScript", "years": 5, "featured": true },
-          { "name": "TypeScript", "years": 3, "featured": true },
-          { "name": "Python", "years": 5, "featured": true },
-          { "name": "Swift", "years": 4 },
-          { "name": "PHP", "years": 3 },
-          { "name": "C", "years": 2 }
+          {
+            "name": "JavaScript",
+            "years": 5,
+            "featured": true
+          },
+          {
+            "name": "TypeScript",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Python",
+            "years": 5,
+            "featured": true
+          },
+          {
+            "name": "Swift",
+            "years": 4
+          },
+          {
+            "name": "PHP",
+            "years": 3
+          },
+          {
+            "name": "C",
+            "years": 2
+          }
         ]
       },
       {
         "id": "frameworks",
         "titleKey": "frontend",
         "items": [
-          { "name": "React", "years": 3, "featured": true },
-          { "name": "Next.js", "featured": true },
-          { "name": "React Native", "years": 2 },
-          { "name": "Node.js / Express" },
-          { "name": "FastAPI", "featured": true },
-          { "name": "LangChain" },
-          { "name": "LangGraph", "featured": true },
-          { "name": "Transformers" },
-          { "name": "PyTorch" },
-          { "name": "DeepSpeed" },
-          { "name": "Dify" },
-          { "name": "WordPress" }
+          {
+            "name": "React",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Next.js",
+            "featured": true
+          },
+          {
+            "name": "React Native",
+            "years": 2
+          },
+          {
+            "name": "Node.js / Express"
+          },
+          {
+            "name": "FastAPI",
+            "featured": true
+          },
+          {
+            "name": "LangChain"
+          },
+          {
+            "name": "LangGraph",
+            "featured": true
+          },
+          {
+            "name": "Transformers"
+          },
+          {
+            "name": "PyTorch"
+          },
+          {
+            "name": "DeepSpeed"
+          },
+          {
+            "name": "Dify"
+          },
+          {
+            "name": "WordPress"
+          }
         ]
       },
       {
         "id": "databases",
         "titleKey": "database",
         "items": [
-          { "name": "MariaDB / MySQL", "years": 5 },
-          { "name": "PostgreSQL", "years": 3, "featured": true },
-          { "name": "MongoDB", "years": 2 },
-          { "name": "AWS Aurora" }
+          {
+            "name": "MariaDB / MySQL",
+            "years": 5
+          },
+          {
+            "name": "PostgreSQL",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "MongoDB",
+            "years": 2
+          },
+          {
+            "name": "AWS Aurora"
+          }
         ]
       },
       {
         "id": "infra",
         "titleKey": "cloud",
         "items": [
-          { "name": "Nginx", "years": 6 },
-          { "name": "Apache", "years": 5 },
-          { "name": "Linux", "years": 5 },
-          { "name": "Caddy", "years": 3 },
-          { "name": "AWS", "years": 3, "featured": true },
-          { "name": "Vercel" },
-          { "name": "Docker" }
+          {
+            "name": "Nginx",
+            "years": 6
+          },
+          {
+            "name": "Apache",
+            "years": 5
+          },
+          {
+            "name": "Linux",
+            "years": 5
+          },
+          {
+            "name": "Caddy",
+            "years": 3
+          },
+          {
+            "name": "AWS",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Vercel"
+          },
+          {
+            "name": "Docker"
+          }
         ]
       },
       {
         "id": "tools",
         "titleKey": "ai",
         "items": [
-          { "name": "Git", "years": 5 },
-          { "name": "Scikit-learn", "years": 3 },
-          { "name": "Word2Vec / gensim" },
-          { "name": "Jupyter" },
-          { "name": "Jest" },
-          { "name": "Figma" },
-          { "name": "Webpack" },
-          { "name": "PDF.js" },
-          { "name": "MeCab" },
-          { "name": "BERT" }
+          {
+            "name": "Git",
+            "years": 5
+          },
+          {
+            "name": "Scikit-learn",
+            "years": 3
+          },
+          {
+            "name": "Word2Vec / gensim"
+          },
+          {
+            "name": "Jupyter"
+          },
+          {
+            "name": "Jest"
+          },
+          {
+            "name": "Figma"
+          },
+          {
+            "name": "Webpack"
+          },
+          {
+            "name": "PDF.js"
+          },
+          {
+            "name": "MeCab"
+          },
+          {
+            "name": "BERT"
+          }
         ]
       }
     ],
@@ -522,13 +742,41 @@
       "title": "资格与认证",
       "subtitle": "专业资格与成就",
       "list": [
-        { "name": "JLPT N1（满分）", "description": "日语能力考试 - 最高级别满分", "date": "2020年" },
-        { "name": "ICT 熟练度检定", "description": "信息通信技术相关资格", "date": "2019年" },
-        { "name": "日本驾驶证", "description": "在日本取得的普通汽车驾驶证", "date": "2022年" },
-        { "name": "中国驾驶证", "description": "在中国取得的普通汽车驾驶证", "date": "2018年" },
-        { "name": "大学英语四级", "description": "面向中国大学生的全国英语能力测试", "date": "2018年" },
-        { "name": "CATTI 国际版 翻译", "description": "中日翻译认定证书 - 国际通用翻译能力等级考试（CATTI 国际版）", "date": "2025年" },
-        { "name": "CATTI 国际版 口译", "description": "中日口译认定证书 - 国际通用口译能力等级考试（CATTI 国际版）", "date": "2025年" }
+        {
+          "name": "JLPT N1（满分）",
+          "description": "日语能力考试 - 最高级别满分",
+          "date": "2020年"
+        },
+        {
+          "name": "ICT 熟练度检定",
+          "description": "信息通信技术相关资格",
+          "date": "2019年"
+        },
+        {
+          "name": "日本驾驶证",
+          "description": "在日本取得的普通汽车驾驶证",
+          "date": "2022年"
+        },
+        {
+          "name": "中国驾驶证",
+          "description": "在中国取得的普通汽车驾驶证",
+          "date": "2018年"
+        },
+        {
+          "name": "大学英语四级",
+          "description": "面向中国大学生的全国英语能力测试",
+          "date": "2018年"
+        },
+        {
+          "name": "CATTI 国际版 翻译",
+          "description": "中日翻译认定证书 - 国际通用翻译能力等级考试（CATTI 国际版）",
+          "date": "2025年"
+        },
+        {
+          "name": "CATTI 国际版 口译",
+          "description": "中日口译认定证书 - 国际通用口译能力等级考试（CATTI 国际版）",
+          "date": "2025年"
+        }
       ]
     }
   },
@@ -540,7 +788,14 @@
       {
         "title": "词汇问题自动生成系统",
         "description": "使用 Word2Vec 与 LDA 的日语词汇题自动生成系统，基于分布式表示与主题模型实现高质量的干扰项生成",
-        "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
+        "technologies": [
+          "Python",
+          "Word2Vec",
+          "scikit-learn",
+          "Gensim",
+          "NLTK",
+          "MeCab"
+        ],
         "features": [
           "基于 Word2Vec 分布式表示的语义相似词抽取",
           "基于 LDA 主题模型的上下文干扰项生成",
@@ -552,21 +807,6 @@
     "mainFeatures": "主要功能・特点",
     "techStack": "技术栈"
   },
-  "contactCTA": {
-    "kicker": "For Contract Work",
-    "accepting": "业务委托咨询，欢迎随时联系",
-    "headline": "医疗 AI／教育 AI／语言处理领域，提供设计、实现到运维的一贯服务",
-    "body": "具备 ASR / LLM / 多模态的研究与实施经验，擅长从需求定义开始的全流程合作，并与研究机构有长期协作经验。欢迎随时联系。",
-    "domains": [
-      "医疗 AI（ASR・LLM 摘要）",
-      "教育 AI（学习者语料・词汇难度）",
-      "语言处理（多语言管线・形态素分析）"
-    ],
-    "emailLabel": "Email",
-    "email": "ryo.shin.j85@kyoto-u.jp",
-    "socialLabel": "社交媒体",
-    "openToWork": "Open to contract work"
-  },
   "contact": {
     "title": "联系方式",
     "subtitle": "欢迎随时联系",
@@ -574,7 +814,7 @@
     "social": "社交媒体与外部链接"
   },
   "footer": {
-    "copyright": "© 2024 梁震. All rights reserved.",
+    "copyright": "© 2026 梁震. All rights reserved.",
     "builtWith": "使用 Next.js、TypeScript、Tailwind CSS 构建"
   },
   "publications": {

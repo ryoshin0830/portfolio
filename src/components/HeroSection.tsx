@@ -1,20 +1,29 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
-import { ChevronDown } from "lucide-react";
-import Image from "next/image";
-import { FaEnvelope, FaGithub } from "react-icons/fa";
-import { SiX } from "react-icons/si";
+import { useLocale, useTranslations } from "next-intl";
+import { ChevronDown, ArrowUpRight } from "lucide-react";
+import { m } from "framer-motion";
+import Link from "next/link";
 import NeuralBackground from "./NeuralBackground";
+import SocialLinks from "./SocialLinks";
+
+interface ZennArticle {
+  title: string;
+  link: string;
+  pubDate: string;
+}
 
 const HeroSection = () => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [rotate, setRotate] = useState(false);
   const [docVisible, setDocVisible] = useState(true);
+  const [articles, setArticles] = useState<ZennArticle[]>([]);
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
+  const tZenn = useTranslations("heroZenn");
+  const locale = useLocale();
 
   const names = [
     tNames("japanese"),
@@ -57,9 +66,50 @@ const HeroSection = () => {
     return () => clearInterval(i);
   }, [rotate, docVisible, roles.length]);
 
+  // Latest Zenn articles (top 3) — fetched client-side; rendered below the fold
+  // of the centered hero, so it never affects the LCP name candidate. The list
+  // sits in a reserved-height container so late arrival doesn't shift the hero.
+  useEffect(() => {
+    let cancelled = false;
+    const run = async () => {
+      try {
+        const RSS_URL = "https://zenn.dev/ryoushin/feed";
+        const res = await fetch(
+          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`,
+        );
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        if (data.items && !cancelled) {
+          setArticles(
+            data.items
+              .slice(0, 3)
+              .map((i: { title: string; link: string; pubDate: string }) => ({
+                title: i.title,
+                link: i.link,
+                pubDate: i.pubDate,
+              })),
+          );
+        }
+      } catch (err) {
+        console.error("Error fetching latest Zenn articles:", err);
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const scrollToWork = () => {
     document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" });
   };
+
+  const formatDate = (s: string) =>
+    new Intl.DateTimeFormat(locale, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }).format(new Date(s));
 
   return (
     <section
@@ -123,49 +173,62 @@ const HeroSection = () => {
           <span aria-hidden>→</span>
         </button>
 
-        {/* Contact links */}
-        <div className="mt-10 flex items-center justify-center gap-6">
-          <a
-            href="mailto:ryo.shin.j85@kyoto-u.jp"
-            aria-label="Email"
-            className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
-          >
-            <FaEnvelope size={20} />
-          </a>
-          <a
-            href="https://github.com/ryoshin0830"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
-          >
-            <FaGithub size={20} />
-          </a>
-          <a
-            href="https://x.com/ryoshin0830"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="X"
-            className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
-          >
-            <SiX size={20} />
-          </a>
-          <a
-            href="https://zenn.dev/ryoushin"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Zenn"
-            className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-accent)] transition-colors"
-          >
-            <Image
-              src="/logo-only.svg"
-              alt=""
-              width={20}
-              height={20}
-              unoptimized
-              className="w-5 h-5"
-            />
-          </a>
+        {/* All contact methods (locale-ordered, with QR dialogs) */}
+        <div className="mt-10">
+          <SocialLinks />
+        </div>
+
+        {/* Latest Zenn articles — reserved-height container prevents CLS while
+            the feed loads; rows stagger in once fetched (one-time entrance). */}
+        <div
+          className="mx-auto mt-12 max-w-xl text-left"
+          style={{ minHeight: "8.5rem" }}
+        >
+          {articles.length > 0 && (
+            <>
+              <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium mb-3 text-center">
+                {tZenn("latestPost")}
+              </p>
+              <m.ul
+                className="divide-y divide-[color:var(--color-rule-soft)]"
+                initial="hidden"
+                animate="show"
+                variants={{
+                  hidden: {},
+                  show: { transition: { staggerChildren: 0.08 } },
+                }}
+              >
+                {articles.map((a) => (
+                  <m.li
+                    key={a.link}
+                    variants={{
+                      hidden: { opacity: 0, y: 8 },
+                      show: { opacity: 1, y: 0 },
+                    }}
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Link
+                      href={a.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-baseline gap-4 py-2.5 group"
+                    >
+                      <span className="flex-1 text-sm md:text-base font-medium text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] truncate transition-colors">
+                        {a.title}
+                      </span>
+                      <span className="text-xs text-[color:var(--color-ink-muted)] num shrink-0 whitespace-nowrap">
+                        {formatDate(a.pubDate)}
+                      </span>
+                      <ArrowUpRight
+                        size={14}
+                        className="text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors shrink-0"
+                      />
+                    </Link>
+                  </m.li>
+                ))}
+              </m.ul>
+            </>
+          )}
         </div>
       </div>
 

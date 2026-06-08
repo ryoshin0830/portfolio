@@ -9,7 +9,6 @@
     "skills": "Skills",
     "projects": "Projects",
     "blog": "Blog",
-    "contact": "Contact",
     "more": "More",
     "scrollToNext": "Next Section:",
     "scrollToPrevious": "Previous Section:",
@@ -107,22 +106,102 @@
       "Educational Grammar and English for Academic Purposes"
     ],
     "timelineEvents": [
-      { "year": "1997", "title": "Birth", "description": "Born in Beijing, China", "icon": "birth" },
-      { "year": "1999", "title": "Move to Japan", "description": "Moved to Yokohama with family. Started kindergarten and elementary school in Japan", "icon": "plane" },
-      { "year": "2009", "title": "Return to China", "description": "Returned to Beijing and entered middle school", "icon": "plane" },
-      { "year": "2010", "title": "Japan Permanent Residency", "description": "Obtained permanent residency in Japan", "icon": "home" },
-      { "year": "2016", "title": "University Admission", "description": "Entered Capital University of Economics and Business, majoring in Information Systems", "icon": "university" },
-      { "year": "2020", "title": "University Graduation", "description": "Graduated from Capital University of Economics and Business (Information Systems)", "icon": "university" },
-      { "year": "2021", "title": "Return to Japan", "description": "Moved to Kyoto", "icon": "plane" },
-      { "year": "2021", "title": "Master's Programme", "description": "Began Master's at Kyoto University, focusing on Foreign Language Education, SLA, and Applied Linguistics", "icon": "university" },
-      { "year": "2023", "title": "Master's Completed", "description": "Completed the Master's programme at Kyoto University (Foreign Language Education, SLA, Applied Linguistics)", "icon": "university" },
-      { "year": "2023", "title": "PhD Programme", "description": "Entered the doctoral programme at Kyoto University. Dissertation topic: 'LLM applications in foreign-language education'", "icon": "university" },
-      { "year": "2023", "title": "NINJAL Project", "description": "Joined the Vocabulary Profiler project, owning requirements through implementation and operations (until 2025)", "icon": "university" },
-      { "year": "2025", "title": "Joined medimo", "description": "Improved medical-domain ASR accuracy and built a LangGraph pipeline at medimo Inc. (until 2026)", "icon": "home" },
-      { "year": "2025", "title": "Massey University Project", "description": "Built the speed-reading platform 'SUIREN' with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University (until 2026)", "icon": "home" },
-      { "year": "2026", "title": "Joined Sapeet", "description": "Joined Sapeet Inc.'s bid-extraction & scoring PoC (February 2026)", "icon": "home" },
-      { "year": "2026", "title": "PhD Completed", "description": "Completed the doctoral programme at Kyoto University and earned a PhD (March 2026)", "icon": "university" },
-      { "year": "2026", "title": "Joined GMO Pepabo", "description": "Joined GMO Pepabo as an Engineer (April 2026)", "icon": "home" }
+      {
+        "year": "1997",
+        "title": "Birth",
+        "description": "Born in Beijing, China",
+        "icon": "birth"
+      },
+      {
+        "year": "1999",
+        "title": "Move to Japan",
+        "description": "Moved to Yokohama with family. Spent the next ten years — from kindergarten through elementary school — growing up in Japan.",
+        "icon": "plane"
+      },
+      {
+        "year": "2009",
+        "title": "Return to China",
+        "description": "Returned to Beijing and entered middle school",
+        "icon": "plane"
+      },
+      {
+        "year": "2010",
+        "title": "Japan Permanent Residency",
+        "description": "Obtained permanent residency in Japan",
+        "icon": "home"
+      },
+      {
+        "year": "2016",
+        "title": "Entered Capital University of Economics and Business",
+        "description": "Information Systems major",
+        "icon": "university"
+      },
+      {
+        "year": "2020",
+        "title": "Graduated from Capital University of Economics and Business",
+        "description": "Information Systems major",
+        "icon": "university"
+      },
+      {
+        "year": "2021",
+        "title": "Return to Japan",
+        "description": "Moved to Kyoto",
+        "icon": "plane"
+      },
+      {
+        "year": "2021",
+        "title": "Master's at Kyoto University",
+        "description": "Graduate School of Human and Environmental Studies — Foreign Language Education, SLA, and Applied Linguistics",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "Master's Completed at Kyoto University",
+        "description": "Foreign Language Education, SLA, Applied Linguistics",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "PhD at Kyoto University",
+        "description": "Dissertation topic: 'LLM applications in foreign-language education'",
+        "icon": "university"
+      },
+      {
+        "year": "2023",
+        "title": "NINJAL Project",
+        "description": "Joined the Vocabulary Profiler project, owning requirements through implementation and operations (until 2025)",
+        "icon": "university"
+      },
+      {
+        "year": "2025",
+        "title": "Joined medimo",
+        "description": "Improved medical-domain ASR accuracy and built a LangGraph pipeline at medimo Inc. (until 2026)",
+        "icon": "home"
+      },
+      {
+        "year": "2025",
+        "title": "Massey University Project",
+        "description": "Built the speed-reading platform 'SUIREN' with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University (until 2026)",
+        "icon": "home"
+      },
+      {
+        "year": "2026",
+        "title": "Joined Sapeet",
+        "description": "Joined Sapeet Inc.'s bid-extraction & scoring PoC (February 2026)",
+        "icon": "home"
+      },
+      {
+        "year": "2026",
+        "title": "PhD Completed at Kyoto University",
+        "description": "Earned a PhD (March 2026). Dissertation: 'LLM applications in foreign-language education'",
+        "icon": "university"
+      },
+      {
+        "year": "2026",
+        "title": "Joined GMO Pepabo",
+        "description": "Joined GMO Pepabo as an Engineer (April 2026)",
+        "icon": "home"
+      }
     ]
   },
   "experience": {
@@ -190,8 +269,17 @@
         "role": "Engineer (Contract)",
         "teamOverall": 5,
         "teamSection": 5,
-        "scope": ["req", "basicDesign", "impl", "test"],
-        "stack": ["Python", "LLM", "Information extraction"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "impl",
+          "test"
+        ],
+        "stack": [
+          "Python",
+          "LLM",
+          "Information extraction"
+        ],
         "responsibilities": [
           "Scoping the bid PoC and designing / refining the extraction logic",
           "Designing system topology, deployment operations and access control"
@@ -217,8 +305,20 @@
         "role": "Full-stack (Contract)",
         "teamOverall": 3,
         "teamSection": 3,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
-        "stack": ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "PostgreSQL"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "ops"
+        ],
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "Vercel",
+          "PostgreSQL"
+        ],
         "responsibilities": [
           "Designed and built a speed-reading practice platform in collaboration with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University",
           "Designed and implemented reading-speed (WPM) and comprehension measurement"
@@ -245,7 +345,13 @@
         "role": "Engineer / requirements & design lead (Contract)",
         "teamOverall": 40,
         "teamSection": 25,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "test"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "test"
+        ],
         "stack": [
           "Python",
           "FastAPI",
@@ -293,7 +399,13 @@
         "role": "Project Lead (Contract)",
         "teamOverall": 13,
         "teamSection": 6,
-        "scope": ["req", "basicDesign", "detailDesign", "impl", "ops"],
+        "scope": [
+          "req",
+          "basicDesign",
+          "detailDesign",
+          "impl",
+          "ops"
+        ],
         "stack": [
           "JavaScript",
           "TypeScript",
@@ -420,7 +532,7 @@
   },
   "skills": {
     "title": "Skills & Stack",
-    "subtitle": "Technologies used in production, with years of experience",
+    "subtitle": "Technologies used in production, grouped by proficiency",
     "kicker": "Stack",
     "programming": "Programming Languages",
     "frontend": "Frontend",
@@ -435,6 +547,9 @@
     "ceoFounder": "CEO & Founder",
     "yearsExperience": "{years}+ years experience",
     "yearsLabel": "y",
+    "levelCore": "Core",
+    "levelProficient": "Proficient",
+    "levelFamiliar": "Familiar",
     "mainFeatures": "Key Features",
     "techStack": "Tech Stack",
     "proficiency": "Proficiency",
@@ -444,69 +559,174 @@
         "id": "languages",
         "titleKey": "programming",
         "items": [
-          { "name": "JavaScript", "years": 5, "featured": true },
-          { "name": "TypeScript", "years": 3, "featured": true },
-          { "name": "Python", "years": 5, "featured": true },
-          { "name": "Swift", "years": 4 },
-          { "name": "PHP", "years": 3 },
-          { "name": "C", "years": 2 }
+          {
+            "name": "JavaScript",
+            "years": 5,
+            "featured": true
+          },
+          {
+            "name": "TypeScript",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Python",
+            "years": 5,
+            "featured": true
+          },
+          {
+            "name": "Swift",
+            "years": 4
+          },
+          {
+            "name": "PHP",
+            "years": 3
+          },
+          {
+            "name": "C",
+            "years": 2
+          }
         ]
       },
       {
         "id": "frameworks",
         "titleKey": "frontend",
         "items": [
-          { "name": "React", "years": 3, "featured": true },
-          { "name": "Next.js", "featured": true },
-          { "name": "React Native", "years": 2 },
-          { "name": "Node.js / Express" },
-          { "name": "FastAPI", "featured": true },
-          { "name": "LangChain" },
-          { "name": "LangGraph", "featured": true },
-          { "name": "Transformers" },
-          { "name": "PyTorch" },
-          { "name": "DeepSpeed" },
-          { "name": "Dify" },
-          { "name": "WordPress" }
+          {
+            "name": "React",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Next.js",
+            "featured": true
+          },
+          {
+            "name": "React Native",
+            "years": 2
+          },
+          {
+            "name": "Node.js / Express"
+          },
+          {
+            "name": "FastAPI",
+            "featured": true
+          },
+          {
+            "name": "LangChain"
+          },
+          {
+            "name": "LangGraph",
+            "featured": true
+          },
+          {
+            "name": "Transformers"
+          },
+          {
+            "name": "PyTorch"
+          },
+          {
+            "name": "DeepSpeed"
+          },
+          {
+            "name": "Dify"
+          },
+          {
+            "name": "WordPress"
+          }
         ]
       },
       {
         "id": "databases",
         "titleKey": "database",
         "items": [
-          { "name": "MariaDB / MySQL", "years": 5 },
-          { "name": "PostgreSQL", "years": 3, "featured": true },
-          { "name": "MongoDB", "years": 2 },
-          { "name": "AWS Aurora" }
+          {
+            "name": "MariaDB / MySQL",
+            "years": 5
+          },
+          {
+            "name": "PostgreSQL",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "MongoDB",
+            "years": 2
+          },
+          {
+            "name": "AWS Aurora"
+          }
         ]
       },
       {
         "id": "infra",
         "titleKey": "cloud",
         "items": [
-          { "name": "Nginx", "years": 6 },
-          { "name": "Apache", "years": 5 },
-          { "name": "Linux", "years": 5 },
-          { "name": "Caddy", "years": 3 },
-          { "name": "AWS", "years": 3, "featured": true },
-          { "name": "Vercel" },
-          { "name": "Docker" }
+          {
+            "name": "Nginx",
+            "years": 6
+          },
+          {
+            "name": "Apache",
+            "years": 5
+          },
+          {
+            "name": "Linux",
+            "years": 5
+          },
+          {
+            "name": "Caddy",
+            "years": 3
+          },
+          {
+            "name": "AWS",
+            "years": 3,
+            "featured": true
+          },
+          {
+            "name": "Vercel"
+          },
+          {
+            "name": "Docker"
+          }
         ]
       },
       {
         "id": "tools",
         "titleKey": "ai",
         "items": [
-          { "name": "Git", "years": 5 },
-          { "name": "Scikit-learn", "years": 3 },
-          { "name": "Word2Vec / gensim" },
-          { "name": "Jupyter" },
-          { "name": "Jest" },
-          { "name": "Figma" },
-          { "name": "Webpack" },
-          { "name": "PDF.js" },
-          { "name": "MeCab" },
-          { "name": "BERT" }
+          {
+            "name": "Git",
+            "years": 5
+          },
+          {
+            "name": "Scikit-learn",
+            "years": 3
+          },
+          {
+            "name": "Word2Vec / gensim"
+          },
+          {
+            "name": "Jupyter"
+          },
+          {
+            "name": "Jest"
+          },
+          {
+            "name": "Figma"
+          },
+          {
+            "name": "Webpack"
+          },
+          {
+            "name": "PDF.js"
+          },
+          {
+            "name": "MeCab"
+          },
+          {
+            "name": "BERT"
+          }
         ]
       }
     ],
@@ -522,13 +742,41 @@
       "title": "Certifications",
       "subtitle": "Professional Certifications & Achievements",
       "list": [
-        { "name": "JLPT N1 (Perfect Score)", "description": "Japanese Language Proficiency Test - Perfect score at highest level", "date": "2020" },
-        { "name": "ICT Proficiency Test", "description": "Information and Communication Technology certification", "date": "2019" },
-        { "name": "Japanese Driver's License", "description": "Standard automobile license issued in Japan", "date": "2022" },
-        { "name": "Chinese Driver's License", "description": "Standard automobile license issued in China", "date": "2018" },
-        { "name": "CET-4 (College English Test Band 4)", "description": "Standardized English proficiency test for Chinese university students", "date": "2018" },
-        { "name": "CATTI International (Translation)", "description": "Chinese-Japanese Translation - China Accreditation Test for Translators and Interpreters (International)", "date": "2025" },
-        { "name": "CATTI International (Interpretation)", "description": "Chinese-Japanese Interpretation - China Accreditation Test for Translators and Interpreters (International)", "date": "2025" }
+        {
+          "name": "JLPT N1 (Perfect Score)",
+          "description": "Japanese Language Proficiency Test - Perfect score at highest level",
+          "date": "2020"
+        },
+        {
+          "name": "ICT Proficiency Test",
+          "description": "Information and Communication Technology certification",
+          "date": "2019"
+        },
+        {
+          "name": "Japanese Driver's License",
+          "description": "Standard automobile license issued in Japan",
+          "date": "2022"
+        },
+        {
+          "name": "Chinese Driver's License",
+          "description": "Standard automobile license issued in China",
+          "date": "2018"
+        },
+        {
+          "name": "CET-4 (College English Test Band 4)",
+          "description": "Standardized English proficiency test for Chinese university students",
+          "date": "2018"
+        },
+        {
+          "name": "CATTI International (Translation)",
+          "description": "Chinese-Japanese Translation - China Accreditation Test for Translators and Interpreters (International)",
+          "date": "2025"
+        },
+        {
+          "name": "CATTI International (Interpretation)",
+          "description": "Chinese-Japanese Interpretation - China Accreditation Test for Translators and Interpreters (International)",
+          "date": "2025"
+        }
       ]
     }
   },
@@ -540,7 +788,14 @@
       {
         "title": "Vocabulary Question Auto-Generation System",
         "description": "Automatic generation of Japanese vocabulary questions using Word2Vec and LDA — high-quality distractor generation via distributed representations and topic modelling",
-        "technologies": ["Python", "Word2Vec", "scikit-learn", "Gensim", "NLTK", "MeCab"],
+        "technologies": [
+          "Python",
+          "Word2Vec",
+          "scikit-learn",
+          "Gensim",
+          "NLTK",
+          "MeCab"
+        ],
         "features": [
           "Semantic-similarity distractor extraction via Word2Vec",
           "Context-sensitive distractor generation via LDA topic modelling",
@@ -552,21 +807,6 @@
     "mainFeatures": "Key Features",
     "techStack": "Tech Stack"
   },
-  "contactCTA": {
-    "kicker": "For Contract Work",
-    "accepting": "Open to contract engagements",
-    "headline": "Available for contract work in medical AI, education AI and language processing — design, build and operations",
-    "body": "Background in ASR, LLM and multimodal research and shipping. Comfortable owning from requirements, and used to working with research institutes. Get in touch.",
-    "domains": [
-      "Medical AI (ASR, LLM summarisation)",
-      "Education AI (learner corpora, vocab difficulty)",
-      "Language processing (multilingual pipelines, morphological analysis)"
-    ],
-    "emailLabel": "Email",
-    "email": "ryo.shin.j85@kyoto-u.jp",
-    "socialLabel": "Social",
-    "openToWork": "Open to contract work"
-  },
   "contact": {
     "title": "Contact",
     "subtitle": "Feel free to get in touch",
@@ -574,7 +814,7 @@
     "social": "Social & External Links"
   },
   "footer": {
-    "copyright": "© 2024 LIANG ZHEN (RYO SHIN). All rights reserved.",
+    "copyright": "© 2026 LIANG ZHEN (RYO SHIN). All rights reserved.",
     "builtWith": "Built with Next.js, TypeScript, Tailwind CSS"
   },
   "publications": {

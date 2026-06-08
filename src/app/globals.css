@@ -214,6 +214,20 @@ hr, .rule {
   .section { padding: 8rem 2rem; }
 }
 
+/* Tighter boundary so two adjacent sections read as continuous
+   (e.g. the life timeline → work experience). Defined after the
+   .section rules above so they win the cascade. */
+.section--pb-tight { padding-bottom: 2.5rem; }
+.section--pt-tight { padding-top: 2.5rem; }
+@media (min-width: 768px) {
+  .section--pb-tight { padding-bottom: 3rem; }
+  .section--pt-tight { padding-top: 3.5rem; }
+}
+@media (min-width: 1024px) {
+  .section--pb-tight { padding-bottom: 3.5rem; }
+  .section--pt-tight { padding-top: 4.5rem; }
+}
+
 /* Display headings — Apple-scale */
 .display {
   font-family: var(--font-inter, 'Inter'), var(--font-noto-sans-jp, 'Noto Sans JP'), -apple-system, sans-serif;
@@ -282,16 +296,10 @@ hr, .rule {
   overflow-wrap: anywhere;
   border: 1px solid transparent;
 }
-.chip--accent {
-  background: transparent;
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-.chip__years {
-  font-size: 0.75rem;
-  font-family: var(--font-jetbrains-mono, 'JetBrains Mono'), ui-monospace, monospace;
-  color: var(--color-ink-muted);
-  font-weight: 500;
+/* Core (主力) skills — solid ink fill gives weight without a colour cue. */
+.chip--core {
+  background: var(--color-ink);
+  color: var(--color-bg);
 }
 
 /* Body prose */
