@@ -4,34 +4,29 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import type { ArticleSource, MergedArticle, XPost } from "@/types/articles";
+import type { FeedItem, FeedSource } from "@/types/articles";
+import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";
 
-// Articles are fetched and merged server-side (cross-posts deduplicated) and
-// passed in as a prop — no client fetch. The list is small, so we reveal it in
-// batches as the user scrolls; it's one feed, so the section has a real end.
+// The unified activity feed: Zenn/Qiita articles and X posts merged and sorted
+// by date server-side, passed in as a prop (no client fetch). The list is small,
+// so we reveal it in batches as the user scrolls; it's one feed with a real end.
 const BATCH = 8;
 
-type Filter = "all" | ArticleSource;
+type Filter = "all" | FeedSource;
 
-// Typography-only badge — no brand colors, to stay within the monochrome
-// editorial palette. Colorblind-safe (text, not color).
-function SourceBadge({ source }: { source: ArticleSource }) {
+// Small monochrome brand mark used as a source indicator (replaces the old text
+// badge — a logo reads faster). Decorative; the source name is sr-only.
+function SourceMark({ source }: { source: FeedSource }) {
   return (
-    <span className="shrink-0 rounded-sm border border-[color:var(--color-rule)] px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-[color:var(--color-ink-soft)]">
-      {source === "zenn" ? "Zenn" : "Qiita"}
+    <span className="inline-flex items-center text-[color:var(--color-ink-soft)]">
+      <SourceIcon source={source} className="h-[1.05em] w-[1.05em]" />
+      <span className="sr-only">{BRAND_LABEL[source]}</span>
     </span>
   );
 }
 
-export default function WritingFeed({
-  articles,
-  posts = [],
-}: {
-  articles: MergedArticle[];
-  posts?: XPost[];
-}) {
+export default function WritingFeed({ items }: { items: FeedItem[] }) {
   const t = useTranslations("writingFeed");
-  const tPosts = useTranslations("posts");
   const tc = useTranslations("common");
   const locale = useLocale();
   const [filter, setFilter] = useState<Filter>("all");
@@ -39,10 +34,9 @@ export default function WritingFeed({
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   const filtered = useMemo(() => {
-    if (filter === "zenn") return articles.filter((a) => a.zennUrl);
-    if (filter === "qiita") return articles.filter((a) => a.qiitaUrl);
-    return articles;
-  }, [articles, filter]);
+    if (filter === "all") return items;
+    return items.filter((i) => i.sources.includes(filter));
+  }, [items, filter]);
 
   // Reset the reveal window whenever the filter changes so switching always
   // starts from the top of that subset.
@@ -74,19 +68,20 @@ export default function WritingFeed({
       day: "numeric",
     }).format(new Date(s));
 
-  // When a filter is active, link straight to that platform's copy; in the
-  // merged view prefer Zenn, falling back to Qiita. Every merged entry has at
-  // least one URL by construction; "#" is a defensive fallback only.
-  const linkFor = (a: MergedArticle) => {
-    if (filter === "qiita") return a.qiitaUrl ?? a.zennUrl ?? "#";
-    if (filter === "zenn") return a.zennUrl ?? a.qiitaUrl ?? "#";
-    return a.zennUrl ?? a.qiitaUrl ?? "#";
+  // When a source filter is active, deep-link to that platform's copy; otherwise
+  // use the item's primary URL. Every item has a URL by construction; "#" is a
+  // defensive fallback only.
+  const linkFor = (i: FeedItem) => {
+    if (filter === "zenn") return i.zennUrl ?? i.url;
+    if (filter === "qiita") return i.qiitaUrl ?? i.url;
+    return i.url;
   };
 
-  const filters: { key: Filter; label: string }[] = [
+  const filters: { key: Filter; label: string; source?: FeedSource }[] = [
     { key: "all", label: t("filterAll") },
-    { key: "zenn", label: "Zenn" },
-    { key: "qiita", label: "Qiita" },
+    { key: "zenn", label: "Zenn", source: "zenn" },
+    { key: "qiita", label: "Qiita", source: "qiita" },
+    { key: "x", label: "X", source: "x" },
   ];
 
   // Always render the section so the #blog nav anchor never points at nothing.
@@ -102,7 +97,7 @@ export default function WritingFeed({
 
         {/* Source filter — toggle buttons (not ARIA tabs: this filters one list
             in place, so aria-pressed is the correct contract). */}
-        {articles.length > 0 && (
+        {items.length > 0 && (
           <div
             role="group"
             aria-label={t("title")}
@@ -116,12 +111,15 @@ export default function WritingFeed({
                   type="button"
                   aria-pressed={active}
                   onClick={() => setFilter(f.key)}
-                  className={`inline-flex min-h-11 items-center rounded-full px-3.5 transition-colors ${
+                  className={`inline-flex min-h-11 items-center gap-1.5 rounded-full px-3.5 transition-colors ${
                     active
                       ? "text-[color:var(--color-accent)] font-semibold"
                       : "text-[color:var(--color-ink-muted)] hover:text-[color:var(--color-ink)]"
                   }`}
                 >
+                  {f.source && (
+                    <SourceIcon source={f.source} className="h-4 w-4" />
+                  )}
                   {f.label}
                 </button>
               );
@@ -131,10 +129,10 @@ export default function WritingFeed({
 
         {filtered.length > 0 && (
           <ul>
-            {filtered.slice(0, visibleCount).map((a) => (
-              <li key={a.zennUrl ?? a.qiitaUrl ?? a.title}>
+            {filtered.slice(0, visibleCount).map((i) => (
+              <li key={i.id}>
                 <Link
-                  href={linkFor(a)}
+                  href={linkFor(i)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex flex-col gap-1.5 border-t border-[color:var(--color-rule-soft)] py-6 last:border-b last:border-[color:var(--color-rule-soft)] md:grid md:grid-cols-[8rem_1fr] md:items-baseline md:gap-12"
@@ -143,19 +141,26 @@ export default function WritingFeed({
                     className="text-sm text-[color:var(--color-ink-muted)] num"
                     suppressHydrationWarning
                   >
-                    {formatDate(a.date)}
+                    {formatDate(i.date)}
                   </span>
-                  {/* Badges + title + arrow share one cell so the arrow sits at
-                      the end of the title instead of orphaning on its own row. */}
+                  {/* Logos + text + arrow share one cell so the arrow sits at
+                      the end of the text instead of orphaning on its own row. */}
                   <span className="flex items-start gap-2.5">
-                    <span className="flex shrink-0 gap-1.5 translate-y-1">
-                      {a.zennUrl && <SourceBadge source="zenn" />}
-                      {a.qiitaUrl && <SourceBadge source="qiita" />}
+                    <span className="flex shrink-0 items-center gap-1.5 text-lg translate-y-0.5 md:text-xl">
+                      {i.sources.map((s) => (
+                        <SourceMark key={s} source={s} />
+                      ))}
                     </span>
-                    <h3 className="flex-1 text-lg md:text-xl font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors">
-                      {a.title}
+                    <span
+                      className={`flex-1 font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors ${
+                        i.kind === "post"
+                          ? "text-base leading-relaxed line-clamp-2 font-medium"
+                          : "text-lg md:text-xl"
+                      }`}
+                    >
+                      {i.text}
                       <span className="sr-only"> — {tc("opensInNewTab")}</span>
-                    </h3>
+                    </span>
                     <ArrowUpRight
                       size={16}
                       aria-hidden
@@ -179,61 +184,6 @@ export default function WritingFeed({
           </p>
         )}
 
-        {/* X (Twitter) posts — a distinct block, not merged into the article
-            list (posts have no titles). Only renders when the X feed returned
-            something; degrades to nothing if the token is unset or the API
-            fails. Post text stays in its original language (not translated). */}
-        {posts.length > 0 && (
-          <div className="mt-20 border-t border-[color:var(--color-rule)] pt-12">
-            <header className="mb-8">
-              <h3 className="display display--xl mb-3">{tPosts("title")}</h3>
-              <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
-                {tPosts("subtitle")}
-              </p>
-            </header>
-            <ul className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
-              {posts.map((p) => (
-                <li key={p.id}>
-                  <Link
-                    href={p.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex h-full flex-col gap-3 border-t border-[color:var(--color-rule-soft)] py-5"
-                  >
-                    <p className="text-base leading-relaxed text-[color:var(--color-ink)] line-clamp-4 group-hover:text-[color:var(--color-accent)] transition-colors">
-                      {p.text}
-                      <span className="sr-only"> — {tc("opensInNewTab")}</span>
-                    </p>
-                    <span
-                      className="mt-auto flex items-center gap-1.5 text-sm text-[color:var(--color-ink-muted)] num"
-                      suppressHydrationWarning
-                    >
-                      {formatDate(p.date)}
-                      <ArrowUpRight
-                        size={14}
-                        aria-hidden
-                        className="text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors"
-                      />
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8">
-              <Link
-                href="https://x.com/ryoshin0830"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link-accent text-base"
-              >
-                {tPosts("viewProfile")}
-                <ArrowUpRight size={16} aria-hidden />
-                <span className="sr-only"> — {tc("opensInNewTab")}</span>
-              </Link>
-            </div>
-          </div>
-        )}
-
         {/* Profile links — always available, even if the feed is empty. */}
         <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
           <Link
@@ -253,6 +203,16 @@ export default function WritingFeed({
             className="link-accent text-base"
           >
             {t("viewOnQiita")}
+            <ArrowUpRight size={16} aria-hidden />
+            <span className="sr-only"> — {tc("opensInNewTab")}</span>
+          </Link>
+          <Link
+            href="https://x.com/ryoshin0830"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-accent text-base"
+          >
+            {t("viewOnX")}
             <ArrowUpRight size={16} aria-hidden />
             <span className="sr-only"> — {tc("opensInNewTab")}</span>
           </Link>

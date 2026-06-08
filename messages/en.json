@@ -8,7 +8,7 @@
     "certifications": "Certifications",
     "skills": "Skills",
     "projects": "Projects",
-    "blog": "Writing",
+    "blog": "Activity",
     "more": "More",
     "scrollToNext": "Next Section:",
     "scrollToPrevious": "Previous Section:",
@@ -37,8 +37,8 @@
     "viewWork": "See the results"
   },
   "heroWriting": {
-    "latestPost": "Latest Writing",
-    "viewAll": "View all articles"
+    "latestPost": "Latest activity",
+    "viewAll": "View all activity"
   },
   "highlights": {
     "title": "Selected Results",
@@ -825,17 +825,13 @@
     "release": "Release to navigate"
   },
   "writingFeed": {
-    "title": "Writing",
-    "subtitle": "Technical writing on Zenn and Qiita",
+    "title": "Activity",
+    "subtitle": "Technical articles on Zenn and Qiita, and posts on X.",
     "filterAll": "All",
     "viewOnZenn": "View on Zenn",
     "viewOnQiita": "View on Qiita",
-    "empty": "No articles to show."
-  },
-  "posts": {
-    "title": "Posts on X",
-    "subtitle": "Latest posts from @ryoshin0830.",
-    "viewProfile": "View profile on X"
+    "viewOnX": "View on X",
+    "empty": "Nothing to show."
   },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",

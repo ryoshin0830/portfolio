@@ -7,19 +7,21 @@ import { m } from "framer-motion";
 import Link from "next/link";
 import NeuralBackground from "./NeuralBackground";
 import SocialLinks from "./SocialLinks";
-import type { ArticleSource, MergedArticle } from "@/types/articles";
+import type { FeedItem, FeedSource } from "@/types/articles";
+import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";
 
-// Typography-only source badge, matching the editorial monochrome palette.
-const SourceBadge = ({ source }: { source: ArticleSource }) => (
-  <span className="rounded-sm border border-[color:var(--color-rule)] px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[color:var(--color-ink-soft)]">
-    {source === "zenn" ? "Zenn" : "Qiita"}
+// Monochrome brand mark as a source indicator (matches the editorial palette).
+const SourceMark = ({ source }: { source: FeedSource }) => (
+  <span className="inline-flex items-center text-[color:var(--color-ink-soft)]">
+    <SourceIcon source={source} className="h-3.5 w-3.5" />
+    <span className="sr-only">{BRAND_LABEL[source]}</span>
   </span>
 );
 
 const HeroSection = ({
-  latestArticles,
+  latestItems,
 }: {
-  latestArticles: MergedArticle[];
+  latestItems: FeedItem[];
 }) => {
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
@@ -72,10 +74,10 @@ const HeroSection = ({
     return () => clearInterval(i);
   }, [rotate, docVisible, roles.length]);
 
-  // Latest articles (top 3, merged Zenn + Qiita) come in as a prop from the
-  // server — rendered below the fold of the centered hero, so they never affect
-  // the LCP name candidate.
-  const articles = latestArticles;
+  // Latest activity (top 3 of the merged Zenn + Qiita + X feed) comes in as a
+  // prop from the server — rendered below the fold of the centered hero, so it
+  // never affects the LCP name candidate.
+  const items = latestItems;
 
   // Honor prefers-reduced-motion for programmatic scrolls (CSS scroll-behavior
   // is already reset for it, but scrollIntoView's JS option is not).
@@ -164,13 +166,14 @@ const HeroSection = ({
           <SocialLinks />
         </div>
 
-        {/* Latest articles (Zenn + Qiita) — server-rendered from props, so the
-            list is in the initial HTML (no client fetch). The min-height keeps
-            a stable floor; rows stagger in once on mount (one-time entrance). */}
+        {/* Latest activity (Zenn + Qiita + X) — server-rendered from props, so
+            the list is in the initial HTML (no client fetch). The min-height
+            keeps a stable floor; rows stagger in once on mount (one-time
+            entrance). */}
         <div
           className="mx-auto mt-12 max-w-3xl min-h-[25rem] md:min-h-[13rem]"
         >
-          {articles.length > 0 && (
+          {items.length > 0 && (
             <>
               <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium mb-3 text-center">
                 {tWriting("latestPost")}
@@ -184,9 +187,9 @@ const HeroSection = ({
                   show: { transition: { staggerChildren: 0.08 } },
                 }}
               >
-                {articles.map((a) => (
+                {items.map((i) => (
                   <m.li
-                    key={a.zennUrl ?? a.qiitaUrl ?? a.title}
+                    key={i.id}
                     variants={{
                       hidden: { opacity: 0, y: 8 },
                       show: { opacity: 1, y: 0 },
@@ -194,24 +197,25 @@ const HeroSection = ({
                     transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <Link
-                      href={a.zennUrl ?? a.qiitaUrl ?? "#"}
+                      href={i.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex h-full flex-col border-t border-[color:var(--color-rule-soft)] pt-4 group text-left"
                     >
                       <span className="mb-2 flex gap-1.5">
-                        {a.zennUrl && <SourceBadge source="zenn" />}
-                        {a.qiitaUrl && <SourceBadge source="qiita" />}
+                        {i.sources.map((s) => (
+                          <SourceMark key={s} source={s} />
+                        ))}
                       </span>
                       <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors line-clamp-2 min-h-[2.5rem]">
-                        {a.title}
+                        {i.text}
                         <span className="sr-only"> — {tc("opensInNewTab")}</span>
                       </span>
                       <span
                         className="mt-2 flex items-center gap-1.5 text-xs text-[color:var(--color-ink-muted)] num"
                         suppressHydrationWarning
                       >
-                        {formatDate(a.date)}
+                        {formatDate(i.date)}
                         <ArrowUpRight
                           size={12}
                           aria-hidden

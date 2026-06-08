@@ -8,7 +8,7 @@
     "certifications": "资格认证",
     "skills": "技能",
     "projects": "项目",
-    "blog": "文章",
+    "blog": "动态",
     "more": "更多",
     "scrollToNext": "下一部分:",
     "scrollToPrevious": "上一部分:",
@@ -37,8 +37,8 @@
     "viewWork": "查看成果"
   },
   "heroWriting": {
-    "latestPost": "最新文章",
-    "viewAll": "查看全部文章"
+    "latestPost": "最新动态",
+    "viewAll": "查看全部动态"
   },
   "highlights": {
     "title": "数据化的成果",
@@ -825,17 +825,13 @@
     "release": "释放以切换"
   },
   "writingFeed": {
-    "title": "文章",
-    "subtitle": "在 Zenn 与 Qiita 的技术分享",
+    "title": "动态",
+    "subtitle": "在 Zenn・Qiita 的技术文章，以及 X 上的动态。",
     "filterAll": "全部",
     "viewOnZenn": "在 Zenn 查看",
     "viewOnQiita": "在 Qiita 查看",
-    "empty": "暂无文章。"
-  },
-  "posts": {
-    "title": "X 上的动态",
-    "subtitle": "来自 @ryoshin0830 的最新动态。",
-    "viewProfile": "在 X 查看主页"
+    "viewOnX": "在 X 查看",
+    "empty": "暂无内容。"
   },
   "metadata": {
     "title": "梁震 | 工程师・研究者",

@@ -11,6 +11,26 @@ export interface MergedArticle {
 
 export type ArticleSource = "zenn" | "qiita";
 
+// A platform a feed item lives on. Articles come from Zenn/Qiita; posts from X.
+export type FeedSource = "zenn" | "qiita" | "x";
+
+// One row in the unified feed (Hero + the activity section). Articles and X
+// posts are merged into a single date-sorted stream. `kind` distinguishes them
+// because the two render slightly differently (an article's `text` is its title;
+// a post's `text` is its body). `sources` drives which logos show and the source
+// filter. Articles cross-posted to both platforms keep both URLs so a
+// source-specific filter can still deep-link to the right copy.
+export interface FeedItem {
+  id: string;
+  kind: "article" | "post";
+  text: string;
+  date: string; // ISO 8601
+  url: string; // primary link
+  sources: FeedSource[];
+  zennUrl?: string;
+  qiitaUrl?: string;
+}
+
 // A single X (Twitter) post. Posts have no title — just body text — so they are
 // NOT merged into the title-deduplicated article feed; they render as their own
 // block. Fetched server-side from the X API (app-only Bearer auth).

@@ -8,7 +8,7 @@
     "certifications": "資格",
     "skills": "スキル",
     "projects": "プロジェクト",
-    "blog": "記事",
+    "blog": "発信",
     "more": "その他",
     "scrollToNext": "次のセクション：",
     "scrollToPrevious": "前のセクション：",
@@ -37,8 +37,8 @@
     "viewWork": "成果を見る"
   },
   "heroWriting": {
-    "latestPost": "最新記事",
-    "viewAll": "全ての記事を見る"
+    "latestPost": "最新の発信",
+    "viewAll": "すべての発信を見る"
   },
   "highlights": {
     "title": "数字で見る成果",
@@ -825,17 +825,13 @@
     "release": "離して遷移"
   },
   "writingFeed": {
-    "title": "記事",
-    "subtitle": "ZennとQiitaでの技術発信",
+    "title": "発信",
+    "subtitle": "Zenn・Qiita での技術記事と、X でのポスト。",
     "filterAll": "すべて",
     "viewOnZenn": "Zennで見る",
     "viewOnQiita": "Qiitaで見る",
-    "empty": "該当する記事がありません。"
-  },
-  "posts": {
-    "title": "X での発信",
-    "subtitle": "@ryoshin0830 の最新ポスト。",
-    "viewProfile": "X でプロフィールを見る"
+    "viewOnX": "Xで見る",
+    "empty": "該当する発信がありません。"
   },
   "metadata": {
     "title": "梁震（りょう しん）| エンジニア・研究者",
