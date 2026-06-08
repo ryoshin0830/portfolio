@@ -62,7 +62,7 @@
     "title": "个人简介",
     "subtitle": "融合外语教育学与 AI 技术",
     "kicker": "About",
-    "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，通过 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对医疗语音识别（ASR）模型进行微调，将医学术语召回率从 82.26% 提升至 89.72%；并构建了基于 LangGraph 的提示词自动生成管线。2026 年 2 月参与株式会社 Sapeet 的招投标信息抽取 PoC。2026 年 4 月起作为工程师加入 GMO Pepabo。",
+    "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，通过 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对医疗语音识别（ASR）模型进行微调，将医学术语召回率从 82.26% 提升至 89.72%；并构建了基于 LangGraph 的提示词自动生成管线。2026 年 2 月作为 Forward Deployed Engineer，在株式会社 Sapeet 推进招投标信息抽取与评分 PoC（从需求定义到实现与部署）。2026 年 4 月起作为工程师加入 GMO Pepabo。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
@@ -266,8 +266,8 @@
         "company": "株式会社 Sapeet",
         "product": "信息通信工程招投标自动抽取与企业评分 PoC",
         "industry": "AI / SaaS",
-        "role": "工程师（业务委托）",
-        "teamOverall": 5,
+        "role": "Forward Deployed Engineer（业务委托）",
+        "teamOverall": 53,
         "teamSection": 5,
         "scope": [
           "req",
@@ -277,17 +277,16 @@
         ],
         "stack": [
           "Python",
-          "LLM",
-          "信息抽取"
+          "LLM"
         ],
         "responsibilities": [
-          "招投标 PoC 的范围定义与抽取逻辑的设计・改进",
+          "从需求定义到抽取逻辑的设计・改进，一贯推进招投标 PoC",
           "系统结构、部署运营与权限管理的设计"
         ],
         "workItems": [
           "构建信息通信工程招投标信息的自动抽取管线",
           "设计并实现企业评分逻辑",
-          "主持周会进度共享并持续改进抽取逻辑"
+          "通过改进提示词设计提升抽取精度"
         ],
         "achievements": [
           "完成招投标抽取 PoC，并搭建企业评分基础架构"
