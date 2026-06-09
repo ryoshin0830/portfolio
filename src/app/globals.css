@@ -24,7 +24,7 @@
      visible variant never reflows surrounding content (CLS = 0).
      Name: ~1.05 line-height of .display--xxl clamp(3.5rem,12vw,9rem).
      Role: 2 lines of text-xl (1.25rem * 1.5lh) so a mobile wrap can't shift. */
-  --hero-name-h: clamp(3.7rem, 12.6vw, 9.5rem);
+  --hero-name-h: clamp(2.7rem, 12.6vw, 9.5rem);
   --hero-role-h: 3.75rem;
 
   /* Fluid page gutter — scales with the viewport instead of a fixed content
@@ -251,7 +251,7 @@ hr, .rule {
 }
 .display--lg { font-size: clamp(2.25rem, 5vw, 3.5rem); }
 .display--xl { font-size: clamp(2.75rem, 6.5vw, 5rem); letter-spacing: -0.035em; }
-.display--xxl { font-size: clamp(3.5rem, 12vw, 9rem); font-weight: 700; letter-spacing: -0.045em; }
+.display--xxl { font-size: clamp(2.5rem, 12vw, 9rem); font-weight: 700; letter-spacing: -0.045em; }
 
 /* Apple-style pill button */
 .btn-pill {

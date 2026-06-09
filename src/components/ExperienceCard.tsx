@@ -145,7 +145,7 @@ export default function ExperienceCard({
                 {e.responsibilities.map((r, j) => (
                   <li key={j} className="flex gap-3">
                     <span className="text-[color:var(--color-accent)] shrink-0">·</span>
-                    <span className="leading-relaxed">{r}</span>
+                    <span className="leading-relaxed break-words min-w-0">{r}</span>
                   </li>
                 ))}
               </ul>
@@ -160,7 +160,7 @@ export default function ExperienceCard({
                 {e.workItems.map((w, j) => (
                   <li key={j} className="flex gap-3">
                     <span className="text-[color:var(--color-accent)] shrink-0">·</span>
-                    <span className="leading-relaxed">{w}</span>
+                    <span className="leading-relaxed break-words min-w-0">{w}</span>
                   </li>
                 ))}
               </ul>
@@ -175,7 +175,7 @@ export default function ExperienceCard({
                 {restAchievements.map((a, j) => (
                   <li key={j} className="flex gap-3">
                     <span className="text-[color:var(--color-accent)] shrink-0">→</span>
-                    <span className="leading-relaxed font-medium">{a}</span>
+                    <span className="leading-relaxed font-medium break-words min-w-0">{a}</span>
                   </li>
                 ))}
               </ul>
