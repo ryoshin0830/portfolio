@@ -6,8 +6,8 @@ import type { XPost } from "@/types/articles";
 // API sends no CORS headers. The result is passed to client components as props.
 //
 // Cost control: the X API is pay-per-use (billed per post returned). We cap each
-// fetch at 10 posts and cache the response for a full day via Next's native
-// fetch cache (`next: { revalidate }`), so upstream is hit at most ~once/24h.
+// fetch at 5 posts and cache the response for 6 hours via Next's native
+// fetch cache (`next: { revalidate }`), so upstream is hit at most ~4x/day.
 //
 // We deliberately do NOT use `unstable_cache` here: wrapping this request in it
 // caused the X API to reject it with 400 (a bare fetch of the same URL returns
@@ -17,8 +17,8 @@ import type { XPost } from "@/types/articles";
 // the stable numeric ID for @ryoshin0830.
 const X_USER_ID = "1153976011";
 const X_USERNAME = "ryoshin0830";
-const MAX_POSTS = 10;
-const CACHE_TTL_SECONDS = 86_400; // once per day
+const MAX_POSTS = 5;
+const CACHE_TTL_SECONDS = 21_600; // every 6 hours
 
 export async function getPosts(): Promise<XPost[]> {
   const token = process.env.X_BEARER_TOKEN;
