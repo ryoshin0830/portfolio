@@ -6,8 +6,11 @@ import type { XPost } from "@/types/articles";
 // API sends no CORS headers. The result is passed to client components as props.
 //
 // Cost control: the X API is pay-per-use (billed per post returned). We cap each
-// fetch at 5 posts and cache the response for 6 hours via Next's native
-// fetch cache (`next: { revalidate }`), so upstream is hit at most ~4x/day.
+// fetch at 5 posts and cache the response for 60s via Next's native fetch cache
+// (`next: { revalidate }`), keeping the page on ISR (visitors get static HTML)
+// while new posts surface within ~1 min. Cost stays negligible: these are
+// "owned reads" ($0.001/post) and the X API charges each post resource at most
+// once per 24h UTC window (dedup), so re-fetching the same 5 posts is ~$0.005/day.
 //
 // We deliberately do NOT use `unstable_cache` here: wrapping this request in it
 // caused the X API to reject it with 400 (a bare fetch of the same URL returns
@@ -18,7 +21,7 @@ import type { XPost } from "@/types/articles";
 const X_USER_ID = "1153976011";
 const X_USERNAME = "ryoshin0830";
 const MAX_POSTS = 5;
-const CACHE_TTL_SECONDS = 21_600; // every 6 hours
+const CACHE_TTL_SECONDS = 60; // revalidate every 60s
 
 export async function getPosts(): Promise<XPost[]> {
   const token = process.env.X_BEARER_TOKEN;
