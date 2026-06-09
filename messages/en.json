@@ -827,10 +827,11 @@
   },
   "writingFeed": {
     "title": "Activity",
-    "subtitle": "Technical articles on Zenn and Qiita, and posts on X.",
+    "subtitle": "Articles on Zenn, Qiita and note, and posts on X.",
     "filterAll": "All",
     "viewOnZenn": "View on Zenn",
     "viewOnQiita": "View on Qiita",
+    "viewOnNote": "View on note",
     "viewOnX": "View on X",
     "empty": "Nothing to show."
   },

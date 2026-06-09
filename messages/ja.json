@@ -827,10 +827,11 @@
   },
   "writingFeed": {
     "title": "発信",
-    "subtitle": "Zenn・Qiita での技術記事と、X でのポスト。",
+    "subtitle": "Zenn・Qiita・note での記事と、X でのポスト。",
     "filterAll": "すべて",
     "viewOnZenn": "Zennで見る",
     "viewOnQiita": "Qiitaで見る",
+    "viewOnNote": "noteで見る",
     "viewOnX": "Xで見る",
     "empty": "該当する発信がありません。"
   },

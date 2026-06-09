@@ -74,6 +74,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
   const linkFor = (i: FeedItem) => {
     if (filter === "zenn") return i.zennUrl ?? i.url;
     if (filter === "qiita") return i.qiitaUrl ?? i.url;
+    if (filter === "note") return i.noteUrl ?? i.url;
     return i.url;
   };
 
@@ -81,6 +82,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
     { key: "all", label: t("filterAll") },
     { key: "zenn", label: "Zenn", source: "zenn" },
     { key: "qiita", label: "Qiita", source: "qiita" },
+    { key: "note", label: "note", source: "note" },
     { key: "x", label: "X", source: "x" },
   ];
 
@@ -203,6 +205,16 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
             className="link-accent text-base"
           >
             {t("viewOnQiita")}
+            <ArrowUpRight size={16} aria-hidden />
+            <span className="sr-only"> — {tc("opensInNewTab")}</span>
+          </Link>
+          <Link
+            href="https://note.com/ryoshin0830"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-accent text-base"
+          >
+            {t("viewOnNote")}
             <ArrowUpRight size={16} aria-hidden />
             <span className="sr-only"> — {tc("opensInNewTab")}</span>
           </Link>

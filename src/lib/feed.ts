@@ -14,15 +14,17 @@ export function buildFeed(
     const sources: FeedSource[] = [];
     if (a.zennUrl) sources.push("zenn");
     if (a.qiitaUrl) sources.push("qiita");
+    if (a.noteUrl) sources.push("note");
     items.push({
-      id: a.zennUrl ?? a.qiitaUrl ?? a.title,
+      id: a.zennUrl ?? a.qiitaUrl ?? a.noteUrl ?? a.title,
       kind: "article",
       text: a.title,
       date: a.date,
-      url: a.zennUrl ?? a.qiitaUrl ?? "#",
+      url: a.zennUrl ?? a.qiitaUrl ?? a.noteUrl ?? "#",
       sources,
       zennUrl: a.zennUrl,
       qiitaUrl: a.qiitaUrl,
+      noteUrl: a.noteUrl,
     });
   }
 
