@@ -26,7 +26,7 @@
   },
   "hero": {
     "title": "LIANG ZHEN (RYO SHIN)",
-    "subtitle": "Crossing the boundary between language and speech with machine learning",
+    "subtitle": "Research. Build. Ship. All through language.",
     "description": "PhD, Kyoto University",
     "currentlyAt": "GMO Pepabo / Engineer",
     "viewWork": "See the results",
@@ -60,7 +60,7 @@
   },
   "about": {
     "title": "About Me",
-    "subtitle": "Bridging Foreign Language Education and AI Technology",
+    "subtitle": "A language-education researcher who builds AI.",
     "kicker": "About",
     "pr": "I studied in the master's and doctoral programmes at Kyoto University, researching educational applications of large language models (LLMs) and earning my PhD. At NINJAL (National Institute for Japanese Language and Linguistics) I built the Vocabulary Profiler end-to-end, from requirements through deployment and operations. From June 2025 at medimo Inc. I fine-tuned the medical-domain ASR model with LoRA and DeepSpeed ZeRO-3 multi-GPU distributed training, lifting medical-term recall from 82.26% to 89.72%, and also built a LangGraph-based prompt-generation pipeline. In February 2026, as a Forward Deployed Engineer at Sapeet Inc., I drove a bid-extraction & scoring PoC from requirements through implementation and deployment, and since April 2026 I have been an Engineer at GMO Pepabo.",
     "education": "Education",
@@ -839,7 +839,7 @@
   },
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",
-    "description": "Kyoto University PhD and Engineer at GMO Pepabo. Research and engineering across LLM, ASR, LangGraph for medical, educational and language-processing domains.",
+    "description": "Research. Build. Ship. All through language. ML engineer and researcher with a PhD from Kyoto University, working across LLM, ASR and LangGraph in medical, educational and language-processing domains.",
     "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo",
     "author": "LIANG ZHEN (RYO SHIN)",
     "creator": "LIANG ZHEN (RYO SHIN)",

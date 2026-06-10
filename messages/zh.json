@@ -26,7 +26,7 @@
   },
   "hero": {
     "title": "梁震",
-    "subtitle": "用机器学习跨越语言与语音的边界",
+    "subtitle": "研究、构建、落地——皆围绕语言。",
     "description": "京都大学博士",
     "currentlyAt": "GMO Pepabo ／ 工程师",
     "viewWork": "查看成果",
@@ -60,7 +60,7 @@
   },
   "about": {
     "title": "个人简介",
-    "subtitle": "融合外语教育学与 AI 技术",
+    "subtitle": "语言教育研究者，亦是打造 AI 的工程师。",
     "kicker": "About",
     "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，通过 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对医疗语音识别（ASR）模型进行微调，将医学术语召回率从 82.26% 提升至 89.72%；并构建了基于 LangGraph 的提示词自动生成管线。2026 年 2 月作为 Forward Deployed Engineer，在株式会社 Sapeet 推进招投标信息抽取与评分 PoC（从需求定义到实现与部署）。2026 年 4 月起作为工程师加入 GMO Pepabo。",
     "education": "教育",
@@ -839,7 +839,7 @@
   },
   "metadata": {
     "title": "梁震 | 工程师・研究者",
-    "description": "京都大学博士，GMO Pepabo 工程师。使用 LLM、ASR、LangGraph 等技术在医疗、教育与语言处理领域进行研发与实施。",
+    "description": "研究、构建、落地——皆围绕语言。京都大学博士、ML 工程师／研究者，使用 LLM、ASR、LangGraph 在医疗、教育与语言处理领域进行研发与实施。",
     "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
     "author": "梁震",
     "creator": "梁震",
