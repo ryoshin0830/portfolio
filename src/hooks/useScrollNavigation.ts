@@ -16,6 +16,9 @@ export function useScrollNavigation() {
   const sectionsRef = useRef<{ id: string; element: HTMLElement }[]>([]);
   const isNavigatingRef = useRef(false);
   const [currentSection, setCurrentSection] = useState("hero");
+  // Observer コールバックから読む現在値のミラー。state を直接 deps に入れると
+  // セクションが切り替わるたびに observer 8 個を破棄・再作成してしまう。
+  const currentSectionRef = useRef("hero");
 
   // セクションのIDリスト
   // DOM order on the page (page.tsx). Must include every section the nav links
@@ -81,9 +84,10 @@ export function useScrollNavigation() {
 
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const rect = entry.target.getBoundingClientRect();
-          const top = rect.top;
-          
+          // entry に同梱されたスナップショットを使う（getBoundingClientRect を
+          // コールバック内で呼ぶと強制リフローになる）
+          const top = entry.boundingClientRect.top;
+
           // ビューポートの上半分にあるセクションを優先
           if (top <= window.innerHeight / 2) {
             if (!topSection || top > topSection.top) {
@@ -97,7 +101,8 @@ export function useScrollNavigation() {
       if (topSection !== null) {
         const sectionData = topSection as TopSection;
         const targetElement = sectionData.entry.target as HTMLElement;
-        if (targetElement.id && targetElement.id !== currentSection) {
+        if (targetElement.id && targetElement.id !== currentSectionRef.current) {
+          currentSectionRef.current = targetElement.id;
           setCurrentSection(targetElement.id);
           updateURL(targetElement.id);
         }
@@ -122,13 +127,14 @@ export function useScrollNavigation() {
     return () => {
       observerRef.current?.disconnect();
     };
-  }, [sectionIds, updateURL, currentSection]);
+  }, [sectionIds, updateURL]);
 
   // 特定のセクションにスクロールする関数
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       isNavigatingRef.current = true;
+      currentSectionRef.current = sectionId;
       setCurrentSection(sectionId);
       
       // 即座にURLを更新
@@ -151,12 +157,14 @@ export function useScrollNavigation() {
 
     // セクションIDが存在する場合はそこにスクロール
     if (section && sectionIds.includes(section)) {
+      currentSectionRef.current = section;
       setCurrentSection(section);
       // ページ読み込み完了後にスクロール
       setTimeout(() => {
         scrollToSection(section);
       }, 100);
     } else if (section === locale || !section) {
+      currentSectionRef.current = "hero";
       setCurrentSection("hero");
     }
   }, [pathname, scrollToSection, sectionIds, locale]);

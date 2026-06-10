@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { ExternalLink } from "lucide-react";
+import { LuExternalLink as ExternalLink } from "react-icons/lu";
 
 type PeerReviewedListItem = {
   authors: string;

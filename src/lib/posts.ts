@@ -42,7 +42,23 @@ export async function getPosts(): Promise<XPost[]> {
   // Throw on failure so a bad response isn't cached; the caller (page.tsx)
   // catches and degrades to an empty list, and the next request retries.
   if (!res.ok) {
+    // Surface rate-limit exhaustion in the Function Logs with when the window
+    // resets, so a 429 streak is diagnosable without reproducing it locally.
+    if (res.status === 429) {
+      const reset = res.headers.get("x-rate-limit-reset");
+      const resetsAt = reset
+        ? new Date(Number(reset) * 1000).toISOString()
+        : "unknown";
+      console.error(`[posts] X API rate limited (429); window resets at ${resetsAt}`);
+    }
     throw new Error(`X API responded ${res.status}`);
+  }
+  // Early warning before we actually hit the limit.
+  const remaining = res.headers.get("x-rate-limit-remaining");
+  if (remaining !== null && Number(remaining) <= 5) {
+    console.warn(
+      `[posts] X API rate limit nearly exhausted: ${remaining} requests left in this window`,
+    );
   }
 
   const data = (await res.json()) as {

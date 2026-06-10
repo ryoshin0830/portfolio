@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowUpRight } from "lucide-react";
+import { LuArrowUpRight as ArrowUpRight } from "react-icons/lu";
 import Link from "next/link";
 import type { FeedItem, FeedSource } from "@/types/articles";
 import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";

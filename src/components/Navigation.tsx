@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { m, AnimatePresence } from "framer-motion";
 import { usePathname, useRouter, useParams } from "next/navigation";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { LuMenu as Menu, LuX as X, LuMoon as Moon, LuSun as Sun } from "react-icons/lu";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 import { useTheme } from "@/contexts/ThemeContext";
 

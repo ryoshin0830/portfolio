@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { LuArrowDown as ArrowDown, LuArrowUpRight as ArrowUpRight } from "react-icons/lu";
 import { m } from "framer-motion";
 import Link from "next/link";
 import NeuralBackground from "./NeuralBackground";
 import SocialLinks from "./SocialLinks";
+import { useActiveAnimation } from "@/hooks/useActiveAnimation";
 import type { FeedItem, FeedSource } from "@/types/articles";
 import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";
 
@@ -28,7 +29,9 @@ const HeroSection = ({
   const [currentNameIndex, setCurrentNameIndex] = useState(0);
   const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
   const [rotate, setRotate] = useState(false);
-  const [docVisible, setDocVisible] = useState(true);
+  // Stop the rotation timers whenever the hero is off-screen, the tab is
+  // hidden, or the user prefers reduced motion (CLAUDE.md loop-gating rule).
+  const { ref: activeRef, active } = useActiveAnimation();
   const t = useTranslations("hero");
   const tNames = useTranslations("names");
   const tWriting = useTranslations("heroWriting");
@@ -50,31 +53,23 @@ const HeroSection = ({
     return () => clearTimeout(id);
   }, []);
 
-  // Pause the text rotation while the tab is hidden (no offscreen timer churn).
   useEffect(() => {
-    const onVis = () => setDocVisible(document.visibilityState === "visible");
-    onVis();
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, []);
-
-  useEffect(() => {
-    if (!rotate || !docVisible) return;
+    if (!rotate || !active) return;
     const i = setInterval(
       () => setCurrentNameIndex((p) => (p + 1) % names.length),
       4000,
     );
     return () => clearInterval(i);
-  }, [rotate, docVisible, names.length]);
+  }, [rotate, active, names.length]);
 
   useEffect(() => {
-    if (!rotate || !docVisible) return;
+    if (!rotate || !active) return;
     const i = setInterval(
       () => setCurrentRoleIndex((p) => (p + 1) % roles.length),
       3500,
     );
     return () => clearInterval(i);
-  }, [rotate, docVisible, roles.length]);
+  }, [rotate, active, roles.length]);
 
   const hasActivity = latestArticles.length > 0 || latestPosts.length > 0;
 
@@ -161,6 +156,7 @@ const HeroSection = ({
   return (
     <section
       id="hero"
+      ref={activeRef}
       className="relative min-h-svh flex flex-col items-center justify-center overflow-hidden bg-[color:var(--color-bg)] px-6 pt-24 pb-20"
     >
       <NeuralBackground />

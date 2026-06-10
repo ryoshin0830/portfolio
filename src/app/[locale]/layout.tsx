@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
 import MotionProvider from "@/components/MotionProvider";
 import StructuredData from "@/components/StructuredData";
@@ -27,6 +27,12 @@ const notoSansJP = Noto_Sans_JP({
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
+
+// 3 ロケールをビルド時にプリレンダリングする（これがないと全ページが
+// リクエストごとの SSR になり、Vercel の Function を毎回起動してしまう）。
+export function generateStaticParams() {
+  return [{ locale: "ja" }, { locale: "en" }, { locale: "zh" }];
+}
 
 // メタデータを動的に生成する関数に変更
 export async function generateMetadata({
@@ -65,7 +71,7 @@ export async function generateMetadata({
       siteName,
       images: [
         {
-          url: "https://ryosh.in/logo.png",
+          url: "https://ryosh.in/og-image.png",
           width: 1200,
           height: 630,
           alt: title,
@@ -78,7 +84,7 @@ export async function generateMetadata({
       creator: "@ryoshin0830",
       title,
       description,
-      images: ["https://ryosh.in/logo.png"],
+      images: ["https://ryosh.in/og-image.png"],
     },
     alternates: {
       canonical: "https://ryosh.in",
@@ -103,6 +109,9 @@ export default async function RootLayout({
   // Validate locale and provide default
   const validLocale =
     locale && ["ja", "en", "zh"].includes(locale) ? locale : "ja";
+  // 静的レンダリングを有効化（getTranslations/getLocale がリクエストヘッダーを
+  // 読まずに済むようロケールを確定させる）
+  setRequestLocale(validLocale);
   const messages = await getMessages({ locale: validLocale });
 
   return (

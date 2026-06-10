@@ -118,6 +118,20 @@ async function buildArticles(): Promise<MergedArticle[]> {
     fetchNote(),
   ]);
 
+  // A failing source is tolerated but must not fail silently: note.com in
+  // particular is an undocumented API that could change shape without notice,
+  // and these logs (Vercel Function Logs) are the only way to notice.
+  const results: [string, PromiseSettledResult<RawArticle[]>][] = [
+    ["Zenn", zennResult],
+    ["Qiita", qiitaResult],
+    ["note", noteResult],
+  ];
+  for (const [name, result] of results) {
+    if (result.status === "rejected") {
+      console.error(`[articles] ${name} fetch failed:`, result.reason);
+    }
+  }
+
   // Don't cache a total failure (unstable_cache won't store a thrown rejection),
   // so a transient outage retries on the next request instead of blanking the
   // feed for an hour. A single source failing is tolerated — the others still
