@@ -1,264 +1,139 @@
-"use client";
+import { getLocale, getTranslations } from "next-intl/server";
+import { LuArrowDown as ArrowDown } from "react-icons/lu";
+import { FaEnvelope, FaGithub } from "react-icons/fa";
+import { SiX } from "react-icons/si";
 
-import { useState, useEffect } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { LuArrowDown as ArrowDown, LuArrowUpRight as ArrowUpRight } from "react-icons/lu";
-import { m } from "framer-motion";
-import Link from "next/link";
-import NeuralBackground from "./NeuralBackground";
-import SocialLinks from "./SocialLinks";
-import { useActiveAnimation } from "@/hooks/useActiveAnimation";
-import type { FeedItem, FeedSource } from "@/types/articles";
-import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";
+/**
+ * Editorial, asymmetric hero — fully static (async Server Component).
+ *
+ * - The kanji brand mark「梁 震」is the single fixed h1 in display mincho;
+ *   the other readings live in a permanent small meta line (no rotation,
+ *   no timers, no CLS reservations, stable LCP).
+ * - Left column: identity + tagline + CTA. Right column: a bottom-aligned
+ *   fact list (current role / degree / primary contacts).
+ * - The full 12-icon SocialLinks moved to ContactSection (#contact);
+ *   the latest-writing feed moved to LatestWritingSection just below.
+ * - CTA is a plain anchor: CSS scroll-behavior handles smooth scrolling and
+ *   the prefers-reduced-motion reset in globals.css turns it off.
+ */
 
-// Monochrome brand mark as a source indicator (matches the editorial palette).
-const SourceMark = ({ source }: { source: FeedSource }) => (
-  <span className="inline-flex items-center text-[color:var(--color-ink-soft)]">
-    <SourceIcon source={source} className="h-3.5 w-3.5" />
-    <span className="sr-only">{BRAND_LABEL[source]}</span>
-  </span>
-);
+const PRIMARY_CONTACTS = [
+  { id: "github", label: "GitHub", href: "https://github.com/ryoshin0830", Icon: FaGithub },
+  // The X logo IS the letter X, so a service-name label would be a tautology —
+  // the handle identifies the account while the glyph identifies the service.
+  { id: "x", label: "@ryoshin0830", href: "https://x.com/ryoshin0830", Icon: SiX },
+] as const;
 
-const HeroSection = ({
-  latestArticles,
-  latestPosts,
-}: {
-  latestArticles: FeedItem[];
-  latestPosts: FeedItem[];
-}) => {
-  const [currentNameIndex, setCurrentNameIndex] = useState(0);
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [rotate, setRotate] = useState(false);
-  // Stop the rotation timers whenever the hero is off-screen, the tab is
-  // hidden, or the user prefers reduced motion (CLAUDE.md loop-gating rule).
-  const { ref: activeRef, active } = useActiveAnimation();
-  const t = useTranslations("hero");
-  const tNames = useTranslations("names");
-  const tWriting = useTranslations("heroWriting");
-  const tc = useTranslations("common");
-  const locale = useLocale();
+const HeroSection = async () => {
+  const t = await getTranslations("hero");
+  const tNames = await getTranslations("names");
+  const tEmail = await getTranslations("email");
+  const tc = await getTranslations("common");
+  const locale = await getLocale();
 
-  const names = [
-    tNames("japanese"),
-    tNames("japaneseFurigana"),
-    tNames("english"),
-    tNames("chinese"),
+  // The reader's own locale comes first in the alternate-readings line.
+  const readingOrder =
+    locale === "en"
+      ? (["english", "japaneseFurigana", "chinese"] as const)
+      : locale === "zh"
+        ? (["chinese", "japaneseFurigana", "english"] as const)
+        : (["japaneseFurigana", "english", "chinese"] as const);
+  const readings = readingOrder.map((key) => tNames(key));
+
+  // The canonical name contains an ideographic space (梁 震). At display
+  // size a full 1em gap reads as a hole, so render the parts with a tight
+  // optical gap instead.
+  const nameParts = tNames("japanese").split(/\s+/).filter(Boolean);
+
+  const facts = [
+    { label: t("metaNow"), value: t("currentlyAt") },
+    { label: t("metaDegree"), value: t("description") },
   ];
-  const roles = t.raw("roles") as string[];
-
-  // Defer rotation until after the LCP measurement window so the primary
-  // (server-rendered) name stays the stable LCP candidate and doesn't churn.
-  useEffect(() => {
-    const id = setTimeout(() => setRotate(true), 4000);
-    return () => clearTimeout(id);
-  }, []);
-
-  useEffect(() => {
-    if (!rotate || !active) return;
-    const i = setInterval(
-      () => setCurrentNameIndex((p) => (p + 1) % names.length),
-      4000,
-    );
-    return () => clearInterval(i);
-  }, [rotate, active, names.length]);
-
-  useEffect(() => {
-    if (!rotate || !active) return;
-    const i = setInterval(
-      () => setCurrentRoleIndex((p) => (p + 1) % roles.length),
-      3500,
-    );
-    return () => clearInterval(i);
-  }, [rotate, active, roles.length]);
-
-  const hasActivity = latestArticles.length > 0 || latestPosts.length > 0;
-
-  // Honor prefers-reduced-motion for programmatic scrolls (CSS scroll-behavior
-  // is already reset for it, but scrollIntoView's JS option is not).
-  const scrollTo = (id: string) => {
-    const reduce =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-  };
-  const scrollToHighlights = () => scrollTo("highlights");
-  const scrollToBlog = () => scrollTo("blog");
-
-  const formatDate = (s: string) =>
-    new Intl.DateTimeFormat(locale, {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    }).format(new Date(s));
-
-  // One labelled column (Articles or Posts) of feed rows. A plain render
-  // function (not a nested component) so it shares scope and isn't remounted.
-  const renderColumn = (label: string, columnItems: FeedItem[]) => (
-    <div>
-      <p className="mb-3 border-b border-[color:var(--color-rule)] pb-2 text-xs font-medium uppercase tracking-wider text-[color:var(--color-ink-muted)]">
-        {label}
-      </p>
-      <m.ul
-        className="flex flex-col"
-        initial="hidden"
-        animate="show"
-        variants={{
-          hidden: {},
-          show: { transition: { staggerChildren: 0.06 } },
-        }}
-      >
-        {columnItems.map((i) => (
-          <m.li
-            key={i.id}
-            variants={{
-              hidden: { opacity: 0, y: 8 },
-              show: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Link
-              href={i.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col gap-1 border-b border-[color:var(--color-rule-soft)] py-3 last:border-b-0"
-            >
-              <span className="flex items-start gap-2">
-                <span className="flex shrink-0 translate-y-0.5 items-center gap-1">
-                  {i.sources.map((s) => (
-                    <SourceMark key={s} source={s} />
-                  ))}
-                </span>
-                <span className="text-sm font-medium leading-snug text-[color:var(--color-ink)] transition-colors line-clamp-2 group-hover:text-[color:var(--color-accent)]">
-                  {i.text}
-                  <span className="sr-only"> — {tc("opensInNewTab")}</span>
-                </span>
-              </span>
-              <span
-                className="flex items-center gap-1.5 pl-[1.4rem] text-xs text-[color:var(--color-ink-muted)] num"
-                suppressHydrationWarning
-              >
-                {formatDate(i.date)}
-                <ArrowUpRight
-                  size={11}
-                  aria-hidden
-                  className="transition-colors group-hover:text-[color:var(--color-accent)]"
-                />
-              </span>
-            </Link>
-          </m.li>
-        ))}
-      </m.ul>
-    </div>
-  );
 
   return (
     <section
       id="hero"
-      ref={activeRef}
-      className="relative min-h-svh flex flex-col items-center justify-center overflow-hidden bg-[color:var(--color-bg)] px-6 pt-24 pb-20"
+      className="relative flex min-h-svh flex-col justify-center bg-[color:var(--color-bg)] gutter-x pb-16 pt-28"
     >
-      <NeuralBackground />
-
-      <div className="relative z-10 text-center max-w-5xl mx-auto fade-up">
-        {/* Rotating name — all variants stacked in one fixed-size grid cell so
-            swapping which one is opaque causes ZERO reflow (no CLS). */}
-        <div
-          className="relative mb-8 grid place-items-center"
-          style={{ minHeight: "var(--hero-name-h)" }}
-        >
-          {names.map((name, i) => (
-            <h1
-              key={i}
-              className="display display--xxl whitespace-nowrap transition-opacity duration-500"
-              style={{ gridArea: "1 / 1", opacity: i === currentNameIndex ? 1 : 0 }}
-              aria-hidden={i === currentNameIndex ? undefined : true}
-            >
-              {name}
-            </h1>
-          ))}
-        </div>
-
-        {/* Rotating role under name — single <p>; only its text swaps. Box
-            reserves 2 lines so a wrap on narrow screens can't shift the content
-            below it. No aria-live: the rotation is ambient, and announcing a new
-            title every 3.5s would be screen-reader noise (the first role is read
-            with the page). */}
-        <div
-          className="relative mb-6 grid place-items-center"
-          style={{ minHeight: "var(--hero-role-h)" }}
-        >
-          <p
-            className="text-xl md:text-2xl font-medium text-[color:var(--color-accent)] text-center transition-opacity"
-            style={{ gridArea: "1 / 1" }}
-          >
-            {roles[currentRoleIndex]}
+      <div className="fade-up grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
+        {/* Identity column */}
+        <div className="lg:col-span-8">
+          <p className="meta mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {readings.map((reading, i) => (
+              <span key={reading} className="flex items-center gap-x-3">
+                {i > 0 && <span aria-hidden>·</span>}
+                {reading}
+              </span>
+            ))}
           </p>
+
+          <h1 className="display-serif hero-name mb-6 whitespace-nowrap">
+            {nameParts.map((part, i) => (
+              <span key={part} className={i > 0 ? "ml-[0.16em]" : undefined}>
+                {part}
+              </span>
+            ))}
+          </h1>
+
+          <p className="mb-10 text-lg font-medium text-[color:var(--color-ink-soft)] md:text-xl">
+            {t("role")}
+          </p>
+
+          <p className="hero-tagline mb-12 max-w-3xl text-balance">
+            {t("subtitle")}
+          </p>
+
+          <a href="#highlights" className="btn-pill">
+            {t("viewWork")}
+            <ArrowDown size={16} aria-hidden />
+          </a>
         </div>
 
-        <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto mb-10 text-balance">
-          {t("subtitle")}
-        </p>
-
-        {/* Credential — small inline meta */}
-        <p className="text-sm text-[color:var(--color-ink-muted)] mb-12">
-          {t("description")}
-        </p>
-
-        <button
-          type="button"
-          onClick={scrollToHighlights}
-          className="btn-pill btn-pill--ghost"
-          aria-label={t("viewWork")}
-        >
-          {t("viewWork")}
-          <span aria-hidden>→</span>
-        </button>
-
-        {/* All contact methods (locale-ordered, with QR dialogs) */}
-        <div className="mt-10">
-          <SocialLinks />
-        </div>
-
-        {/* Latest activity — articles and posts as two separate columns (mixing
-            them by date buries the less-frequent articles). Server-rendered from
-            props, so it's in the initial HTML; rows stagger in once on mount. */}
-        <div className="mx-auto mt-14 w-full max-w-3xl min-h-[36rem] text-left md:min-h-[22rem]">
-          {hasActivity && (
-            <>
-              <div className="grid grid-cols-1 gap-x-12 gap-y-10 md:grid-cols-2">
-                {latestArticles.length > 0 &&
-                  renderColumn(tWriting("latestArticles"), latestArticles)}
-                {latestPosts.length > 0 && (
-                  <div
-                    className={
-                      latestArticles.length > 0
-                        ? "md:border-l md:border-[color:var(--color-rule)] md:pl-12"
-                        : undefined
-                    }
-                  >
-                    {renderColumn(tWriting("latestPosts"), latestPosts)}
-                  </div>
-                )}
+        {/* Fact column — bottom-aligned against the identity block */}
+        <aside className="lg:col-span-4">
+          <dl className="border-t border-[color:var(--color-rule)]">
+            {facts.map((fact) => (
+              <div
+                key={fact.label}
+                className="flex items-baseline justify-between gap-6 border-b border-[color:var(--color-rule-soft)] py-4"
+              >
+                <dt className="meta shrink-0">{fact.label}</dt>
+                <dd className="text-right text-sm font-medium text-[color:var(--color-ink)]">
+                  {fact.value}
+                </dd>
               </div>
-
-              {/* Secondary action — jumps to the full archive (#blog) at the
-                  bottom of the page. The down arrow signals an in-page move,
-                  distinct from each row's ↗ which opens the item off-site. */}
-              <div className="mt-10 flex justify-center">
-                <button
-                  type="button"
-                  onClick={scrollToBlog}
-                  className="link-accent text-base min-h-11"
+            ))}
+            <div className="flex items-baseline justify-between gap-6 py-4">
+              <dt className="meta shrink-0">{t("metaContact")}</dt>
+              <dd className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm font-medium">
+                <a
+                  href={`mailto:${tEmail("address")}`}
+                  className="inline-flex items-center gap-1.5 text-[color:var(--color-ink)] transition-colors hover:text-[color:var(--color-accent)]"
                 >
-                  {tWriting("viewAll")}
-                  <ArrowDown size={16} aria-hidden />
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+                  <FaEnvelope size={13} aria-hidden />
+                  {t("metaEmail")}
+                </a>
+                {PRIMARY_CONTACTS.map(({ id, label, href, Icon }) => (
+                  <a
+                    key={id}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[color:var(--color-ink)] transition-colors hover:text-[color:var(--color-accent)]"
+                  >
+                    <Icon size={13} aria-hidden />
+                    {label}
+                    <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                  </a>
+                ))}
+              </dd>
+            </div>
+          </dl>
+          <a href="#contact" className="link-accent text-sm">
+            {t("allContacts")}
+            <ArrowDown size={14} aria-hidden />
+          </a>
+        </aside>
       </div>
     </section>
   );

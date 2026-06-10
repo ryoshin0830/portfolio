@@ -28,18 +28,20 @@
     "title": "梁震",
     "subtitle": "用机器学习跨越语言与语音的边界",
     "description": "京都大学博士",
-    "roles": [
-      "工程师",
-      "研究者",
-      "ML 工程师"
-    ],
     "currentlyAt": "GMO Pepabo ／ 工程师",
-    "viewWork": "查看成果"
+    "viewWork": "查看成果",
+    "role": "ML 工程师 ・ 研究者",
+    "metaNow": "现职",
+    "metaDegree": "学位",
+    "metaContact": "联系",
+    "metaEmail": "邮箱",
+    "allContacts": "全部联系方式"
   },
   "heroWriting": {
     "latestArticles": "最新文章",
     "latestPosts": "最新动态",
-    "viewAll": "查看全部动态"
+    "viewAll": "查看全部动态",
+    "title": "最新发布"
   },
   "highlights": {
     "title": "数据化的成果",

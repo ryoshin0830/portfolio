@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
+import { Inter, JetBrains_Mono, Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
@@ -26,6 +26,15 @@ const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
   display: "swap",
   weight: ["400", "500", "600", "700"],
+});
+// Hero の名前専用のディスプレイ明朝（Black のみ — 細いウェイトの明朝は超大型
+// サイズで貧弱に見える）。日本語フォントは next/font が unicode-range でスライス
+// 配信するため、使用グリフ分しかダウンロードされない。
+const notoSerifJP = Noto_Serif_JP({
+  subsets: ["latin"],
+  variable: "--font-noto-serif-jp",
+  display: "swap",
+  weight: ["900"],
 });
 
 // 3 ロケールをビルド時にプリレンダリングする（これがないと全ページが
@@ -117,7 +126,7 @@ export default async function RootLayout({
   return (
     <html
       lang={validLocale}
-      className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansJP.variable}`}
+      className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansJP.variable} ${notoSerifJP.variable}`}
       suppressHydrationWarning
     >
       <head>

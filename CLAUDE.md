@@ -66,8 +66,10 @@ const engagements = t.raw("engagements") as Engagement[];
 - `src/middleware.ts`: next-intl ミドルウェア。`localePrefix: 'always'`、デフォルト `ja`。全 URL が `/ja|/en|/zh` 始まり。
 - `src/i18n.ts`: ロケール検証 + 対応する messages を動的 import。
 - ページ実体はすべて `src/app/[locale]/page.tsx`（1 枚のロングページに全セクションを縦に並べる構成）。
-- `src/app/[locale]/{about,research,skills,projects,teaching,blog}/page.tsx` は**リダイレクト専用** —
-  `/${locale}#section` へ `redirect()` するだけ。実コンテンツは持たない（SEO/旧 URL 用のアンカー）。
+- 旧 URL `/${locale}/{about,blog,contact,experience,projects,research,skills}` は `next.config.ts` の
+  `SECTION_REDIRECTS`（静的リダイレクト）で `/${locale}#section` へ誘導する。`useScrollNavigation` の
+  scroll-spy がスクロール位置に応じて URL を `/${locale}/<sectionId>` に書き換えるため、
+  **`sectionIds` に載せた ID は必ず `SECTION_REDIRECTS` にも追加する**（ないとリロードで 404）。
 - ロケール追加時に触る箇所: `i18n.ts`, `middleware.ts`, `next.config.ts` には無いが、
   `layout.tsx` の `generateMetadata` / `RootLayout` 内のロケール検証、`sitemap.ts`、`messages/` に新ファイル。
 
@@ -77,6 +79,10 @@ const engagements = t.raw("engagements") as Engagement[];
   グラデーション/ブラー/色付き影なし）。light/dark を `:root` と `:root.dark` で定義。
 - ユーティリティクラス（Tailwind ではなく自前）: `.section`, `.section__inner`, `.display`/`.display--xl/xxl`,
   `.prose-body`, `.meta` など。色は `var(--color-ink)` / `var(--color-accent)` 等を直接参照。
+- ディスプレイ明朝: Hero の漢字の名前**のみ** `--font-display-serif`（Noto Serif JP **900 のみ** —
+  `.display-serif` / `.hero-name`。細いウェイトは超大型で貧弱に見えるため Black 限定）。
+  タグライン（`.hero-tagline`）を含め、それ以外の見出し・本文は Inter + Noto Sans JP のまま。
+  **セリフは1箇所だけ**に保つ（増やすと和風パンフレット化する）。
 - ダークモード: `layout.tsx` の `<head>` にインラインの `themeScript`（`src/app/theme-script.ts`）を埋め込み、
   ハイドレーション前に `<html>` へ `dark`/`light` クラスを付与してフラッシュを防ぐ。`ThemeContext` は
   その DOM 状態を読むだけ。**localStorage に保存せず、毎回デバイス設定に従う**（トグルはそのセッション限り）。
@@ -90,16 +96,17 @@ const engagements = t.raw("engagements") as Engagement[];
   `setInterval` / `requestAnimationFrame` ループは、`src/hooks/useActiveAnimation.ts` が返す `active`
   （= prefers-reduced-motion ∧ in-view ∧ document可視）で制御し、`active` が false のときは
   **静止フレームを描画**してループ／タイマーを破棄する。画面外やタブ非表示で回し続けない
-  （バッテリ・CPU の無駄）。実例: `NeuralBackground.tsx`, `HighlightsHeroMetric.tsx`, `TimelineSection.tsx`。
+  （バッテリ・CPU の無駄）。実例: `HighlightsHeroMetric.tsx`, `TimelineSection.tsx`。
 - **「一度きり」と「可視中だけ」を分離する。** 数え上げ等の一回限り演出は `triggerOnce` ではなく
   ref ラッチ（例 `hasCountedUp`）で1回に固定し、ループ部分は別途 `active` ゲートする
   （`triggerOnce: true` の `inView` は永続 true になり、タイマーが止まらなくなる）。
-- **中央寄せの回転／巡回テキストは CLS を出さない。** 幅の異なるテキストを差し替えるときは固定
+- **回転／巡回テキストは CLS を出さない。** 幅の異なるテキストを差し替えるときは固定
   `min-height`（単一行は `whitespace-nowrap`）を予約し、**Grid スタック（`gridArea: 1/1`）+ opacity
-  クロスフェード**で重ねる。Hero の名前（`--hero-name-h`）・肩書き（`--hero-role-h`）が実例。
-  `aria-live` 領域は**単一ノードを保持**してテキストのみ差し替える（複数ノード化は読み上げを壊す）。
-- **LCP テキストは LCP 計測ウィンドウ中に差し替えない。** Hero の主要名はサーバーレンダリングで静止させ、
-  回転は数秒遅延して開始する（`HeroSection.tsx` の `rotate` ゲート）。
+  クロスフェード**で重ねる。`aria-live` 領域は**単一ノードを保持**してテキストのみ差し替える
+  （複数ノード化は読み上げを壊す）。
+- **LCP テキストは LCP 計測ウィンドウ中に差し替えない。** Hero（名前・肩書き・タグライン）は
+  完全に静的なサーバーレンダリング（async Server Component、タイマー無し）に揃えてある。
+  Hero に動的演出を戻す場合もテキスト LCP 候補は静止させたままにする。
 - framer-motion は `LazyMotion`(`domAnimation`) 経由（`MotionProvider`）で使い、`m.*` を用いる。
 - 検証は `npm run build && npm run typecheck && npm run lint` + MCP 再トレースで CLS < 0.1・LCP 安定・
   画面外 RAF 停止を確認する。

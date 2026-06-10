@@ -28,18 +28,20 @@
     "title": "LIANG ZHEN (RYO SHIN)",
     "subtitle": "Crossing the boundary between language and speech with machine learning",
     "description": "PhD, Kyoto University",
-    "roles": [
-      "Engineer",
-      "Researcher",
-      "ML Engineer"
-    ],
     "currentlyAt": "GMO Pepabo / Engineer",
-    "viewWork": "See the results"
+    "viewWork": "See the results",
+    "role": "ML Engineer & Researcher",
+    "metaNow": "Now",
+    "metaDegree": "Degree",
+    "metaContact": "Contact",
+    "metaEmail": "Email",
+    "allContacts": "All contact options"
   },
   "heroWriting": {
     "latestArticles": "Latest articles",
     "latestPosts": "Latest posts",
-    "viewAll": "View all activity"
+    "viewAll": "View all activity",
+    "title": "Latest activity"
   },
   "highlights": {
     "title": "Selected Results",

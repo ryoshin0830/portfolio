@@ -1,4 +1,6 @@
 import HeroSection from "@/components/HeroSection";
+import LatestWritingSection from "@/components/LatestWritingSection";
+import ContactSection from "@/components/ContactSection";
 import HighlightsStrip from "@/components/HighlightsStrip";
 import AboutSection from "@/components/AboutSection";
 import ExperienceSection from "@/components/ExperienceSection";
@@ -48,7 +50,11 @@ export default async function Home({
 
   return (
     <main>
-      <HeroSection latestArticles={latestArticles} latestPosts={latestPosts} />
+      <HeroSection />
+      <LatestWritingSection
+        latestArticles={latestArticles}
+        latestPosts={latestPosts}
+      />
       <HighlightsStrip />
       <AboutSection />
       <ExperienceSection />
@@ -56,6 +62,7 @@ export default async function Home({
       <ResearchSection />
       <SkillsSection />
       <WritingFeed items={feed} />
+      <ContactSection />
     </main>
   );
 }

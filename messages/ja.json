@@ -28,18 +28,20 @@
     "title": "梁 震（りょう しん）",
     "subtitle": "言語と音声の境界を、機械学習で越える",
     "description": "京都大学 博士号取得",
-    "roles": [
-      "エンジニア",
-      "研究者",
-      "ML エンジニア"
-    ],
     "currentlyAt": "GMO ペパボ ／ エンジニア",
-    "viewWork": "成果を見る"
+    "viewWork": "成果を見る",
+    "role": "ML エンジニア ・ 研究者",
+    "metaNow": "現職",
+    "metaDegree": "学位",
+    "metaContact": "連絡先",
+    "metaEmail": "メール",
+    "allContacts": "すべての連絡先"
   },
   "heroWriting": {
     "latestArticles": "最新記事",
     "latestPosts": "最新ポスト",
-    "viewAll": "すべての発信を見る"
+    "viewAll": "すべての発信を見る",
+    "title": "最新の発信"
   },
   "highlights": {
     "title": "数字で見る成果",

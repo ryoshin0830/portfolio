@@ -20,13 +20,6 @@
   --color-accent: #0071e3;
   --color-accent-hover: #0077ed;
 
-  /* Reserved heights for the hero's rotating name / role so swapping the
-     visible variant never reflows surrounding content (CLS = 0).
-     Name: ~1.05 line-height of .display--xxl clamp(3.5rem,12vw,9rem).
-     Role: 2 lines of text-xl (1.25rem * 1.5lh) so a mobile wrap can't shift. */
-  --hero-name-h: clamp(2.7rem, 12.6vw, 9.5rem);
-  --hero-role-h: 3.75rem;
-
   /* Fluid page gutter — scales with the viewport instead of a fixed content
      width, so the layout fills wide monitors yet keeps a safe minimum on
      phones. Shared by the nav, all content sections, and the footer so their
@@ -95,6 +88,7 @@
   --font-serif: var(--font-inter), var(--font-noto-sans-jp), 'Inter', sans-serif;
   --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --font-cjk: var(--font-noto-sans-jp), 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+  --font-display-serif: var(--font-noto-serif-jp), 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -252,6 +246,39 @@ hr, .rule {
 .display--lg { font-size: clamp(2.25rem, 5vw, 3.5rem); }
 .display--xl { font-size: clamp(2.75rem, 6.5vw, 5rem); letter-spacing: -0.035em; }
 .display--xxl { font-size: clamp(2.5rem, 12vw, 9rem); font-weight: 700; letter-spacing: -0.045em; }
+
+/* Editorial serif display — ONLY the hero kanji brand mark. One serif moment
+   against an otherwise all-sans system reads intentional; two or more tips the
+   page into pamphlet territory. Black weight only: lighter mincho cuts look
+   spindly at display size. Kanji read better with slight POSITIVE tracking. */
+.display-serif {
+  font-family: var(--font-display-serif);
+  font-weight: 900;
+  color: var(--color-ink);
+}
+.hero-name {
+  font-size: clamp(4.25rem, 14vw, 12rem);
+  letter-spacing: 0.04em;
+  line-height: 1.08;
+}
+/* Tagline stays in the sans system (bold, near-black) so the serif mark above
+   it remains the single typographic event. */
+.hero-tagline {
+  font-size: clamp(1.5rem, 2.6vw, 2.375rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+  color: var(--color-ink);
+}
+
+/* Small meta label — captions, kickers, data labels. (Referenced across
+   sections; previously undefined and silently inherited body styles.) */
+.meta {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-ink-muted);
+}
 
 /* Apple-style pill button */
 .btn-pill {

@@ -9,6 +9,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 const SECTION_REDIRECTS = [
   'about',
   'blog',
+  'contact',
   'experience',
   'projects',
   'research',
