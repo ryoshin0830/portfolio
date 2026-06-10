@@ -88,9 +88,10 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
 
   // Always render the section so the #blog nav anchor never points at nothing.
   return (
-    <section id="blog" className="section">
+    <section id="blog" className="section section--soft">
       <div className="section__inner">
         <header className="mb-12 md:mb-16">
+          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}

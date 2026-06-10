@@ -35,9 +35,10 @@ const SkillsSection = async () => {
   ] as const;
 
   return (
-    <section id="skills" className="section section--soft">
+    <section id="skills" className="section">
       <div className="section__inner">
         <header className="mb-20">
+          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
