@@ -1,20 +1,12 @@
 import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from 'next';
-
-const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
-
 // 旧 URL → ホームのアンカーへの誘導。以前は /[locale]/about などの redirect() 専用
 // ページ（リクエストごとにサーバー関数を起動）だったが、Vercel のルーター層で
-// 完結する静的リダイレクトに移行した。
-const SECTION_REDIRECTS = [
-  'about',
-  'blog',
-  'contact',
-  'experience',
-  'projects',
-  'research',
-  'skills',
-];
+// 完結する静的リダイレクトに移行した。対象リストは scroll-spy の sectionIds と
+// 同じ単一ソース（src/lib/sections.ts）から導出する。
+import { SECTION_REDIRECTS } from './src/lib/sections';
+
+const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 
 const nextConfig: NextConfig = {
   images: {

@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Noto_Sans_JP, Noto_Serif_JP } from "next/font/go
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
+import ContactModal from "@/components/ContactModal";
 import MotionProvider from "@/components/MotionProvider";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -185,6 +186,8 @@ export default async function RootLayout({
                   </p>
                 </div>
               </footer>
+              {/* #contact ハッシュで開く連絡先モーダル（全ページ常駐） */}
+              <ContactModal />
             </MotionProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

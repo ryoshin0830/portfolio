@@ -31,7 +31,7 @@ interface Platform {
 /**
  * All contact methods as a compact, centered, wrapped row of icon circles.
  * WeChat / WhatsApp open an accessible QR dialog (focus-trapped, Esc to close).
- * Used in the hero — ordering is locale-aware (priority desc).
+ * Used in the ContactModal — ordering is locale-aware (priority desc).
  */
 export default function SocialLinks() {
   const tSocialActions = useTranslations("socialActions");
@@ -254,8 +254,9 @@ export default function SocialLinks() {
           </button>
           {showQR && (
             <>
+              {/* z-index は ContactModal (z-[120]) より上に置く */}
               <div
-                className="fixed inset-0 bg-[color:var(--color-ink)]/40 z-40"
+                className="fixed inset-0 bg-[color:var(--color-ink)]/40 z-[140]"
                 onClick={closeQR}
               />
               <div
@@ -267,7 +268,7 @@ export default function SocialLinks() {
                     ? tSocialActions("wechatQR")
                     : tSocialActions("whatsappQR")
                 }
-                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-2xl z-50 max-w-sm mx-4"
+                className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-6 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-2xl z-[150] max-w-sm mx-4"
               >
                 <h3 className="text-lg font-semibold tracking-tight text-[color:var(--color-ink)] mb-4 text-center">
                   {p.id === "wechat"

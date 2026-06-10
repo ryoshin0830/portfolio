@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
+import { SECTION_IDS } from "@/lib/sections";
+import { scrollToElementSettled } from "@/lib/scroll";
 
 interface TopSection {
   entry: IntersectionObserverEntry;
@@ -20,23 +22,8 @@ export function useScrollNavigation() {
   // セクションが切り替わるたびに observer 8 個を破棄・再作成してしまう。
   const currentSectionRef = useRef("hero");
 
-  // セクションのIDリスト
-  // DOM order on the page (page.tsx). Must include every section the nav links
-  // to, in the order they appear, so the active-highlight observer tracks them
-  // all (experience & contact were missing → never highlighted).
-  const sectionIds = useMemo(
-    () => [
-      "hero",
-      "about",
-      "experience",
-      "projects",
-      "research",
-      "skills",
-      "blog",
-      "contact",
-    ],
-    []
-  );
+  // セクションのIDリスト（単一ソースは src/lib/sections.ts）
+  const sectionIds = useMemo(() => [...SECTION_IDS] as string[], []);
 
   // URLを更新する関数
   const updateURL = useCallback(
@@ -59,13 +46,6 @@ export function useScrollNavigation() {
     },
     [locale]
   );
-
-  // ナビゲーションクリック後の処理を管理
-  const handleNavigationEnd = useCallback(() => {
-    setTimeout(() => {
-      isNavigatingRef.current = false;
-    }, 1000);
-  }, []);
 
   // Intersection Observerのセットアップ
   useEffect(() => {
@@ -129,29 +109,86 @@ export function useScrollNavigation() {
     };
   }, [sectionIds, updateURL]);
 
+  // 進行中の settle スクロールの中断関数（新しいスクロール開始時に前回を破棄）
+  const cancelSettleRef = useRef<(() => void) | null>(null);
+
   // 特定のセクションにスクロールする関数
   const scrollToSection = useCallback((sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
+      cancelSettleRef.current?.();
       isNavigatingRef.current = true;
       currentSectionRef.current = sectionId;
       setCurrentSection(sectionId);
-      
-      // 即座にURLを更新
-      const newPath = sectionId === "hero" ? `/${locale}` : `/${locale}/${sectionId}`;
-      window.history.replaceState(
-        { ...window.history.state, as: newPath, url: newPath },
-        "",
-        newPath
-      );
-      
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-      handleNavigationEnd();
-    }
-  }, [locale, handleNavigationEnd]);
 
-  // 直接URLアクセス時の処理
+      const applyURL = () => {
+        const newPath =
+          sectionId === "hero" ? `/${locale}` : `/${locale}/${sectionId}`;
+        if (window.location.pathname !== newPath) {
+          window.history.replaceState(
+            { ...window.history.state, as: newPath, url: newPath },
+            "",
+            newPath
+          );
+        }
+      };
+
+      // 即座にURLを更新
+      applyURL();
+
+      // スクロール中に下方の遅延コンテンツ（WritingFeed の batch 表示など）が
+      // 描画されると目標位置がずれるため、静止後に再調整する settle スクロール。
+      // settle 中は scroll-spy の URL 更新を止め（isNavigatingRef）、到達時に
+      // 目的セクションの URL を確定させる（最後の補正ジャンプの後は
+      // IntersectionObserver が再発火せず、通過途中のセクションの URL が
+      // 残ることがあるため）。ユーザー入力で中断されたときは scroll-spy に
+      // そのまま主導権を返す。
+      cancelSettleRef.current = scrollToElementSettled(element, {
+        onDone: () => {
+          currentSectionRef.current = sectionId;
+          setCurrentSection(sectionId);
+          applyURL();
+          isNavigatingRef.current = false;
+        },
+        onCancel: () => {
+          isNavigatingRef.current = false;
+        },
+      });
+    }
+  }, [locale]);
+
+  // ページ内アンカー（例: Hero の #contact）にも settle スクロールを適用する。
+  // ネイティブのアンカースクロールはクリック時点のレイアウトを基準にするため、
+  // スクロール中のコンテンツ描画で目標がずれると手前のセクションで止まる。
   useEffect(() => {
+    const onHashChange = () => {
+      const id = window.location.hash.slice(1);
+      if (!id) return;
+      const element = document.getElementById(id);
+      if (!element) return;
+      cancelSettleRef.current?.();
+      cancelSettleRef.current = scrollToElementSettled(element);
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => {
+      window.removeEventListener("hashchange", onHashChange);
+      cancelSettleRef.current?.();
+    };
+  }, []);
+
+  // 直接URLアクセス時の処理（初回マウント時のみ）。
+  //
+  // Next.js App Router は history.replaceState をパッチしており、scroll-spy の
+  // updateURL（replaceState）でも usePathname() が更新される。この effect を
+  // pathname の変化のたびに実行すると、アンカーリンク（例: Hero の #contact）で
+  // スムーズスクロール中に通過セクションへ URL が書き換わり、それを「直接 URL
+  // アクセス」と誤認して scrollToSection が途中のセクション（about 等）へ
+  // スクロールを乗っ取るループになる。直接アクセスの復元は初回のみで十分。
+  const hasHandledInitialPathRef = useRef(false);
+  useEffect(() => {
+    if (hasHandledInitialPathRef.current) return;
+    hasHandledInitialPathRef.current = true;
+
     const pathParts = pathname.split("/");
     const section = pathParts[pathParts.length - 1];
 

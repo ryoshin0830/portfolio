@@ -1,5 +1,8 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { LuArrowDown as ArrowDown } from "react-icons/lu";
+import {
+  LuArrowDown as ArrowDown,
+  LuArrowUpRight as ArrowUpRight,
+} from "react-icons/lu";
 import { FaEnvelope, FaGithub } from "react-icons/fa";
 import { SiX } from "react-icons/si";
 
@@ -11,7 +14,8 @@ import { SiX } from "react-icons/si";
  *   no timers, no CLS reservations, stable LCP).
  * - Left column: identity + tagline + CTA. Right column: a bottom-aligned
  *   fact list (current role / degree / primary contacts).
- * - The full 12-icon SocialLinks moved to ContactSection (#contact);
+ * - The full 12-icon SocialLinks live in the ContactModal — the #contact hash
+ *   opens it (plain anchor keeps this a Server Component);
  *   the latest-writing feed moved to LatestWritingSection just below.
  * - CTA is a plain anchor: CSS scroll-behavior handles smooth scrolling and
  *   the prefers-reduced-motion reset in globals.css turns it off.
@@ -129,9 +133,10 @@ const HeroSection = async () => {
               </dd>
             </div>
           </dl>
-          <a href="#contact" className="link-accent text-sm">
+          {/* #contact ハッシュは ContactModal を開く（スクロールしない） */}
+          <a href="#contact" className="link-accent text-sm" aria-haspopup="dialog">
             {t("allContacts")}
-            <ArrowDown size={14} aria-hidden />
+            <ArrowUpRight size={14} aria-hidden />
           </a>
         </aside>
       </div>

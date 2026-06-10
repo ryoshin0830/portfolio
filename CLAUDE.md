@@ -16,16 +16,28 @@ npm run start     # ビルド済み本番サーバー
 npm run lint      # next lint (eslint-config-next, flat config: eslint.config.mjs)
 npm run lint:fix  # next lint --fix
 npm run typecheck # tsc --noEmit（型検査のみ。eslint は完全な型検査をしないため別途必要）
+npm run test      # Vitest（一回実行）。watch は npm run test:watch
 ```
 
-テストフレームワークは導入されていない。検証はビルド + lint + typecheck + ブラウザ確認（Playwright / Chrome DevTools MCP）で行う。
+### テスト（Vitest + Testing Library）
+
+`vitest.config.ts`（jsdom、`@` エイリアス、`vitest.setup.ts` で IntersectionObserver スタブ）。
+テストはソース隣接の `src/**/*.test.{ts,tsx}` と `tests/`。最終確認はビルド + ブラウザ確認（Playwright MCP）も併用する。
+
+- `src/hooks/useScrollNavigation.test.tsx` — scroll-spy / settle スクロールの回帰テスト
+  （「すべての連絡先で about に飛ばされる」「ナビ到達後に URL が隣のセクションのまま」等）
+- `src/lib/scroll.test.ts` — settle スクロール（遅延描画でページが伸びても目的地に到達）
+- `src/lib/sections.test.ts` — セクション ID / ページ内アンカー / リダイレクト / ナビの整合性
+  （ソース走査の静的テスト。アンカー切れ・リダイレクト漏れをコミット前に検出）
+- `src/components/ContactModal.test.tsx` — 連絡先モーダルの開閉・ハッシュ同期
+- `tests/messages.test.ts` — `messages/{ja,en,zh}.json` のキー構造一致（配列長含む）
 
 ### Git フック（simple-git-hooks + lint-staged）
 
 `npm install` 時に `prepare` スクリプトが `simple-git-hooks` を実行し `.git/hooks` を登録する。設定は `package.json` 内（`simple-git-hooks` / `lint-staged` キー）。
 
-- **pre-commit**: `lint-staged` → staged の `*.{ts,tsx}` に `eslint --fix`（高速）。
-- **pre-push**: `npm run typecheck && npm run lint`（型・lint エラーを push 前に検出。本番ビルドは Vercel 側に任せる）。
+- **pre-commit**: `lint-staged`（staged の `*.{ts,tsx}` に `eslint --fix`）+ `npm run test`（高速）。
+- **pre-push**: `npm run typecheck && npm run lint && npm run test`（push 前の最終ゲート。本番ビルドは Vercel 側に任せる）。
 - 緊急時は `SKIP_SIMPLE_GIT_HOOKS=1 git commit ...` でスキップ可能。フック定義を変えたら `npx simple-git-hooks` で再登録。
 
 ## Architecture
@@ -66,10 +78,20 @@ const engagements = t.raw("engagements") as Engagement[];
 - `src/middleware.ts`: next-intl ミドルウェア。`localePrefix: 'always'`、デフォルト `ja`。全 URL が `/ja|/en|/zh` 始まり。
 - `src/i18n.ts`: ロケール検証 + 対応する messages を動的 import。
 - ページ実体はすべて `src/app/[locale]/page.tsx`（1 枚のロングページに全セクションを縦に並べる構成）。
-- 旧 URL `/${locale}/{about,blog,contact,experience,projects,research,skills}` は `next.config.ts` の
-  `SECTION_REDIRECTS`（静的リダイレクト）で `/${locale}#section` へ誘導する。`useScrollNavigation` の
-  scroll-spy がスクロール位置に応じて URL を `/${locale}/<sectionId>` に書き換えるため、
-  **`sectionIds` に載せた ID は必ず `SECTION_REDIRECTS` にも追加する**（ないとリロードで 404）。
+- **セクション ID の単一ソースは `src/lib/sections.ts`**（`SECTION_IDS` / `HASH_DIALOGS` /
+  `SECTION_REDIRECTS`）。next.config.ts のリダイレクトと `useScrollNavigation` の scroll-spy は
+  ここから import する。整合性（page.tsx の描画順・id 属性・アンカー・リダイレクト）は
+  `src/lib/sections.test.ts` が検証するので、セクション追加時はテストに従えばよい。
+- 旧 URL `/${locale}/{about,blog,contact,…}` は `next.config.ts` の `SECTION_REDIRECTS`
+  （静的リダイレクト）で `/${locale}#section` へ誘導する。scroll-spy が URL を
+  `/${locale}/<sectionId>` に書き換えるため、リダイレクトが無いとリロードで 404 になる。
+- **連絡先はセクションではなくモーダル**（`ContactModal`、layout に常駐）。`#contact` ハッシュで
+  開く（Hero の「すべての連絡先」は静的な `<a href="#contact">`、旧 URL `/${locale}/contact` の
+  リダイレクトもそのままディープリンクになる）。閉じると replaceState でハッシュを消す。
+  旧 ContactSection はページ最下部にあり、途中の WritingFeed が batch 描画でページを伸ばす
+  ためアンカースクロールが目的地に届かないバグが構造的に起きていた。
+- ページ内アンカー / ナビのスクロールは `src/lib/scroll.ts` の settle スクロール
+  （静止後にターゲット位置を検証し、ずれていれば即時ジャンプで補正。ユーザー入力で中断）。
 - ロケール追加時に触る箇所: `i18n.ts`, `middleware.ts`, `next.config.ts` には無いが、
   `layout.tsx` の `generateMetadata` / `RootLayout` 内のロケール検証、`sitemap.ts`、`messages/` に新ファイル。
 
