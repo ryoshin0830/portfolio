@@ -110,97 +110,140 @@
         "year": "1997",
         "title": "Birth",
         "description": "Born in Beijing, China",
-        "icon": "birth"
+        "icon": "birth",
+        "era": 0
       },
       {
         "year": "1999",
         "title": "Move to Japan",
         "description": "Moved to Yokohama with family. Spent the next ten years — from kindergarten through elementary school — growing up in Japan.",
-        "icon": "plane"
+        "icon": "plane",
+        "era": 1,
+        "highlight": true
       },
       {
         "year": "2009",
         "title": "Return to China",
         "description": "Returned to Beijing and entered middle school",
-        "icon": "plane"
+        "icon": "plane",
+        "era": 2,
+        "highlight": true
       },
       {
         "year": "2010",
         "title": "Japan Permanent Residency",
         "description": "Obtained permanent residency in Japan",
-        "icon": "home"
+        "icon": "home",
+        "era": 2
       },
       {
         "year": "2016",
         "title": "Entered Capital University of Economics and Business",
         "description": "Information Systems major",
-        "icon": "university"
+        "icon": "university",
+        "era": 2
       },
       {
         "year": "2020",
         "title": "Graduated from Capital University of Economics and Business",
         "description": "Information Systems major",
-        "icon": "university"
+        "icon": "university",
+        "era": 2
       },
       {
         "year": "2021",
         "title": "Return to Japan",
         "description": "Moved to Kyoto",
-        "icon": "plane"
+        "icon": "plane",
+        "era": 3,
+        "highlight": true
       },
       {
         "year": "2021",
         "title": "Master's at Kyoto University",
         "description": "Graduate School of Human and Environmental Studies — Foreign Language Education, SLA, and Applied Linguistics",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2023",
         "title": "Master's Completed at Kyoto University",
         "description": "Foreign Language Education, SLA, Applied Linguistics",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2023",
         "title": "PhD at Kyoto University",
         "description": "Dissertation topic: 'LLM applications in foreign-language education'",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2023",
         "title": "NINJAL Project",
         "description": "Joined the Vocabulary Profiler project, owning requirements through implementation and operations (until 2025)",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2025",
         "title": "Joined medimo",
         "description": "Improved medical-domain ASR accuracy and built a LangGraph pipeline at medimo Inc. (until 2026)",
-        "icon": "home"
+        "icon": "home",
+        "era": 3
       },
       {
         "year": "2025",
         "title": "Massey University Project",
         "description": "Built the speed-reading platform 'SUIREN' with Dr Mitsue Tabata-Sandom's Japanese extensive-reading research at Massey University (until 2026)",
-        "icon": "home"
+        "icon": "home",
+        "era": 3
       },
       {
         "year": "2026",
         "title": "Joined Sapeet",
         "description": "Joined Sapeet Inc.'s bid-extraction & scoring PoC (February 2026)",
-        "icon": "home"
+        "icon": "home",
+        "era": 3
       },
       {
         "year": "2026",
         "title": "PhD Completed at Kyoto University",
         "description": "Earned a PhD (March 2026). Dissertation: 'LLM applications in foreign-language education'",
-        "icon": "university"
+        "icon": "university",
+        "era": 3,
+        "highlight": true
       },
       {
         "year": "2026",
         "title": "Joined GMO Pepabo",
         "description": "Joined GMO Pepabo as an Engineer (April 2026)",
-        "icon": "home"
+        "icon": "home",
+        "era": 3,
+        "highlight": true
+      }
+    ],
+    "timelineEras": [
+      {
+        "label": "Beijing",
+        "country": "China",
+        "period": "1997–1999"
+      },
+      {
+        "label": "Yokohama",
+        "country": "Japan",
+        "period": "1999–2009"
+      },
+      {
+        "label": "Beijing",
+        "country": "China",
+        "period": "2009–2021"
+      },
+      {
+        "label": "Kyoto",
+        "country": "Japan",
+        "period": "2021–Present"
       }
     ]
   },

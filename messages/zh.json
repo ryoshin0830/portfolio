@@ -110,97 +110,140 @@
         "year": "1997",
         "title": "出生",
         "description": "生于北京",
-        "icon": "birth"
+        "icon": "birth",
+        "era": 0
       },
       {
         "year": "1999",
         "title": "赴日",
         "description": "与家人一同移居横滨。此后从幼儿园到小学，在日本度过了约十年的童年时光。",
-        "icon": "plane"
+        "icon": "plane",
+        "era": 1,
+        "highlight": true
       },
       {
         "year": "2009",
         "title": "回国",
         "description": "返回北京，升入中学",
-        "icon": "plane"
+        "icon": "plane",
+        "era": 2,
+        "highlight": true
       },
       {
         "year": "2010",
         "title": "取得日本永驻",
         "description": "取得日本永久居留资格",
-        "icon": "home"
+        "icon": "home",
+        "era": 2
       },
       {
         "year": "2016",
         "title": "入读首都经济贸易大学",
         "description": "信息系统专业",
-        "icon": "university"
+        "icon": "university",
+        "era": 2
       },
       {
         "year": "2020",
         "title": "毕业于首都经济贸易大学",
         "description": "信息系统专业",
-        "icon": "university"
+        "icon": "university",
+        "era": 2
       },
       {
         "year": "2021",
         "title": "再次赴日",
         "description": "移居京都",
-        "icon": "plane"
+        "icon": "plane",
+        "era": 3,
+        "highlight": true
       },
       {
         "year": "2021",
         "title": "京都大学研究生院 硕士入学",
         "description": "人类与环境学研究科，专攻外语教育学・第二语言习得・应用语言学",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2023",
         "title": "京都大学研究生院 硕士毕业",
         "description": "外语教育学・第二语言习得・应用语言学",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2023",
         "title": "京都大学研究生院 博士入学",
         "description": "博士论文方向：『LLM 在外语教育中的应用』",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2023",
         "title": "参与国立国语研究所项目",
         "description": "参与语汇画像器开发项目，负责从需求定义到实现与运营（至 2025 年）",
-        "icon": "university"
+        "icon": "university",
+        "era": 3
       },
       {
         "year": "2025",
         "title": "加入 medimo",
         "description": "在株式会社 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）",
-        "icon": "home"
+        "icon": "home",
+        "era": 3
       },
       {
         "year": "2025",
         "title": "参与梅西大学项目",
         "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（至 2026 年）",
-        "icon": "home"
+        "icon": "home",
+        "era": 3
       },
       {
         "year": "2026",
         "title": "参与 Sapeet",
         "description": "参与株式会社 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）",
-        "icon": "home"
+        "icon": "home",
+        "era": 3
       },
       {
         "year": "2026",
         "title": "京都大学研究生院 博士毕业",
         "description": "取得博士学位（2026 年 3 月）。博士论文方向：『LLM 在外语教育中的应用』",
-        "icon": "university"
+        "icon": "university",
+        "era": 3,
+        "highlight": true
       },
       {
         "year": "2026",
         "title": "加入 GMO Pepabo",
         "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）",
-        "icon": "home"
+        "icon": "home",
+        "era": 3,
+        "highlight": true
+      }
+    ],
+    "timelineEras": [
+      {
+        "label": "北京",
+        "country": "中国",
+        "period": "1997–1999"
+      },
+      {
+        "label": "横滨",
+        "country": "日本",
+        "period": "1999–2009"
+      },
+      {
+        "label": "北京",
+        "country": "中国",
+        "period": "2009–2021"
+      },
+      {
+        "label": "京都",
+        "country": "日本",
+        "period": "2021–至今"
       }
     ]
   },

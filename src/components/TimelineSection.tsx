@@ -4,64 +4,65 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { m, useReducedMotion, useScroll } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import type { TimelineEra, TimelineEvent } from "@/types/content";
 
-type TimelineEvent = {
-  year: string;
-  title: string;
-  description: string;
-  icon?: string;
-};
+/**
+ * Life timeline — a chaptered ledger instead of 16 identical rows.
+ *
+ * Structure (all data-driven from messages/about):
+ * - `timelineEras` chapters the life into places (北京 → 横浜 → 北京 → 京都);
+ *   each chapter opens with a full-width hairline + "01 北京 · 1997–1999 · 中国"
+ *   header. These 3 hairlines replace the previous 15 per-row rules.
+ * - `highlight: true` marks turning points (来日 / 帰国 / 再来日 / 博士号 / 就職):
+ *   display-size title + larger spine dot. Everything else is a quiet one-liner.
+ * - Relocations are told by the chapter break itself plus a "北京 → 横浜" meta
+ *   line (the 15px airplane glyph read as a cursor arrow, so it's gone).
+ * - Repeated years (2021×2, 2023×3…) render once per run; later rows keep the
+ *   year for screen readers only. Accent blue is reserved for scroll progress
+ *   (rail + dots) and the route arrows — never for static emphasis.
+ */
 
-type Loc = "china" | "japan";
+const RAIL_X = 11; // px — the spine's horizontal centre inside the <ol>
 
-// Location per row. Relocations (icon "plane") fly from the previous row's
-// country to this row's country.
-const LOC_SEQ: Loc[] = [
-  "china", // 1997 誕生（北京）
-  "japan", // 1999 来日
-  "china", // 2009 中国帰国
-  "china", // 2010 永住許可取得
-  "china", // 2016 大学入学
-  "china", // 2020 大学卒業
-  "japan", // 2021 再来日
-  "japan", // 2021 修士課程入学
-  "japan", // 2023 修士課程修了
-  "japan", // 2023 博士課程入学
-  "japan", // 2023 国立国語研究所プロジェクト
-  "japan", // 2025 medimo
-  "japan", // 2025 Massey University（SUIREN）
-  "japan", // 2026 Sapeet
-  "japan", // 2026 博士課程修了
-  "japan", // 2026 GMO ペパボ
-];
-
-const RAIL_X = 11; // px — the spine's horizontal centre
-const NODE_TOP = 33; // px — node position inside a row (aligned to the year)
-
-// A top-view airplane silhouette pointing UP; we rotate it 180° so it noses
-// straight DOWN — the timeline's direction of travel (forward in time).
-const PLANE_UP_D =
-  "M12 2 C12.55 2 13 2.7 13 3.9 L13 9 L21 13.6 L21 15.3 L13 13 L13 18.6 L16 20.6 L16 21.7 L12 20.7 L8 21.7 L8 20.6 L11 18.6 L11 13 L3 15.3 L3 13.6 L11 9 L11 3.9 C11 2.7 11.45 2 12 2 Z";
+// Row containers are ml-7 (28px) / md:ml-9 (36px), so the dot sits at
+// RAIL_X - margin. Vertical centres align with the year line:
+// minor: py-3.5 (14px) + text-sm line (20px)/2 = 24; major: py-6 (24px) +
+// text-base line (24px)/2 = 36.
+const DOT_LEFT = "left-[-17px] md:left-[-25px]";
 
 /**
  * A dot on the spine that fills with accent the instant it crosses the
  * viewport's vertical centre — the line the accent rail draws to. Reverses on
- * scroll-up so it always matches the drawn rail.
+ * scroll-up so it always matches the drawn rail. Turning points get a larger
+ * ringed dot (station vs. stop).
  */
-const SpineDot = ({ reduce }: { reduce: boolean | null }) => {
+const SpineDot = ({
+  major,
+  reduce,
+}: {
+  major: boolean;
+  reduce: boolean | null;
+}) => {
   const [ref, inView] = useInView({ rootMargin: "9999px 0px -50% 0px" });
   const lit = reduce === true || inView;
+  const size = major ? 11 : 7;
   return (
     <span
       ref={ref}
+      data-spine-dot
       aria-hidden="true"
-      className="absolute -translate-x-1/2 -translate-y-1/2"
-      style={{ left: RAIL_X, top: NODE_TOP }}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 ${DOT_LEFT} ${
+        major ? "top-[36px]" : "top-[24px]"
+      }`}
     >
-      <span className="relative block" style={{ width: 7, height: 7 }}>
+      <span className="relative block" style={{ width: size, height: size }}>
         <span
           className="absolute inset-0 block rounded-full"
-          style={{ background: "var(--color-rule)" }}
+          style={
+            major
+              ? { border: "1.5px solid var(--color-rule)" }
+              : { background: "var(--color-rule)" }
+          }
         />
         <m.span
           className="absolute inset-0 block rounded-full"
@@ -75,88 +76,8 @@ const SpineDot = ({ reduce }: { reduce: boolean | null }) => {
   );
 };
 
-/**
- * A relocation, shown as a VERTICAL flight: the origin country sits on top, the
- * destination below, and an airplane noses straight DOWN the line — matching the
- * timeline's own top-to-bottom flow of time. The contrail draws as it descends.
- * Direction is self-evident: top = from, bottom = to, the plane flies down.
- */
-const FlightDown = ({
-  from,
-  to,
-  reduce,
-}: {
-  from: Loc;
-  to: Loc;
-  reduce: boolean | null;
-}) => {
-  const tLoc = useTranslations("locations");
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    rootMargin: "0px 0px -15% 0px",
-  });
-  const lit = reduce === true || inView;
-  const dur = reduce ? 0 : 1.1;
-
-  const TRACK = 28; // px of vertical travel (compact)
-
-  return (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className="flex flex-col items-center gap-1"
-      style={{ width: 46 }}
-    >
-      <span className="text-[11px] font-semibold text-[color:var(--color-ink-soft)] leading-none">
-        {tLoc(from)}
-      </span>
-      <div className="relative" style={{ width: 18, height: TRACK }}>
-        {/* dashed flight path */}
-        <span
-          className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2"
-          style={{
-            width: 1,
-            backgroundImage:
-              "repeating-linear-gradient(var(--color-rule) 0 2px, transparent 2px 6px)",
-          }}
-        />
-        {/* contrail, drawn as the plane descends */}
-        <m.span
-          className="absolute left-1/2 top-0 -translate-x-1/2 origin-top"
-          style={{ width: 1, height: "100%", background: "var(--color-accent)" }}
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: lit ? 1 : 0 }}
-          transition={{ duration: dur, ease: "easeInOut" }}
-        />
-        {/* the airplane, nosing straight down */}
-        <m.span
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ top: -4 }}
-          initial={{ y: reduce ? TRACK - 8 : 0 }}
-          animate={{ y: lit ? TRACK - 8 : 0 }}
-          transition={{ duration: dur, ease: "easeInOut" }}
-        >
-          <svg
-            width={15}
-            height={15}
-            viewBox="0 0 24 24"
-            className="block"
-            style={{ transform: "rotate(180deg)" }}
-          >
-            <path d={PLANE_UP_D} style={{ fill: "var(--color-accent)" }} />
-          </svg>
-        </m.span>
-      </div>
-      <span className="text-[11px] font-semibold text-[color:var(--color-accent)] leading-none">
-        {tLoc(to)}
-      </span>
-    </div>
-  );
-};
-
 const TimelineSection = () => {
   const t = useTranslations("about");
-  const tLoc = useTranslations("locations");
   const reduce = useReducedMotion();
 
   const olRef = useRef<HTMLOListElement>(null);
@@ -174,16 +95,22 @@ const TimelineSection = () => {
     if (!reduce) setDynamic(true);
   }, [reduce]);
 
-  // End the rail at the last node instead of the list's bottom, so it doesn't
-  // dangle into the section padding below the final event.
+  // End the rail at the last node instead of the list's bottom. The dot is
+  // measured directly (chapter headers make row offsets vary, so a fixed
+  // per-row constant would drift).
   const [railH, setRailH] = useState<number | null>(null);
   useEffect(() => {
     const ol = olRef.current;
     if (!ol) return;
     const measure = () => {
-      const lis = ol.querySelectorAll<HTMLElement>(":scope > li");
-      const last = lis[lis.length - 1];
-      if (last) setRailH(last.offsetTop + NODE_TOP);
+      const lastDot = ol.querySelector<HTMLElement>(
+        ":scope > li:last-child [data-spine-dot]",
+      );
+      if (lastDot) {
+        const dotRect = lastDot.getBoundingClientRect();
+        const olRect = ol.getBoundingClientRect();
+        setRailH(dotRect.top - olRect.top + dotRect.height / 2);
+      }
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -192,6 +119,7 @@ const TimelineSection = () => {
   }, []);
 
   const events = t.raw("timelineEvents") as TimelineEvent[];
+  const eras = t.raw("timelineEras") as TimelineEra[];
 
   return (
     <ol
@@ -211,7 +139,7 @@ const TimelineSection = () => {
           left: RAIL_X,
           width: 1,
           height: railH ?? "100%",
-          background: "var(--color-rule-soft)",
+          background: "var(--color-rule)",
         }}
       />
       <m.span
@@ -228,9 +156,14 @@ const TimelineSection = () => {
       />
 
       {events.map((event, i) => {
-        const loc = LOC_SEQ[i];
-        const relocation = event.icon === "plane";
-        const from = LOC_SEQ[i - 1] ?? loc;
+        const prev = i > 0 ? events[i - 1] : null;
+        const era = eras[event.era];
+        const eraStart = prev === null || prev.era !== event.era;
+        const showYear = eraStart || prev?.year !== event.year;
+        const major = event.highlight === true;
+        // A chapter that opens mid-life is a relocation — name the route.
+        const route =
+          eraStart && prev ? { from: eras[prev.era].label, to: era.label } : null;
 
         return (
           <m.li
@@ -240,34 +173,69 @@ const TimelineSection = () => {
             transition={{ duration: 0.4, delay: 0.04 * i }}
             className="relative"
           >
-            <SpineDot reduce={reduce} />
-            <div
-              className={`ml-7 md:ml-9 ${
-                i > 0 ? "border-t border-[color:var(--color-rule-soft)]" : ""
-              }`}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-2 md:gap-12 py-5">
-                <div
-                  className={`flex gap-2 ${
-                    relocation
-                      ? "flex-col items-start"
-                      : "md:flex-col items-baseline md:items-start"
+            {era && eraStart && (
+              <div
+                className={`ml-7 md:ml-9 flex flex-wrap items-baseline gap-x-3 pb-4 ${
+                  i === 0
+                    ? ""
+                    : "mt-6 border-t border-[color:var(--color-rule-soft)] pt-8"
+                }`}
+              >
+                <span className="num text-sm font-semibold text-[color:var(--color-ink-muted)]">
+                  {String(event.era + 1).padStart(2, "0")}
+                </span>
+                <span className="text-lg font-semibold tracking-tight">
+                  {era.label}
+                </span>
+                <span className="meta num">
+                  {era.period} · {era.country}
+                </span>
+              </div>
+            )}
+
+            <div className={`relative ml-7 md:ml-9 ${major ? "py-6" : "py-3.5"}`}>
+              <SpineDot major={major} reduce={reduce} />
+              <div className="grid grid-cols-[3.5rem_1fr] gap-4 md:grid-cols-[6rem_1fr] md:gap-12">
+                <span
+                  className={`num ${
+                    major
+                      ? "text-base font-semibold text-[color:var(--color-ink)]"
+                      : "text-sm font-medium text-[color:var(--color-ink-muted)] pt-0.5"
                   }`}
                 >
-                  <span className="num text-base font-semibold text-[color:var(--color-accent)]">
-                    {event.year}
-                  </span>
-                  {relocation ? (
-                    <FlightDown from={from} to={loc} reduce={reduce} />
+                  {showYear ? (
+                    event.year
                   ) : (
-                    loc && <span className="meta">{tLoc(loc)}</span>
+                    <span className="sr-only">{event.year}</span>
                   )}
-                </div>
+                </span>
                 <div>
-                  <h4 className="text-lg md:text-xl font-semibold tracking-tight mb-1">
+                  {route && (
+                    <p className="meta mb-2">
+                      {route.from}{" "}
+                      <span
+                        className="text-[color:var(--color-accent)]"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>{" "}
+                      {route.to}
+                    </p>
+                  )}
+                  <h4
+                    className={
+                      major
+                        ? "text-xl md:text-2xl font-semibold tracking-tight mb-1.5"
+                        : "text-base font-medium tracking-tight mb-0.5"
+                    }
+                  >
                     {event.title}
                   </h4>
-                  <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
+                  <p
+                    className={`${
+                      major ? "text-base" : "text-sm"
+                    } text-[color:var(--color-ink-soft)] leading-relaxed max-w-2xl`}
+                  >
                     {event.description}
                   </p>
                 </div>

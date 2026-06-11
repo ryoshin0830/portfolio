@@ -64,6 +64,24 @@ export interface Expertise {
   description: string;
 }
 
+/** about.timelineEvents — one life event. `era` indexes about.timelineEras;
+ *  `highlight: true` marks a turning point (larger dot + display type). */
+export interface TimelineEvent {
+  year: string;
+  title: string;
+  description: string;
+  icon?: string;
+  era: number;
+  highlight?: boolean;
+}
+
+/** about.timelineEras — a chapter of the life timeline (place + span). */
+export interface TimelineEra {
+  label: string;
+  country: string;
+  period: string;
+}
+
 export type Translator = (key: string) => unknown;
 
 export function getRaw<T>(t: { raw: (key: string) => unknown }, key: string): T {
