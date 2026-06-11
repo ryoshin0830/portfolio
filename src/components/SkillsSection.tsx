@@ -21,13 +21,6 @@ const SkillsSection = async () => {
     (a, b) => (parseInt(b.date, 10) || 0) - (parseInt(a.date, 10) || 0),
   );
 
-  // Group skills by proficiency instead of showing cryptic "5y" badges / an
-  // unexplained blue accent. Tier is derived from the existing data: featured
-  // skills are "core", anything with ≥3 years is "proficient", the rest are
-  // "familiar". The tier label carries the meaning; chips stay monochrome.
-  type SkillItem = SkillCategory["items"][number];
-  const levelOf = (i: SkillItem): "core" | "proficient" | "familiar" =>
-    i.featured ? "core" : (i.years ?? 0) >= 3 ? "proficient" : "familiar";
   const tiers = [
     { key: "core", label: t("levelCore") },
     { key: "proficient", label: t("levelProficient") },
@@ -58,7 +51,7 @@ const SkillsSection = async () => {
               <div className="space-y-5 min-w-0">
                 {tiers.map((tier) => {
                   const items = cat.items.filter(
-                    (i) => levelOf(i) === tier.key,
+                    (i) => i.level === tier.key,
                   );
                   if (items.length === 0) return null;
                   return (

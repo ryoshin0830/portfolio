@@ -43,12 +43,18 @@ export interface HighlightStat {
 }
 
 export interface SkillCategory {
-  id: "languages" | "frameworks" | "databases" | "infra" | "tools";
-  titleKey: "programming" | "frontend" | "backend" | "database" | "cloud" | "ai";
+  id: "languages" | "frontend" | "backend" | "ai" | "databases" | "infra" | "tools";
+  titleKey:
+    | "programming"
+    | "frontend"
+    | "backend"
+    | "database"
+    | "ai"
+    | "infrastructure"
+    | "tools";
   items: Array<{
     name: string;
-    years?: number;
-    featured?: boolean;
+    level: "core" | "proficient" | "familiar";
   }>;
 }
 

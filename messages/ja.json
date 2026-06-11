@@ -533,28 +533,19 @@
   },
   "skills": {
     "title": "スキル・技術",
-    "subtitle": "業務で扱った技術スタック（習熟度別）",
+    "subtitle": "業務・研究・個人開発で扱ってきた技術スタック（習熟度別）",
     "kicker": "Stack",
     "programming": "プログラミング言語",
     "frontend": "フロントエンド",
     "backend": "バックエンド",
     "database": "データベース",
-    "mobile": "モバイル開発",
     "infrastructure": "インフラ",
-    "cloud": "クラウド",
     "ai": "AI・機械学習",
+    "tools": "開発ツール",
     "languages": "言語能力",
-    "jobTitle": "博士・研究者",
-    "ceoFounder": "CEO・創業者",
-    "yearsExperience": "{years}年以上の経験",
-    "yearsLabel": "y",
     "levelCore": "主力",
     "levelProficient": "実務レベル",
     "levelFamiliar": "経験あり",
-    "mainFeatures": "主な機能・特徴",
-    "techStack": "技術スタック",
-    "proficiency": "習熟度",
-    "technicalExpertise": "技術的専門性",
     "categories": [
       {
         "id": "languages",
@@ -562,78 +553,113 @@
         "items": [
           {
             "name": "JavaScript",
-            "years": 5,
-            "featured": true
+            "level": "core"
           },
           {
             "name": "TypeScript",
-            "years": 3,
-            "featured": true
+            "level": "core"
           },
           {
             "name": "Python",
-            "years": 5,
-            "featured": true
+            "level": "core"
           },
           {
             "name": "Swift",
-            "years": 4
+            "level": "proficient"
           },
           {
             "name": "PHP",
-            "years": 3
-          },
-          {
-            "name": "C",
-            "years": 2
+            "level": "proficient"
           }
         ]
       },
       {
-        "id": "frameworks",
+        "id": "frontend",
         "titleKey": "frontend",
         "items": [
           {
             "name": "React",
-            "years": 3,
-            "featured": true
+            "level": "core"
           },
           {
             "name": "Next.js",
-            "featured": true
+            "level": "core"
+          },
+          {
+            "name": "Tailwind CSS",
+            "level": "proficient"
           },
           {
             "name": "React Native",
-            "years": 2
-          },
-          {
-            "name": "Node.js / Express"
-          },
+            "level": "familiar"
+          }
+        ]
+      },
+      {
+        "id": "backend",
+        "titleKey": "backend",
+        "items": [
           {
             "name": "FastAPI",
-            "featured": true
+            "level": "core"
           },
           {
-            "name": "LangChain"
+            "name": "Node.js / Express",
+            "level": "proficient"
           },
+          {
+            "name": "WordPress",
+            "level": "proficient"
+          }
+        ]
+      },
+      {
+        "id": "ai",
+        "titleKey": "ai",
+        "items": [
           {
             "name": "LangGraph",
-            "featured": true
+            "level": "core"
           },
           {
-            "name": "Transformers"
+            "name": "LangChain",
+            "level": "proficient"
           },
           {
-            "name": "PyTorch"
+            "name": "PyTorch",
+            "level": "proficient"
           },
           {
-            "name": "DeepSpeed"
+            "name": "Transformers",
+            "level": "proficient"
           },
           {
-            "name": "Dify"
+            "name": "DeepSpeed",
+            "level": "proficient"
           },
           {
-            "name": "WordPress"
+            "name": "LoRA",
+            "level": "proficient"
+          },
+          {
+            "name": "Dify",
+            "level": "proficient"
+          },
+          {
+            "name": "Scikit-learn",
+            "level": "proficient"
+          },
+          {
+            "name": "Word2Vec / gensim",
+            "level": "proficient"
+          },
+          {
+            "name": "MeCab",
+            "level": "proficient"
+          },
+          {
+            "name": "Jupyter",
+            "level": "proficient"
           }
         ]
       },
@@ -642,91 +668,68 @@
         "titleKey": "database",
         "items": [
           {
-            "name": "MariaDB / MySQL",
-            "years": 5
+            "name": "PostgreSQL",
+            "level": "core"
           },
           {
-            "name": "PostgreSQL",
-            "years": 3,
-            "featured": true
+            "name": "MariaDB / MySQL",
+            "level": "proficient"
+          },
+          {
+            "name": "AWS Aurora",
+            "level": "proficient"
           },
           {
             "name": "MongoDB",
-            "years": 2
-          },
-          {
-            "name": "AWS Aurora"
+            "level": "familiar"
           }
         ]
       },
       {
         "id": "infra",
-        "titleKey": "cloud",
+        "titleKey": "infrastructure",
         "items": [
           {
-            "name": "Nginx",
-            "years": 6
+            "name": "AWS",
+            "level": "core"
           },
           {
-            "name": "Apache",
-            "years": 5
+            "name": "Vercel",
+            "level": "proficient"
+          },
+          {
+            "name": "Docker",
+            "level": "proficient"
           },
           {
             "name": "Linux",
-            "years": 5
+            "level": "proficient"
+          },
+          {
+            "name": "Nginx",
+            "level": "proficient"
+          },
+          {
+            "name": "Apache",
+            "level": "proficient"
           },
           {
             "name": "Caddy",
-            "years": 3
-          },
-          {
-            "name": "AWS",
-            "years": 3,
-            "featured": true
-          },
-          {
-            "name": "Vercel"
-          },
-          {
-            "name": "Docker"
+            "level": "proficient"
           }
         ]
       },
       {
         "id": "tools",
-        "titleKey": "ai",
+        "titleKey": "tools",
         "items": [
           {
             "name": "Git",
-            "years": 5
+            "level": "proficient"
           },
           {
-            "name": "Scikit-learn",
-            "years": 3
-          },
-          {
-            "name": "Word2Vec / gensim"
-          },
-          {
-            "name": "Jupyter"
-          },
-          {
-            "name": "Jest"
-          },
-          {
-            "name": "Figma"
-          },
-          {
-            "name": "Webpack"
-          },
-          {
-            "name": "PDF.js"
-          },
-          {
-            "name": "MeCab"
-          },
-          {
-            "name": "BERT"
+            "name": "Figma",
+            "level": "proficient"
           }
         ]
       }
