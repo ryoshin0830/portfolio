@@ -232,29 +232,12 @@ const ResearchSection = () => {
           </ol>
         </div>
 
-        {/* Conference talks — secondary for most visitors, so folded into a
-            native <details>; the counter strip above still shows the volume. */}
         {conferencePubs.length > 0 && (
-          <details className="group mt-16">
-            <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-base font-medium text-[color:var(--color-accent)] [&::-webkit-details-marker]:hidden">
-              <svg
-                aria-hidden
-                viewBox="0 0 12 12"
-                className="h-3 w-3 shrink-0 transition-transform group-open:rotate-90"
-              >
-                <path
-                  d="M4 2l4 4-4 4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+          <div className="mt-24">
+            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
               {t("conferencePresentations")}
-              <span className="num">({conferencePubs.length})</span>
-            </summary>
-            <ol className="space-y-10 pt-10">
+            </h3>
+            <ol className="space-y-10">
               {conferencePubs.map((p, i) => (
                 <PublicationItem
                   key={i}
@@ -264,7 +247,7 @@ const ResearchSection = () => {
                 />
               ))}
             </ol>
-          </details>
+          </div>
         )}
       </div>
     </section>
