@@ -21,8 +21,12 @@ const SkillsSection = async () => {
     (a, b) => (parseInt(b.date, 10) || 0) - (parseInt(a.date, 10) || 0),
   );
 
-  // Skill display is flat per category — proficiency brackets hide the forest
-  // for the trees. The page's job is to show what was used, not to grade it.
+  const tiers = [
+    { key: "core", label: t("levelCore") },
+    { key: "proficient", label: t("levelProficient") },
+    { key: "familiar", label: t("levelFamiliar") },
+  ] as const;
+
   return (
     <section id="skills" className="section">
       <div className="section__inner">
@@ -33,8 +37,8 @@ const SkillsSection = async () => {
           </p>
         </header>
 
-        {/* Categories — one row per category, all chips flat */}
-        <div className="space-y-14">
+        {/* Categories */}
+        <div className="space-y-16">
           {categories.map((cat) => (
             <div
               key={cat.id}
@@ -43,12 +47,33 @@ const SkillsSection = async () => {
               <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
                 {t(cat.titleKey)}
               </h3>
-              <div className="flex flex-wrap gap-2 items-start">
-                {cat.items.map((item) => (
-                  <span key={item.name} className="chip">
-                    {item.name}
-                  </span>
-                ))}
+              <div className="space-y-5 min-w-0">
+                {tiers.map((tier) => {
+                  const items = cat.items.filter(
+                    (i) => i.level === tier.key,
+                  );
+                  if (items.length === 0) return null;
+                  return (
+                    <div
+                      key={tier.key}
+                      className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-2 sm:gap-6"
+                    >
+                      <span className="meta pt-1.5">
+                        {tier.label}
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map((item) => (
+                          <span
+                            key={item.name}
+                            className={`chip ${tier.key === "core" ? "chip--core" : ""}`}
+                          >
+                            {item.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}

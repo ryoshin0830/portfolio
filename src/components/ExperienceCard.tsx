@@ -219,39 +219,59 @@ export default function ExperienceCard({
             </div>
           )}
 
-          {/* Responsibilities + work items — always visible. This page exists
-              to show what the person has done; hiding details behind a toggle
-              defeats that purpose. */}
+          {/* Responsibilities + work items — folded by default. The long
+              per-engagement bullet lists were the page's heaviest text walls;
+              a native <details> keeps them one tap away with zero JS. */}
           {(e.responsibilities.length > 0 || e.workItems.length > 0) && (
-            <div className="space-y-10 max-w-3xl">
-              {e.responsibilities.length > 0 && (
-                <div>
-                  <p className={SECTION_LABEL_CLASS}>{labels.responsibilities}</p>
-                  <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
-                    {e.responsibilities.map((r, j) => (
-                      <li key={j} className="flex gap-3">
-                        <span className="text-[color:var(--color-accent)] shrink-0">·</span>
-                        <span className="leading-relaxed break-words min-w-0">{r}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            <details className="group max-w-3xl">
+              <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-base font-medium text-[color:var(--color-accent)] [&::-webkit-details-marker]:hidden">
+                <svg
+                  aria-hidden
+                  viewBox="0 0 12 12"
+                  className="h-3 w-3 shrink-0 transition-transform group-open:rotate-90"
+                >
+                  <path
+                    d="M4 2l4 4-4 4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {labels.details}
+              </summary>
 
-              {e.workItems.length > 0 && (
-                <div>
-                  <p className={SECTION_LABEL_CLASS}>{labels.workItems}</p>
-                  <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
-                    {e.workItems.map((w, j) => (
-                      <li key={j} className="flex gap-3">
-                        <span className="text-[color:var(--color-accent)] shrink-0">·</span>
-                        <span className="leading-relaxed break-words min-w-0">{w}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
+              <div className="space-y-10 pt-10">
+                {e.responsibilities.length > 0 && (
+                  <div>
+                    <p className={SECTION_LABEL_CLASS}>{labels.responsibilities}</p>
+                    <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
+                      {e.responsibilities.map((r, j) => (
+                        <li key={j} className="flex gap-3">
+                          <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                          <span className="leading-relaxed break-words min-w-0">{r}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {e.workItems.length > 0 && (
+                  <div>
+                    <p className={SECTION_LABEL_CLASS}>{labels.workItems}</p>
+                    <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
+                      {e.workItems.map((w, j) => (
+                        <li key={j} className="flex gap-3">
+                          <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                          <span className="leading-relaxed break-words min-w-0">{w}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </details>
           )}
         </div>
       </div>

@@ -63,8 +63,8 @@ export default async function Home({
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
-      <ClosingCTA />
       <WritingFeed items={feed} />
+      <ClosingCTA />
     </main>
   );
 }

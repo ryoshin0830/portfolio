@@ -417,8 +417,10 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
       </div>
 
       {/* ---------- number / label / context ----------
-          The neural network hairlines run behind the text — the large number
-          stays legible while the network remains fully visible. */}
+          Each text run carries the section's own background as a knockout
+          (box-decoration: clone covers every wrapped line), so the network
+          hairlines terminate at the text instead of running through the
+          glyphs — legible without dimming the artwork. */}
       <div className="relative z-10">
         <p
           className="display num mb-6"
@@ -427,19 +429,29 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
             fontSize: "clamp(4rem, 13vw, 10rem)",
             lineHeight: 0.95,
             letterSpacing: "-0.05em",
+            // Ink (not accent) so the number is the readable "result" and the
+            // accent-blue neural net behind it reads as the visible protagonist
+            // computing it — instead of blue-on-blue where both got lost.
             color: "var(--color-ink)",
           }}
         >
-          <span aria-hidden="true">
+          <span
+            aria-hidden="true"
+            className="bg-[color:var(--color-bg-soft)] px-[0.12em] [box-decoration-break:clone] [-webkit-box-decoration-break:clone]"
+          >
             {renderNumber()}
           </span>
         </p>
         <p className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
-          {label}
+          <span className="bg-[color:var(--color-bg-soft)] px-2 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+            {label}
+          </span>
         </p>
         {context && (
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
-            {context}
+            <span className="bg-[color:var(--color-bg-soft)] px-2 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+              {context}
+            </span>
           </p>
         )}
       </div>

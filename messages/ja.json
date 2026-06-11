@@ -268,7 +268,8 @@
       "workItems": "業務内容",
       "achievements": "実績・成果",
       "industry": "業種",
-      "employment": "雇用形態"
+      "employment": "雇用形態",
+      "details": "担当業務の詳細を見る"
     },
     "scopePhases": {
       "req": "要件定義",
@@ -580,7 +581,7 @@
   },
   "skills": {
     "title": "スキル・技術",
-    "subtitle": "業務・研究・個人開発で扱ってきた技術スタック",
+    "subtitle": "業務・研究・個人開発で扱ってきた技術スタック（習熟度別）",
     "kicker": "Stack",
     "programming": "プログラミング言語",
     "frontend": "フロントエンド",
@@ -682,11 +683,7 @@
           },
           {
             "name": "DeepSpeed",
-            "level": "core"
-          },
-          {
-            "name": "Ray",
-            "level": "core"
+            "level": "proficient"
           },
           {
             "name": "LoRA",
@@ -870,7 +867,7 @@
   },
   "contactCTA": {
     "title": "一緒につくりましょう",
-    "lead": "研究のご相談から開発のご依頼まで、お気軽にご連絡ください。",
+    "lead": "研究のご相談から開発のご依頼まで、入り口はどこからでも。お気軽にご連絡ください。",
     "action": "すべての連絡先を開く"
   },
   "footer": {
@@ -893,6 +890,10 @@
     "kicker": "Writing",
     "subtitle": "Zenn・Qiita・note での記事と、X でのポスト。",
     "filterAll": "すべて",
+    "viewOnZenn": "Zennで見る",
+    "viewOnQiita": "Qiitaで見る",
+    "viewOnNote": "noteで見る",
+    "viewOnX": "Xで見る",
     "loadMore": "さらに表示",
     "empty": "該当する発信がありません。"
   },
