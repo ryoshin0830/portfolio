@@ -268,8 +268,7 @@
       "workItems": "Work items",
       "achievements": "Outcomes",
       "industry": "Industry",
-      "employment": "Employment",
-      "details": "View detailed responsibilities"
+      "employment": "Employment"
     },
     "scopePhases": {
       "req": "Requirements",
@@ -581,7 +580,7 @@
   },
   "skills": {
     "title": "Skills & Stack",
-    "subtitle": "Technologies I've used across work, research, and personal projects, grouped by proficiency",
+    "subtitle": "Technologies I've used across work, research, and personal projects",
     "kicker": "Stack",
     "programming": "Programming Languages",
     "frontend": "Frontend",
@@ -683,7 +682,11 @@
           },
           {
             "name": "DeepSpeed",
-            "level": "proficient"
+            "level": "core"
+          },
+          {
+            "name": "Ray",
+            "level": "core"
           },
           {
             "name": "LoRA",
@@ -867,7 +870,7 @@
   },
   "contactCTA": {
     "title": "Let's build something together",
-    "lead": "From research collaborations to development work — any door is open. Feel free to reach out.",
+    "lead": "From research collaborations to development work — feel free to reach out.",
     "action": "Open all contacts"
   },
   "footer": {
@@ -890,10 +893,6 @@
     "kicker": "Writing",
     "subtitle": "Articles on Zenn, Qiita and note, and posts on X.",
     "filterAll": "All",
-    "viewOnZenn": "View on Zenn",
-    "viewOnQiita": "View on Qiita",
-    "viewOnNote": "View on note",
-    "viewOnX": "View on X",
     "loadMore": "Show more",
     "empty": "Nothing to show."
   },

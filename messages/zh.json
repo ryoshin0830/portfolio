@@ -268,8 +268,7 @@
       "workItems": "工作内容",
       "achievements": "成果",
       "industry": "行业",
-      "employment": "雇佣形式",
-      "details": "查看工作详情"
+      "employment": "雇佣形式"
     },
     "scopePhases": {
       "req": "需求定义",
@@ -581,7 +580,7 @@
   },
   "skills": {
     "title": "技能与技术栈",
-    "subtitle": "在工作、研究与个人开发中使用过的技术栈（按熟练度分组）",
+    "subtitle": "在工作、研究与个人开发中使用过的技术栈",
     "kicker": "Stack",
     "programming": "编程语言",
     "frontend": "前端",
@@ -683,7 +682,11 @@
           },
           {
             "name": "DeepSpeed",
-            "level": "proficient"
+            "level": "core"
+          },
+          {
+            "name": "Ray",
+            "level": "core"
           },
           {
             "name": "LoRA",
@@ -890,10 +893,6 @@
     "kicker": "Writing",
     "subtitle": "在 Zenn・Qiita・note 的文章，以及 X 上的动态。",
     "filterAll": "全部",
-    "viewOnZenn": "在 Zenn 查看",
-    "viewOnQiita": "在 Qiita 查看",
-    "viewOnNote": "在 note 查看",
-    "viewOnX": "在 X 查看",
     "loadMore": "显示更多",
     "empty": "暂无内容。"
   },

@@ -193,49 +193,8 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
           </p>
         )}
 
-        {/* Profile links — always available, even if the feed is empty. */}
-        <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
-          <Link
-            href="https://zenn.dev/ryoushin"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-accent text-base"
-          >
-            {t("viewOnZenn")}
-            <ArrowUpRight size={16} aria-hidden />
-            <span className="sr-only"> — {tc("opensInNewTab")}</span>
-          </Link>
-          <Link
-            href="https://qiita.com/ryoshin0830"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-accent text-base"
-          >
-            {t("viewOnQiita")}
-            <ArrowUpRight size={16} aria-hidden />
-            <span className="sr-only"> — {tc("opensInNewTab")}</span>
-          </Link>
-          <Link
-            href="https://note.com/ryoshin0830"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-accent text-base"
-          >
-            {t("viewOnNote")}
-            <ArrowUpRight size={16} aria-hidden />
-            <span className="sr-only"> — {tc("opensInNewTab")}</span>
-          </Link>
-          <Link
-            href="https://x.com/ryoshin0830"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="link-accent text-base"
-          >
-            {t("viewOnX")}
-            <ArrowUpRight size={16} aria-hidden />
-            <span className="sr-only"> — {tc("opensInNewTab")}</span>
-          </Link>
-        </div>
+        {/* Profile links removed — the feed itself is the destination.
+            Future: infinite scroll with a bottom-sentinel trigger. */}
       </div>
     </section>
   );

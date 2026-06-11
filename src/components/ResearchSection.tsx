@@ -141,13 +141,6 @@ const ResearchSection = () => {
     .filter((p) => Number.isFinite(p.year))
     .sort(byYearDesc);
 
-  // Big-number summary — the output volume reads at a glance before any list.
-  const counters = [
-    { value: journalPubs.length, label: t("peerReviewedPapers") },
-    { value: conferencePubs.length, label: t("conferencePresentations") },
-    { value: books.length, label: t("books") },
-  ].filter((c) => c.value > 0);
-
   return (
     <section id="research" className="section section--soft">
       <div className="section__inner">
@@ -157,23 +150,6 @@ const ResearchSection = () => {
             {t("subtitle")}
           </p>
         </header>
-
-        {/* Counter strip — Apple "big number" treatment shared with Highlights */}
-        {counters.length > 0 && (
-          <ul className="mb-20 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
-            {counters.map((c) => (
-              <li
-                key={c.label}
-                className="border-l border-[color:var(--color-rule)] pl-6"
-              >
-                <p className="display num text-5xl md:text-7xl">{c.value}</p>
-                <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">
-                  {c.label}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
 
         {books.length > 0 && (
           <div className="mb-20">
