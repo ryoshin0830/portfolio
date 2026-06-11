@@ -7,6 +7,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import ResearchSection from "@/components/ResearchSection";
 import SkillsSection from "@/components/SkillsSection";
 import WritingFeed from "@/components/WritingFeed";
+import ClosingCTA from "@/components/ClosingCTA";
 import { setRequestLocale } from "next-intl/server";
 import { getArticles } from "@/lib/articles";
 import { getPosts } from "@/lib/posts";
@@ -44,8 +45,10 @@ export default async function Home({
   // The Hero shows articles and posts as two separate columns (mixing them by
   // date buries the articles under the more-frequent posts), so split the feed
   // by kind there. The bottom section keeps the merged, date-sorted stream.
-  const latestArticles = feed.filter((i) => i.kind === "article").slice(0, 5);
-  const latestPosts = feed.filter((i) => i.kind === "post").slice(0, 5);
+  // 3 each (was 5): the full archive lives in WritingFeed (#blog) below —
+  // a longer duplicate list directly under the hero just created déjà vu.
+  const latestArticles = feed.filter((i) => i.kind === "article").slice(0, 3);
+  const latestPosts = feed.filter((i) => i.kind === "post").slice(0, 3);
 
   return (
     <main>
@@ -61,6 +64,7 @@ export default async function Home({
       <ResearchSection />
       <SkillsSection />
       <WritingFeed items={feed} />
+      <ClosingCTA />
     </main>
   );
 }

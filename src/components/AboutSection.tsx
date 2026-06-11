@@ -27,55 +27,54 @@ const AboutSection = () => {
   return (
     <section id="about" ref={ref} className="section section--pt-tight section--pb-tight">
       <div className="section__inner">
-        <header className="mb-16">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+        <header className="mb-12 md:mb-16">
+          <h2 className="display display--lg mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
         </header>
 
+        {/* Intro + capabilities — two columns on wide screens so the right
+            half of the viewport is composed space, not leftover space. */}
         <m.div
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mb-16"
+          className="mb-20 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16"
         >
-          <p className="prose-body text-[color:var(--color-ink)] mb-10">
-            {t("pr")}
-          </p>
-          <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed mb-6">
-            {credentials.education}
-          </p>
-          <a
-            href="https://github.com/ryoshin0830"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`GitHub: ${credentials.github}`}
-            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-rule)] px-4 py-2 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
-          >
-            <FaGithub className="w-4 h-4 shrink-0" aria-hidden />
-            <span className="num">{credentials.github}</span>
-          </a>
+          <div className="lg:col-span-7">
+            <p className="prose-body text-[color:var(--color-ink)] mb-8">
+              {t("pr")}
+            </p>
+            <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed mb-6">
+              {credentials.education}
+            </p>
+            <a
+              href="https://github.com/ryoshin0830"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`GitHub: ${credentials.github}`}
+              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-rule)] px-4 py-2 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            >
+              <FaGithub className="w-4 h-4 shrink-0" aria-hidden />
+              <span className="num">{credentials.github}</span>
+            </a>
+          </div>
+
+          {/* Capabilities — strengths chips */}
+          <div className="lg:col-span-5 lg:border-l lg:border-[color:var(--color-rule-soft)] lg:pl-16">
+            <h3 className="meta mb-4">{t("capabilitiesLabel")}</h3>
+            <div className="flex flex-wrap gap-2">
+              {capabilities.map((c) => (
+                <span key={c} className="chip">{c}</span>
+              ))}
+            </div>
+          </div>
         </m.div>
 
-        {/* Capabilities — strengths chips */}
-        <div className="mb-24">
-          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-4">
-            {t("capabilitiesLabel")}
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {capabilities.map((c) => (
-              <span key={c} className="chip">{c}</span>
-            ))}
-          </div>
-        </div>
-
         {/* Expertise — 3 large cards */}
-        <div className="mb-24">
-          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-8">
-            {t("expertiseLabel")}
-          </h3>
+        <div className="mb-20">
+          <h3 className="meta mb-8">{t("expertiseLabel")}</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
             {expertise.map((e, i) => (
               <m.article
@@ -88,7 +87,7 @@ const AboutSection = () => {
                   id={e.id}
                   className="mb-5 h-8 w-8 text-[color:var(--color-accent)]"
                 />
-                <h4 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
+                <h4 className="text-xl md:text-2xl font-semibold tracking-tight mb-4">
                   {e.title}
                 </h4>
                 <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
@@ -99,12 +98,10 @@ const AboutSection = () => {
           </div>
         </div>
 
-        {/* Specialization fields — academic focus areas */}
-        <div className="mb-24 max-w-3xl">
-          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-6">
-            {t("specialization")}
-          </h3>
-          <ul className="space-y-3">
+        {/* Specialization fields — academic focus areas (two columns on wide) */}
+        <div className="mb-20">
+          <h3 className="meta mb-6">{t("specialization")}</h3>
+          <ul className="grid grid-cols-1 gap-x-16 gap-y-3 sm:grid-cols-2">
             {fields.map((f, i) => (
               <li
                 key={i}
@@ -119,7 +116,7 @@ const AboutSection = () => {
 
         {/* Timeline */}
         <div className="mt-20">
-          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-12">
+          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-10">
             {t("timeline")}
           </h3>
           <TimelineSection />

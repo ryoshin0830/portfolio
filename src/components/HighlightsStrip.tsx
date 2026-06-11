@@ -15,8 +15,7 @@ const HighlightsStrip = async () => {
       <div className="section__inner text-center">
         {/* Section context (uses the previously-unused title/subtitle so the
             single-metric section isn't a number floating without a frame). */}
-        <header className="mb-16">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
+        <header className="mb-12 md:mb-16">
           <h2 className="display display--lg mb-4">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
             {t("subtitle")}

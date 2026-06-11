@@ -53,10 +53,10 @@ describe("ContactModal", () => {
     expect(dialog).toBeTruthy();
     // 見出し（ja.json の contact.title）
     expect(screen.getByText(ja.contact.title)).toBeTruthy();
-    // SocialLinks の代表的な連絡先が表示されている
-    expect(screen.getByLabelText("GitHub")).toBeTruthy();
-    expect(screen.getByLabelText("LinkedIn")).toBeTruthy();
-    expect(screen.getByLabelText("WeChat")).toBeTruthy();
+    // SocialLinks の代表的な連絡先が（可視ラベル付きで）表示されている
+    expect(screen.getByText("GitHub")).toBeTruthy();
+    expect(screen.getByText("LinkedIn")).toBeTruthy();
+    expect(screen.getByText("WeChat")).toBeTruthy();
   });
 
   it("#contact 付きで着地した場合（旧 /{locale}/contact リダイレクト）マウント時に開く", () => {

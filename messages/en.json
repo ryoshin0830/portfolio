@@ -817,6 +817,11 @@
     "email": "Email",
     "social": "Social & External Links"
   },
+  "contactCTA": {
+    "title": "Let's build something together",
+    "lead": "From research collaborations to development work — any door is open. Feel free to reach out.",
+    "action": "Open all contacts"
+  },
   "footer": {
     "copyright": "© 2026 LIANG ZHEN (RYO SHIN). All rights reserved.",
     "builtWith": "Built with Next.js, TypeScript, Tailwind CSS"
@@ -841,6 +846,7 @@
     "viewOnQiita": "View on Qiita",
     "viewOnNote": "View on note",
     "viewOnX": "View on X",
+    "loadMore": "Show more",
     "empty": "Nothing to show."
   },
   "metadata": {

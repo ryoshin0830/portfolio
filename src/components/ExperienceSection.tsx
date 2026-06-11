@@ -29,9 +29,8 @@ const ExperienceSection = async () => {
   return (
     <section id="experience" className="section section--soft section--pt-tight">
       <div className="section__inner">
-        <header className="mb-16">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+        <header className="mb-12 md:mb-16">
+          <h2 className="display display--lg mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>

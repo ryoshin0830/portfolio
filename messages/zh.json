@@ -817,6 +817,11 @@
     "email": "邮箱",
     "social": "社交媒体与外部链接"
   },
+  "contactCTA": {
+    "title": "一起做点什么吧",
+    "lead": "无论是研究合作还是开发委托，欢迎随时联系。",
+    "action": "查看所有联系方式"
+  },
   "footer": {
     "copyright": "© 2026 梁震. All rights reserved.",
     "builtWith": "使用 Next.js、TypeScript、Tailwind CSS 构建"
@@ -841,6 +846,7 @@
     "viewOnQiita": "在 Qiita 查看",
     "viewOnNote": "在 note 查看",
     "viewOnX": "在 X 查看",
+    "loadMore": "显示更多",
     "empty": "暂无内容。"
   },
   "metadata": {

@@ -30,9 +30,8 @@ const SkillsSection = async () => {
   return (
     <section id="skills" className="section">
       <div className="section__inner">
-        <header className="mb-20">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+        <header className="mb-12 md:mb-16">
+          <h2 className="display display--lg mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -59,7 +58,7 @@ const SkillsSection = async () => {
                       key={tier.key}
                       className="grid grid-cols-1 sm:grid-cols-[7rem_1fr] gap-2 sm:gap-6"
                     >
-                      <span className="text-sm text-[color:var(--color-ink-muted)] pt-1.5">
+                      <span className="meta pt-1.5">
                         {tier.label}
                       </span>
                       <div className="flex flex-wrap gap-2">
@@ -81,7 +80,7 @@ const SkillsSection = async () => {
         </div>
 
         {/* Languages */}
-        <div className="mt-24 grid grid-cols-1 md:grid-cols-[14rem_1fr] gap-4 md:gap-16">
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-[14rem_1fr] gap-4 md:gap-16">
           <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
             {t("languages")}
           </h3>
@@ -97,18 +96,23 @@ const SkillsSection = async () => {
           </ul>
         </div>
 
-        {/* Certifications */}
-        <div className="mt-24">
-          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-10">
+        {/* Certifications — ruled rows (same editorial register as the
+            publication lists): no orphaned grid cells, and a driver's licence
+            row no longer gets the same card weight as a perfect-score JLPT. */}
+        <div className="mt-20">
+          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-8">
             {certifications.title}
           </h3>
-          <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-8">
+          <ul>
             {certList.map((c) => (
-              <li key={`${c.date}-${c.name}`}>
-                <p className="num text-sm text-[color:var(--color-accent)] font-semibold mb-1">
+              <li
+                key={`${c.date}-${c.name}`}
+                className="grid grid-cols-1 gap-1 border-t border-[color:var(--color-rule-soft)] py-4 last:border-b last:border-[color:var(--color-rule-soft)] md:grid-cols-[6rem_minmax(0,20rem)_1fr] md:items-baseline md:gap-8"
+              >
+                <p className="num text-sm text-[color:var(--color-accent)] font-semibold">
                   {c.date}
                 </p>
-                <h4 className="text-lg font-semibold tracking-tight mb-1">
+                <h4 className="text-base font-semibold tracking-tight">
                   {c.name}
                 </h4>
                 <p className="text-sm text-[color:var(--color-ink-soft)] leading-relaxed">

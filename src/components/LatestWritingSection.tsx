@@ -40,7 +40,7 @@ const LatestWritingSection = async ({
 
   const renderColumn = (label: string, columnItems: FeedItem[]) => (
     <div>
-      <p className="mb-3 border-b border-[color:var(--color-rule)] pb-2 text-xs font-medium uppercase tracking-wider text-[color:var(--color-ink-muted)]">
+      <p className="meta mb-3 border-b border-[color:var(--color-rule)] pb-2">
         {label}
       </p>
       <ul className="flex flex-col">

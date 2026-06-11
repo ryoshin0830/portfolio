@@ -151,9 +151,8 @@ const ResearchSection = () => {
   return (
     <section id="research" className="section section--soft">
       <div className="section__inner">
-        <header className="mb-16">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+        <header className="mb-12 md:mb-16">
+          <h2 className="display display--lg mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -161,10 +160,13 @@ const ResearchSection = () => {
 
         {/* Counter strip — Apple "big number" treatment shared with Highlights */}
         {counters.length > 0 && (
-          <ul className="mb-24 grid max-w-3xl grid-cols-3 gap-8">
+          <ul className="mb-20 grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
             {counters.map((c) => (
-              <li key={c.label}>
-                <p className="display num text-5xl md:text-6xl">{c.value}</p>
+              <li
+                key={c.label}
+                className="border-l border-[color:var(--color-rule)] pl-6"
+              >
+                <p className="display num text-5xl md:text-7xl">{c.value}</p>
                 <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">
                   {c.label}
                 </p>
@@ -174,8 +176,8 @@ const ResearchSection = () => {
         )}
 
         {books.length > 0 && (
-          <div className="mb-24">
-            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
+          <div className="mb-20">
+            <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-10">
               {t("books")}
             </h3>
             <ol className="space-y-10">
@@ -217,7 +219,7 @@ const ResearchSection = () => {
         )}
 
         <div>
-          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
+          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-10">
             {t("peerReviewedPapers")}
           </h3>
           <ol className="space-y-10">
@@ -233,8 +235,8 @@ const ResearchSection = () => {
         </div>
 
         {conferencePubs.length > 0 && (
-          <div className="mt-24">
-            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
+          <div className="mt-20">
+            <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-10">
               {t("conferencePresentations")}
             </h3>
             <ol className="space-y-10">

@@ -96,15 +96,13 @@ const Navigation = () => {
     [langT],
   );
 
-  const getFlag = useCallback((code: string): string => {
-    const flags = { ja: "🇯🇵", en: "🇬🇧", zh: "🇨🇳" };
-    return flags[code as keyof typeof flags] || "🌍";
-  }, []);
-
+  // No flag emoji — OS-rendered colour flags were the only full-colour
+  // element in the monochrome chrome and read as a cheap LP. The language is
+  // identified by its own name (日本語 / English / 中文).
   const languages = [
-    { code: "ja", name: getLanguageName("ja"), flag: getFlag("ja") },
-    { code: "en", name: getLanguageName("en"), flag: getFlag("en") },
-    { code: "zh", name: getLanguageName("zh"), flag: getFlag("zh") },
+    { code: "ja", name: getLanguageName("ja") },
+    { code: "en", name: getLanguageName("en") },
+    { code: "zh", name: getLanguageName("zh") },
   ];
 
   useEffect(() => {
@@ -270,10 +268,7 @@ const Navigation = () => {
                   aria-expanded={showLangMenu}
                   aria-label={`Language: ${getLanguageName(locale)}`}
                 >
-                  <span className="text-base" aria-hidden>{languages.find((l) => l.code === locale)?.flag}</span>
-                  <span className="hidden sm:inline">
-                    {locale.toUpperCase()}
-                  </span>
+                  <span>{locale.toUpperCase()}</span>
                 </button>
                 <AnimatePresence>
                   {showLangMenu && (
@@ -297,10 +292,7 @@ const Navigation = () => {
                               : "text-[color:var(--color-ink)] hover:bg-[color:var(--color-bg-soft)]"
                           }`}
                         >
-                          <span className="flex items-center gap-2">
-                            <span aria-hidden>{lang.flag}</span>
-                            <span>{lang.name}</span>
-                          </span>
+                          <span>{lang.name}</span>
                         </button>
                       ))}
                     </m.div>

@@ -817,6 +817,11 @@
     "email": "メール",
     "social": "SNS・外部リンク"
   },
+  "contactCTA": {
+    "title": "一緒につくりましょう",
+    "lead": "研究のご相談から開発のご依頼まで、入り口はどこからでも。お気軽にご連絡ください。",
+    "action": "すべての連絡先を開く"
+  },
   "footer": {
     "copyright": "© 2026 梁 震（りょう しん）. All rights reserved.",
     "builtWith": "Next.js、TypeScript、Tailwind CSSで構築"
@@ -841,6 +846,7 @@
     "viewOnQiita": "Qiitaで見る",
     "viewOnNote": "noteで見る",
     "viewOnX": "Xで見る",
+    "loadMore": "さらに表示",
     "empty": "該当する発信がありません。"
   },
   "metadata": {

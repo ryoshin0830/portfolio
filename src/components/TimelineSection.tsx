@@ -14,11 +14,6 @@ type TimelineEvent = {
 
 type Loc = "china" | "japan";
 
-const flagFor: Record<Loc, string> = {
-  china: "🇨🇳",
-  japan: "🇯🇵",
-};
-
 // Location per row. Relocations (icon "plane") fly from the previous row's
 // country to this row's country.
 const LOC_SEQ: Loc[] = [
@@ -112,7 +107,7 @@ const FlightDown = ({
       className="flex flex-col items-center gap-1"
       style={{ width: 46 }}
     >
-      <span className="text-[11px] font-semibold tracking-[0.06em] text-[color:var(--color-ink-soft)] leading-none">
+      <span className="text-[11px] font-semibold text-[color:var(--color-ink-soft)] leading-none">
         {tLoc(from)}
       </span>
       <div className="relative" style={{ width: 18, height: TRACK }}>
@@ -152,7 +147,7 @@ const FlightDown = ({
           </svg>
         </m.span>
       </div>
-      <span className="text-[11px] font-semibold tracking-[0.08em] text-[color:var(--color-accent)] leading-none">
+      <span className="text-[11px] font-semibold text-[color:var(--color-accent)] leading-none">
         {tLoc(to)}
       </span>
     </div>
@@ -265,14 +260,7 @@ const TimelineSection = () => {
                   {relocation ? (
                     <FlightDown from={from} to={loc} reduce={reduce} />
                   ) : (
-                    loc && (
-                      <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.14em] text-[color:var(--color-ink-muted)] font-medium">
-                        <span className="text-sm leading-none" aria-hidden="true">
-                          {flagFor[loc]}
-                        </span>
-                        {tLoc(loc)}
-                      </span>
-                    )
+                    loc && <span className="meta">{tLoc(loc)}</span>
                   )}
                 </div>
                 <div>

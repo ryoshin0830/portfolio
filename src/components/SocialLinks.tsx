@@ -245,12 +245,16 @@ export default function SocialLinks() {
           <button
             type="button"
             onClick={(e) => (showQR ? closeQR() : openQR(p.id, e.currentTarget))}
-            className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
-            aria-label={p.name}
+            className="group flex w-[4.5rem] flex-col items-center gap-1.5 text-[color:var(--color-ink)]"
             aria-haspopup="dialog"
             aria-expanded={showQR}
           >
-            {renderIcon()}
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--color-rule-soft)] bg-[color:var(--color-bg)] transition-colors group-hover:border-[color:var(--color-accent)] group-hover:text-[color:var(--color-accent)]">
+              {renderIcon()}
+            </span>
+            <span className="w-full truncate text-center text-xs leading-tight text-[color:var(--color-ink-soft)] transition-colors group-hover:text-[color:var(--color-accent)]">
+              {p.name}
+            </span>
           </button>
           {showQR && (
             <>
@@ -300,16 +304,22 @@ export default function SocialLinks() {
     }
 
     const isExternal = p.href.startsWith("http");
+    // Visible label under every icon — a wall of unlabeled circles forced the
+    // visitor to hover-guess which circle does what.
     return (
       <a
         key={p.id}
         href={p.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
-        className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
-        aria-label={p.name}
+        className="group flex w-[4.5rem] flex-col items-center gap-1.5 text-[color:var(--color-ink)]"
       >
-        {renderIcon()}
+        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[color:var(--color-rule-soft)] bg-[color:var(--color-bg)] transition-colors group-hover:border-[color:var(--color-accent)] group-hover:text-[color:var(--color-accent)]">
+          {renderIcon()}
+        </span>
+        <span className="w-full truncate text-center text-xs leading-tight text-[color:var(--color-ink-soft)] transition-colors group-hover:text-[color:var(--color-accent)]">
+          {p.name}
+        </span>
       </a>
     );
   };
@@ -323,10 +333,10 @@ export default function SocialLinks() {
             i > 0 ? "md:border-l md:border-[color:var(--color-rule-soft)]" : ""
           }`}
         >
-          <p className="text-xs uppercase tracking-wider text-[color:var(--color-ink-muted)] font-medium">
+          <p className="meta">
             {g.label}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex flex-wrap items-start justify-center gap-x-1 gap-y-3">
             {g.items.map(renderItem)}
           </div>
         </div>

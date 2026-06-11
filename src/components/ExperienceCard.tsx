@@ -27,10 +27,10 @@ interface ExperienceCardProps {
   employmentTypes: { fulltime: string; contract: string; internship: string };
 }
 
-const LABEL_BASE =
-  "text-xs font-medium uppercase tracking-[0.12em] text-[color:var(--color-ink-muted)]";
-const SECTION_LABEL_CLASS = `${LABEL_BASE} mb-4`;
-const META_LABEL_CLASS = `${LABEL_BASE} mb-1`;
+// One meta-label spec for the whole site (.meta in globals.css) — the previous
+// per-component uppercase/tracking variants splintered the label system.
+const SECTION_LABEL_CLASS = "meta mb-4";
+const META_LABEL_CLASS = "meta mb-1";
 
 // All six delivery phases in lifecycle order — the segment bar renders every
 // phase and fills only the owned ones, so coverage reads as a shape, not a
@@ -69,8 +69,22 @@ export default function ExperienceCard({
 
   const [heroAchievement, ...restAchievements] = e.achievements;
 
+  // Engagements with no scope/stack/achievement data yet (e.g. a job that just
+  // started) collapse to a compact row — the full template's reserved padding
+  // around an empty body read as an unfinished page.
+  const isLean =
+    e.scope.length === 0 &&
+    e.stack.length === 0 &&
+    e.achievements.length === 0 &&
+    e.responsibilities.length === 0 &&
+    e.workItems.length === 0;
+
   return (
-    <article className="border-t border-[color:var(--color-rule-soft)] py-16 md:py-24">
+    <article
+      className={`border-t border-[color:var(--color-rule-soft)] ${
+        isLean ? "py-10 md:py-12" : "py-14 md:py-20"
+      }`}
+    >
       <div className="grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-6 md:gap-16">
         {/* Period column — led by an editorial ordinal. The big rule-colored
             numeral gives each card an identity in the rail without competing
@@ -78,11 +92,15 @@ export default function ExperienceCard({
         <div>
           <p
             aria-hidden
-            className="num text-5xl md:text-6xl font-bold tracking-tight leading-none text-[color:var(--color-rule)] mb-5"
+            className={`num font-bold tracking-tight leading-none text-[color:var(--color-rule)] ${
+              isLean ? "text-3xl mb-3" : "text-5xl md:text-6xl mb-5"
+            }`}
           >
             {String(index + 1).padStart(2, "0")}
           </p>
-          <p className="text-base text-[color:var(--color-ink)] num font-medium">
+          {/* keep-all: CJK dates break only at the spaces around the dash,
+              never inside 「2026年1月」 */}
+          <p className="text-base text-[color:var(--color-ink)] num font-medium [word-break:keep-all]">
             {period}
           </p>
           <p className="text-sm text-[color:var(--color-ink-soft)] mt-3">
@@ -92,7 +110,7 @@ export default function ExperienceCard({
 
         {/* Body */}
         <div>
-          <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
+          <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-3">
             {e.product}
             {e.isCurrent && (
               <span className="ml-3 text-sm font-medium text-[color:var(--color-accent)] align-middle">
@@ -100,19 +118,27 @@ export default function ExperienceCard({
               </span>
             )}
           </h3>
-          <p className="text-base text-[color:var(--color-ink-soft)] mb-10">
+          <p
+            className={`text-base text-[color:var(--color-ink-soft)] ${
+              isLean ? "mb-6" : "mb-10"
+            }`}
+          >
             {e.company} · {e.industry}
           </p>
 
           {/* Hero achievement */}
           {heroAchievement && (
-            <p className="text-xl md:text-2xl font-medium leading-[1.5] text-[color:var(--color-ink)] max-w-3xl mb-14">
+            <p className="text-xl md:text-2xl font-medium leading-[1.5] text-[color:var(--color-ink)] max-w-3xl mb-12">
               {heroAchievement}
             </p>
           )}
 
           {/* Role + Team — 2 column meta */}
-          <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mb-12 max-w-2xl">
+          <dl
+            className={`grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 max-w-2xl ${
+              isLean ? "" : "mb-12"
+            }`}
+          >
             <div>
               <dt className={META_LABEL_CLASS}>
                 {labels.role}
@@ -175,7 +201,7 @@ export default function ExperienceCard({
           {(e.responsibilities.length > 0 ||
             e.workItems.length > 0 ||
             restAchievements.length > 0) && (
-            <hr className="border-t border-[color:var(--color-rule-soft)] my-14" />
+            <hr className="border-t border-[color:var(--color-rule-soft)] my-12" />
           )}
 
           {/* Remaining achievements (hero lifted out) — outcomes stay visible */}

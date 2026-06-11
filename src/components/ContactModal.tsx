@@ -83,7 +83,9 @@ export default function ContactModal() {
           'button, a[href], [tabindex]:not([tabindex="-1"])'
         )
       ).filter((el) => el.offsetParent !== null);
-    getFocusable()[0]?.focus();
+    // Focus the panel itself, not the close button — programmatic focus on a
+    // button paints a permanent focus ring next to the title on open.
+    node.focus();
     const onKeyDown = (e: KeyboardEvent) => {
       if (hasInnerDialog()) return; // QR ダイアログが自分で Esc / Tab を処理する
       if (e.key === "Escape") {
@@ -132,7 +134,8 @@ export default function ContactModal() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="contact-modal-title"
-            className="relative w-[min(44rem,100%)] max-h-[85svh] overflow-y-auto rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg)] px-6 py-10 md:px-10"
+            tabIndex={-1}
+            className="relative w-[min(44rem,100%)] max-h-[85svh] overflow-y-auto rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg)] px-6 py-10 outline-none md:px-10"
             initial={{ opacity: 0, scale: 0.97, y: 8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 8 }}
@@ -146,10 +149,10 @@ export default function ContactModal() {
             >
               <X size={20} />
             </button>
-            <header className="mb-10 text-center">
+            <header className="mb-8 text-center">
               <h2
                 id="contact-modal-title"
-                className="display display--lg mb-3"
+                className="text-2xl md:text-3xl font-semibold tracking-tight mb-3"
               >
                 {t("title")}
               </h2>

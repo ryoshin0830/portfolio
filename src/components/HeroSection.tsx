@@ -49,6 +49,14 @@ const HeroSection = async () => {
   // optical gap instead.
   const nameParts = tNames("japanese").split(/\s+/).filter(Boolean);
 
+  // CJK has no spaces, so `text-balance` happily breaks mid-word
+  // (「動か/す。」). Render the tagline as inline-block sentence segments —
+  // wrapping can then only happen at sentence boundaries. English has no
+  // 。/！/？ so it stays one segment and wraps normally at spaces.
+  const taglineSegments = t("subtitle")
+    .split(/(?<=[。！？])\s*/)
+    .filter(Boolean);
+
   const facts = [
     { label: t("metaNow"), value: t("currentlyAt") },
     { label: t("metaDegree"), value: t("description") },
@@ -83,18 +91,23 @@ const HeroSection = async () => {
             {t("role")}
           </p>
 
-          <p className="hero-tagline mb-12 max-w-3xl text-balance">
-            {t("subtitle")}
+          <p className="hero-tagline mb-12 max-w-3xl">
+            {taglineSegments.map((seg, i) => (
+              <span key={i} className="inline-block">
+                {seg}
+              </span>
+            ))}
           </p>
 
-          <a href="#highlights" className="btn-pill">
+          <a href="#highlights" className="cta-editorial">
             {t("viewWork")}
             <ArrowDown size={16} aria-hidden />
           </a>
         </div>
 
-        {/* Fact column — bottom-aligned against the identity block */}
-        <aside className="lg:col-span-4">
+        {/* Fact column — vertically centered against the identity block so the
+            top-right corner doesn't read as an unplanned void */}
+        <aside className="lg:col-span-4 lg:self-center">
           <dl className="border-t border-[color:var(--color-rule)]">
             {facts.map((fact) => (
               <div

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { LuArrowUpRight as ArrowUpRight } from "react-icons/lu";
 import Link from "next/link";
@@ -8,8 +8,9 @@ import type { FeedItem, FeedSource } from "@/types/articles";
 import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";
 
 // The unified activity feed: Zenn/Qiita articles and X posts merged and sorted
-// by date server-side, passed in as a prop (no client fetch). The list is small,
-// so we reveal it in batches as the user scrolls; it's one feed with a real end.
+// by date server-side, passed in as a prop (no client fetch). Batches are
+// revealed by an explicit "show more" button — auto-revealing on scroll made
+// the page a 30,000px grey scroll with no reachable ending.
 const BATCH = 8;
 
 type Filter = "all" | FeedSource;
@@ -31,7 +32,6 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
   const locale = useLocale();
   const [filter, setFilter] = useState<Filter>("all");
   const [visibleCount, setVisibleCount] = useState(BATCH);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   const filtered = useMemo(() => {
     if (filter === "all") return items;
@@ -45,21 +45,6 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
   }, [filter]);
 
   const hasMore = visibleCount < filtered.length;
-  useEffect(() => {
-    if (!hasMore) return;
-    const node = sentinelRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) {
-          setVisibleCount((c) => Math.min(c + BATCH, filtered.length));
-        }
-      },
-      { rootMargin: "300px" },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [hasMore, filtered.length]);
 
   const formatDate = (s: string) =>
     new Intl.DateTimeFormat(locale, {
@@ -91,8 +76,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
     <section id="blog" className="section section--soft">
       <div className="section__inner">
         <header className="mb-12 md:mb-16">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+          <h2 className="display display--lg mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -149,16 +133,23 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
                   {/* Logos + text + arrow share one cell so the arrow sits at
                       the end of the text instead of orphaning on its own row. */}
                   <span className="flex items-start gap-2.5">
-                    <span className="flex shrink-0 items-center gap-1.5 text-lg translate-y-0.5 md:text-xl">
+                    <span
+                      className={`flex shrink-0 items-center gap-1.5 translate-y-0.5 ${
+                        i.kind === "post" ? "text-base" : "text-lg md:text-xl"
+                      }`}
+                    >
                       {i.sources.map((s) => (
                         <SourceMark key={s} source={s} />
                       ))}
                     </span>
+                    {/* Posts are passing remarks, articles are work — a one-line
+                        X post must not carry the same visual weight as an
+                        article title. */}
                     <span
-                      className={`flex-1 font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors ${
+                      className={`flex-1 tracking-tight transition-colors group-hover:text-[color:var(--color-accent)] ${
                         i.kind === "post"
-                          ? "text-base leading-relaxed line-clamp-2 font-medium"
-                          : "text-lg md:text-xl"
+                          ? "text-sm md:text-base font-normal leading-relaxed line-clamp-2 text-[color:var(--color-ink-soft)]"
+                          : "text-lg md:text-xl font-semibold text-[color:var(--color-ink)]"
                       }`}
                     >
                       {i.text}
@@ -176,8 +167,23 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
           </ul>
         )}
 
-        {/* Infinite-scroll sentinel — reveals the next batch when it enters view. */}
-        {hasMore && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
+        {/* Explicit pagination — the page keeps a reachable ending. */}
+        {hasMore && (
+          <div className="mt-10">
+            <button
+              type="button"
+              onClick={() =>
+                setVisibleCount((c) => Math.min(c + BATCH, filtered.length))
+              }
+              className="inline-flex min-h-11 items-center rounded-full border border-[color:var(--color-rule)] px-6 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+            >
+              {t("loadMore")}
+              <span className="num ml-2 text-[color:var(--color-ink-muted)]">
+                ({filtered.length - visibleCount})
+              </span>
+            </button>
+          </div>
+        )}
 
         {/* Empty / failed — the section stays present with the profile links
             below as the fallback path. */}

@@ -17,9 +17,8 @@ const ProjectsSection = async () => {
   return (
     <section id="projects" className="section">
       <div className="section__inner">
-        <header className="mb-16">
-          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+        <header className="mb-12 md:mb-16">
+          <h2 className="display display--lg mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -28,7 +27,7 @@ const ProjectsSection = async () => {
         <div className="space-y-20 md:space-y-28">
           {projects.map((p, i) => (
             <article key={i}>
-              <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+              <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
                 {p.title}
               </h3>
               <div className="mb-10 grid grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-16">
@@ -46,7 +45,7 @@ const ProjectsSection = async () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
-                  <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
+                  <p className="meta mb-3">
                     {featuresLabel}
                   </p>
                   <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
@@ -59,7 +58,7 @@ const ProjectsSection = async () => {
                   </ul>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-[color:var(--color-ink-muted)] mb-3">
+                  <p className="meta mb-3">
                     {stackLabel}
                   </p>
                   <div className="flex flex-wrap gap-2">

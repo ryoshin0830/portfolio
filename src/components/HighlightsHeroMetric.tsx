@@ -250,9 +250,12 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
         </>
       );
     }
+    // Glue the arrow to the "before" number so a narrow viewport breaks
+    // BETWEEN the two numbers — never leaving the arrow orphaned at a line end.
     return (
       <>
-        {`${range.from.toFixed(2)}% → ${display}%`}
+        <span className="whitespace-nowrap">{`${range.from.toFixed(2)}% →`}</span>{" "}
+        <span className="whitespace-nowrap">{`${display}%`}</span>
         {unit && (
           <span
             className="text-[color:var(--color-ink-soft)]"
@@ -297,9 +300,12 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
               y1: a.y,
               x2: b.x,
               y2: b.y,
-              stroke: "var(--color-rule)",
+              // ink-muted at 0.35 — the rule color at 0.2 was ~1:1 contrast on
+              // the soft band (invisible in light, gone in dark): decoration
+              // you can't see is just noise.
+              stroke: "var(--color-ink-muted)",
               strokeWidth: 1.25,
-              strokeOpacity: 0.2,
+              strokeOpacity: 0.35,
               vectorEffect: "non-scaling-stroke" as const,
             };
             if (reduce) return <line key={i} {...common} />;
@@ -326,7 +332,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
             }
             const accent = isOutput(n);
             const fill = accent ? "var(--color-accent)" : "var(--color-ink-muted)";
-            const op = accent ? 0.5 : 0.4;
+            const op = accent ? 0.6 : 0.55;
             const r = accent ? 4.5 : 3.5;
             if (reduce) {
               return <circle key={i} cx={n.x} cy={n.y} r={r} fill={fill} opacity={op} />;

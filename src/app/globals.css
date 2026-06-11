@@ -19,6 +19,9 @@
   --color-rule-soft: #e8e8ed;
   --color-accent: #0071e3;
   --color-accent-hover: #0077ed;
+  /* Raised surface — chips, menus, modal panels. Same as the soft band in
+     light mode; one step above it in dark mode (elevation, not inversion). */
+  --color-surface: #f5f5f7;
 
   /* Fluid page gutter — scales with the viewport instead of a fixed content
      width, so the layout fills wide monitors yet keeps a safe minimum on
@@ -27,10 +30,6 @@
   --page-pad-x: clamp(1.5rem, 5vw, 8rem);
 
   /* back-compat aliases (keep older class consumers happy) */
-  --color-paper: var(--color-bg);
-  --color-paper-deep: var(--color-bg-soft);
-  --color-teal-ink: var(--color-accent);
-  --color-amber-mark: var(--color-accent);
   --background: var(--color-bg);
   --foreground: var(--color-ink);
   --primary: var(--color-accent);
@@ -43,7 +42,10 @@
 
 :root.dark {
   --color-bg: #000000;
-  --color-bg-soft: #1d1d1f;
+  /* Three-step dark elevation (bg → bg-soft → surface) instead of a single
+     inverted band — keeps the light mode's hairline gradations readable. */
+  --color-bg-soft: #161617;
+  --color-surface: #1d1d1f;
   --color-ink: #f5f5f7;
   --color-ink-soft: #a1a1a6;
   --color-ink-muted: #8d8d93; /* WCAG AA on black — was #6e6e73 (4.1:1) */
@@ -52,10 +54,6 @@
   --color-accent: #2997ff;
   --color-accent-hover: #5ab1ff;
 
-  --color-paper: var(--color-bg);
-  --color-paper-deep: var(--color-bg-soft);
-  --color-teal-ink: var(--color-accent);
-  --color-amber-mark: var(--color-accent);
   --background: var(--color-bg);
   --foreground: var(--color-ink);
   --primary: var(--color-accent);
@@ -71,8 +69,7 @@
   --color-foreground: var(--foreground);
   --color-bg: var(--color-bg);
   --color-bg-soft: var(--color-bg-soft);
-  --color-paper: var(--color-paper);
-  --color-paper-deep: var(--color-paper-deep);
+  --color-surface: var(--color-surface);
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
   --color-ink-muted: var(--color-ink-muted);
@@ -80,8 +77,6 @@
   --color-rule-soft: var(--color-rule-soft);
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
-  --color-teal-ink: var(--color-teal-ink);
-  --color-amber-mark: var(--color-amber-mark);
 
   --font-sans: var(--font-inter), var(--font-noto-sans-jp), 'Inter', 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: var(--font-inter), var(--font-noto-sans-jp), 'Inter', 'SF Pro Display', -apple-system, sans-serif;
@@ -94,17 +89,15 @@
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
     --color-bg: #000000;
-    --color-bg-soft: #1d1d1f;
+    --color-bg-soft: #161617;
+    --color-surface: #1d1d1f;
     --color-ink: #f5f5f7;
     --color-ink-soft: #a1a1a6;
     --color-ink-muted: #8d8d93;
     --color-rule: #424245;
     --color-rule-soft: #3a3a3c;
     --color-accent: #2997ff;
-    --color-paper: var(--color-bg);
-    --color-paper-deep: var(--color-bg-soft);
-    --color-teal-ink: var(--color-accent);
-    --color-amber-mark: var(--color-accent);
+    --color-accent-hover: #5ab1ff;
     --background: var(--color-bg);
     --foreground: var(--color-ink);
     --muted: var(--color-bg-soft);
@@ -154,6 +147,22 @@ h4, h5, h6 {
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--color-ink);
+}
+
+/* Japanese line breaking — keep kinsoku strict, and let supporting engines
+   (Chromium 119+) break headings at PHRASE boundaries instead of mid-word
+   (「動か/す。」「システ/ム」). Progressive enhancement: engines without
+   auto-phrase fall back to default CJK breaking, no layout risk. */
+:lang(ja) {
+  line-break: strict;
+}
+:lang(ja) h1,
+:lang(ja) h2,
+:lang(ja) h3,
+:lang(ja) h4,
+:lang(ja) .display,
+:lang(ja) .hero-tagline {
+  word-break: auto-phrase;
 }
 
 /* Hairline rules — used very sparingly */
@@ -307,6 +316,26 @@ hr, .rule {
   color: white;
 }
 
+/* Editorial CTA — an underlined ink link instead of a SaaS pill. Matches the
+   serif brand mark's editorial register (the hero's only CTA). */
+.cta-editorial {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-ink);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.cta-editorial:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
 /* Subtle text-link with arrow */
 .link-accent {
   color: var(--color-accent);
@@ -326,7 +355,7 @@ hr, .rule {
   gap: 0.45rem;
   padding: 0.5rem 1rem;
   border-radius: 9999px;
-  background: var(--color-bg-soft);
+  background: var(--color-surface);
   color: var(--color-ink);
   font-size: 0.9375rem;
   font-weight: 500;
@@ -340,10 +369,12 @@ hr, .rule {
   background: var(--color-ink);
   color: var(--color-bg);
 }
-/* On a soft (gray) section the soft-gray chip fill disappears — swap to the
-   page background so the pill silhouette survives in both modes. */
+/* On a soft (gray) section the surface chip fill disappears — swap to the
+   page background with a hairline so the pill silhouette survives in both
+   modes (in dark, black-on-#161617 needs the border to read as a shape). */
 .section--soft .chip:not(.chip--core) {
   background: var(--color-bg);
+  border-color: var(--color-rule-soft);
 }
 
 /* Body prose */
@@ -380,9 +411,3 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
-/* Kill old utility classes that are still referenced — render as no-op
-   to avoid breakage during incremental component edits */
-.kicker { display: none; }
-.tag-mono { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 9999px; background: var(--color-bg-soft); color: var(--color-ink); font-size: 0.875rem; font-weight: 500; }
-.case-row { padding: 4rem 0; border-top: 1px solid var(--color-rule-soft); }
-.responsive-container { width: 100%; max-width: 100vw; overflow-x: hidden; }
