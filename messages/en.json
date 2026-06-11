@@ -220,7 +220,7 @@
         "title": "Joined GMO Pepabo",
         "description": "Joined GMO Pepabo as an Engineer (April 2026)",
         "icon": "home",
-        "era": 3,
+        "era": 4,
         "highlight": true
       }
     ],
@@ -243,7 +243,12 @@
       {
         "label": "Kyoto",
         "country": "Japan",
-        "period": "2021–Present"
+        "period": "2021–2026"
+      },
+      {
+        "label": "Tokyo",
+        "country": "Japan",
+        "period": "2026–Present"
       }
     ]
   },

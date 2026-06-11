@@ -220,7 +220,7 @@
         "title": "加入 GMO Pepabo",
         "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）",
         "icon": "home",
-        "era": 3,
+        "era": 4,
         "highlight": true
       }
     ],
@@ -243,7 +243,12 @@
       {
         "label": "京都",
         "country": "日本",
-        "period": "2021–至今"
+        "period": "2021–2026"
+      },
+      {
+        "label": "东京",
+        "country": "日本",
+        "period": "2026–至今"
       }
     ]
   },

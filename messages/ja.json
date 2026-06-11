@@ -220,7 +220,7 @@
         "title": "GMO ペパボ 参画",
         "description": "エンジニア職として正社員入社（2026 年 4 月）",
         "icon": "home",
-        "era": 3,
+        "era": 4,
         "highlight": true
       }
     ],
@@ -243,7 +243,12 @@
       {
         "label": "京都",
         "country": "日本",
-        "period": "2021–現在"
+        "period": "2021–2026"
+      },
+      {
+        "label": "東京",
+        "country": "日本",
+        "period": "2026–現在"
       }
     ]
   },

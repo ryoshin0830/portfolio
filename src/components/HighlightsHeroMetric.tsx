@@ -416,7 +416,11 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
         </svg>
       </div>
 
-      {/* ---------- number / label / context ---------- */}
+      {/* ---------- number / label / context ----------
+          Each text run carries the section's own background as a knockout
+          (box-decoration: clone covers every wrapped line), so the network
+          hairlines terminate at the text instead of running through the
+          glyphs — legible without dimming the artwork. */}
       <div className="relative z-10">
         <p
           className="display num mb-6"
@@ -431,12 +435,23 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
             color: "var(--color-ink)",
           }}
         >
-          <span aria-hidden="true">{renderNumber()}</span>
+          <span
+            aria-hidden="true"
+            className="bg-[color:var(--color-bg-soft)] px-[0.12em] [box-decoration-break:clone] [-webkit-box-decoration-break:clone]"
+          >
+            {renderNumber()}
+          </span>
         </p>
-        <p className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">{label}</p>
+        <p className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
+          <span className="bg-[color:var(--color-bg-soft)] px-2 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+            {label}
+          </span>
+        </p>
         {context && (
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
-            {context}
+            <span className="bg-[color:var(--color-bg-soft)] px-2 [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+              {context}
+            </span>
           </p>
         )}
       </div>
