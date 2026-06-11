@@ -31,14 +31,17 @@ const ProjectsSection = async () => {
               <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
                 {p.title}
               </h3>
-              <div className="mb-10 grid grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_20rem] md:gap-16">
+              <div className="mb-10 grid grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-16">
                 <p className="prose-body text-[color:var(--color-ink-soft)] max-w-3xl">
                   {p.description}
                 </p>
                 {/* Word2Vec scatter — the embedding-space neighbourhood the
-                    project computes, as a static decorative diagram. Only the
-                    first (vocabulary) project gets it. */}
-                {i === 0 && <VocabScatter className="hidden w-full md:block" />}
+                    project computes. Anchored to the paragraph's top edge so
+                    it reads as a placed figure, not a floating ornament. Only
+                    the first (vocabulary) project gets it. */}
+                {i === 0 && (
+                  <VocabScatter className="hidden w-full md:block md:mt-1" />
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

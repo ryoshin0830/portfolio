@@ -30,22 +30,30 @@ export default function VocabScatter({ className }: { className?: string }) {
       aria-hidden
       className={className}
     >
-      {/* vocabulary cloud */}
-      <g fill="var(--color-ink-muted)" opacity="0.4">
+      {/* vocabulary cloud — strong enough to read as data, not dust */}
+      <g fill="var(--color-ink-muted)" opacity="0.55">
         {CLOUD.map(([x, y, r], i) => (
           <circle key={i} cx={x} cy={y} r={r} />
         ))}
       </g>
 
-      {/* nearest-neighbour links */}
-      <g stroke="var(--color-accent)" strokeWidth="1" opacity="0.5">
+      {/* nearest-neighbour links — non-scaling so the stroke stays crisp at
+          any rendered size */}
+      <g stroke="var(--color-accent)" strokeWidth="1.5" opacity="0.6">
         {NEIGHBORS.map(([x, y], i) => (
-          <line key={i} x1={CENTER[0]} y1={CENTER[1]} x2={x} y2={y} />
+          <line
+            key={i}
+            x1={CENTER[0]}
+            y1={CENTER[1]}
+            x2={x}
+            y2={y}
+            vectorEffect="non-scaling-stroke"
+          />
         ))}
       </g>
 
       {/* neighbours */}
-      <g fill="var(--color-accent)" opacity="0.75">
+      <g fill="var(--color-accent)" opacity="0.9">
         {NEIGHBORS.map(([x, y, r], i) => (
           <circle key={i} cx={x} cy={y} r={r} />
         ))}
@@ -64,8 +72,9 @@ export default function VocabScatter({ className }: { className?: string }) {
         r="13"
         fill="none"
         stroke="var(--color-accent)"
-        strokeWidth="1"
-        opacity="0.45"
+        strokeWidth="1.25"
+        opacity="0.5"
+        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );

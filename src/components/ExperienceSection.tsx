@@ -38,10 +38,11 @@ const ExperienceSection = async () => {
         </header>
 
         <div className="[&>article:first-child]:border-t-0 [&>article:first-child]:pt-0">
-          {engagements.map((e) => (
+          {engagements.map((e, i) => (
             <ExperienceCard
               key={e.id}
               engagement={e}
+              index={i}
               currentBadge={t.raw("currentBadge") as string}
               labels={labels}
               scopePhases={scopePhases}

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { Engagement, ScopePhase } from "@/types/content";
 import { formatPeriod, isLocale } from "@/lib/formatPeriod";
 
@@ -17,6 +16,7 @@ interface Labels {
 
 interface ExperienceCardProps {
   engagement: Engagement;
+  index: number;
   currentBadge: string;
   labels: Labels;
   scopePhases: Record<ScopePhase, string>;
@@ -44,19 +44,9 @@ const ALL_PHASES: ScopePhase[] = [
   "ops",
 ];
 
-// Abstract editorial artwork per engagement (gpt-image generated, transparent
-// PNG, hairline gray + flat blue so one file works in both light and dark).
-// Entries are added only when the file exists in public/images/.
-const ENGAGEMENT_ART: Partial<Record<Engagement["id"], string>> = {
-  "gmo-pepabo": "/images/exp-gmo-pepabo.png",
-  sapeet: "/images/exp-sapeet.png",
-  suiren: "/images/exp-suiren.png",
-  medimo: "/images/exp-medimo.png",
-  ninjal: "/images/exp-ninjal.png",
-};
-
 export default function ExperienceCard({
   engagement: e,
+  index,
   currentBadge,
   labels,
   scopePhases,
@@ -78,32 +68,26 @@ export default function ExperienceCard({
         : soloFormat;
 
   const [heroAchievement, ...restAchievements] = e.achievements;
-  const art = ENGAGEMENT_ART[e.id];
 
   return (
     <article className="border-t border-[color:var(--color-rule-soft)] py-16 md:py-24">
       <div className="grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-6 md:gap-16">
-        {/* Period column */}
+        {/* Period column — led by an editorial ordinal. The big rule-colored
+            numeral gives each card an identity in the rail without competing
+            with content (same big-number language as Highlights/Research). */}
         <div>
+          <p
+            aria-hidden
+            className="num text-5xl md:text-6xl font-bold tracking-tight leading-none text-[color:var(--color-rule)] mb-5"
+          >
+            {String(index + 1).padStart(2, "0")}
+          </p>
           <p className="text-base text-[color:var(--color-ink)] num font-medium">
             {period}
           </p>
           <p className="text-sm text-[color:var(--color-ink-soft)] mt-3">
             {employmentTypes[e.employmentType]}
           </p>
-          {/* Editorial mark — fills the otherwise-empty rail on md+; decorative. */}
-          {art && (
-            <Image
-              src={art}
-              alt=""
-              aria-hidden
-              width={1536}
-              height={1024}
-              loading="lazy"
-              sizes="12rem"
-              className="mt-10 hidden w-full opacity-90 md:block"
-            />
-          )}
         </div>
 
         {/* Body */}

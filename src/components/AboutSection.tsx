@@ -4,7 +4,6 @@ import { useTranslations } from "next-intl";
 import { m } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
 import type { Expertise } from "@/types/content";
 import { ExpertiseIcon } from "@/components/icons/ExpertiseIcons";
@@ -40,39 +39,24 @@ const AboutSection = () => {
           initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.6 }}
-          className="mb-16 grid grid-cols-1 items-start gap-12 md:grid-cols-[minmax(0,1fr)_15rem] md:gap-16 lg:grid-cols-[minmax(0,1fr)_19rem]"
+          className="max-w-3xl mb-16"
         >
-          <div className="max-w-3xl">
-            <p className="prose-body text-[color:var(--color-ink)] mb-10">
-              {t("pr")}
-            </p>
-            <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed mb-6">
-              {credentials.education}
-            </p>
-            <a
-              href="https://github.com/ryoshin0830"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`GitHub: ${credentials.github}`}
-              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-rule)] px-4 py-2 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
-            >
-              <FaGithub className="w-4 h-4 shrink-0" aria-hidden />
-              <span className="num">{credentials.github}</span>
-            </a>
-          </div>
-          {/* Identity artwork — ink strokes dissolving into a node lattice
-              ("language becoming computation"). Transparent hairline PNG, one
-              file for both modes; decorative. */}
-          <Image
-            src="/images/about-identity.png"
-            alt=""
-            aria-hidden
-            width={1024}
-            height={1536}
-            loading="lazy"
-            sizes="(min-width: 1024px) 19rem, 15rem"
-            className="hidden w-full self-start opacity-90 md:block"
-          />
+          <p className="prose-body text-[color:var(--color-ink)] mb-10">
+            {t("pr")}
+          </p>
+          <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed mb-6">
+            {credentials.education}
+          </p>
+          <a
+            href="https://github.com/ryoshin0830"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`GitHub: ${credentials.github}`}
+            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-rule)] px-4 py-2 text-sm font-medium text-[color:var(--color-ink)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+          >
+            <FaGithub className="w-4 h-4 shrink-0" aria-hidden />
+            <span className="num">{credentials.github}</span>
+          </a>
         </m.div>
 
         {/* Capabilities — strengths chips */}
