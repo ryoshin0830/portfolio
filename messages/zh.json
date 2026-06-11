@@ -54,7 +54,7 @@
         "value": "82.26% → 89.72%",
         "unit": "",
         "label": "医疗术语识别准确率（ASR 召回率）",
-        "context": "衡量 AI 将医生语音转写为文本时，能否不遗漏地识别出病历所需的医疗术语。通过约 190 小时医疗语音数据，利用 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对 ASR 模型进行领域适配，从而实现提升。"
+        "context": "衡量 AI 转写医生语音时，能否不遗漏地识别出病历所需的医疗术语。通过约 190 小时医疗语音数据对 ASR 模型进行领域适配，从而实现提升。"
       }
     ]
   },
@@ -62,7 +62,7 @@
     "title": "个人简介",
     "subtitle": "语言教育研究者，亦是打造 AI 的工程师。",
     "kicker": "About",
-    "pr": "在京都大学研究生院的硕士课程与博士课程学习，研究大规模语言模型（LLM）的教育应用并取得博士学位。在国立国语研究所的语汇画像器开发中，一贯负责从需求定义到实现与运营。2025 年 6 月起加入株式会社 medimo，通过 LoRA 与 DeepSpeed ZeRO-3 多 GPU 分布式训练对医疗语音识别（ASR）模型进行微调，将医学术语召回率从 82.26% 提升至 89.72%；并构建了基于 LangGraph 的提示词自动生成管线。2026 年 2 月作为 Forward Deployed Engineer，在株式会社 Sapeet 推进招投标信息抽取与评分 PoC（从需求定义到实现与部署）。2026 年 4 月起作为工程师加入 GMO Pepabo。",
+    "pr": "在京都大学研究大规模语言模型（LLM）的教育应用并取得博士学位。从国立国语研究所的词汇分析器、医疗语音识别（ASR）的精度优化，到招投标信息抽取 PoC，我在研究与工程实现之间独自往返，把想法变成可用的产品。2026 年 4 月起作为工程师加入 GMO Pepabo。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
@@ -220,7 +220,8 @@
       "workItems": "工作内容",
       "achievements": "成果",
       "industry": "行业",
-      "employment": "雇佣形式"
+      "employment": "雇佣形式",
+      "details": "查看工作详情"
     },
     "scopePhases": {
       "req": "需求定义",
@@ -438,6 +439,7 @@
   "research": {
     "title": "研究活动",
     "subtitle": "语言教育领域的 AI 技术创新",
+    "kicker": "Research",
     "projects": "主要项目",
     "publications": "论文与发表",
     "peerReviewedPapers": "同行评议论文",
@@ -829,6 +831,7 @@
   },
   "writingFeed": {
     "title": "动态",
+    "kicker": "Writing",
     "subtitle": "在 Zenn・Qiita・note 的文章，以及 X 上的动态。",
     "filterAll": "全部",
     "viewOnZenn": "在 Zenn 查看",

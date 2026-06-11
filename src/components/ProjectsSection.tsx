@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import VocabScatter from "@/components/VocabScatter";
 
 const ProjectsSection = async () => {
   const t = await getTranslations("projects");
@@ -14,9 +15,10 @@ const ProjectsSection = async () => {
   const stackLabel = t.raw("techStack") as string;
 
   return (
-    <section id="projects" className="section section--soft">
+    <section id="projects" className="section">
       <div className="section__inner">
         <header className="mb-16">
+          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
@@ -29,9 +31,18 @@ const ProjectsSection = async () => {
               <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
                 {p.title}
               </h3>
-              <p className="prose-body text-[color:var(--color-ink-soft)] max-w-3xl mb-10">
-                {p.description}
-              </p>
+              <div className="mb-10 grid grid-cols-1 items-start gap-8 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-16">
+                <p className="prose-body text-[color:var(--color-ink-soft)] max-w-3xl">
+                  {p.description}
+                </p>
+                {/* Word2Vec scatter — the embedding-space neighbourhood the
+                    project computes. Anchored to the paragraph's top edge so
+                    it reads as a placed figure, not a floating ornament. Only
+                    the first (vocabulary) project gets it. */}
+                {i === 0 && (
+                  <VocabScatter className="hidden w-full md:block md:mt-1" />
+                )}
+              </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>

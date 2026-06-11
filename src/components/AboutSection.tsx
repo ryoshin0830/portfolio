@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import dynamic from "next/dynamic";
 import { FaGithub } from "react-icons/fa";
 import type { Expertise } from "@/types/content";
+import { ExpertiseIcon } from "@/components/icons/ExpertiseIcons";
 
 const TimelineSection = dynamic(() => import("./TimelineSection"), {
   ssr: false,
@@ -27,6 +28,7 @@ const AboutSection = () => {
     <section id="about" ref={ref} className="section section--pt-tight section--pb-tight">
       <div className="section__inner">
         <header className="mb-16">
+          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
@@ -82,6 +84,10 @@ const AboutSection = () => {
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
                 transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
               >
+                <ExpertiseIcon
+                  id={e.id}
+                  className="mb-5 h-8 w-8 text-[color:var(--color-accent)]"
+                />
                 <h4 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
                   {e.title}
                 </h4>

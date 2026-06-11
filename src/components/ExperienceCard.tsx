@@ -11,10 +11,12 @@ interface Labels {
   achievements: string;
   industry: string;
   employment: string;
+  details: string;
 }
 
 interface ExperienceCardProps {
   engagement: Engagement;
+  index: number;
   currentBadge: string;
   labels: Labels;
   scopePhases: Record<ScopePhase, string>;
@@ -30,8 +32,21 @@ const LABEL_BASE =
 const SECTION_LABEL_CLASS = `${LABEL_BASE} mb-4`;
 const META_LABEL_CLASS = `${LABEL_BASE} mb-1`;
 
+// All six delivery phases in lifecycle order — the segment bar renders every
+// phase and fills only the owned ones, so coverage reads as a shape, not a
+// pile of chips.
+const ALL_PHASES: ScopePhase[] = [
+  "req",
+  "basicDesign",
+  "detailDesign",
+  "impl",
+  "test",
+  "ops",
+];
+
 export default function ExperienceCard({
   engagement: e,
+  index,
   currentBadge,
   labels,
   scopePhases,
@@ -57,8 +72,16 @@ export default function ExperienceCard({
   return (
     <article className="border-t border-[color:var(--color-rule-soft)] py-16 md:py-24">
       <div className="grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-6 md:gap-16">
-        {/* Period column */}
+        {/* Period column — led by an editorial ordinal. The big rule-colored
+            numeral gives each card an identity in the rail without competing
+            with content (same big-number language as Highlights/Research). */}
         <div>
+          <p
+            aria-hidden
+            className="num text-5xl md:text-6xl font-bold tracking-tight leading-none text-[color:var(--color-rule)] mb-5"
+          >
+            {String(index + 1).padStart(2, "0")}
+          </p>
           <p className="text-base text-[color:var(--color-ink)] num font-medium">
             {period}
           </p>
@@ -104,16 +127,34 @@ export default function ExperienceCard({
             </div>
           </dl>
 
-          {/* Scope phases */}
+          {/* Scope phases — segment bar over the full lifecycle (owned = accent) */}
           {e.scope.length > 0 && (
-            <div className="mb-12">
+            <div className="mb-12 max-w-3xl">
               <p className={SECTION_LABEL_CLASS}>{labels.scope}</p>
-              <div className="flex flex-wrap gap-2">
-                {e.scope.map((p) => (
-                  <span key={p} className="chip">
-                    {scopePhases[p]}
-                  </span>
-                ))}
+              <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-6">
+                {ALL_PHASES.map((p) => {
+                  const owned = e.scope.includes(p);
+                  return (
+                    <div key={p}>
+                      <div
+                        className={`h-1 rounded-full ${
+                          owned
+                            ? "bg-[color:var(--color-accent)]"
+                            : "bg-[color:var(--color-rule)]"
+                        }`}
+                      />
+                      <p
+                        className={`mt-2 text-xs leading-tight ${
+                          owned
+                            ? "font-medium text-[color:var(--color-ink)]"
+                            : "text-[color:var(--color-ink-muted)]"
+                        }`}
+                      >
+                        {scopePhases[p]}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
@@ -137,39 +178,9 @@ export default function ExperienceCard({
             <hr className="border-t border-[color:var(--color-rule-soft)] my-14" />
           )}
 
-          {/* Responsibilities */}
-          {e.responsibilities.length > 0 && (
-            <div className="mb-12">
-              <p className={SECTION_LABEL_CLASS}>{labels.responsibilities}</p>
-              <ul className="space-y-2 text-base text-[color:var(--color-ink)] max-w-3xl">
-                {e.responsibilities.map((r, j) => (
-                  <li key={j} className="flex gap-3">
-                    <span className="text-[color:var(--color-accent)] shrink-0">·</span>
-                    <span className="leading-relaxed break-words min-w-0">{r}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Work items */}
-          {e.workItems.length > 0 && (
-            <div className="mb-12">
-              <p className={SECTION_LABEL_CLASS}>{labels.workItems}</p>
-              <ul className="space-y-2 text-base text-[color:var(--color-ink)] max-w-3xl">
-                {e.workItems.map((w, j) => (
-                  <li key={j} className="flex gap-3">
-                    <span className="text-[color:var(--color-accent)] shrink-0">·</span>
-                    <span className="leading-relaxed break-words min-w-0">{w}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Remaining achievements (hero lifted out) */}
+          {/* Remaining achievements (hero lifted out) — outcomes stay visible */}
           {restAchievements.length > 0 && (
-            <div>
+            <div className="mb-10">
               <p className={SECTION_LABEL_CLASS}>{labels.achievements}</p>
               <ul className="space-y-3 text-base text-[color:var(--color-ink)] max-w-3xl">
                 {restAchievements.map((a, j) => (
@@ -180,6 +191,61 @@ export default function ExperienceCard({
                 ))}
               </ul>
             </div>
+          )}
+
+          {/* Responsibilities + work items — folded by default. The long
+              per-engagement bullet lists were the page's heaviest text walls;
+              a native <details> keeps them one tap away with zero JS. */}
+          {(e.responsibilities.length > 0 || e.workItems.length > 0) && (
+            <details className="group max-w-3xl">
+              <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-base font-medium text-[color:var(--color-accent)] [&::-webkit-details-marker]:hidden">
+                <svg
+                  aria-hidden
+                  viewBox="0 0 12 12"
+                  className="h-3 w-3 shrink-0 transition-transform group-open:rotate-90"
+                >
+                  <path
+                    d="M4 2l4 4-4 4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                {labels.details}
+              </summary>
+
+              <div className="space-y-10 pt-10">
+                {e.responsibilities.length > 0 && (
+                  <div>
+                    <p className={SECTION_LABEL_CLASS}>{labels.responsibilities}</p>
+                    <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
+                      {e.responsibilities.map((r, j) => (
+                        <li key={j} className="flex gap-3">
+                          <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                          <span className="leading-relaxed break-words min-w-0">{r}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {e.workItems.length > 0 && (
+                  <div>
+                    <p className={SECTION_LABEL_CLASS}>{labels.workItems}</p>
+                    <ul className="space-y-2 text-base text-[color:var(--color-ink)]">
+                      {e.workItems.map((w, j) => (
+                        <li key={j} className="flex gap-3">
+                          <span className="text-[color:var(--color-accent)] shrink-0">·</span>
+                          <span className="leading-relaxed break-words min-w-0">{w}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </details>
           )}
         </div>
       </div>

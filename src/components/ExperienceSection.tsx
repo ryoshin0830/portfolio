@@ -17,6 +17,7 @@ const ExperienceSection = async () => {
     achievements: string;
     industry: string;
     employment: string;
+    details: string;
   };
   const scopePhases = t.raw("scopePhases") as Record<ScopePhase, string>;
   const employmentTypes = t.raw("employmentTypes") as {
@@ -26,9 +27,10 @@ const ExperienceSection = async () => {
   };
 
   return (
-    <section id="experience" className="section section--pt-tight">
+    <section id="experience" className="section section--soft section--pt-tight">
       <div className="section__inner">
         <header className="mb-16">
+          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
@@ -36,10 +38,11 @@ const ExperienceSection = async () => {
         </header>
 
         <div className="[&>article:first-child]:border-t-0 [&>article:first-child]:pt-0">
-          {engagements.map((e) => (
+          {engagements.map((e, i) => (
             <ExperienceCard
               key={e.id}
               engagement={e}
+              index={i}
               currentBadge={t.raw("currentBadge") as string}
               labels={labels}
               scopePhases={scopePhases}

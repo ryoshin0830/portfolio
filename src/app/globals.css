@@ -340,6 +340,11 @@ hr, .rule {
   background: var(--color-ink);
   color: var(--color-bg);
 }
+/* On a soft (gray) section the soft-gray chip fill disappears — swap to the
+   page background so the pill silhouette survives in both modes. */
+.section--soft .chip:not(.chip--core) {
+  background: var(--color-bg);
+}
 
 /* Body prose */
 .prose-body {

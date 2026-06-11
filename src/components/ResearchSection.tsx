@@ -45,6 +45,62 @@ type Publication = {
   type: "journal" | "conference";
 };
 
+function PublicationItem({
+  publication: p,
+  doiLabel,
+  viewLabel,
+}: {
+  publication: Publication;
+  doiLabel: string;
+  viewLabel: string;
+}) {
+  return (
+    <li className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-3 md:gap-12">
+      <span className="num text-base font-semibold text-[color:var(--color-accent)]">
+        {p.year}
+      </span>
+      <div>
+        <h4 className="text-xl font-semibold tracking-tight leading-snug mb-2">
+          {p.title}
+        </h4>
+        <p className="text-base text-[color:var(--color-ink-soft)] mb-1">
+          {p.authors}
+        </p>
+        <p className="text-base text-[color:var(--color-ink-soft)]">
+          {p.journal}
+          {p.volume && `, ${p.volume}`}
+          {p.pages && `, pp. ${p.pages}`}
+        </p>
+        {(p.doi || p.link) && (
+          <div className="mt-3 flex gap-4">
+            {p.doi && (
+              <a
+                href={p.doi}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-accent text-sm"
+              >
+                {doiLabel}
+              </a>
+            )}
+            {p.link && (
+              <a
+                href={p.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-accent text-sm"
+              >
+                {viewLabel}
+                <ExternalLink size={12} />
+              </a>
+            )}
+          </div>
+        )}
+      </div>
+    </li>
+  );
+}
+
 const ResearchSection = () => {
   const t = useTranslations("research");
   const pubT = useTranslations("publications");
@@ -58,8 +114,9 @@ const ResearchSection = () => {
     .filter((b) => Number.isFinite(b.year))
     .sort((a, b) => b.year - a.year);
 
-  const publications: Publication[] = [
-    ...peerReviewed.map((item) => ({
+  const byYearDesc = (a: Publication, b: Publication) => b.year - a.year;
+  const journalPubs: Publication[] = peerReviewed
+    .map((item) => ({
       authors: item.authors,
       year: Number(item.year),
       title: item.title,
@@ -69,32 +126,52 @@ const ResearchSection = () => {
       doi: item.doi,
       link: item.link,
       type: "journal" as const,
-    })),
-    ...conferencePresentations.map((item) => ({
+    }))
+    .filter((p) => Number.isFinite(p.year))
+    .sort(byYearDesc);
+  const conferencePubs: Publication[] = conferencePresentations
+    .map((item) => ({
       authors: item.authors,
       year: Number(item.year),
       title: item.title,
       journal: item.conference,
       link: item.link,
       type: "conference" as const,
-    })),
-  ]
+    }))
     .filter((p) => Number.isFinite(p.year))
-    .sort((a, b) => {
-      if (b.year !== a.year) return b.year - a.year;
-      if (a.type !== b.type) return a.type === "journal" ? -1 : 1;
-      return 0;
-    });
+    .sort(byYearDesc);
+
+  // Big-number summary — the output volume reads at a glance before any list.
+  const counters = [
+    { value: journalPubs.length, label: t("peerReviewedPapers") },
+    { value: conferencePubs.length, label: t("conferencePresentations") },
+    { value: books.length, label: t("books") },
+  ].filter((c) => c.value > 0);
 
   return (
-    <section id="research" className="section">
+    <section id="research" className="section section--soft">
       <div className="section__inner">
-        <header className="mb-20">
+        <header className="mb-16">
+          <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
           <h2 className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
         </header>
+
+        {/* Counter strip — Apple "big number" treatment shared with Highlights */}
+        {counters.length > 0 && (
+          <ul className="mb-24 grid max-w-3xl grid-cols-3 gap-8">
+            {counters.map((c) => (
+              <li key={c.label}>
+                <p className="display num text-5xl md:text-6xl">{c.value}</p>
+                <p className="mt-3 text-sm text-[color:var(--color-ink-muted)]">
+                  {c.label}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
 
         {books.length > 0 && (
           <div className="mb-24">
@@ -141,59 +218,37 @@ const ResearchSection = () => {
 
         <div>
           <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
-            {t("publications")}
+            {t("peerReviewedPapers")}
           </h3>
           <ol className="space-y-10">
-            {publications.map((p, i) => (
-              <li
+            {journalPubs.map((p, i) => (
+              <PublicationItem
                 key={i}
-                className="grid grid-cols-1 md:grid-cols-[6rem_1fr] gap-3 md:gap-12"
-              >
-                <span className="num text-base font-semibold text-[color:var(--color-accent)]">
-                  {p.year}
-                </span>
-                <div>
-                  <h4 className="text-xl font-semibold tracking-tight leading-snug mb-2">
-                    {p.title}
-                  </h4>
-                  <p className="text-base text-[color:var(--color-ink-soft)] mb-1">
-                    {p.authors}
-                  </p>
-                  <p className="text-base text-[color:var(--color-ink-soft)]">
-                    {p.journal}
-                    {p.volume && `, ${p.volume}`}
-                    {p.pages && `, pp. ${p.pages}`}
-                  </p>
-                  {(p.doi || p.link) && (
-                    <div className="mt-3 flex gap-4">
-                      {p.doi && (
-                        <a
-                          href={p.doi}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="link-accent text-sm"
-                        >
-                          {t("doi")}
-                        </a>
-                      )}
-                      {p.link && (
-                        <a
-                          href={p.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="link-accent text-sm"
-                        >
-                          {pubT("viewPaper")}
-                          <ExternalLink size={12} />
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </li>
+                publication={p}
+                doiLabel={t("doi")}
+                viewLabel={pubT("viewPaper")}
+              />
             ))}
           </ol>
         </div>
+
+        {conferencePubs.length > 0 && (
+          <div className="mt-24">
+            <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-10">
+              {t("conferencePresentations")}
+            </h3>
+            <ol className="space-y-10">
+              {conferencePubs.map((p, i) => (
+                <PublicationItem
+                  key={i}
+                  publication={p}
+                  doiLabel={t("doi")}
+                  viewLabel={pubT("viewPaper")}
+                />
+              ))}
+            </ol>
+          </div>
+        )}
       </div>
     </section>
   );
