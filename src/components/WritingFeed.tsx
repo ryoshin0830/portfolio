@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { LuArrowUpRight as ArrowUpRight } from "react-icons/lu";
+import {
+  LuArrowUpRight as ArrowUpRight,
+  LuSearch as Search,
+  LuX as X,
+} from "react-icons/lu";
 import Link from "next/link";
 import type { FeedItem, FeedSource } from "@/types/articles";
 import { BRAND_LABEL, SourceIcon } from "@/components/icons/BrandIcons";
@@ -30,19 +34,42 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
   const tc = useTranslations("common");
   const locale = useLocale();
   const [filter, setFilter] = useState<Filter>("all");
+  const [query, setQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(BATCH);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  const filtered = useMemo(() => {
-    if (filter === "all") return items;
-    return items.filter((i) => i.sources.includes(filter));
-  }, [items, filter]);
+  // Defer the query so typing never blocks on re-filtering the list (React keeps
+  // the input responsive and re-renders the results at a lower priority).
+  const deferredQuery = useDeferredValue(query);
+  // Split on whitespace → AND search (every term must match), so "next test"
+  // narrows instead of widening. Case-insensitive; locale-folded for the latin
+  // scripts (Japanese/Chinese are unaffected, comparison stays substring).
+  const terms = useMemo(
+    () =>
+      deferredQuery
+        .trim()
+        .toLocaleLowerCase(locale)
+        .split(/\s+/)
+        .filter(Boolean),
+    [deferredQuery, locale],
+  );
+  const isSearching = terms.length > 0;
 
-  // Reset the reveal window whenever the filter changes so switching always
-  // starts from the top of that subset.
+  const filtered = useMemo(() => {
+    const bySource =
+      filter === "all" ? items : items.filter((i) => i.sources.includes(filter));
+    if (terms.length === 0) return bySource;
+    return bySource.filter((i) => {
+      const haystack = i.text.toLocaleLowerCase(locale);
+      return terms.every((term) => haystack.includes(term));
+    });
+  }, [items, filter, terms, locale]);
+
+  // Reset the reveal window whenever the filter OR the search query changes so
+  // each new result set always starts from the top.
   useEffect(() => {
     setVisibleCount(BATCH);
-  }, [filter]);
+  }, [filter, deferredQuery]);
 
   const hasMore = visibleCount < filtered.length;
   useEffect(() => {
@@ -78,6 +105,49 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
     return i.url;
   };
 
+  // Wrap matched terms in <mark> so a hit is visible inside a long title. The
+  // search is locale-folded substring, so match on the lower-cased text but
+  // slice the original to preserve the displayed casing.
+  const highlight = (text: string) => {
+    if (terms.length === 0) return text;
+    const lower = text.toLocaleLowerCase(locale);
+    // Collect [start, end) spans for every term occurrence, then merge overlaps.
+    const spans: [number, number][] = [];
+    for (const term of terms) {
+      let from = 0;
+      let at = lower.indexOf(term, from);
+      while (at !== -1) {
+        spans.push([at, at + term.length]);
+        from = at + term.length;
+        at = lower.indexOf(term, from);
+      }
+    }
+    if (spans.length === 0) return text;
+    spans.sort((a, b) => a[0] - b[0]);
+    const merged: [number, number][] = [];
+    for (const [s, e] of spans) {
+      const last = merged[merged.length - 1];
+      if (last && s <= last[1]) last[1] = Math.max(last[1], e);
+      else merged.push([s, e]);
+    }
+    const nodes: React.ReactNode[] = [];
+    let cursor = 0;
+    merged.forEach(([s, e], idx) => {
+      if (s > cursor) nodes.push(text.slice(cursor, s));
+      nodes.push(
+        <mark
+          key={idx}
+          className="rounded-[3px] bg-[color:var(--color-accent)]/15 px-0.5 text-[color:var(--color-accent)]"
+        >
+          {text.slice(s, e)}
+        </mark>,
+      );
+      cursor = e;
+    });
+    if (cursor < text.length) nodes.push(text.slice(cursor));
+    return nodes;
+  };
+
   const filters: { key: Filter; label: string; source?: FeedSource }[] = [
     { key: "all", label: t("filterAll") },
     { key: "zenn", label: "Zenn", source: "zenn" },
@@ -97,6 +167,46 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
             {t("subtitle")}
           </p>
         </header>
+
+        {/* Search — filters the whole feed by text (article titles + post
+            bodies), combined with the source filter below. Client-side only:
+            the full feed is already in memory, so this is instant. */}
+        {items.length > 0 && (
+          <div className="relative mb-4 max-w-md">
+            <Search
+              size={18}
+              aria-hidden
+              className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-[color:var(--color-ink-muted)]"
+            />
+            <input
+              type="search"
+              inputMode="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape" && query) {
+                  e.preventDefault();
+                  setQuery("");
+                }
+              }}
+              placeholder={t("searchPlaceholder")}
+              aria-label={t("searchLabel")}
+              aria-controls="writing-feed-list"
+              // Hide the native clear affordance; we render our own consistent one.
+              className="w-full border-0 border-b border-[color:var(--color-rule)] bg-transparent py-2.5 pl-7 pr-8 text-base text-[color:var(--color-ink)] outline-none transition-colors placeholder:text-[color:var(--color-ink-muted)] focus:border-[color:var(--color-accent)] [&::-webkit-search-cancel-button]:appearance-none"
+            />
+            {query && (
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                aria-label={t("clearSearch")}
+                className="absolute right-0 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
+              >
+                <X size={16} aria-hidden />
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Source filter — toggle buttons (not ARIA tabs: this filters one list
             in place, so aria-pressed is the correct contract). */}
@@ -130,8 +240,20 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
           </div>
         )}
 
+        {/* Result count — announced to screen readers as the query narrows the
+            list; shown visually only while a search is active. */}
+        <p
+          role="status"
+          aria-live="polite"
+          className={`meta text-[color:var(--color-ink-muted)] ${
+            isSearching ? "mb-2 mt-4" : "sr-only"
+          }`}
+        >
+          {isSearching ? t("resultCount", { count: filtered.length }) : ""}
+        </p>
+
         {filtered.length > 0 && (
-          <ul>
+          <ul id="writing-feed-list">
             {filtered.slice(0, visibleCount).map((i) => (
               <li key={i.id}>
                 <Link
@@ -161,7 +283,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
                           : "text-lg md:text-xl"
                       }`}
                     >
-                      {i.text}
+                      {highlight(i.text)}
                       <span className="sr-only"> — {tc("opensInNewTab")}</span>
                     </span>
                     <ArrowUpRight
@@ -179,13 +301,26 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
         {/* Infinite-scroll sentinel — reveals the next batch when it enters view. */}
         {hasMore && <div ref={sentinelRef} aria-hidden className="h-px w-full" />}
 
-        {/* Empty / failed — the section stays present with the profile links
-            below as the fallback path. */}
-        {filtered.length === 0 && (
-          <p className="prose-body text-[color:var(--color-ink-soft)]">
-            {t("empty")}
-          </p>
-        )}
+        {/* Empty states — the section stays present with the profile links
+            below as the fallback path. A no-match-for-query message is distinct
+            from a genuinely empty feed, and offers a one-tap reset. */}
+        {filtered.length === 0 &&
+          (isSearching ? (
+            <p className="prose-body text-[color:var(--color-ink-soft)]">
+              {t("noResults", { query: deferredQuery.trim() })}{" "}
+              <button
+                type="button"
+                onClick={() => setQuery("")}
+                className="link-accent"
+              >
+                {t("clearSearch")}
+              </button>
+            </p>
+          ) : (
+            <p className="prose-body text-[color:var(--color-ink-soft)]">
+              {t("empty")}
+            </p>
+          ))}
 
         {/* Profile links — always available, even if the feed is empty. */}
         <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
