@@ -102,6 +102,26 @@ describe("WritingFeed search", () => {
     expect(within(screen.getByRole("list")).getAllByRole("listitem")).toHaveLength(3);
   });
 
+  it("aria-controls の参照先は該当なしでも存在し続ける（dangling 参照防止）", () => {
+    renderFeed();
+    const id = searchBox().getAttribute("aria-controls");
+    expect(id).toBe("writing-feed-list");
+    expect(document.getElementById(id!)).toBeTruthy();
+    // 0 件でもラッパは残る
+    fireEvent.change(searchBox(), { target: { value: "存在しない語" } });
+    expect(document.getElementById(id!)).toBeTruthy();
+  });
+
+  it("✕ クリア後はフォーカスが検索入力に戻る", () => {
+    renderFeed();
+    const box = searchBox();
+    box.focus();
+    fireEvent.change(box, { target: { value: "TypeScript" } });
+    const clear = screen.getByRole("button", { name: ja.writingFeed.clearSearch });
+    fireEvent.click(clear);
+    expect(document.activeElement).toBe(box);
+  });
+
   it("ソースフィルタと検索を併用できる", () => {
     renderFeed();
     // X だけに絞る

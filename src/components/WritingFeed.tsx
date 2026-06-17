@@ -37,6 +37,15 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
   const [query, setQuery] = useState("");
   const [visibleCount, setVisibleCount] = useState(BATCH);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  // Clear the query and return focus to the input so keyboard users keep their
+  // place (clicking the ✕ would otherwise drop focus to the body when it
+  // unmounts).
+  const clearSearch = () => {
+    setQuery("");
+    inputRef.current?.focus();
+  };
 
   // Defer the query so typing never blocks on re-filtering the list (React keeps
   // the input responsive and re-renders the results at a lower priority).
@@ -107,7 +116,9 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
 
   // Wrap matched terms in <mark> so a hit is visible inside a long title. The
   // search is locale-folded substring, so match on the lower-cased text but
-  // slice the original to preserve the displayed casing.
+  // slice the original to preserve the displayed casing. This assumes
+  // lower-casing is length-preserving (true for ja/en/zh content; the rare
+  // latin expanders like ß→ss don't occur here) so the offsets line up.
   const highlight = (text: string) => {
     if (terms.length === 0) return text;
     const lower = text.toLocaleLowerCase(locale);
@@ -132,11 +143,11 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
     }
     const nodes: React.ReactNode[] = [];
     let cursor = 0;
-    merged.forEach(([s, e], idx) => {
+    merged.forEach(([s, e]) => {
       if (s > cursor) nodes.push(text.slice(cursor, s));
       nodes.push(
         <mark
-          key={idx}
+          key={`${s}-${e}`}
           className="rounded-[3px] bg-[color:var(--color-accent)]/15 px-0.5 text-[color:var(--color-accent)]"
         >
           {text.slice(s, e)}
@@ -179,6 +190,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
               className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-[color:var(--color-ink-muted)]"
             />
             <input
+              ref={inputRef}
               type="search"
               inputMode="search"
               value={query}
@@ -192,15 +204,18 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
               placeholder={t("searchPlaceholder")}
               aria-label={t("searchLabel")}
               aria-controls="writing-feed-list"
-              // Hide the native clear affordance; we render our own consistent one.
-              className="w-full border-0 border-b border-[color:var(--color-rule)] bg-transparent py-2.5 pl-7 pr-8 text-base text-[color:var(--color-ink)] outline-none transition-colors placeholder:text-[color:var(--color-ink-muted)] focus:border-[color:var(--color-accent)] [&::-webkit-search-cancel-button]:appearance-none"
+              // Underline-only field: the bottom border thickens to accent on
+              // focus (2px, matching the site's focus-ring weight) without the
+              // 1px reflow a border-width change would cause — box-shadow draws
+              // the extra pixel. Native clear UI hidden; we render our own.
+              className="w-full border-0 border-b border-[color:var(--color-rule)] bg-transparent py-3 pl-7 pr-11 text-base text-[color:var(--color-ink)] outline-none transition-colors placeholder:text-[color:var(--color-ink-muted)] focus-visible:border-[color:var(--color-accent)] focus-visible:shadow-[0_1px_0_0_var(--color-accent)] [&::-webkit-search-cancel-button]:appearance-none"
             />
             {query && (
               <button
                 type="button"
-                onClick={() => setQuery("")}
+                onClick={clearSearch}
                 aria-label={t("clearSearch")}
-                className="absolute right-0 top-1/2 inline-flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
+                className="absolute right-0 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full text-[color:var(--color-ink-muted)] transition-colors hover:text-[color:var(--color-ink)]"
               >
                 <X size={16} aria-hidden />
               </button>
@@ -240,6 +255,10 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
           </div>
         )}
 
+        {/* The whole result region — count + list + empty state — lives under
+            one stable id so the search input's aria-controls always resolves,
+            even when a query returns no rows (the <ul> alone would unmount). */}
+        <div id="writing-feed-list">
         {/* Result count — announced to screen readers as the query narrows the
             list; shown visually only while a search is active. */}
         <p
@@ -253,7 +272,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
         </p>
 
         {filtered.length > 0 && (
-          <ul id="writing-feed-list">
+          <ul>
             {filtered.slice(0, visibleCount).map((i) => (
               <li key={i.id}>
                 <Link
@@ -308,11 +327,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
           (isSearching ? (
             <p className="prose-body text-[color:var(--color-ink-soft)]">
               {t("noResults", { query: deferredQuery.trim() })}{" "}
-              <button
-                type="button"
-                onClick={() => setQuery("")}
-                className="link-accent"
-              >
+              <button type="button" onClick={clearSearch} className="link-accent">
                 {t("clearSearch")}
               </button>
             </p>
@@ -321,6 +336,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
               {t("empty")}
             </p>
           ))}
+        </div>
 
         {/* Profile links — always available, even if the feed is empty. */}
         <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3">
