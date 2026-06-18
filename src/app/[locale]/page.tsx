@@ -1,5 +1,4 @@
 import HeroSection from "@/components/HeroSection";
-import LatestWritingSection from "@/components/LatestWritingSection";
 import HighlightsStrip from "@/components/HighlightsStrip";
 import AboutSection from "@/components/AboutSection";
 import ExperienceSection from "@/components/ExperienceSection";
@@ -41,27 +40,24 @@ export default async function Home({
     }),
   ]);
   const feed = buildFeed(articles, posts);
-  // The Hero shows articles and posts as two separate columns (mixing them by
-  // date buries the articles under the more-frequent posts), so split the feed
-  // by kind there. The bottom section keeps the merged, date-sorted stream.
-  const latestArticles = feed.filter((i) => i.kind === "article").slice(0, 5);
-  const latestPosts = feed.filter((i) => i.kind === "post").slice(0, 5);
+  // Hero teaser: surface the latest substantial writing (Zenn/Qiita articles);
+  // fall back to X posts only when there are no articles. The full date-sorted
+  // archive lives in WritingFeed (#blog) — the single dedicated 発信 section.
+  const latestArticles = feed.filter((i) => i.kind === "article").slice(0, 3);
+  const latestPosts = feed.filter((i) => i.kind === "post").slice(0, 3);
+  const heroLatest = latestArticles.length > 0 ? latestArticles : latestPosts;
 
   return (
     <main>
-      <HeroSection />
+      <HeroSection latestItems={heroLatest} />
       {/* 自己紹介(about)→数字で見る成果(highlights)→経歴…と、初見でも文脈が
-          積み上がる物語順。発信(LatestWriting/WritingFeed)はページ後段に集約する。 */}
+          積み上がる物語順。発信(WritingFeed)はページ末尾の単一セクションに集約。 */}
       <AboutSection />
       <HighlightsStrip />
       <ExperienceSection />
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
-      <LatestWritingSection
-        latestArticles={latestArticles}
-        latestPosts={latestPosts}
-      />
       <WritingFeed items={feed} />
     </main>
   );
