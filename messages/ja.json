@@ -9,6 +9,8 @@
     "skills": "スキル",
     "projects": "プロジェクト",
     "blog": "発信",
+    "contact": "連絡先",
+    "skipToContent": "本文へスキップ",
     "more": "その他",
     "scrollToNext": "次のセクション：",
     "scrollToPrevious": "前のセクション：",
@@ -21,7 +23,7 @@
   },
   "flags": {
     "ja": "🇯🇵",
-    "en": "🇺🇸",
+    "en": "🇬🇧",
     "zh": "🇨🇳"
   },
   "hero": {
@@ -220,8 +222,7 @@
       "workItems": "業務内容",
       "achievements": "実績・成果",
       "industry": "業種",
-      "employment": "雇用形態",
-      "details": "担当業務の詳細を見る"
+      "employment": "雇用形態"
     },
     "scopePhases": {
       "req": "要件定義",
@@ -740,7 +741,7 @@
       "chinese": "中国語",
       "chineseLevel": "母国語（北京出身）",
       "english": "英語",
-      "englishLevel": "CET Level 4・研究論文執筆レベル"
+      "englishLevel": "研究論文執筆・国際学会発表レベル（CET Level 4）"
     },
     "certifications": {
       "title": "資格・認定",
@@ -849,7 +850,7 @@
     "empty": "該当する発信がありません。"
   },
   "metadata": {
-    "title": "梁震（りょう しん）| エンジニア・研究者",
+    "title": "梁震（りょう しん）| ML エンジニア・研究者",
     "description": "研究する。つくる。動かす。すべて、ことばで。京都大学で博士号を取得した ML エンジニア／研究者。LLM・ASR・LangGraph を用いて医療・教育・言語処理領域の研究開発と実装を行う。",
     "keywords": "梁震, りょうしん, 京都大学, AI研究, エンジニア, 言語教育, 第二言語習得, LLM, 大規模言語モデル, 機械学習, ASR, 音声認識, LangGraph, LangChain, LoRA, 日本語教育, 自然言語処理, NLP, 教育工学, EdTech, MLエンジニア, 医療AI, GMOペパボ",
     "author": "梁震（りょう しん）",
@@ -907,6 +908,7 @@
     "yearToPresent": "{year}-現在"
   },
   "heroCategories": {
+    "contact": "連絡",
     "messaging": "メッセージ",
     "professional": "開発",
     "social": "ソーシャル"

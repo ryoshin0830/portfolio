@@ -17,7 +17,6 @@ const ExperienceSection = async () => {
     achievements: string;
     industry: string;
     employment: string;
-    details: string;
   };
   const scopePhases = t.raw("scopePhases") as Record<ScopePhase, string>;
   const employmentTypes = t.raw("employmentTypes") as {

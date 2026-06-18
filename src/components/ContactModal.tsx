@@ -73,8 +73,19 @@ export default function ContactModal() {
   // Esc で閉じる（ただし内側の QR ダイアログが開いているときはそちらに任せる）。
   useEffect(() => {
     if (!open) return;
+    // 背景（ナビ・本文・フッター）を inert にして、スクリーンリーダーの仮想
+    // カーソルやフォーカスがモーダルの外へ漏れないようにする。閉じるときに解除し、
+    // トリガーへフォーカスを戻す前に必ず inert を外す（inert な祖先内の要素には
+    // フォーカスできないため順序が重要）。
+    const bgEls = Array.from(
+      document.querySelectorAll<HTMLElement>("nav, #main, footer")
+    );
+    bgEls.forEach((el) => el.setAttribute("inert", ""));
     const node = panelRef.current;
-    if (!node) return;
+    if (!node) {
+      bgEls.forEach((el) => el.removeAttribute("inert"));
+      return;
+    }
     const hasInnerDialog = () =>
       node.querySelector('[role="dialog"]') !== null;
     const getFocusable = () =>
@@ -107,6 +118,7 @@ export default function ContactModal() {
     const trigger = triggerRef.current;
     return () => {
       document.removeEventListener("keydown", onKeyDown);
+      bgEls.forEach((el) => el.removeAttribute("inert"));
       trigger?.focus();
     };
   }, [open, close]);

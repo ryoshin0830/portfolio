@@ -170,10 +170,25 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
             <MotionProvider>
+              {/* キーボード/スクリーンリーダー向けのスキップリンク。フォーカス時のみ
+                  表示され、ページ本文 (#main) へ直接ジャンプする。 */}
+              <a
+                href="#main"
+                className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:rounded-md focus:border focus:border-[color:var(--color-rule)] focus:bg-[color:var(--color-bg)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[color:var(--color-ink)]"
+              >
+                {messages.nav.skipToContent}
+              </a>
               <Navigation />
-              <main className="min-h-screen w-full overflow-x-hidden">
+              {/* page.tsx 側に唯一の <main> ランドマークがある。ここはレイアウトの
+                  ラッパ兼スキップリンクの着地点（id="main"）として div にしておく
+                  （main を二重に出すとランドマークが壊れる）。 */}
+              <div
+                id="main"
+                tabIndex={-1}
+                className="min-h-screen w-full overflow-x-hidden focus:outline-none"
+              >
                 {children}
-              </main>
+              </div>
               <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden">
                 <div
                   className="w-full gutter-x flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
@@ -181,7 +196,7 @@ export default async function RootLayout({
                   <p className="meta">
                     {messages.footer.copyright}
                   </p>
-                  <p className="meta opacity-70">
+                  <p className="meta">
                     {messages.footer.builtWith}
                   </p>
                 </div>

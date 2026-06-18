@@ -5,6 +5,9 @@ import {
 } from "react-icons/lu";
 import { FaEnvelope, FaGithub } from "react-icons/fa";
 import { SiX } from "react-icons/si";
+import type { FeedItem } from "@/types/articles";
+import { SourceIcon } from "@/components/icons/BrandIcons";
+import { formatRelativeTime } from "@/lib/relativeTime";
 
 /**
  * Editorial, asymmetric hero — fully static (async Server Component).
@@ -15,8 +18,10 @@ import { SiX } from "react-icons/si";
  * - Left column: identity + tagline + CTA. Right column: a bottom-aligned
  *   fact list (current role / degree / primary contacts).
  * - The full 12-icon SocialLinks live in the ContactModal — the #contact hash
- *   opens it (plain anchor keeps this a Server Component);
- *   the latest-writing feed moved to LatestWritingSection just below.
+ *   opens it (plain anchor keeps this a Server Component).
+ * - A slim "latest writing" teaser (3 most-recent items) sits at the foot of the
+ *   hero; the full date-sorted archive is WritingFeed (#blog). Static links only —
+ *   no loading state, no animation — so the hero LCP stays stable.
  * - CTA is a plain anchor: CSS scroll-behavior handles smooth scrolling and
  *   the prefers-reduced-motion reset in globals.css turns it off.
  */
@@ -28,12 +33,19 @@ const PRIMARY_CONTACTS = [
   { id: "x", label: "@ryoshin0830", href: "https://x.com/ryoshin0830", Icon: SiX },
 ] as const;
 
-const HeroSection = async () => {
+const HeroSection = async ({
+  latestItems = [],
+}: {
+  latestItems?: FeedItem[];
+}) => {
   const t = await getTranslations("hero");
   const tNames = await getTranslations("names");
   const tEmail = await getTranslations("email");
+  const tWriting = await getTranslations("heroWriting");
   const tc = await getTranslations("common");
   const locale = await getLocale();
+
+  const writingTeaser = latestItems.slice(0, 3);
 
   // The reader's own locale comes first in the alternate-readings line.
   const readingOrder =
@@ -59,7 +71,7 @@ const HeroSection = async () => {
       id="hero"
       className="relative flex min-h-svh flex-col justify-center bg-[color:var(--color-bg)] gutter-x pb-16 pt-28"
     >
-      <div className="fade-up grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
+      <div className="grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
         {/* Identity column */}
         <div className="lg:col-span-8">
           <p className="meta mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -140,6 +152,48 @@ const HeroSection = async () => {
           </a>
         </aside>
       </div>
+
+      {/* Latest-writing teaser — a slim taste of recent output at the hero foot.
+          Static links (no animation/loading) so the hero LCP stays stable; the
+          full archive is WritingFeed (#blog). */}
+      {writingTeaser.length > 0 && (
+        <div className="mt-16 w-full border-t border-[color:var(--color-rule-soft)] pt-6">
+          <div className="mb-4 flex items-baseline justify-between gap-4">
+            <p className="meta">{tWriting("title")}</p>
+            <a href="#blog" className="link-accent text-xs">
+              {tWriting("viewAll")}
+              <ArrowDown size={12} aria-hidden />
+            </a>
+          </div>
+          <ul className="grid gap-x-10 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+            {writingTeaser.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-2 py-1"
+                >
+                  <span className="flex shrink-0 translate-y-0.5 items-center gap-1 text-[color:var(--color-ink-soft)]">
+                    {item.sources.map((s) => (
+                      <SourceIcon key={s} source={s} className="h-3.5 w-3.5" />
+                    ))}
+                  </span>
+                  <span className="flex min-w-0 flex-col gap-0.5">
+                    <span className="line-clamp-1 text-sm font-medium leading-snug text-[color:var(--color-ink)] transition-colors group-hover:text-[color:var(--color-accent)]">
+                      {item.text}
+                      <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                    </span>
+                    <span className="num text-xs text-[color:var(--color-ink-muted)]">
+                      {formatRelativeTime(item.date, locale)}
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   );
 };

@@ -222,6 +222,16 @@ const Navigation = () => {
                   </button>
                 );
               })}
+              {/* 連絡先はセクションではなくモーダル（#contact ハッシュで ContactModal
+                  が開く）。sectionId を持たせると SECTION_IDS 整合テストに引っかかる
+                  ため、scroll-spy 対象の項目とは別に静的アンカーで置く。 */}
+              <a
+                href="#contact"
+                aria-haspopup="dialog"
+                className="relative pb-0.5 font-medium text-[color:var(--color-ink-soft)] transition-colors hover:text-[color:var(--color-ink)]"
+              >
+                {t("contact")}
+              </a>
             </div>
 
             <div className="flex items-center gap-2">
@@ -369,6 +379,16 @@ const Navigation = () => {
                     </li>
                   );
                 })}
+                <li>
+                  <a
+                    href="#contact"
+                    aria-haspopup="dialog"
+                    onClick={() => setShowMoreMenu(false)}
+                    className="text-3xl md:text-4xl font-semibold tracking-tight text-[color:var(--color-ink)] transition-colors hover:text-[color:var(--color-accent)]"
+                  >
+                    {t("contact")}
+                  </a>
+                </li>
               </ul>
             </div>
           </m.div>

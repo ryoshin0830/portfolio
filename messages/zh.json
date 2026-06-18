@@ -9,6 +9,8 @@
     "skills": "技能",
     "projects": "项目",
     "blog": "动态",
+    "contact": "联系方式",
+    "skipToContent": "跳到正文",
     "more": "更多",
     "scrollToNext": "下一部分:",
     "scrollToPrevious": "上一部分:",
@@ -21,7 +23,7 @@
   },
   "flags": {
     "ja": "🇯🇵",
-    "en": "🇺🇸",
+    "en": "🇬🇧",
     "zh": "🇨🇳"
   },
   "hero": {
@@ -86,7 +88,7 @@
       {
         "id": "language-edu",
         "title": "语言教育系统",
-        "description": "学习者语料分析、词汇难度判定、自动出题系统、多读平台——长期与教育现场与研究机构协作开发。"
+        "description": "学习者语料分析、词汇难度判定、自动出题系统、泛读平台——长期与教育现场与研究机构协作开发。"
       }
     ],
     "capabilitiesLabel": "擅长业务",
@@ -169,25 +171,25 @@
       {
         "year": "2023",
         "title": "参与国立国语研究所项目",
-        "description": "参与语汇画像器开发项目，负责从需求定义到实现与运营（至 2025 年）",
+        "description": "参与词汇分析器开发项目，负责从需求定义到实现与运营（至 2025 年）",
         "icon": "university"
       },
       {
         "year": "2025",
         "title": "加入 medimo",
-        "description": "在株式会社 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）",
+        "description": "在 medimo 推进医疗语音识别（ASR）精度提升并构建 LangGraph 管线（至 2026 年）",
         "icon": "home"
       },
       {
         "year": "2025",
         "title": "参与梅西大学项目",
-        "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，开发速读练习平台『SUIREN』（至 2026 年）",
+        "description": "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语泛读研究协作，开发速读练习平台『SUIREN』（至 2026 年）",
         "icon": "home"
       },
       {
         "year": "2026",
         "title": "参与 Sapeet",
-        "description": "参与株式会社 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）",
+        "description": "参与 Sapeet 的招投标信息抽取与评分 PoC（2026 年 2 月）",
         "icon": "home"
       },
       {
@@ -220,8 +222,7 @@
       "workItems": "工作内容",
       "achievements": "成果",
       "industry": "行业",
-      "employment": "雇佣形式",
-      "details": "查看工作详情"
+      "employment": "雇佣形式"
     },
     "scopePhases": {
       "req": "需求定义",
@@ -246,7 +247,7 @@
         "end": null,
         "isCurrent": true,
         "employmentType": "fulltime",
-        "company": "GMO Pepabo 株式会社",
+        "company": "GMO Pepabo",
         "product": "工程师岗位",
         "industry": "IT・互联网",
         "role": "工程师（正式员工）",
@@ -264,7 +265,7 @@
         "end": "2026-03",
         "isCurrent": false,
         "employmentType": "contract",
-        "company": "株式会社 Sapeet",
+        "company": "Sapeet",
         "product": "信息通信工程招投标自动抽取与企业评分 PoC",
         "industry": "AI / SaaS",
         "role": "Forward Deployed Engineer（业务委托）",
@@ -320,7 +321,7 @@
           "PostgreSQL"
         ],
         "responsibilities": [
-          "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语多读研究协作，设计并开发速读练习平台",
+          "与梅西大学 Dr. Mitsue Tabata-Sandom 的日语泛读研究协作，设计并开发速读练习平台",
           "设计并实现阅读速度（WPM）与理解度测量功能"
         ],
         "workItems": [
@@ -339,7 +340,7 @@
         "end": "2026-01",
         "isCurrent": false,
         "employmentType": "contract",
-        "company": "株式会社 medimo",
+        "company": "medimo",
         "product": "医疗病历自动生成 SaaS『medimo』",
         "industry": "医疗 / 健康 AI",
         "role": "工程师・需求定义与设计主担当（业务委托）",
@@ -394,7 +395,7 @@
         "isCurrent": false,
         "employmentType": "contract",
         "company": "国立国语研究所（NINJAL）",
-        "product": "语汇画像器系统开发",
+        "product": "词汇分析器系统开发",
         "industry": "研究项目",
         "role": "项目负责人（业务委托）",
         "teamOverall": 13,
@@ -430,8 +431,8 @@
           "通过 SSL/TLS 与令牌认证强化安全"
         ],
         "achievements": [
-          "以国立国语研究所松下达彦先生的语汇研究（《日本語を読むための語彙データベース》／VDRJ）为基础，对输入的日语文本进行即时分析，并按词汇难度与使用频率进行可视化的语汇画像器",
-          "将基于 Word2Vec 的词汇难度预测模型作为 API 集成，输出便于研究与教学使用的画像结果"
+          "以国立国语研究所松下达彦先生的语汇研究（《日本語を読むための語彙データベース》／VDRJ）为基础，对输入的日语文本进行即时分析，并按词汇难度与使用频率进行可视化的词汇分析器",
+          "将基于 Word2Vec 的词汇难度预测模型作为 API 集成，输出便于研究与教学使用的分析结果"
         ]
       }
     ]
@@ -740,7 +741,7 @@
       "chinese": "中文",
       "chineseLevel": "母语（北京出身）",
       "english": "英语",
-      "englishLevel": "CET-4・学术论文写作水平"
+      "englishLevel": "学术论文写作・国际会议发表水平（CET-4）"
     },
     "certifications": {
       "title": "资格与认证",
@@ -849,7 +850,7 @@
     "empty": "暂无内容。"
   },
   "metadata": {
-    "title": "梁震 | 工程师・研究者",
+    "title": "梁震 | ML 工程师・研究者",
     "description": "研究、构建、落地——皆围绕语言。京都大学博士、ML 工程师／研究者，使用 LLM、ASR、LangGraph 在医疗、教育与语言处理领域进行研发与实施。",
     "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
     "author": "梁震",
@@ -907,6 +908,7 @@
     "yearToPresent": "{year}-至今"
   },
   "heroCategories": {
+    "contact": "联系",
     "messaging": "消息",
     "professional": "开发",
     "social": "社交"

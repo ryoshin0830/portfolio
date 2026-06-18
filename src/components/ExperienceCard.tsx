@@ -11,7 +11,6 @@ interface Labels {
   achievements: string;
   industry: string;
   employment: string;
-  details: string;
 }
 
 interface ExperienceCardProps {
@@ -193,30 +192,11 @@ export default function ExperienceCard({
             </div>
           )}
 
-          {/* Responsibilities + work items — folded by default. The long
-              per-engagement bullet lists were the page's heaviest text walls;
-              a native <details> keeps them one tap away with zero JS. */}
+          {/* Responsibilities + work items — always visible (previously folded
+              behind a native <details>; the toggle was removed per request so
+              the duties read without an extra click). */}
           {(e.responsibilities.length > 0 || e.workItems.length > 0) && (
-            <details className="group max-w-3xl">
-              <summary className="inline-flex cursor-pointer list-none items-center gap-2 text-base font-medium text-[color:var(--color-accent)] [&::-webkit-details-marker]:hidden">
-                <svg
-                  aria-hidden
-                  viewBox="0 0 12 12"
-                  className="h-3 w-3 shrink-0 transition-transform group-open:rotate-90"
-                >
-                  <path
-                    d="M4 2l4 4-4 4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                {labels.details}
-              </summary>
-
-              <div className="space-y-10 pt-10">
+            <div className="max-w-3xl space-y-10">
                 {e.responsibilities.length > 0 && (
                   <div>
                     <p className={SECTION_LABEL_CLASS}>{labels.responsibilities}</p>
@@ -244,8 +224,7 @@ export default function ExperienceCard({
                     </ul>
                   </div>
                 )}
-              </div>
-            </details>
+            </div>
           )}
         </div>
       </div>
