@@ -7,6 +7,7 @@ import { FaEnvelope, FaGithub } from "react-icons/fa";
 import { SiX } from "react-icons/si";
 import type { FeedItem } from "@/types/articles";
 import { SourceIcon } from "@/components/icons/BrandIcons";
+import { formatRelativeTime } from "@/lib/relativeTime";
 
 /**
  * Editorial, asymmetric hero — fully static (async Server Component).
@@ -178,9 +179,14 @@ const HeroSection = async ({
                       <SourceIcon key={s} source={s} className="h-3.5 w-3.5" />
                     ))}
                   </span>
-                  <span className="line-clamp-1 text-sm font-medium leading-snug text-[color:var(--color-ink)] transition-colors group-hover:text-[color:var(--color-accent)]">
-                    {item.text}
-                    <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                  <span className="flex min-w-0 flex-col gap-0.5">
+                    <span className="line-clamp-1 text-sm font-medium leading-snug text-[color:var(--color-ink)] transition-colors group-hover:text-[color:var(--color-accent)]">
+                      {item.text}
+                      <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                    </span>
+                    <span className="num text-xs text-[color:var(--color-ink-muted)]">
+                      {formatRelativeTime(item.date, locale)}
+                    </span>
                   </span>
                 </a>
               </li>
