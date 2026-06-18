@@ -222,8 +222,7 @@
       "workItems": "業務内容",
       "achievements": "実績・成果",
       "industry": "業種",
-      "employment": "雇用形態",
-      "details": "担当業務の詳細を見る"
+      "employment": "雇用形態"
     },
     "scopePhases": {
       "req": "要件定義",

@@ -222,8 +222,7 @@
       "workItems": "Work items",
       "achievements": "Outcomes",
       "industry": "Industry",
-      "employment": "Employment",
-      "details": "View detailed responsibilities"
+      "employment": "Employment"
     },
     "scopePhases": {
       "req": "Requirements",

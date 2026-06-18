@@ -222,8 +222,7 @@
       "workItems": "工作内容",
       "achievements": "成果",
       "industry": "行业",
-      "employment": "雇佣形式",
-      "details": "查看工作详情"
+      "employment": "雇佣形式"
     },
     "scopePhases": {
       "req": "需求定义",
