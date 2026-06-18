@@ -61,9 +61,9 @@ const AboutSection = () => {
 
         {/* Capabilities — strengths chips */}
         <div className="mb-24">
-          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-4">
+          <p className="text-base font-medium text-[color:var(--color-ink-muted)] mb-4">
             {t("capabilitiesLabel")}
-          </h3>
+          </p>
           <div className="flex flex-wrap gap-2">
             {capabilities.map((c) => (
               <span key={c} className="chip">{c}</span>
@@ -73,9 +73,9 @@ const AboutSection = () => {
 
         {/* Expertise — 3 large cards */}
         <div className="mb-24">
-          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-8">
+          <p className="text-base font-medium text-[color:var(--color-ink-muted)] mb-8">
             {t("expertiseLabel")}
-          </h3>
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
             {expertise.map((e, i) => (
               <m.article
@@ -88,9 +88,9 @@ const AboutSection = () => {
                   id={e.id}
                   className="mb-5 h-8 w-8 text-[color:var(--color-accent)]"
                 />
-                <h4 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
+                <h3 className="text-2xl md:text-3xl font-semibold tracking-tight mb-4">
                   {e.title}
-                </h4>
+                </h3>
                 <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
                   {e.description}
                 </p>
@@ -101,9 +101,9 @@ const AboutSection = () => {
 
         {/* Specialization fields — academic focus areas */}
         <div className="mb-24 max-w-3xl">
-          <h3 className="text-base font-medium text-[color:var(--color-ink-muted)] mb-6">
+          <p className="text-base font-medium text-[color:var(--color-ink-muted)] mb-6">
             {t("specialization")}
-          </h3>
+          </p>
           <ul className="space-y-3">
             {fields.map((f, i) => (
               <li

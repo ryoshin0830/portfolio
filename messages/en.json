@@ -9,6 +9,8 @@
     "skills": "Skills",
     "projects": "Projects",
     "blog": "Activity",
+    "contact": "Contact",
+    "skipToContent": "Skip to content",
     "more": "More",
     "scrollToNext": "Next Section:",
     "scrollToPrevious": "Previous Section:",
@@ -740,7 +742,7 @@
       "chinese": "Chinese",
       "chineseLevel": "Native Speaker (Beijing)",
       "english": "English",
-      "englishLevel": "CET Level 4, Academic Writing Level"
+      "englishLevel": "Academic writing & conference presentation level (CET Level 4)"
     },
     "certifications": {
       "title": "Certifications",
@@ -849,7 +851,7 @@
     "empty": "Nothing to show."
   },
   "metadata": {
-    "title": "LIANG ZHEN (RYO SHIN) | Engineer & Researcher",
+    "title": "LIANG ZHEN (RYO SHIN) | ML Engineer & Researcher",
     "description": "Research. Build. Ship. All through language. ML engineer and researcher with a PhD from Kyoto University, working across LLM, ASR and LangGraph in medical, educational and language-processing domains.",
     "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo",
     "author": "LIANG ZHEN (RYO SHIN)",
@@ -907,6 +909,7 @@
     "yearToPresent": "{year}-Present"
   },
   "heroCategories": {
+    "contact": "Contact",
     "messaging": "Messaging",
     "professional": "Development",
     "social": "Social"

@@ -50,16 +50,18 @@ export default async function Home({
   return (
     <main>
       <HeroSection />
-      <LatestWritingSection
-        latestArticles={latestArticles}
-        latestPosts={latestPosts}
-      />
-      <HighlightsStrip />
+      {/* 自己紹介(about)→数字で見る成果(highlights)→経歴…と、初見でも文脈が
+          積み上がる物語順。発信(LatestWriting/WritingFeed)はページ後段に集約する。 */}
       <AboutSection />
+      <HighlightsStrip />
       <ExperienceSection />
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
+      <LatestWritingSection
+        latestArticles={latestArticles}
+        latestPosts={latestPosts}
+      />
       <WritingFeed items={feed} />
     </main>
   );

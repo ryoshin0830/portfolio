@@ -16,7 +16,7 @@ import { SiX } from "react-icons/si";
  *   fact list (current role / degree / primary contacts).
  * - The full 12-icon SocialLinks live in the ContactModal — the #contact hash
  *   opens it (plain anchor keeps this a Server Component);
- *   the latest-writing feed moved to LatestWritingSection just below.
+ *   the latest-writing feed lives in LatestWritingSection toward the page foot.
  * - CTA is a plain anchor: CSS scroll-behavior handles smooth scrolling and
  *   the prefers-reduced-motion reset in globals.css turns it off.
  */
@@ -59,7 +59,7 @@ const HeroSection = async () => {
       id="hero"
       className="relative flex min-h-svh flex-col justify-center bg-[color:var(--color-bg)] gutter-x pb-16 pt-28"
     >
-      <div className="fade-up grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
+      <div className="grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
         {/* Identity column */}
         <div className="lg:col-span-8">
           <p className="meta mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">

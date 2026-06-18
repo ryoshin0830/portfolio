@@ -24,9 +24,17 @@ interface Platform {
   icon?: React.ElementType;
   iconPath?: string;
   priority: Record<Locale, number>;
-  category: "messaging" | "professional" | "social";
+  category: "contact" | "messaging" | "professional" | "social";
   qrCode?: string;
 }
+
+// 円形アイコンボタンの共通スタイル。hover で微小に持ち上げ、active で軽く沈める
+// （prefers-reduced-motion 時は globals.css のリセットで transform/transition が無効化）。
+const CIRCLE_BASE =
+  "inline-flex items-center justify-center w-11 h-11 rounded-full border transition hover:-translate-y-0.5 active:scale-95";
+const CIRCLE_DEFAULT = `${CIRCLE_BASE} bg-[color:var(--color-bg)] border-[color:var(--color-rule-soft)] text-[color:var(--color-ink)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] hover:bg-[color:var(--color-bg-soft)]`;
+// メールは第一想起の連絡導線なので accent 塗りで明確に格上げする。
+const CIRCLE_EMAIL = `${CIRCLE_BASE} bg-[color:var(--color-accent)] border-transparent text-white hover:opacity-90`;
 
 /**
  * All contact methods as a compact, centered, wrapped row of icon circles.
@@ -63,7 +71,7 @@ export default function SocialLinks() {
       href: `mailto:${tEmail("address")}`,
       icon: FaEnvelope,
       priority: { ja: 10, en: 10, zh: 10 },
-      category: "professional",
+      category: "contact",
     },
     {
       id: "github",
@@ -158,7 +166,7 @@ export default function SocialLinks() {
   ];
 
   // Grouped by category (fixed order), each group ordered by locale priority.
-  const CATEGORY_ORDER = ["professional", "social", "messaging"] as const;
+  const CATEGORY_ORDER = ["contact", "professional", "social", "messaging"] as const;
   const groups = CATEGORY_ORDER.map((category) => ({
     category,
     label: tCategories(category),
@@ -245,7 +253,7 @@ export default function SocialLinks() {
           <button
             type="button"
             onClick={(e) => (showQR ? closeQR() : openQR(p.id, e.currentTarget))}
-            className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
+            className={CIRCLE_DEFAULT}
             aria-label={p.name}
             aria-haspopup="dialog"
             aria-expanded={showQR}
@@ -306,7 +314,7 @@ export default function SocialLinks() {
         href={p.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
-        className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[color:var(--color-bg)] border border-[color:var(--color-rule-soft)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)] text-[color:var(--color-ink)] transition-colors"
+        className={p.id === "email" ? CIRCLE_EMAIL : CIRCLE_DEFAULT}
         aria-label={p.name}
       >
         {renderIcon()}
