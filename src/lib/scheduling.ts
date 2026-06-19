@@ -33,10 +33,10 @@ export const DEFAULT_CONFIG: SchedulingConfig = {
   timezone: process.env.SCHEDULING_TIMEZONE || "Asia/Tokyo",
   utcOffset: process.env.SCHEDULING_UTC_OFFSET || "+09:00",
   startHour: Number(process.env.SCHEDULING_START_HOUR ?? 9),
-  // 夜も受け付ける（24 = 深夜0時まで。最終枠は 23:30–24:00）。
+  // 夜も受け付ける（24 = 深夜0時まで。既定の最終枠は 23:00–24:00）。
   endHour: Number(process.env.SCHEDULING_END_HOUR ?? 24),
   // 既定の会議時間（要望で長さ指定が無いときのフォールバック）。
-  slotMinutes: Number(process.env.SCHEDULING_SLOT_MINUTES ?? 30),
+  slotMinutes: Number(process.env.SCHEDULING_SLOT_MINUTES ?? 60),
   leadMinutes: Number(process.env.SCHEDULING_LEAD_MINUTES ?? 120),
   travelPaddingBeforeMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_BEFORE_MINUTES ?? 60),
   travelPaddingAfterMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_AFTER_MINUTES ?? 60),

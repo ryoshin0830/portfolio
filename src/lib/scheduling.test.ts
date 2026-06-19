@@ -30,7 +30,7 @@ function cfg(overrides: Partial<SchedulingConfig> = {}): SchedulingConfig {
     utcOffset: "+09:00",
     startHour: 9,
     endHour: 24,
-    slotMinutes: 30,
+    slotMinutes: 60,
     leadMinutes: 120,
     travelPaddingBeforeMinutes: 60,
     travelPaddingAfterMinutes: 60,
@@ -74,24 +74,24 @@ describe("isValidDateString", () => {
 });
 
 describe("computeOpenSlots — 基本", () => {
-  it("予定無しなら営業時間ぶんの枠を全部返す（10-12時, 30分）", () => {
+  it("予定無しなら営業時間ぶんの60分枠を全部返す（10-12時）", () => {
     const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
-    expect(labels(slots)).toEqual(["10:00", "10:30", "11:00", "11:30"]);
+    expect(labels(slots)).toEqual(["10:00", "11:00"]);
     expect(slots[0].start).toBe("2026-06-25T10:00:00+09:00");
-    expect(slots[0].end).toBe("2026-06-25T10:30:00+09:00");
+    expect(slots[0].end).toBe("2026-06-25T11:00:00+09:00");
   });
 
   it("busy と重なる枠だけ除外（半開区間: 端の一致は重ならない）", () => {
     const busy = [{ start: "2026-06-25T10:30:00+09:00", end: "2026-06-25T11:00:00+09:00" }];
     const slots = computeOpenSlots("2026-06-25", busy, cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
-    // 10:00-10:30(端一致で残る) / 11:00-11:30 / 11:30-12:00、10:30-11:00 のみ消える
-    expect(labels(slots)).toEqual(["10:00", "11:00", "11:30"]);
+    // 10:00-11:00 は重なり、11:00-12:00 は端一致で残る
+    expect(labels(slots)).toEqual(["11:00"]);
   });
 
   it("枠をまたぐ busy は重なる全枠を除外", () => {
     const busy = [{ start: "2026-06-25T10:15:00+09:00", end: "2026-06-25T11:15:00+09:00" }];
     const slots = computeOpenSlots("2026-06-25", busy, cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
-    expect(labels(slots)).toEqual(["11:30"]);
+    expect(labels(slots)).toEqual([]);
   });
 
   it("リードタイム内（now+lead 未満）の枠を除外", () => {
@@ -110,17 +110,15 @@ describe("computeOpenSlots — 週末", () => {
 
   it("excludeWeekends=false なら土曜も枠を返す", () => {
     const slots = computeOpenSlots("2026-06-27", [], cfg({ startHour: 10, endHour: 11 }), FAR_PAST);
-    expect(labels(slots)).toEqual(["10:00", "10:30"]);
+    expect(labels(slots)).toEqual(["10:00"]);
   });
 });
 
 describe("computeOpenSlots — 可変長(duration)", () => {
-  it("durationMinutes=60 は 60分枠を 30分刻みで重ねて返す", () => {
-    const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST, {
-      durationMinutes: 60,
-    });
-    // 10:00-11:00, 10:30-11:30, 11:00-12:00（11:30開始は12:00超で不可）
-    expect(labels(slots)).toEqual(["10:00", "10:30", "11:00"]);
+  it("既定では 60分枠を60分刻みで返す", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
+    // 10:00-11:00, 11:00-12:00
+    expect(labels(slots)).toEqual(["10:00", "11:00"]);
     expect(slots[0].end).toBe("2026-06-25T11:00:00+09:00");
     slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBe(60 * 60_000));
   });
@@ -138,12 +136,12 @@ describe("computeOpenSlots — 時間帯(partOfDay)", () => {
     const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "morning" });
     expect(slots.every((s) => Number(s.label.slice(0, 2)) < 12)).toBe(true);
     expect(labels(slots)[0]).toBe("09:00");
-    expect(labels(slots).at(-1)).toBe("11:30");
+    expect(labels(slots).at(-1)).toBe("11:00");
   });
   it("afternoon は 12:00〜16:59 開始", () => {
     const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "afternoon" });
     expect(labels(slots)[0]).toBe("12:00");
-    expect(labels(slots).at(-1)).toBe("16:30");
+    expect(labels(slots).at(-1)).toBe("16:00");
   });
   it("evening は 17:00 以降", () => {
     const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "evening" });
@@ -153,11 +151,11 @@ describe("computeOpenSlots — 時間帯(partOfDay)", () => {
 });
 
 describe("computeOpenSlots — 深夜0時跨ぎ（endHour=24）", () => {
-  it("最終枠は 23:30 開始で終了は翌日 00:00（月跨ぎも正しい）", () => {
+  it("最終枠は 23:00 開始で終了は翌日 00:00（月跨ぎも正しい）", () => {
     const slots = computeOpenSlots("2026-06-30", [], cfg({ startHour: 23, endHour: 24 }), FAR_PAST);
-    expect(labels(slots)).toEqual(["23:00", "23:30"]);
+    expect(labels(slots)).toEqual(["23:00"]);
     const lastSlot = slots.at(-1)!;
-    expect(lastSlot.start).toBe("2026-06-30T23:30:00+09:00");
+    expect(lastSlot.start).toBe("2026-06-30T23:00:00+09:00");
     // 6/30 の翌日は 7/1（月跨ぎ）
     expect(lastSlot.end).toBe("2026-07-01T00:00:00+09:00");
   });
@@ -174,12 +172,10 @@ describe("findSlotsInRange", () => {
       now,
     );
     expect(mockFetchBusy).toHaveBeenCalledTimes(1);
-    // 月・火の 10:00/10:30 が並ぶ（日付は start に出る）
+    // 月・火の 10:00 が並ぶ（日付は start に出る）
     expect(res.slots.map((s) => s.start)).toEqual([
       "2026-06-22T10:00:00+09:00",
-      "2026-06-22T10:30:00+09:00",
       "2026-06-23T10:00:00+09:00",
-      "2026-06-23T10:30:00+09:00",
     ]);
   });
 
@@ -194,13 +190,9 @@ describe("findSlotsInRange", () => {
     );
     expect(labels(res.slots)).toEqual([
       "10:00",
-      "10:30",
       "11:00",
-      "11:30",
       "10:00",
-      "10:30",
       "11:00",
-      "11:30",
     ]);
   });
 
@@ -215,7 +207,7 @@ describe("findSlotsInRange", () => {
       now,
     );
     expect(res.busy).toEqual(busy);
-    expect(labels(res.slots)).toEqual(["10:00", "11:00", "11:30"]);
+    expect(labels(res.slots)).toEqual(["11:00"]);
   });
 
   it("移動が必要そうな予定は前後のパディング時間も除外する", async () => {
@@ -239,7 +231,7 @@ describe("findSlotsInRange", () => {
       cfg({ startHour: 9, endHour: 12 }),
       now,
     );
-    expect(labels(res.slots)).toEqual(["09:00"]);
+    expect(labels(res.slots)).toEqual([]);
     expect(res.busy).toEqual([
       { start: "2026-06-22T09:30:00+09:00", end: "2026-06-22T12:00:00+09:00" },
     ]);
@@ -266,7 +258,7 @@ describe("findSlotsInRange", () => {
       now,
     );
     expect(res.busy).toEqual(busy);
-    expect(labels(res.slots)).toEqual(["09:00", "09:30", "10:00", "11:00", "11:30"]);
+    expect(labels(res.slots)).toEqual(["09:00", "11:00"]);
   });
 
   it("範囲を [今日, 今日+horizon] にクランプ（過去開始は今日に）", async () => {
