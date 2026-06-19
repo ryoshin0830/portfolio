@@ -162,8 +162,6 @@ describe("findSlotsInRange", () => {
       "2026-06-23",
       cfg({ startHour: 10, endHour: 11 }),
       now,
-      {},
-      10,
     );
     expect(mockFetchBusy).toHaveBeenCalledTimes(1);
     // 月・火の 10:00/10:30 が並ぶ（日付は start に出る）
@@ -175,17 +173,45 @@ describe("findSlotsInRange", () => {
     ]);
   });
 
-  it("limit で打ち切る", async () => {
+  it("空き枠は代表サンプルではなく全件返す", async () => {
     mockFetchBusy.mockResolvedValue([]);
     const now = new Date("2026-06-22T00:00:00+09:00");
-    const res = await findSlotsInRange("2026-06-22", "2026-06-30", cfg(), now, {}, 3);
-    expect(res.slots).toHaveLength(3);
+    const res = await findSlotsInRange(
+      "2026-06-22",
+      "2026-06-23",
+      cfg({ startHour: 10, endHour: 12 }),
+      now,
+    );
+    expect(labels(res.slots)).toEqual([
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+      "10:00",
+      "10:30",
+      "11:00",
+      "11:30",
+    ]);
+  });
+
+  it("LLM の判断材料として busy 時間帯も返す（タイトル等は freebusy 由来で含まない）", async () => {
+    const busy = [{ start: "2026-06-22T10:30:00+09:00", end: "2026-06-22T11:00:00+09:00" }];
+    mockFetchBusy.mockResolvedValue(busy);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange(
+      "2026-06-22",
+      "2026-06-22",
+      cfg({ startHour: 10, endHour: 12 }),
+      now,
+    );
+    expect(res.busy).toEqual(busy);
+    expect(labels(res.slots)).toEqual(["10:00", "11:00", "11:30"]);
   });
 
   it("範囲を [今日, 今日+horizon] にクランプ（過去開始は今日に）", async () => {
     mockFetchBusy.mockResolvedValue([]);
     const now = new Date("2026-06-22T08:00:00+09:00");
-    await findSlotsInRange("2026-01-01", "2026-06-22", cfg(), now, {}, 5);
+    await findSlotsInRange("2026-01-01", "2026-06-22", cfg(), now);
     // fetchBusy の timeMin は今日(6/22)の0:00であって過去日ではない
     const [timeMin] = mockFetchBusy.mock.calls[0];
     expect(timeMin).toBe("2026-06-22T00:00:00+09:00");
