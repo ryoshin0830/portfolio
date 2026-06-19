@@ -1,6 +1,7 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import {
   LuArrowDown as ArrowDown,
+  LuArrowRight as ArrowRight,
   LuArrowUpRight as ArrowUpRight,
 } from "react-icons/lu";
 import { FaEnvelope, FaGithub } from "react-icons/fa";
@@ -15,7 +16,10 @@ import { formatRelativeTime } from "@/lib/relativeTime";
  * - The kanji brand mark「梁 震」is the single fixed h1 in display mincho;
  *   the other readings live in a permanent small meta line (no rotation,
  *   no timers, no CLS reservations, stable LCP).
- * - Left column: identity + tagline + CTA. Right column: a bottom-aligned
+ * - Left column: identity + tagline + CTAs (primary → #about so the visitor
+ *   continues the page's narrative order instead of skipping the profile;
+ *   a subordinate text link → #highlights stays as a shortcut to the numbers).
+ *   Right column: a bottom-aligned
  *   fact list (current role / degree / primary contacts).
  * - The full 12-icon SocialLinks live in the ContactModal — the #contact hash
  *   opens it (plain anchor keeps this a Server Component).
@@ -99,10 +103,20 @@ const HeroSection = async ({
             {t("subtitle")}
           </p>
 
-          <a href="#highlights" className="btn-pill">
-            {t("viewWork")}
-            <ArrowDown size={16} aria-hidden />
-          </a>
+          {/* プライマリは物語順の次（about=プロフィール）へ降ろす。下矢印は
+              「すぐ下の次セクションへ」を表す。成果(#highlights)へ飛ばすと
+              about を読み飛ばしてしまうため、それは控えめなセカンダリの
+              テキストリンク（抜け道）に降格する。 */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+            <a href="#about" className="btn-pill">
+              {t("learnMore")}
+              <ArrowDown size={16} aria-hidden />
+            </a>
+            <a href="#highlights" className="link-accent">
+              {t("viewWork")}
+              <ArrowRight size={16} aria-hidden />
+            </a>
+          </div>
         </div>
 
         {/* Fact column — bottom-aligned against the identity block */}
