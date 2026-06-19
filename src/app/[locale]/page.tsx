@@ -5,6 +5,7 @@ import ExperienceSection from "@/components/ExperienceSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ResearchSection from "@/components/ResearchSection";
 import SkillsSection from "@/components/SkillsSection";
+import SchedulingSection from "@/components/SchedulingSection";
 import WritingFeed from "@/components/WritingFeed";
 import { setRequestLocale } from "next-intl/server";
 import { getArticles } from "@/lib/articles";
@@ -58,6 +59,7 @@ export default async function Home({
       <ProjectsSection />
       <ResearchSection />
       <SkillsSection />
+      <SchedulingSection />
       <WritingFeed items={feed} />
     </main>
   );

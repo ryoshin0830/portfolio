@@ -17,6 +17,7 @@ export const SECTION_IDS = [
   "projects",
   "research",
   "skills",
+  "scheduling",
   "blog",
 ] as const;
 

@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['react-icons'],
   },
+  // Mastra / googleapis / google-auth-library は Node ネイティブ依存を持つため、
+  // Next のバンドラに巻き込ませず外部パッケージとして扱う（公式要件）。
+  serverExternalPackages: [
+    '@mastra/core',
+    '@mastra/ai-sdk',
+    '@googleapis/calendar',
+    'google-auth-library',
+  ],
   redirects: async () =>
     SECTION_REDIRECTS.map((section) => ({
       source: `/:locale(ja|en|zh)/${section}`,
