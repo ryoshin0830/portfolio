@@ -91,13 +91,13 @@ export default function SchedulingChat() {
                   initial={{ opacity: 0, y: 15, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className={isUser ? "self-end" : "self-start"}
+                  className={`w-full flex ${isUser ? "justify-end" : "justify-start"}`}
                 >
                   <div
                     className={
                       isUser
-                        ? "ml-auto max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-3.5 text-[0.95rem] leading-relaxed text-white shadow-md shadow-[color:var(--color-accent)]/20"
-                        : "max-w-[90%] sm:max-w-[80%] rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/80 px-5 py-3.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] shadow-sm backdrop-blur-md dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg-soft)]/80 [&>*]:m-0 [&>*+*]:mt-3 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-none [&_ul]:pl-0"
+                        ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-3.5 text-[0.95rem] leading-relaxed text-white shadow-md shadow-[color:var(--color-accent)]/20"
+                        : "max-w-[90%] sm:max-w-[95%] has-[ul]:w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/80 px-5 py-3.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] shadow-sm backdrop-blur-md dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg-soft)]/80 [&>*]:m-0 [&>*+*]:mt-3 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-none [&_ul]:pl-0"
                     }
                   >
                     {isUser ? text : (
@@ -106,7 +106,7 @@ export default function SchedulingChat() {
                           ul: function MarkdownUl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="my-3 grid grid-cols-1 sm:grid-cols-2 gap-2 p-0 list-none" {...props}>
+                                <ul className="my-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
