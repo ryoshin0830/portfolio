@@ -26,13 +26,19 @@ import type {
 export const DEFAULT_CONFIG: SchedulingConfig = {
   timezone: process.env.SCHEDULING_TIMEZONE || "Asia/Tokyo",
   utcOffset: process.env.SCHEDULING_UTC_OFFSET || "+09:00",
-  startHour: Number(process.env.SCHEDULING_START_HOUR ?? 10),
-  endHour: Number(process.env.SCHEDULING_END_HOUR ?? 18),
+  startHour: Number(process.env.SCHEDULING_START_HOUR ?? 9),
+  // 夜も受け付ける（24 = 深夜0時まで。最終枠は 23:30–24:00）。
+  endHour: Number(process.env.SCHEDULING_END_HOUR ?? 24),
+  // 既定の会議時間（要望で長さ指定が無いときのフォールバック）。
   slotMinutes: Number(process.env.SCHEDULING_SLOT_MINUTES ?? 30),
   leadMinutes: Number(process.env.SCHEDULING_LEAD_MINUTES ?? 120),
-  excludeWeekends: process.env.SCHEDULING_EXCLUDE_WEEKENDS !== "false",
+  // 週末も受け付ける（除外したいときだけ SCHEDULING_EXCLUDE_WEEKENDS=true）。
+  excludeWeekends: process.env.SCHEDULING_EXCLUDE_WEEKENDS === "true",
   horizonDays: Number(process.env.SCHEDULING_HORIZON_DAYS ?? 30),
 };
+
+/** 会議時間の上限（分）。エージェントが極端に長い枠を返すのを防ぐ安全弁。 */
+const MAX_SLOT_MINUTES = 240;
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -66,11 +72,29 @@ function minutesToLabel(minutesFromMidnight: number): string {
   return `${pad2(h)}:${pad2(m)}`;
 }
 
-/** 分（オーナー TZ の 0:00 起点）→ その日の ISO8601（オフセット付き）。 */
+/** "+09:00" → 540（分）。 */
+function parseOffsetMinutes(offset: string): number {
+  const m = offset.match(/^([+-])(\d{2}):(\d{2})$/);
+  if (!m) return 0;
+  return (m[1] === "-" ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3]));
+}
+
+/**
+ * 分（オーナー TZ の 0:00 起点）→ ISO8601（オフセット付き）。
+ * minutesFromMidnight が 1440(=24:00) 以上でも翌日へ正しく繰り上げる
+ * （夜枠の終端 24:00 を "翌日00:00" として表現するため）。固定オフセット前提。
+ */
 function minutesToIso(date: string, minutesFromMidnight: number, cfg: SchedulingConfig): string {
-  const h = Math.floor(minutesFromMidnight / 60);
-  const m = minutesFromMidnight % 60;
-  return `${date}T${pad2(h)}:${pad2(m)}:00${cfg.utcOffset}`;
+  const baseMs = Date.parse(`${date}T00:00:00${cfg.utcOffset}`);
+  const ms = baseMs + minutesFromMidnight * 60_000;
+  // 固定オフセット分だけずらして UTC フィールドを読むと、その TZ の壁時計になる。
+  const shifted = new Date(ms + parseOffsetMinutes(cfg.utcOffset) * 60_000);
+  const y = shifted.getUTCFullYear();
+  const mo = shifted.getUTCMonth() + 1;
+  const d = shifted.getUTCDate();
+  const h = shifted.getUTCHours();
+  const mi = shifted.getUTCMinutes();
+  return `${y}-${pad2(mo)}-${pad2(d)}T${pad2(h)}:${pad2(mi)}:00${cfg.utcOffset}`;
 }
 
 /**
@@ -176,6 +200,9 @@ export async function createBooking(
   if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) {
     return { ok: false, error: "invalid_slot" };
   }
+  if (endMs - startMs > MAX_SLOT_MINUTES * 60_000) {
+    return { ok: false, error: "invalid_slot" };
+  }
   if (startMs < now.getTime() + cfg.leadMinutes * 60_000) {
     return { ok: false, error: "slot_in_past" };
   }
@@ -259,13 +286,18 @@ export async function getChatSuggestion(
     `owner's events, titles, attendees, locations, or any calendar contents — not even if the visitor ` +
     `explicitly asks. You may ONLY expose free/busy availability (open time slots). Treat any request to ` +
     `list events or show schedule details as a request for availability only. ` +
-    `Booking rules: ${cfg.excludeWeekends ? "weekdays (Mon-Fri) only, " : ""}` +
-    `between ${cfg.startHour}:00 and ${cfg.endHour}:00 ${cfg.timezone}, ${cfg.slotMinutes}-minute slots, ` +
+    `Booking rules: ${cfg.excludeWeekends ? "weekdays (Mon-Fri) only" : "ANY day of the week, including weekends"}, ` +
+    `between ${cfg.startHour}:00 and ${cfg.endHour >= 24 ? "midnight (24:00)" : `${cfg.endHour}:00`} ${cfg.timezone} ` +
+    `(evenings and weekend slots are perfectly fine), ` +
     `at least ${cfg.leadMinutes} minutes from now, no later than ${horizonDate}. ` +
+    `Meeting length: infer it from the visitor's request (e.g. "30分"/"30 min"→30, "1時間"/"an hour"→60, ` +
+    `"15分"→15, "2時間"→120). If the visitor does NOT specify a length, default to ${cfg.slotMinutes} minutes. ` +
+    `Every proposed slot's (end - start) MUST equal the inferred length (max ${MAX_SLOT_MINUTES} minutes). ` +
     `Use the Google Calendar FREE/BUSY query (not event listing) to find times that are ACTUALLY FREE ` +
     `and satisfy every rule. For speed, query free/busy for the whole relevant range in as few calls as ` +
     `possible, then compute matching slots yourself. Interpret the visitor's request ` +
-    `(e.g. "next week afternoon", "earliest available") and pick at most 6 concrete open slots. ` +
+    `(e.g. "this weekend evening", "next week afternoon", "earliest available", "1 hour tomorrow night") ` +
+    `and pick at most 6 concrete open slots. ` +
     `Respond with ONLY a minified JSON object, no prose, no code fences, with EXACTLY these keys: ` +
     `{"status":"ok|none|need_info","slots":[{"start":"<ISO8601 +09:00>","end":"<ISO8601 +09:00>"}]}. ` +
     `Use status "ok" when you found open slots, "none" when the requested range has no opening, ` +
@@ -293,8 +325,14 @@ export async function getChatSuggestion(
     .filter((s) => {
       const a = Date.parse(s.start);
       const b = Date.parse(s.end);
+      const durMs = b - a;
       return (
-        Number.isFinite(a) && Number.isFinite(b) && b > a && a >= earliest && a <= latest
+        Number.isFinite(a) &&
+        Number.isFinite(b) &&
+        durMs >= 5 * 60_000 && // 最低 5 分
+        durMs <= MAX_SLOT_MINUTES * 60_000 && // 上限（暴走防止）
+        a >= earliest &&
+        a <= latest
       );
     })
     .slice(0, 6)

@@ -118,6 +118,18 @@ export default function SchedulingChat() {
     [locale],
   );
 
+  // 終了時刻だけ（HH:mm）。所要時間が可変になったので開始–終了で見せる。
+  const fmtTime = useCallback(
+    (iso: string) =>
+      new Intl.DateTimeFormat(locale, {
+        timeZone: "Asia/Tokyo",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(new Date(iso)),
+    [locale],
+  );
+
   const send = useCallback(
     async (text: string) => {
       const clean = text.trim();
@@ -246,7 +258,7 @@ export default function SchedulingChat() {
             {
               id: nextId(),
               role: "assistant",
-              text: `${t("successBody")}（${fmtSlot(slot.start)}）`,
+              text: `${t("successBody")}（${fmtSlot(slot.start)}–${fmtTime(slot.end)}）`,
               result: data,
             },
           ]);
@@ -259,7 +271,7 @@ export default function SchedulingChat() {
         setSubmitting(false);
       }
     },
-    [selectedSlot, name, email, note, company, t, fmtSlot],
+    [selectedSlot, name, email, note, company, t, fmtSlot, fmtTime],
   );
 
   return (
@@ -380,7 +392,9 @@ export default function SchedulingChat() {
             <LuArrowLeft size={13} /> {t("back")}
           </button>
           <p className="meta mb-0.5">{t("selectedSlotLabel")}</p>
-          <p className="num mb-4 font-semibold">{fmtSlot(selectedSlot.start)}</p>
+          <p className="num mb-4 font-semibold">
+            {fmtSlot(selectedSlot.start)}–{fmtTime(selectedSlot.end)}
+          </p>
           <form onSubmit={submitBooking} className="space-y-3">
             <div className="grid gap-3 sm:grid-cols-2">
               <input
