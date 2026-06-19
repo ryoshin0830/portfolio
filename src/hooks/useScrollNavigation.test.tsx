@@ -4,6 +4,8 @@ import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 import { SECTION_IDS } from "@/lib/sections";
 import { IntersectionObserverStub } from "../../vitest.setup";
 
+const SECTION_HASH_IDS = SECTION_IDS.filter((id) => id !== "hero");
+
 // usePathname / useParams を可変モックにする。Next.js App Router は
 // history.replaceState をパッチしていて scroll-spy の URL 書き換えでも
 // usePathname() が更新されるため、その挙動を navState + rerender で再現する。
@@ -30,6 +32,10 @@ function fireIntersection(sectionId: string) {
   act(() => {
     observer!.callback([entry], observer as unknown as IntersectionObserver);
   });
+}
+
+function competingSectionFor(sectionId: string) {
+  return SECTION_IDS.find((id) => id !== sectionId) ?? "hero";
 }
 
 describe("useScrollNavigation", () => {
@@ -70,9 +76,53 @@ describe("useScrollNavigation", () => {
     );
   });
 
-  it("初回マウント時、URL ハッシュのセクションへ補正スクロールする", () => {
+  it.each(SECTION_HASH_IDS)(
+    "初回マウント時、URL ハッシュ #%s のセクションへ補正スクロールする",
+    (sectionId) => {
+      navState.pathname = "/ja";
+      window.history.replaceState({}, "", `/ja#${sectionId}`);
+
+      const { result } = renderHook(() => useScrollNavigation());
+
+      expect(result.current.currentSection).toBe(sectionId);
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+
+      expect(scrollIntoViewSpy).toHaveBeenCalledTimes(1);
+      expect(scrollIntoViewSpy.mock.instances[0]).toBe(
+        document.getElementById(sectionId)
+      );
+      expect(window.location.pathname).toBe(`/ja/${sectionId}`);
+      expect(window.location.hash).toBe("");
+    }
+  );
+
+  it.each(SECTION_HASH_IDS)(
+    "初回ハッシュ #%s の補正中は scroll-spy が別セクションを現在地にしない",
+    (sectionId) => {
+      navState.pathname = "/ja";
+      window.history.replaceState({}, "", `/ja#${sectionId}`);
+
+      const { result } = renderHook(() => useScrollNavigation());
+      const competingSection = competingSectionFor(sectionId);
+
+      fireIntersection(competingSection);
+      expect(result.current.currentSection).toBe(sectionId);
+      expect(window.location.pathname).toBe("/ja");
+      expect(window.location.hash).toBe(`#${sectionId}`);
+
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+      expect(result.current.currentSection).toBe(sectionId);
+      expect(window.location.pathname).toBe(`/ja/${sectionId}`);
+    }
+  );
+
+  it("初回 URL で path と hash が異なる場合は hash を優先する", () => {
     navState.pathname = "/ja";
-    window.history.replaceState({}, "", "/ja#scheduling");
+    window.history.replaceState({}, "", "/ja/skills#scheduling");
 
     const { result } = renderHook(() => useScrollNavigation());
 
@@ -87,24 +137,6 @@ describe("useScrollNavigation", () => {
     );
     expect(window.location.pathname).toBe("/ja/scheduling");
     expect(window.location.hash).toBe("");
-  });
-
-  it("初回ハッシュ補正中は scroll-spy が手前のセクションを現在地にしない", () => {
-    navState.pathname = "/ja";
-    window.history.replaceState({}, "", "/ja#scheduling");
-
-    const { result } = renderHook(() => useScrollNavigation());
-
-    fireIntersection("skills");
-    expect(result.current.currentSection).toBe("scheduling");
-    expect(window.location.pathname).toBe("/ja");
-    expect(window.location.hash).toBe("#scheduling");
-
-    act(() => {
-      vi.advanceTimersByTime(150);
-    });
-    expect(result.current.currentSection).toBe("scheduling");
-    expect(window.location.pathname).toBe("/ja/scheduling");
   });
 
   it("scroll-spy が URL を /{locale}/{section} に書き換える", () => {
@@ -241,29 +273,32 @@ describe("useScrollNavigation", () => {
     );
   });
 
-  it("セクションへの hashchange は通常ナビと同じく URL と現在地を確定する", async () => {
-    const { result } = renderHook(() => useScrollNavigation());
-    act(() => {
-      vi.advanceTimersByTime(200);
-    });
-    scrollIntoViewSpy.mockClear();
+  it.each(SECTION_HASH_IDS)(
+    "セクション #%s への hashchange は通常ナビと同じく URL と現在地を確定する",
+    async (sectionId) => {
+      const { result } = renderHook(() => useScrollNavigation());
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      scrollIntoViewSpy.mockClear();
 
-    await act(async () => {
-      window.history.replaceState({}, "", "/ja#scheduling");
-      window.dispatchEvent(new HashChangeEvent("hashchange"));
-    });
+      await act(async () => {
+        window.history.replaceState({}, "", `/ja#${sectionId}`);
+        window.dispatchEvent(new HashChangeEvent("hashchange"));
+      });
 
-    expect(window.location.pathname).toBe("/ja/scheduling");
-    expect(window.location.hash).toBe("");
-    expect(scrollIntoViewSpy.mock.instances[0]).toBe(
-      document.getElementById("scheduling")
-    );
-    expect(result.current.currentSection).toBe("scheduling");
+      expect(window.location.pathname).toBe(`/ja/${sectionId}`);
+      expect(window.location.hash).toBe("");
+      expect(scrollIntoViewSpy.mock.instances[0]).toBe(
+        document.getElementById(sectionId)
+      );
+      expect(result.current.currentSection).toBe(sectionId);
 
-    fireIntersection("skills");
-    expect(result.current.currentSection).toBe("scheduling");
-    expect(window.location.pathname).toBe("/ja/scheduling");
-  });
+      fireIntersection(competingSectionFor(sectionId));
+      expect(result.current.currentSection).toBe(sectionId);
+      expect(window.location.pathname).toBe(`/ja/${sectionId}`);
+    }
+  );
 
   // ハッシュ駆動ダイアログ（#contact = ContactModal）は対象要素が無い。
   // ハンドラが落ちたりスクロールしたりしないこと。
