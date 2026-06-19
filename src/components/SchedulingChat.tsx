@@ -96,8 +96,8 @@ export default function SchedulingChat() {
                   <div
                     className={
                       isUser
-                        ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-3.5 text-[0.95rem] leading-relaxed text-white shadow-md shadow-[color:var(--color-accent)]/20"
-                        : "max-w-[90%] sm:max-w-[95%] has-[ul]:w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/80 px-5 py-3.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] shadow-sm backdrop-blur-md dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg-soft)]/80 [&>*]:m-0 [&>*+*]:mt-3 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-none [&_ul]:pl-0"
+                        ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-4 text-[0.95rem] leading-relaxed text-white shadow-lg shadow-[color:var(--color-accent)]/20"
+                        : "max-w-[90%] sm:max-w-[95%] has-[ul]:w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 [&>*]:m-0 [&>*+*]:mt-4 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-4 [&_ul]:list-none [&_ul]:pl-0"
                     }
                   >
                     {isUser ? text : (
@@ -106,7 +106,7 @@ export default function SchedulingChat() {
                           ul: function MarkdownUl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="my-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 p-0 list-none" {...props}>
+                                <ul className="my-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
@@ -136,16 +136,48 @@ export default function SchedulingChat() {
                               return "";
                             };
                             const rawText = extractText(children);
+
+                            const timeSlotRegex = /^(?:\d{4}\/)?(\d{1,2}\/\d{1,2})\s*\((.+?)\)\s*(\d{1,2}:\d{2})\s*[-~]\s*(\d{1,2}:\d{2})$/;
+                            const match = rawText.match(timeSlotRegex);
+
+                            if (match) {
+                              const [, date, day, start, end] = match;
+                              return (
+                                <li className="m-0 p-0 h-full" {...props}>
+                                  <button
+                                    type="button"
+                                    onClick={() => submit(rawText)}
+                                    className="group relative flex w-full h-full flex-col justify-between overflow-hidden rounded-[1.25rem] border border-[color:var(--color-rule-soft)] bg-white/60 px-5 py-4 text-left shadow-sm backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[color:var(--color-accent)]/40 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] dark:border-white/5 dark:bg-white/5 dark:hover:border-[color:var(--color-accent)]/40 dark:hover:bg-white/10 dark:hover:shadow-[0_12px_40px_-12px_rgba(255,255,255,0.05)]"
+                                  >
+                                    <div className="flex items-center justify-between w-full mb-3">
+                                      <span className="text-[0.75rem] font-bold uppercase tracking-widest text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors duration-300">
+                                        {date} <span className="opacity-70">({day})</span>
+                                      </span>
+                                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 shadow-sm">
+                                        <LuSendHorizontal size={14} className="translate-x-[1px]" />
+                                      </span>
+                                    </div>
+                                    <div className="flex items-baseline gap-1.5">
+                                      <span className="text-2xl sm:text-3xl font-light tracking-tighter text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors duration-300">{start}</span>
+                                      <span className="text-sm font-medium text-[color:var(--color-ink-muted)] px-1">-</span>
+                                      <span className="text-lg sm:text-xl font-light tracking-tight text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)]/80 transition-colors duration-300">{end}</span>
+                                    </div>
+                                    <div className="absolute -right-8 -top-8 -z-10 h-24 w-24 rounded-full bg-[color:var(--color-accent)]/10 blur-2xl transition-all duration-700 group-hover:bg-[color:var(--color-accent)]/20 group-hover:scale-150" />
+                                  </button>
+                                </li>
+                              );
+                            }
+
                             return (
                               <li className="m-0 p-0 h-full" {...props}>
                                 <button
                                   type="button"
                                   onClick={() => submit(rawText)}
-                                  className="group flex w-full h-full items-center justify-between gap-3 rounded-2xl border border-[color:var(--color-rule-soft)] bg-white px-4 py-3 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:-translate-y-[2px] hover:border-[color:var(--color-accent)] hover:shadow-lg hover:shadow-[color:var(--color-accent)]/10 active:scale-[0.98] dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg)]"
+                                  className="group flex w-full h-full items-center justify-between gap-4 rounded-[1.25rem] border border-[color:var(--color-rule-soft)] bg-white/60 px-5 py-4 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-sm backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[color:var(--color-accent)]/40 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] dark:border-[color:var(--color-rule-soft)] dark:bg-white/5 dark:hover:border-[color:var(--color-accent)]/40 dark:hover:bg-white/10 dark:hover:shadow-[0_12px_40px_-12px_rgba(255,255,255,0.05)]"
                                 >
-                                  <span>{children}</span>
-                                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-opacity group-hover:opacity-100">
-                                    <LuSendHorizontal size={14} />
+                                  <span className="leading-relaxed">{children}</span>
+                                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 shadow-sm">
+                                    <LuSendHorizontal size={14} className="translate-x-[1px]" />
                                   </span>
                                 </button>
                               </li>
