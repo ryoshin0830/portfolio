@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, createContext, useContext } from "react";
 import { useTranslations } from "next-intl";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
+
+const ListContext = createContext<"ul" | "ol">("ul");
 
 /**
  * AI ネイティブな会話型日程調整（クライアント）。
@@ -107,12 +109,31 @@ export default function SchedulingChat() {
                 {isUser ? text : (
                   <ReactMarkdown
                     components={{
-                      ul: ({ children, ...props }) => (
-                        <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
-                          {children}
-                        </ul>
-                      ),
-                      li: ({ children, ...props }) => {
+                      ul: function MarkdownUl({ children, ...props }) {
+                        return (
+                          <ListContext.Provider value="ul">
+                            <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
+                              {children}
+                            </ul>
+                          </ListContext.Provider>
+                        );
+                      },
+                      ol: function MarkdownOl({ children, ...props }) {
+                        return (
+                          <ListContext.Provider value="ol">
+                            <ol className="my-1 list-decimal pl-5" {...props}>
+                              {children}
+                            </ol>
+                          </ListContext.Provider>
+                        );
+                      },
+                      li: function MarkdownLi({ children, ...props }) {
+                        const listType = useContext(ListContext);
+
+                        if (listType === "ol") {
+                          return <li className="my-0.5" {...props}>{children}</li>;
+                        }
+
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         const extractText = (child: any): string => {
                           if (typeof child === "string" || typeof child === "number") return String(child);
