@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isHermesConfigured } from "@/lib/hermes";
+import { isGoogleConfigured } from "@/lib/google-calendar";
 import { createBooking } from "@/lib/scheduling";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 import type { BookingRequest } from "@/types/scheduling";
@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
  * 確定直前に空き状況を再検証してから Hermes に Google Calendar イベントを作らせる。
  */
 export async function POST(req: Request) {
-  if (!isHermesConfigured()) {
+  if (!isGoogleConfigured()) {
     return NextResponse.json({ ok: false, error: "not_configured" }, { status: 503 });
   }
   // 書き込みは厳しめに（5 分 5 回 / IP）。実運用では Upstash 等の外部ストアへ。

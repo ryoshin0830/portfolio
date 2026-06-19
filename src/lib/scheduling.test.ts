@@ -1,78 +1,288 @@
-import { describe, it, expect } from "vitest";
-import { computeOpenSlots, isValidDateString } from "./scheduling";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { SchedulingConfig } from "@/types/scheduling";
 
-/**
- * 空き枠算出の回帰テスト。LLM ではなくサーバー側の純関数で決定論的に計算する
- * という設計の心臓部なので、busy 重なり・過去/リードタイム・土日・営業時間境界を
- * 固定の now で検証する。
- */
+// Google Calendar 層はモック（ネットワーク無しで純粋にロジックを検証する）。
+vi.mock("@/lib/google-calendar", () => ({
+  fetchBusy: vi.fn(),
+  insertEvent: vi.fn(),
+  isGoogleConfigured: vi.fn(() => true),
+  getCalendarId: vi.fn(() => "primary"),
+}));
 
-const CFG: SchedulingConfig = {
-  timezone: "Asia/Tokyo",
-  utcOffset: "+09:00",
-  startHour: 10,
-  endHour: 12, // 10:00,10:30,11:00,11:30 の 4 枠（11:30-12:00 が最終）
-  slotMinutes: 30,
-  leadMinutes: 120,
-  excludeWeekends: true,
-  horizonDays: 30,
-};
+import { fetchBusy, insertEvent } from "@/lib/google-calendar";
+import {
+  computeOpenSlots,
+  isValidDateString,
+  findSlotsInRange,
+  createBooking,
+  ownerToday,
+} from "./scheduling";
 
-// 2026-06-25 は木曜（平日）。十分前の now でリードタイムに引っかからないようにする。
-const FAR_PAST_NOW = new Date("2026-06-20T00:00:00+09:00");
+const mockFetchBusy = vi.mocked(fetchBusy);
+const mockInsert = vi.mocked(insertEvent);
+
+/** ベース設定（テストごとに必要なら上書き）。JST 固定 +09:00。 */
+function cfg(overrides: Partial<SchedulingConfig> = {}): SchedulingConfig {
+  return {
+    timezone: "Asia/Tokyo",
+    utcOffset: "+09:00",
+    startHour: 9,
+    endHour: 24,
+    slotMinutes: 30,
+    leadMinutes: 120,
+    excludeWeekends: false,
+    horizonDays: 30,
+    ...overrides,
+  };
+}
+
+const labels = (slots: { label: string }[]) => slots.map((s) => s.label);
+// 十分過去の now（リードタイムに引っかからないように）
+const FAR_PAST = new Date("2026-06-01T00:00:00+09:00");
+
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 describe("isValidDateString", () => {
-  it("正しい日付を受理する", () => {
-    expect(isValidDateString("2026-06-25")).toBe(true);
-  });
-  it("実在しない日付を弾く", () => {
-    expect(isValidDateString("2026-02-30")).toBe(false);
-    expect(isValidDateString("2026-13-01")).toBe(false);
-  });
-  it("形式違いを弾く", () => {
-    expect(isValidDateString("2026/06/25")).toBe(false);
-    expect(isValidDateString("26-6-5")).toBe(false);
-    expect(isValidDateString("")).toBe(false);
+  it.each([
+    ["2026-06-25", true],
+    ["2026-02-28", true],
+    ["2026-02-29", false], // 2026 は非閏年
+    ["2026-02-30", false],
+    ["2026-13-01", false],
+    ["2026-00-10", false],
+    ["2026-06-31", false],
+    ["2026/06/25", false],
+    ["26-6-5", false],
+    ["2026-6-5", false],
+    ["", false],
+    ["abcd-ef-gh", false],
+  ])("%s → %s", (input, expected) => {
+    expect(isValidDateString(input)).toBe(expected);
   });
 });
 
-describe("computeOpenSlots", () => {
-  it("予定が無ければ営業時間ぶんの枠を全部返す", () => {
-    const slots = computeOpenSlots("2026-06-25", [], CFG, FAR_PAST_NOW);
-    expect(slots.map((s) => s.label)).toEqual(["10:00", "10:30", "11:00", "11:30"]);
+describe("computeOpenSlots — 基本", () => {
+  it("予定無しなら営業時間ぶんの枠を全部返す（10-12時, 30分）", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
+    expect(labels(slots)).toEqual(["10:00", "10:30", "11:00", "11:30"]);
     expect(slots[0].start).toBe("2026-06-25T10:00:00+09:00");
     expect(slots[0].end).toBe("2026-06-25T10:30:00+09:00");
   });
 
-  it("busy と重なる枠を除外する（半開区間）", () => {
-    // 10:30-11:00 をブロック → その枠だけ消える。隣接する 10:00-10:30 と 11:00-11:30 は残る。
-    const busy = [
-      { start: "2026-06-25T10:30:00+09:00", end: "2026-06-25T11:00:00+09:00" },
-    ];
-    const slots = computeOpenSlots("2026-06-25", busy, CFG, FAR_PAST_NOW);
-    expect(slots.map((s) => s.label)).toEqual(["10:00", "11:00", "11:30"]);
+  it("busy と重なる枠だけ除外（半開区間: 端の一致は重ならない）", () => {
+    const busy = [{ start: "2026-06-25T10:30:00+09:00", end: "2026-06-25T11:00:00+09:00" }];
+    const slots = computeOpenSlots("2026-06-25", busy, cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
+    // 10:00-10:30(端一致で残る) / 11:00-11:30 / 11:30-12:00、10:30-11:00 のみ消える
+    expect(labels(slots)).toEqual(["10:00", "11:00", "11:30"]);
   });
 
-  it("枠をまたぐ busy は重なる全枠を除外する", () => {
-    const busy = [
-      { start: "2026-06-25T10:15:00+09:00", end: "2026-06-25T11:15:00+09:00" },
-    ];
-    const slots = computeOpenSlots("2026-06-25", busy, CFG, FAR_PAST_NOW);
-    // 10:00-10:30, 10:30-11:00, 11:00-11:30 が重なる → 11:30 のみ残る
-    expect(slots.map((s) => s.label)).toEqual(["11:30"]);
+  it("枠をまたぐ busy は重なる全枠を除外", () => {
+    const busy = [{ start: "2026-06-25T10:15:00+09:00", end: "2026-06-25T11:15:00+09:00" }];
+    const slots = computeOpenSlots("2026-06-25", busy, cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
+    expect(labels(slots)).toEqual(["11:30"]);
   });
 
-  it("リードタイム内の枠を除外する", () => {
-    // now=当日 10:00 JST、リードタイム 120 分 → 12:00 以降のみ。営業終了 12:00 なので空。
+  it("リードタイム内（now+lead 未満）の枠を除外", () => {
+    // now=当日 10:00、lead 120分 → 12:00 以降のみ。10-12時窓なので空。
     const now = new Date("2026-06-25T10:00:00+09:00");
-    const slots = computeOpenSlots("2026-06-25", [], CFG, now);
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), now);
     expect(slots).toEqual([]);
   });
+});
 
-  it("土日は空にする", () => {
-    // 2026-06-27 は土曜
-    const slots = computeOpenSlots("2026-06-27", [], CFG, FAR_PAST_NOW);
-    expect(slots).toEqual([]);
+describe("computeOpenSlots — 週末", () => {
+  it("excludeWeekends=true なら土日は空", () => {
+    expect(computeOpenSlots("2026-06-27", [], cfg({ excludeWeekends: true }), FAR_PAST)).toEqual([]); // 土
+    expect(computeOpenSlots("2026-06-28", [], cfg({ excludeWeekends: true }), FAR_PAST)).toEqual([]); // 日
+  });
+
+  it("excludeWeekends=false なら土曜も枠を返す", () => {
+    const slots = computeOpenSlots("2026-06-27", [], cfg({ startHour: 10, endHour: 11 }), FAR_PAST);
+    expect(labels(slots)).toEqual(["10:00", "10:30"]);
+  });
+});
+
+describe("computeOpenSlots — 可変長(duration)", () => {
+  it("durationMinutes=60 は 60分枠を 30分刻みで重ねて返す", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST, {
+      durationMinutes: 60,
+    });
+    // 10:00-11:00, 10:30-11:30, 11:00-12:00（11:30開始は12:00超で不可）
+    expect(labels(slots)).toEqual(["10:00", "10:30", "11:00"]);
+    expect(slots[0].end).toBe("2026-06-25T11:00:00+09:00");
+    slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBe(60 * 60_000));
+  });
+
+  it("duration は MAX(240分) にクランプされる", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg(), FAR_PAST, { durationMinutes: 9999 });
+    expect(slots.length).toBeGreaterThan(0);
+    slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBeLessThanOrEqual(240 * 60_000));
+  });
+});
+
+describe("computeOpenSlots — 時間帯(partOfDay)", () => {
+  const base = cfg({ startHour: 9, endHour: 24 });
+  it("morning は <12:00 の開始だけ", () => {
+    const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "morning" });
+    expect(slots.every((s) => Number(s.label.slice(0, 2)) < 12)).toBe(true);
+    expect(labels(slots)[0]).toBe("09:00");
+    expect(labels(slots).at(-1)).toBe("11:30");
+  });
+  it("afternoon は 12:00〜16:59 開始", () => {
+    const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "afternoon" });
+    expect(labels(slots)[0]).toBe("12:00");
+    expect(labels(slots).at(-1)).toBe("16:30");
+  });
+  it("evening は 17:00 以降", () => {
+    const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "evening" });
+    expect(labels(slots)[0]).toBe("17:00");
+    expect(slots.every((s) => Number(s.label.slice(0, 2)) >= 17)).toBe(true);
+  });
+});
+
+describe("computeOpenSlots — 深夜0時跨ぎ（endHour=24）", () => {
+  it("最終枠は 23:30 開始で終了は翌日 00:00（月跨ぎも正しい）", () => {
+    const slots = computeOpenSlots("2026-06-30", [], cfg({ startHour: 23, endHour: 24 }), FAR_PAST);
+    expect(labels(slots)).toEqual(["23:00", "23:30"]);
+    const lastSlot = slots.at(-1)!;
+    expect(lastSlot.start).toBe("2026-06-30T23:30:00+09:00");
+    // 6/30 の翌日は 7/1（月跨ぎ）
+    expect(lastSlot.end).toBe("2026-07-01T00:00:00+09:00");
+  });
+});
+
+describe("findSlotsInRange", () => {
+  it("範囲内を1回の freebusy 取得で集計し、複数日から集める", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange(
+      "2026-06-22",
+      "2026-06-23",
+      cfg({ startHour: 10, endHour: 11 }),
+      now,
+      {},
+      10,
+    );
+    expect(mockFetchBusy).toHaveBeenCalledTimes(1);
+    // 月・火の 10:00/10:30 が並ぶ（日付は start に出る）
+    expect(res.slots.map((s) => s.start)).toEqual([
+      "2026-06-22T10:00:00+09:00",
+      "2026-06-22T10:30:00+09:00",
+      "2026-06-23T10:00:00+09:00",
+      "2026-06-23T10:30:00+09:00",
+    ]);
+  });
+
+  it("limit で打ち切る", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-30", cfg(), now, {}, 3);
+    expect(res.slots).toHaveLength(3);
+  });
+
+  it("範囲を [今日, 今日+horizon] にクランプ（過去開始は今日に）", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-22T08:00:00+09:00");
+    await findSlotsInRange("2026-01-01", "2026-06-22", cfg(), now, {}, 5);
+    // fetchBusy の timeMin は今日(6/22)の0:00であって過去日ではない
+    const [timeMin] = mockFetchBusy.mock.calls[0];
+    expect(timeMin).toBe("2026-06-22T00:00:00+09:00");
+  });
+
+  it("end < start（不正な範囲）は空＋ fetch しない", async () => {
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-25", "2026-06-23", cfg(), now);
+    expect(res.slots).toEqual([]);
+    expect(mockFetchBusy).not.toHaveBeenCalled();
+  });
+
+  it("opts(duration/partOfDay) が計算に反映される", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-22", cfg(), now, {
+      durationMinutes: 60,
+      partOfDay: "evening",
+    });
+    expect(res.slots.length).toBeGreaterThan(0);
+    res.slots.forEach((s) => {
+      expect(Date.parse(s.end) - Date.parse(s.start)).toBe(60 * 60_000);
+      expect(Number(s.label.slice(0, 2))).toBeGreaterThanOrEqual(17);
+    });
+  });
+});
+
+describe("createBooking — 入力検証（insert を呼ばない）", () => {
+  const now = new Date("2026-06-22T09:00:00+09:00");
+  const good = {
+    start: "2026-06-22T13:00:00+09:00",
+    end: "2026-06-22T13:30:00+09:00",
+    name: "山田太郎",
+    email: "yamada@example.com",
+  };
+
+  it.each([
+    ["ハニーポット", { ...good, company: "bot" }, "spam_detected"],
+    ["名前なし", { ...good, name: "  " }, "name_required"],
+    ["不正メール", { ...good, email: "nope" }, "invalid_email"],
+    ["end<=start", { ...good, end: good.start }, "invalid_slot"],
+    ["長すぎ(>240分)", { ...good, end: "2026-06-22T18:00:00+09:00" }, "invalid_slot"],
+    ["リード内", { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T10:30:00+09:00", name: "A", email: "a@b.co" }, "slot_in_past"],
+  ])("%s → %s", async (_label, req, expected) => {
+    const res = await createBooking(req, cfg(), now);
+    expect(res.ok).toBe(false);
+    expect(res.error).toBe(expected);
+    expect(mockInsert).not.toHaveBeenCalled();
+  });
+});
+
+describe("createBooking — 競合・作成・失敗", () => {
+  const now = new Date("2026-06-22T09:00:00+09:00");
+  const good = {
+    start: "2026-06-22T13:00:00+09:00",
+    end: "2026-06-22T13:30:00+09:00",
+    name: "山田太郎",
+    email: "yamada@example.com",
+    note: "相談",
+  };
+
+  it("確定直前の再チェックで競合 → slot_taken（insert しない）", async () => {
+    mockFetchBusy.mockResolvedValue([{ start: "2026-06-22T13:00:00+09:00", end: "2026-06-22T13:30:00+09:00" }]);
+    const res = await createBooking(good, cfg(), now);
+    expect(res).toEqual({ ok: false, error: "slot_taken" });
+    expect(mockInsert).not.toHaveBeenCalled();
+  });
+
+  it("空きなら insertEvent を正しい引数で1回呼び、結果を返す", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    mockInsert.mockResolvedValue({ htmlLink: "https://cal/x", meetUrl: "https://meet/y" });
+    const res = await createBooking(good, cfg(), now);
+    expect(res).toEqual({ ok: true, htmlLink: "https://cal/x", meetUrl: "https://meet/y" });
+    expect(mockInsert).toHaveBeenCalledTimes(1);
+    expect(mockInsert).toHaveBeenCalledWith({
+      summary: "Meeting with 山田太郎",
+      startIso: good.start,
+      endIso: good.end,
+      timeZone: "Asia/Tokyo",
+      attendeeEmail: good.email,
+      description: "相談",
+    });
+  });
+
+  it("insertEvent が例外 → creation_failed", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    mockInsert.mockRejectedValue(new Error("api down"));
+    const res = await createBooking(good, cfg(), now);
+    expect(res).toEqual({ ok: false, error: "creation_failed" });
+  });
+});
+
+describe("ownerToday", () => {
+  it("UTC 深夜でも JST の日付・曜日を返す（日付境界）", () => {
+    // 2026-06-21T16:00:00Z = 2026-06-22T01:00 JST(月)
+    const { date, weekday } = ownerToday(cfg(), new Date("2026-06-21T16:00:00Z"));
+    expect(date).toBe("2026-06-22");
+    expect(weekday).toBe("Monday");
   });
 });

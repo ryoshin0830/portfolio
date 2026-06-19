@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isHermesConfigured } from "@/lib/hermes";
+import { isGoogleConfigured } from "@/lib/google-calendar";
 import { getAvailability, isValidDateString } from "@/lib/scheduling";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
 
@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
  * 空き枠はサーバー側で決定論的に算出する（src/lib/scheduling.ts）。
  */
 export async function GET(req: Request) {
-  if (!isHermesConfigured()) {
+  if (!isGoogleConfigured()) {
     return NextResponse.json({ error: "not_configured" }, { status: 503 });
   }
   // 読み取りでも LLM コストがかかるので軽く絞る（1 分 20 回 / IP）。
