@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getTranslations } from "next-intl/server";
 import { isHermesConfigured } from "@/lib/hermes";
 import { getChatSuggestion } from "@/lib/scheduling";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
@@ -69,12 +70,19 @@ export async function POST(req: Request) {
       })();
 
       try {
-        const result = await getChatSuggestion(clean, locale);
+        const result = await getChatSuggestion(clean);
         finished = true;
         await heartbeat;
 
-        // ── 返答を 1 文字ずつ（typewriter）──
-        const reply = result.reply || "";
+        // ── 返答文はサーバー側テンプレで生成（エージェントの自由文は使わない）──
+        // これにより、カレンダーの中身が万一エージェント出力に混じっても露出しない。
+        const tr = await getTranslations({ locale, namespace: "scheduling" });
+        const reply =
+          result.slots.length > 0
+            ? tr("chatReplyOk")
+            : result.status === "need_info"
+              ? tr("chatReplyNeedInfo")
+              : tr("chatReplyNone");
         // Intl.Segmenter があれば書記素単位（絵文字・結合文字対応）、無ければコードポイント単位。
         const SegmenterCtor = (Intl as unknown as { Segmenter?: typeof Intl.Segmenter }).Segmenter;
         const units: string[] = SegmenterCtor

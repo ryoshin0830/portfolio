@@ -61,11 +61,20 @@ export interface ChatMessage {
   content: string;
 }
 
-/** POST /api/schedule/chat のレスポンス。AI の返答＋提案された予約枠。 */
-export interface ChatResponse {
-  /** 訪問者の言語で書かれた AI の返答メッセージ */
-  reply: string;
-  /** AI が提案した予約可能枠（クリックで予約に進む）。無ければ空配列。 */
+/**
+ * 会話日程調整のサーバー内部結果。
+ *
+ * セキュリティ上、エージェント（Hermes）の自由記述テキストは**一切ユーザーに見せない**。
+ * カレンダーの中身（予定名・参加者・詳細）が injection で漏れるのを防ぐため、エージェント
+ * からは「予約可能枠（時刻のみ）」と「状態」だけを受け取り、ユーザー向け文言はサーバーの
+ * テンプレートで生成する。
+ */
+export type ChatStatus = "ok" | "none" | "need_info";
+
+export interface ChatResult {
+  /** ok=枠あり / none=範囲内に空き無し / need_info=要望が曖昧で要確認 */
+  status: ChatStatus;
+  /** 予約可能枠（時刻のみ。予定の中身は一切含めない）。 */
   slots: Slot[];
 }
 
