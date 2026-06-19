@@ -6,6 +6,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ListContext = createContext<"ul" | "ol">("ul");
 
@@ -34,7 +35,9 @@ export default function SchedulingChat() {
 
   // 新規メッセージ／状態変化で最下部へ。
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+    }
   }, [messages, status]);
 
   const initRef = useRef(false);
@@ -64,141 +67,164 @@ export default function SchedulingChat() {
   const showThinking = busy && (!last || last.role === "user" || textOf(last).trim() === "");
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col overflow-hidden rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg)]">
+    <div className="relative mx-auto flex h-[75dvh] max-h-[800px] min-h-[500px] w-full max-w-4xl flex-col overflow-hidden bg-white/70 shadow-[0_8px_40px_rgb(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150 rounded-3xl border border-black/5 dark:border-white/10 dark:bg-[color:var(--color-bg)]/50">
       {/* ヘッダー */}
-      <div className="flex items-center gap-2 border-b border-[color:var(--color-rule-soft)] px-5 py-3">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[color:var(--color-accent)] text-white">
-          <LuSparkles size={15} />
+      <div className="absolute top-0 z-20 flex w-full items-center gap-3 border-b border-black/5 bg-white/60 px-6 py-4 backdrop-blur-md dark:border-white/5 dark:bg-black/60">
+        <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] text-white shadow-lg shadow-[color:var(--color-accent)]/20">
+          <LuSparkles size={16} />
         </span>
         <span className="text-sm font-semibold tracking-tight">{t("aiLabel")}</span>
         <span className="meta ml-auto">{t("timezoneNote")}</span>
       </div>
 
       {/* 会話 */}
-      <div ref={scrollRef} className="flex h-[26rem] flex-col gap-4 overflow-y-auto px-5 py-5">
-
-
-        {messages.map((m) => {
-          const text = textOf(m);
-          if (!text || text.startsWith("PROPOSE_INITIAL_SLOTS")) return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
-          const isUser = m.role === "user";
-          return (
-            <div key={m.id} className={isUser ? "self-end" : "self-start"}>
-              <div
-                className={
-                  isUser
-                    ? "ml-auto max-w-[80%] whitespace-pre-wrap rounded-2xl bg-[color:var(--color-accent)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-white"
-                    : // アシスタントは Markdown 描画（太字・箇条書き）。bubble 内を詰めて整形。
-                      "max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] [&>*]:m-0 [&>*+*]:mt-2 [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-none [&_ul]:pl-0"
-                }
-              >
-                {isUser ? text : (
-                  <ReactMarkdown
-                    components={{
-                      ul: function MarkdownUl({ children, ...props }) {
-                        return (
-                          <ListContext.Provider value="ul">
-                            <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
-                              {children}
-                            </ul>
-                          </ListContext.Provider>
-                        );
-                      },
-                      ol: function MarkdownOl({ children, ...props }) {
-                        return (
-                          <ListContext.Provider value="ol">
-                            <ol className="my-1 list-decimal pl-5" {...props}>
-                              {children}
-                            </ol>
-                          </ListContext.Provider>
-                        );
-                      },
-                      li: function MarkdownLi({ children, ...props }) {
-                        const listType = useContext(ListContext);
-
-                        if (listType === "ol") {
-                          return <li className="my-0.5" {...props}>{children}</li>;
-                        }
-
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        const extractText = (child: any): string => {
-                          if (typeof child === "string" || typeof child === "number") return String(child);
-                          if (Array.isArray(child)) return child.map(extractText).join("");
-                          if (child && child.props && child.props.children) return extractText(child.props.children);
-                          return "";
-                        };
-                        const rawText = extractText(children);
-                        return (
-                          <li className="m-0 p-0" {...props}>
-                            <button
-                              type="button"
-                              onClick={() => submit(rawText)}
-                              className="w-full text-left rounded-xl border border-[color:var(--color-accent-soft)] bg-[color:var(--color-bg)] px-4 py-3 text-[0.95rem] text-[color:var(--color-ink)] shadow-sm transition-all hover:border-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white hover:shadow-md"
-                            >
-                              {children}
-                            </button>
-                          </li>
-                        );
-                      },
-                    }}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 pb-28 pt-24 sm:px-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 dark:[&::-webkit-scrollbar-thumb]:bg-white/10 custom-scrollbar">
+        <div className="flex flex-col gap-6">
+          <AnimatePresence initial={false}>
+            {messages.map((m) => {
+              const text = textOf(m);
+              if (!text || text.startsWith("PROPOSE_INITIAL_SLOTS")) return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
+              const isUser = m.role === "user";
+              return (
+                <motion.div
+                  key={m.id}
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className={isUser ? "self-end" : "self-start"}
+                >
+                  <div
+                    className={
+                      isUser
+                        ? "ml-auto max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-3.5 text-[0.95rem] leading-relaxed text-white shadow-md shadow-[color:var(--color-accent)]/20"
+                        : "max-w-[90%] sm:max-w-[80%] rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/80 px-5 py-3.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] shadow-sm backdrop-blur-md dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg-soft)]/80 [&>*]:m-0 [&>*+*]:mt-3 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-2 [&_ul]:list-none [&_ul]:pl-0"
+                    }
                   >
-                    {text}
-                  </ReactMarkdown>
-                )}
+                    {isUser ? text : (
+                      <ReactMarkdown
+                        components={{
+                          ul: function MarkdownUl({ children, ...props }) {
+                            return (
+                              <ListContext.Provider value="ul">
+                                <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
+                                  {children}
+                                </ul>
+                              </ListContext.Provider>
+                            );
+                          },
+                          ol: function MarkdownOl({ children, ...props }) {
+                            return (
+                              <ListContext.Provider value="ol">
+                                <ol className="my-1 list-decimal pl-5" {...props}>
+                                  {children}
+                                </ol>
+                              </ListContext.Provider>
+                            );
+                          },
+                          li: function MarkdownLi({ children, ...props }) {
+                            const listType = useContext(ListContext);
+
+                            if (listType === "ol") {
+                              return <li className="my-0.5" {...props}>{children}</li>;
+                            }
+
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            const extractText = (child: any): string => {
+                              if (typeof child === "string" || typeof child === "number") return String(child);
+                              if (Array.isArray(child)) return child.map(extractText).join("");
+                              if (child && child.props && child.props.children) return extractText(child.props.children);
+                              return "";
+                            };
+                            const rawText = extractText(children);
+                            return (
+                              <li className="m-0 p-0" {...props}>
+                                <button
+                                  type="button"
+                                  onClick={() => submit(rawText)}
+                                  className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-[color:var(--color-rule-soft)] bg-white px-4 py-3 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:-translate-y-[2px] hover:border-[color:var(--color-accent)] hover:shadow-lg hover:shadow-[color:var(--color-accent)]/10 active:scale-[0.98] dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg)]"
+                                >
+                                  <span>{children}</span>
+                                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-opacity group-hover:opacity-100">
+                                    <LuSendHorizontal size={14} />
+                                  </span>
+                                </button>
+                              </li>
+                            );
+                          },
+                        }}
+                      >
+                        {text}
+                      </ReactMarkdown>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+
+          {/* 思考／ツール実行インジケータ */}
+          {showThinking && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="self-start"
+            >
+              <div className="flex items-center gap-3 rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/80 px-5 py-3.5 text-[color:var(--color-ink-soft)] shadow-sm backdrop-blur-md dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg-soft)]/80">
+                <span className="flex gap-1.5" aria-hidden>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[color:var(--color-accent)] opacity-60 [animation-delay:-0.3s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[color:var(--color-accent)] opacity-80 [animation-delay:-0.15s]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[color:var(--color-accent)]" />
+                </span>
+                <span className="text-sm font-medium">{t("chatThinking")}</span>
               </div>
-            </div>
-          );
-        })}
+            </motion.div>
+          )}
 
-        {/* 思考／ツール実行インジケータ */}
-        {showThinking && (
-          <div className="self-start">
-            <div className="flex items-center gap-2 rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-3 text-[color:var(--color-ink-soft)]">
-              <span className="flex gap-1" aria-hidden>
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[color:var(--color-ink-muted)] [animation-delay:-0.3s]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[color:var(--color-ink-muted)] [animation-delay:-0.15s]" />
-                <span className="h-2 w-2 animate-bounce rounded-full bg-[color:var(--color-ink-muted)]" />
-              </span>
-              <span className="text-sm">{t("chatThinking")}</span>
-            </div>
-          </div>
-        )}
-
-        {error && (
-          <div className="self-start">
-            <div className="rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-sm text-[color:var(--color-ink-soft)]">
-              {t("chatError")}
-            </div>
-          </div>
-        )}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="self-start"
+            >
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400">
+                {t("chatError")}
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
 
       {/* 入力欄 */}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          submit(input);
-        }}
-        className="flex items-center gap-2 border-t border-[color:var(--color-rule-soft)] px-4 py-3"
-      >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          disabled={busy}
-          placeholder={t("chatPlaceholder")}
-          aria-label={t("chatPlaceholder")}
-          className="min-w-0 flex-1 bg-transparent px-2 py-2 text-[0.95rem] text-[color:var(--color-ink)] outline-none placeholder:text-[color:var(--color-ink-muted)]"
-        />
-        <button
-          type="submit"
-          disabled={busy || !input.trim()}
-          aria-label={t("chatSend")}
-          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-accent)] text-white transition-opacity disabled:opacity-40"
-        >
-          <LuSendHorizontal size={17} />
-        </button>
-      </form>
+      <div className="absolute bottom-0 z-20 w-full border-t border-black/5 bg-white/70 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl dark:border-white/5 dark:bg-black/70">
+        <div className="mx-auto max-w-3xl px-4 sm:px-8">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              submit(input);
+            }}
+            className="flex items-center gap-2 rounded-full border border-[color:var(--color-rule)] bg-white p-1.5 shadow-sm transition-all focus-within:border-[color:var(--color-accent)] focus-within:ring-4 focus-within:ring-[color:var(--color-accent)]/10 dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg)]"
+          >
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              disabled={busy}
+              placeholder={t("chatPlaceholder")}
+              aria-label={t("chatPlaceholder")}
+              className="min-w-0 flex-1 bg-transparent px-4 py-2 text-[0.95rem] text-[color:var(--color-ink)] outline-none placeholder:text-[color:var(--color-ink-muted)] disabled:opacity-50"
+            />
+            <button
+              type="submit"
+              disabled={busy || !input.trim()}
+              aria-label={t("chatSend")}
+              className="group mr-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] text-white shadow-md transition-all hover:scale-105 active:scale-95 disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none"
+            >
+              <LuSendHorizontal size={16} className="transition-transform group-hover:translate-x-0.5" />
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
