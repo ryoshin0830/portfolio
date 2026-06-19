@@ -186,8 +186,32 @@ function nextDate(date: string, cfg: SchedulingConfig): string {
 }
 
 /**
+ * 配列から最大 k 件を、両端を含めて均等にサンプリングする（時系列順を保持）。
+ * 1日の全枠から「朝・昼・夜」を満遍なく拾うために使う（先頭だけに偏らせない）。
+ */
+function spreadSlots(slots: Slot[], k: number): Slot[] {
+  if (k <= 0) return [];
+  if (slots.length <= k) return slots;
+  if (k === 1) return [slots[0]];
+  const seen = new Set<string>();
+  const out: Slot[] = [];
+  for (let i = 0; i < k; i++) {
+    const s = slots[Math.round((i * (slots.length - 1)) / (k - 1))];
+    if (!seen.has(s.start)) {
+      seen.add(s.start);
+      out.push(s);
+    }
+  }
+  return out;
+}
+
+/**
  * 範囲 [startDate, endDate]（両端含む, YYYY-MM-DD）の空き枠を、1 回の freebusy 取得で計算。
  * 範囲は [今日, 今日+horizon] にクランプ。opts で枠長・時間帯を指定。Mastra の findSlots ツールから使う。
+ *
+ * 重要: 単純に時系列の先頭から `limit` 件を取ると、初日の朝だけで埋まり後続の日・時間帯が
+ * 一切出ない（「週末1時間」で土曜午前だけ返り日曜が消える等の誤判定の原因）。そこで
+ * **各日から perDay 件まで日内も均等サンプリング**し、範囲内の全日・全時間帯を代表させる。
  * 返すのは「空き時刻」だけ＝予定の中身は一切含まない。
  */
 export async function findSlotsInRange(
@@ -196,7 +220,8 @@ export async function findSlotsInRange(
   cfg: SchedulingConfig = DEFAULT_CONFIG,
   now: Date = new Date(),
   opts: SlotQueryOpts = {},
-  limit = 8,
+  limit = 12,
+  perDay = 4,
 ): Promise<{ timezone: string; slots: Slot[] }> {
   const today = ownerToday(cfg, now).date;
   const horizon = ownerToday(cfg, new Date(now.getTime() + cfg.horizonDays * 86_400_000)).date;
@@ -207,10 +232,11 @@ export async function findSlotsInRange(
   }
   const busy = await fetchBusy(minutesToIso(start, 0, cfg), minutesToIso(end, 24 * 60, cfg));
   const out: Slot[] = [];
-  for (let d = start; d <= end; d = nextDate(d, cfg)) {
-    for (const s of computeOpenSlots(d, busy, cfg, now, opts)) {
+  for (let d = start; d <= end && out.length < limit; d = nextDate(d, cfg)) {
+    const daySlots = computeOpenSlots(d, busy, cfg, now, opts);
+    for (const s of spreadSlots(daySlots, perDay)) {
       out.push(s);
-      if (out.length >= limit) return { timezone: cfg.timezone, slots: out };
+      if (out.length >= limit) break;
     }
   }
   return { timezone: cfg.timezone, slots: out };

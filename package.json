@@ -36,6 +36,7 @@
     "react-dom": "19.2.7",
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
+    "react-markdown": "10.1.0",
     "tailwindcss": "^4",
     "zod": "4.4.3"
   },

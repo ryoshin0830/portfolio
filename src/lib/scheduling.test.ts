@@ -211,6 +211,27 @@ describe("findSlotsInRange", () => {
       expect(Number(s.label.slice(0, 2))).toBeGreaterThanOrEqual(17);
     });
   });
+
+  it("【回帰】初日で打ち切られず、範囲内の全日が代表される（週末バグ）", async () => {
+    // 旧実装は土曜の先頭から limit 件で埋まり日曜が消えていた。
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-19T00:00:00+09:00"); // 金
+    const res = await findSlotsInRange("2026-06-20", "2026-06-21", cfg(), now, {
+      durationMinutes: 60,
+    });
+    const days = new Set(res.slots.map((s) => s.start.slice(0, 10)));
+    expect(days.has("2026-06-20")).toBe(true); // 土
+    expect(days.has("2026-06-21")).toBe(true); // 日
+  });
+
+  it("【回帰】1日内も朝だけに偏らず、夜の枠まで代表される", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-19T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-22", cfg(), now, {});
+    const hours = res.slots.map((s) => Number(s.label.slice(0, 2)));
+    expect(Math.min(...hours)).toBe(9); // 朝
+    expect(Math.max(...hours)).toBeGreaterThanOrEqual(17); // 夜も含む（先頭偏りでない）
+  });
 });
 
 describe("createBooking — 入力検証（insert を呼ばない）", () => {

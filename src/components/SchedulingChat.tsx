@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import ReactMarkdown from "react-markdown";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
 
 /**
@@ -92,16 +93,18 @@ export default function SchedulingChat() {
         {messages.map((m) => {
           const text = textOf(m);
           if (!text) return null; // ツールのみのアシスタント中間メッセージは表示しない
+          const isUser = m.role === "user";
           return (
-            <div key={m.id} className={m.role === "user" ? "self-end" : "self-start"}>
+            <div key={m.id} className={isUser ? "self-end" : "self-start"}>
               <div
-                className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-[0.95rem] leading-relaxed ${
-                  m.role === "user"
-                    ? "ml-auto bg-[color:var(--color-accent)] text-white"
-                    : "bg-[color:var(--color-bg-soft)] text-[color:var(--color-ink)]"
-                }`}
+                className={
+                  isUser
+                    ? "ml-auto max-w-[80%] whitespace-pre-wrap rounded-2xl bg-[color:var(--color-accent)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-white"
+                    : // アシスタントは Markdown 描画（太字・箇条書き）。bubble 内を詰めて整形。
+                      "max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] [&>*]:m-0 [&>*+*]:mt-2 [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5"
+                }
               >
-                {text}
+                {isUser ? text : <ReactMarkdown>{text}</ReactMarkdown>}
               </div>
             </div>
           );
