@@ -38,8 +38,8 @@ export const DEFAULT_CONFIG: SchedulingConfig = {
   // 既定の会議時間（要望で長さ指定が無いときのフォールバック）。
   slotMinutes: Number(process.env.SCHEDULING_SLOT_MINUTES ?? 30),
   leadMinutes: Number(process.env.SCHEDULING_LEAD_MINUTES ?? 120),
-  travelPaddingBeforeMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_BEFORE_MINUTES ?? 30),
-  travelPaddingAfterMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_AFTER_MINUTES ?? 30),
+  travelPaddingBeforeMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_BEFORE_MINUTES ?? 60),
+  travelPaddingAfterMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_AFTER_MINUTES ?? 60),
   // 週末も受け付ける（除外したいときだけ SCHEDULING_EXCLUDE_WEEKENDS=true）。
   excludeWeekends: process.env.SCHEDULING_EXCLUDE_WEEKENDS === "true",
   horizonDays: Number(process.env.SCHEDULING_HORIZON_DAYS ?? 30),

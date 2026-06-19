@@ -32,8 +32,8 @@ function cfg(overrides: Partial<SchedulingConfig> = {}): SchedulingConfig {
     endHour: 24,
     slotMinutes: 30,
     leadMinutes: 120,
-    travelPaddingBeforeMinutes: 30,
-    travelPaddingAfterMinutes: 30,
+    travelPaddingBeforeMinutes: 60,
+    travelPaddingAfterMinutes: 60,
     excludeWeekends: false,
     horizonDays: 30,
     ...overrides,
@@ -239,9 +239,9 @@ describe("findSlotsInRange", () => {
       cfg({ startHour: 9, endHour: 12 }),
       now,
     );
-    expect(labels(res.slots)).toEqual(["09:00", "09:30", "11:30"]);
+    expect(labels(res.slots)).toEqual(["09:00"]);
     expect(res.busy).toEqual([
-      { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T11:30:00+09:00" },
+      { start: "2026-06-22T09:30:00+09:00", end: "2026-06-22T12:00:00+09:00" },
     ]);
   });
 
@@ -275,7 +275,7 @@ describe("findSlotsInRange", () => {
     await findSlotsInRange("2026-01-01", "2026-06-22", cfg(), now);
     // fetchBusy の timeMin は今日(6/22)から移動パディング分だけ広げるが、過去リクエスト範囲ではない
     const [timeMin] = mockFetchBusy.mock.calls[0];
-    expect(timeMin).toBe("2026-06-21T23:30:00+09:00");
+    expect(timeMin).toBe("2026-06-21T23:00:00+09:00");
   });
 
   it("end < start（不正な範囲）は空＋ fetch しない", async () => {
