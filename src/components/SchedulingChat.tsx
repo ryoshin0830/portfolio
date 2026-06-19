@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, createContext, useContext } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
@@ -19,6 +19,7 @@ const ListContext = createContext<"ul" | "ol">("ul");
  */
 export default function SchedulingChat() {
   const t = useTranslations("scheduling");
+  const locale = useLocale();
 
   const transport = useMemo(
     () => new DefaultChatTransport({ api: "/api/schedule/chat" }),
@@ -28,7 +29,6 @@ export default function SchedulingChat() {
 
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  const examples = useMemo(() => t.raw("chatExamples") as string[], [t]);
 
   const busy = status === "submitted" || status === "streaming";
 
@@ -41,9 +41,9 @@ export default function SchedulingChat() {
   useEffect(() => {
     if (!initRef.current && messages.length === 0) {
       initRef.current = true;
-      sendMessage({ text: "PROPOSE_INITIAL_SLOTS" });
+      sendMessage({ text: `PROPOSE_INITIAL_SLOTS_IN_${locale.toUpperCase()}` });
     }
-  }, [messages.length, sendMessage]);
+  }, [messages.length, sendMessage, locale]);
 
   const submit = (text: string) => {
     const clean = text.trim();
@@ -76,33 +76,11 @@ export default function SchedulingChat() {
 
       {/* 会話 */}
       <div ref={scrollRef} className="flex h-[26rem] flex-col gap-4 overflow-y-auto px-5 py-5">
-        {/* 初回グリーティング（API を叩かず静的に） */}
-        <div className="self-start">
-          <div className="max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)]">
-            {t("chatGreeting")}
-          </div>
-        </div>
 
-        {/* 例示プロンプト（会話開始前のみ） */}
-        {messages.length === 0 && !busy && (
-          <ul className="flex flex-wrap gap-2 self-start">
-            {examples.map((ex) => (
-              <li key={ex}>
-                <button
-                  type="button"
-                  onClick={() => submit(ex)}
-                  className="rounded-full border border-[color:var(--color-rule)] px-3.5 py-2 text-sm text-[color:var(--color-ink-soft)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
-                >
-                  {ex}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
 
         {messages.map((m) => {
           const text = textOf(m);
-          if (!text || text === "PROPOSE_INITIAL_SLOTS") return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
+          if (!text || text.startsWith("PROPOSE_INITIAL_SLOTS")) return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
           const isUser = m.role === "user";
           return (
             <div key={m.id} className={isUser ? "self-end" : "self-start"}>
