@@ -59,6 +59,8 @@ export function useScrollNavigation() {
 
     // Observerを作成
     const observerCallback: IntersectionObserverCallback = (entries) => {
+      if (isNavigatingRef.current) return;
+
       // 現在のビューポート内で最も上にあるセクションを検出
       let topSection: TopSection | null = null;
 
@@ -164,6 +166,10 @@ export function useScrollNavigation() {
     const onHashChange = () => {
       const id = window.location.hash.slice(1);
       if (!id) return;
+      if (sectionIds.includes(id)) {
+        scrollToSection(id);
+        return;
+      }
       const element = document.getElementById(id);
       if (!element) return;
       cancelSettleRef.current?.();
@@ -174,7 +180,7 @@ export function useScrollNavigation() {
       window.removeEventListener("hashchange", onHashChange);
       cancelSettleRef.current?.();
     };
-  }, []);
+  }, [scrollToSection, sectionIds]);
 
   // 直接URLアクセス時の処理（初回マウント時のみ）。
   //
@@ -189,18 +195,27 @@ export function useScrollNavigation() {
     if (hasHandledInitialPathRef.current) return;
     hasHandledInitialPathRef.current = true;
 
+    const hashSection = window.location.hash.slice(1);
     const pathParts = pathname.split("/");
-    const section = pathParts[pathParts.length - 1];
+    const pathSection = pathParts[pathParts.length - 1];
+    const section = sectionIds.includes(hashSection) ? hashSection : pathSection;
 
-    // セクションIDが存在する場合はそこにスクロール
+    // セクションIDが存在する場合はそこにスクロール。
+    // /{locale}/{section} は Next redirects で /{locale}#section になるため、
+    // 初回ロード時のハッシュもここで明示的に補正スクロールする。
     if (section && sectionIds.includes(section)) {
+      isNavigatingRef.current = true;
       currentSectionRef.current = section;
       setCurrentSection(section);
       // ページ読み込み完了後にスクロール
       setTimeout(() => {
-        scrollToSection(section);
+        if (document.getElementById(section)) {
+          scrollToSection(section);
+        } else {
+          isNavigatingRef.current = false;
+        }
       }, 100);
-    } else if (section === locale || !section) {
+    } else if (pathSection === locale || !pathSection) {
       currentSectionRef.current = "hero";
       setCurrentSection("hero");
     }
