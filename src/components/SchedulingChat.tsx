@@ -101,10 +101,43 @@ export default function SchedulingChat() {
                   isUser
                     ? "ml-auto max-w-[80%] whitespace-pre-wrap rounded-2xl bg-[color:var(--color-accent)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-white"
                     : // アシスタントは Markdown 描画（太字・箇条書き）。bubble 内を詰めて整形。
-                      "max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] [&>*]:m-0 [&>*+*]:mt-2 [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5"
+                      "max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] [&>*]:m-0 [&>*+*]:mt-2 [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-none [&_ul]:pl-0"
                 }
               >
-                {isUser ? text : <ReactMarkdown>{text}</ReactMarkdown>}
+                {isUser ? text : (
+                  <ReactMarkdown
+                    components={{
+                      ul: ({ children, ...props }) => (
+                        <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
+                          {children}
+                        </ul>
+                      ),
+                      li: ({ children, ...props }) => {
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const extractText = (child: any): string => {
+                          if (typeof child === "string" || typeof child === "number") return String(child);
+                          if (Array.isArray(child)) return child.map(extractText).join("");
+                          if (child && child.props && child.props.children) return extractText(child.props.children);
+                          return "";
+                        };
+                        const rawText = extractText(children);
+                        return (
+                          <li className="m-0 p-0" {...props}>
+                            <button
+                              type="button"
+                              onClick={() => submit(rawText)}
+                              className="w-full text-left rounded-xl border border-[color:var(--color-accent-soft)] bg-[color:var(--color-bg)] px-4 py-3 text-[0.95rem] text-[color:var(--color-ink)] shadow-sm transition-all hover:border-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white hover:shadow-md"
+                            >
+                              {children}
+                            </button>
+                          </li>
+                        );
+                      },
+                    }}
+                  >
+                    {text}
+                  </ReactMarkdown>
+                )}
               </div>
             </div>
           );
