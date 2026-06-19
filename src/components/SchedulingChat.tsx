@@ -10,7 +10,7 @@ import {
   LuArrowLeft,
   LuSparkles,
 } from "react-icons/lu";
-import type { BookingResult, ChatResponse, Slot } from "@/types/scheduling";
+import type { BookingResult, Slot } from "@/types/scheduling";
 
 /**
  * AI ネイティブな会話型日程調整（クライアント）。
@@ -41,6 +41,7 @@ export default function SchedulingChat() {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
+  const [statusElapsed, setStatusElapsed] = useState(0);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
 
   const [name, setName] = useState("");
@@ -91,6 +92,28 @@ export default function SchedulingChat() {
       const history = [...bubbles, userBubble];
       setBubbles(history);
       setThinking(true);
+      setStatusElapsed(0);
+
+      // ストリーミング受信用: 最初の delta が来たら空のアシスタントバブルを作り、
+      // 以降の文字を追記していく（typewriter）。
+      const streamId = nextId();
+      let started = false;
+      const ensureBubble = () => {
+        if (started) return;
+        started = true;
+        setThinking(false);
+        setBubbles((b) => [...b, { id: streamId, role: "assistant", text: "" }]);
+      };
+      const appendText = (txt: string) => {
+        ensureBubble();
+        setBubbles((b) => b.map((x) => (x.id === streamId ? { ...x, text: x.text + txt } : x)));
+      };
+      const attachSlots = (slots: Slot[]) => {
+        ensureBubble();
+        setBubbles((b) => b.map((x) => (x.id === streamId ? { ...x, slots } : x)));
+      };
+      const fail = () =>
+        setBubbles((b) => [...b, { id: nextId(), role: "assistant", text: t("chatError") }]);
 
       try {
         const res = await fetch("/api/schedule/chat", {
@@ -104,25 +127,52 @@ export default function SchedulingChat() {
           }),
         });
         if (res.status === 503) {
+          setThinking(false);
           setBubbles((b) => [...b, { id: nextId(), role: "assistant", text: t("notConfigured") }]);
           return;
         }
-        if (!res.ok) {
-          setBubbles((b) => [...b, { id: nextId(), role: "assistant", text: t("chatError") }]);
+        if (!res.ok || !res.body) {
+          setThinking(false);
+          fail();
           return;
         }
-        const data = (await res.json()) as ChatResponse;
-        setBubbles((b) => [
-          ...b,
-          {
-            id: nextId(),
-            role: "assistant",
-            text: data.reply || t("chatError"),
-            slots: data.slots,
-          },
-        ]);
+
+        // SSE をストリーム解析（\n\n 区切り、event:/data: 行）。
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = "";
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          let idx: number;
+          while ((idx = buf.indexOf("\n\n")) >= 0) {
+            const rawEvent = buf.slice(0, idx);
+            buf = buf.slice(idx + 2);
+            let ev = "message";
+            let dataStr = "";
+            for (const line of rawEvent.split("\n")) {
+              if (line.startsWith("event:")) ev = line.slice(6).trim();
+              else if (line.startsWith("data:")) dataStr += line.slice(5).trim();
+            }
+            let data: { elapsed?: number; text?: string; slots?: Slot[] } = {};
+            try {
+              data = dataStr ? JSON.parse(dataStr) : {};
+            } catch {
+              /* ignore malformed chunk */
+            }
+            if (ev === "status") setStatusElapsed(data.elapsed ?? 0);
+            else if (ev === "delta") appendText(data.text ?? "");
+            else if (ev === "slots") attachSlots(data.slots ?? []);
+            // "error" / "end" / 未知イベントは下の !started フォールバックで処理。
+          }
+        }
+        if (!started) {
+          // delta が一度も来なかった（エラー or 空返答）
+          fail();
+        }
       } catch {
-        setBubbles((b) => [...b, { id: nextId(), role: "assistant", text: t("chatError") }]);
+        if (!started) fail();
       } finally {
         setThinking(false);
       }
@@ -259,7 +309,10 @@ export default function SchedulingChat() {
                 <span className="h-2 w-2 animate-bounce rounded-full bg-[color:var(--color-ink-muted)] [animation-delay:-0.15s]" />
                 <span className="h-2 w-2 animate-bounce rounded-full bg-[color:var(--color-ink-muted)]" />
               </span>
-              <span className="text-sm">{t("chatThinking")}</span>
+              <span className="text-sm">
+                {statusElapsed >= 6 ? t("chatPhaseCalendar") : t("chatThinking")}
+                {statusElapsed > 0 ? ` · ${statusElapsed}s` : ""}
+              </span>
             </div>
           </div>
         )}
