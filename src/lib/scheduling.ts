@@ -345,8 +345,9 @@ export function computeOpenSlots(
   const slots: Slot[] = [];
   const startMin = cfg.startHour * 60;
   const endMin = cfg.endHour * 60;
-  // ステップは枠の刻み（cfg.slotMinutes）。枠長は duration（刻みより長くてもよい）。
-  for (let m = startMin; m + duration <= endMin; m += cfg.slotMinutes) {
+  // ステップは 30 分刻み固定とする。枠長は duration（刻みより長くてもよい）。
+  const stepMinutes = 30;
+  for (let m = startMin; m + duration <= endMin; m += stepMinutes) {
     if (!inPartOfDay(m, part)) continue;
     const startIso = minutesToIso(date, m, cfg);
     const endIso = minutesToIso(date, m + duration, cfg);
