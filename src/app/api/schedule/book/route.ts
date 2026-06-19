@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * POST /api/schedule/book
- * body: BookingRequest（start/end/name/email/note + ハニーポット company）
+ * body: BookingRequest（start/end/name/note + ハニーポット company）
  * 確定直前に空き状況を再検証してから Hermes に Google Calendar イベントを作らせる。
  */
 export async function POST(req: Request) {

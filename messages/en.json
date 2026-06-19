@@ -856,7 +856,7 @@
     "errorGeneric": "Booking failed. Please try again in a moment.",
     "errorSlotTaken": "That slot was just taken. Please choose another time.",
     "successTitle": "You're booked",
-    "successBody": "An invitation email is on its way. Looking forward to talking!",
+    "successBody": "Thank you for booking! Looking forward to talking!",
     "successMeet": "Join Google Meet",
     "successCalendar": "View in calendar"
   },

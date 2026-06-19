@@ -856,7 +856,7 @@
     "errorGeneric": "预约失败，请稍后再试。",
     "errorSlotTaken": "该时间段刚刚被占用，请选择其他时间。",
     "successTitle": "预约成功",
-    "successBody": "邀请邮件已发送，期待与您会面！",
+    "successBody": "感谢您的预约！期待与您会面！",
     "successMeet": "加入 Google Meet",
     "successCalendar": "在日历中查看"
   },
