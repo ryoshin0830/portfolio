@@ -13,7 +13,7 @@ import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
  * Mastra エージェント（DeepSeek）を `useChat` 経由で叩く。応答は本物のトークン
  * ストリーミング（サーバーが /api/schedule/chat で UIMessage ストリームを返す）。
  * エージェントが find-slots / book-slot ツールを呼び、空き提案〜予約までを会話で行う。
- * カレンダーの中身はツールに渡らない（空き時刻のみ）＝漏洩しない。
+ * カレンダーの中身はブラウザに渡らない（パディング適用後の空き時刻のみ）＝漏洩しない。
  */
 export default function SchedulingChat() {
   const t = useTranslations("scheduling");

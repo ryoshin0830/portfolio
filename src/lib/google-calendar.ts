@@ -1,5 +1,5 @@
 import { calendar, auth, type calendar_v3 } from "@googleapis/calendar";
-import type { BusyInterval } from "@/types/scheduling";
+import type { BusyInterval, CalendarEventContext } from "@/types/scheduling";
 
 /**
  * Google Calendar 直接アクセス（サーバー専用）。
@@ -11,7 +11,8 @@ import type { BusyInterval } from "@/types/scheduling";
  * 任意 env: GOOGLE_CALENDAR_ID（既定 "primary"）
  *
  * ★セキュリティ: 外向きに渡してよいのは free/busy（busy 区間＝時刻のみ）と、予約結果だけ。
- *   予定のタイトル・参加者・説明は freebusy では返らないので構造的に漏れない。events.list は使わない。
+ *   移動パディング判定では events.list も使うが、取得するのは時刻・短い予定名・場所・
+ *   オンライン会議有無だけ。参加者・説明・URL は取得せず、ブラウザにも返さない。
  */
 
 export function isGoogleConfigured(): boolean {
@@ -59,6 +60,59 @@ export async function fetchBusy(timeMinIso: string, timeMaxIso: string): Promise
   return busy
     .filter((b): b is { start: string; end: string } => Boolean(b.start && b.end))
     .map((b) => ({ start: b.start, end: b.end }));
+}
+
+function sanitizeCalendarText(value: string | null | undefined, maxLength: number): string | undefined {
+  const clean = value
+    ?.replace(/https?:\/\/\S+/gi, "[url]")
+    .replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, "[email]")
+    .replace(/\+?\d[\d\s().-]{7,}\d/g, "[phone]")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!clean) return undefined;
+  return clean.slice(0, maxLength);
+}
+
+/**
+ * 移動パディング判定用に、最小限の予定コンテキストを取得する。
+ * 参加者・説明・添付・会議 URL は fields で明示的に除外する。
+ */
+export async function fetchCalendarEventContexts(
+  timeMinIso: string,
+  timeMaxIso: string,
+): Promise<CalendarEventContext[]> {
+  const cal = getClient();
+  const res = await cal.events.list({
+    calendarId: getCalendarId(),
+    timeMin: timeMinIso,
+    timeMax: timeMaxIso,
+    singleEvents: true,
+    orderBy: "startTime",
+    showDeleted: false,
+    maxResults: 2500,
+    fields:
+      "items(id,summary,location,start,end,eventType,transparency,conferenceData(conferenceSolution(key(type))))",
+  });
+
+  return (res.data.items ?? [])
+    .map((event): CalendarEventContext | null => {
+      const start = event.start?.dateTime;
+      const end = event.end?.dateTime;
+      if (!event.id || !start || !end) return null;
+      if (event.transparency === "transparent") return null;
+
+      return {
+        id: event.id,
+        start,
+        end,
+        summary: sanitizeCalendarText(event.summary, 120),
+        location: sanitizeCalendarText(event.location, 160),
+        eventType: event.eventType ?? undefined,
+        transparency: event.transparency ?? undefined,
+        hasConference: Boolean(event.conferenceData?.conferenceSolution?.key?.type),
+      };
+    })
+    .filter((event): event is CalendarEventContext => event !== null);
 }
 
 export interface CreatedEvent {

@@ -1,15 +1,16 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import type { SchedulingConfig } from "@/types/scheduling";
 
 // Google Calendar 層はモック（ネットワーク無しで純粋にロジックを検証する）。
 vi.mock("@/lib/google-calendar", () => ({
   fetchBusy: vi.fn(),
+  fetchCalendarEventContexts: vi.fn(),
   insertEvent: vi.fn(),
   isGoogleConfigured: vi.fn(() => true),
   getCalendarId: vi.fn(() => "primary"),
 }));
 
-import { fetchBusy, insertEvent } from "@/lib/google-calendar";
+import { fetchBusy, fetchCalendarEventContexts, insertEvent } from "@/lib/google-calendar";
 import {
   computeOpenSlots,
   isValidDateString,
@@ -19,6 +20,7 @@ import {
 } from "./scheduling";
 
 const mockFetchBusy = vi.mocked(fetchBusy);
+const mockFetchEventContexts = vi.mocked(fetchCalendarEventContexts);
 const mockInsert = vi.mocked(insertEvent);
 
 /** ベース設定（テストごとに必要なら上書き）。JST 固定 +09:00。 */
@@ -30,6 +32,8 @@ function cfg(overrides: Partial<SchedulingConfig> = {}): SchedulingConfig {
     endHour: 24,
     slotMinutes: 30,
     leadMinutes: 120,
+    travelPaddingBeforeMinutes: 30,
+    travelPaddingAfterMinutes: 30,
     excludeWeekends: false,
     horizonDays: 30,
     ...overrides,
@@ -42,6 +46,12 @@ const FAR_PAST = new Date("2026-06-01T00:00:00+09:00");
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.stubEnv("DEEPSEEK_API_KEY", "");
+  mockFetchEventContexts.mockResolvedValue([]);
+});
+
+afterEach(() => {
+  vi.unstubAllEnvs();
 });
 
 describe("isValidDateString", () => {
@@ -194,7 +204,7 @@ describe("findSlotsInRange", () => {
     ]);
   });
 
-  it("LLM の判断材料として busy 時間帯も返す（タイトル等は freebusy 由来で含まない）", async () => {
+  it("LLM の判断材料として busy 時間帯も返す（タイトル等は含まない）", async () => {
     const busy = [{ start: "2026-06-22T10:30:00+09:00", end: "2026-06-22T11:00:00+09:00" }];
     mockFetchBusy.mockResolvedValue(busy);
     const now = new Date("2026-06-22T00:00:00+09:00");
@@ -208,13 +218,64 @@ describe("findSlotsInRange", () => {
     expect(labels(res.slots)).toEqual(["10:00", "11:00", "11:30"]);
   });
 
+  it("移動が必要そうな予定は前後のパディング時間も除外する", async () => {
+    mockFetchBusy.mockResolvedValue([
+      { start: "2026-06-22T10:30:00+09:00", end: "2026-06-22T11:00:00+09:00" },
+    ]);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "physical-1",
+        start: "2026-06-22T10:30:00+09:00",
+        end: "2026-06-22T11:00:00+09:00",
+        summary: "外出",
+        location: "Tokyo Station",
+        hasConference: false,
+      },
+    ]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange(
+      "2026-06-22",
+      "2026-06-22",
+      cfg({ startHour: 9, endHour: 12 }),
+      now,
+    );
+    expect(labels(res.slots)).toEqual(["09:00", "09:30", "11:30"]);
+    expect(res.busy).toEqual([
+      { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T11:30:00+09:00" },
+    ]);
+  });
+
+  it("オンライン予定は移動パディングを追加しない", async () => {
+    const busy = [{ start: "2026-06-22T10:30:00+09:00", end: "2026-06-22T11:00:00+09:00" }];
+    mockFetchBusy.mockResolvedValue(busy);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "online-1",
+        start: "2026-06-22T10:30:00+09:00",
+        end: "2026-06-22T11:00:00+09:00",
+        summary: "Zoom call",
+        location: "Google Meet",
+        hasConference: true,
+      },
+    ]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange(
+      "2026-06-22",
+      "2026-06-22",
+      cfg({ startHour: 9, endHour: 12 }),
+      now,
+    );
+    expect(res.busy).toEqual(busy);
+    expect(labels(res.slots)).toEqual(["09:00", "09:30", "10:00", "11:00", "11:30"]);
+  });
+
   it("範囲を [今日, 今日+horizon] にクランプ（過去開始は今日に）", async () => {
     mockFetchBusy.mockResolvedValue([]);
     const now = new Date("2026-06-22T08:00:00+09:00");
     await findSlotsInRange("2026-01-01", "2026-06-22", cfg(), now);
-    // fetchBusy の timeMin は今日(6/22)の0:00であって過去日ではない
+    // fetchBusy の timeMin は今日(6/22)から移動パディング分だけ広げるが、過去リクエスト範囲ではない
     const [timeMin] = mockFetchBusy.mock.calls[0];
-    expect(timeMin).toBe("2026-06-22T00:00:00+09:00");
+    expect(timeMin).toBe("2026-06-21T23:30:00+09:00");
   });
 
   it("end < start（不正な範囲）は空＋ fetch しない", async () => {
@@ -297,6 +358,33 @@ describe("createBooking — 競合・作成・失敗", () => {
   it("確定直前の再チェックで競合 → slot_taken（insert しない）", async () => {
     mockFetchBusy.mockResolvedValue([{ start: "2026-06-22T13:00:00+09:00", end: "2026-06-22T13:30:00+09:00" }]);
     const res = await createBooking(good, cfg(), now);
+    expect(res).toEqual({ ok: false, error: "slot_taken" });
+    expect(mockInsert).not.toHaveBeenCalled();
+  });
+
+  it("確定直前の再チェックで移動パディングに重なる枠も slot_taken", async () => {
+    mockFetchBusy.mockResolvedValue([
+      { start: "2026-06-22T13:30:00+09:00", end: "2026-06-22T14:00:00+09:00" },
+    ]);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "physical-1",
+        start: "2026-06-22T13:30:00+09:00",
+        end: "2026-06-22T14:00:00+09:00",
+        summary: "訪問",
+        location: "Shibuya",
+        hasConference: false,
+      },
+    ]);
+    const res = await createBooking(
+      {
+        ...good,
+        start: "2026-06-22T13:00:00+09:00",
+        end: "2026-06-22T13:30:00+09:00",
+      },
+      cfg(),
+      now,
+    );
     expect(res).toEqual({ ok: false, error: "slot_taken" });
     expect(mockInsert).not.toHaveBeenCalled();
   });

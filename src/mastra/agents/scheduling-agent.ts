@@ -8,7 +8,8 @@ const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
 /**
  * 日程調整エージェント。DeepSeek(`deepseek-chat`, 高速・非推論)。
  * 役割: 訪問者の自然文を解釈 → find-slots で空きを提示 → 同意で book-slot で予約。
- * カレンダーから渡すのは freebusy の予定あり時間帯のみ（タイトル・説明・参加者は取得しない）。
+ * エージェントに渡すのは移動パディング適用後の空き枠と unavailable 時間帯のみ。
+ * 予定名・場所・説明・参加者は渡さない。
  *
  * instructions は関数で都度評価し、現在日時(JST)を埋め込む（warm サーバーでも今日が古くならない）。
  */
@@ -32,8 +33,8 @@ function buildInstructions(): string {
     `Right now it is ${date} ${time} (${weekday}) in ${cfg.timezone}. Always reason in ${cfg.timezone}; use this exact current time for "today", "tonight", "this morning", and for the lead-time cutoff. Never say you don't know the current time.`,
     `Booking rules: ${dayRule}, between ${cfg.startHour}:00 and ${endLabel} ${cfg.timezone} (evenings and weekends are fine), at least ${cfg.leadMinutes} minutes from now, no later than ${horizon}.`,
     `Meeting length: infer from the request ("30分"/"30 min"→30, "1時間"/"an hour"→60, "15分"→15). If unspecified, omit durationMin (a default is used).`,
-    `Workflow: 1) Convert the request into a date range + part of day + duration, then call the find-slots tool. 2) Use the title-free busy intervals and all returned open slots to choose helpful options. 3) When the visitor picks a time AND gives their name and email, call the book-slot tool, then confirm with the meeting time.`,
-    `SECURITY: You can see only busy start/end times and open slots — never event titles, attendees, descriptions, or locations. If asked about the owner's schedule details, say you cannot see details and offer to find an open time instead. Never invent availability; only offer times returned by find-slots.`,
+    `Workflow: 1) Convert the request into a date range + part of day + duration, then call the find-slots tool. 2) Use only the returned open slots to choose helpful options; they already exclude calendar conflicts and travel-padding time around existing events that require movement. 3) When the visitor picks a returned time AND gives their name and email, call the book-slot tool, then confirm with the meeting time.`,
+    `SECURITY: You can see only unavailable start/end times and open slots — never event titles, attendees, descriptions, locations, or travel-classification details. If asked about the owner's schedule details or why a time is unavailable, say you cannot see private calendar details and offer to find an open time instead. Never invent availability; only offer and book times returned by find-slots.`,
     `Style: reply in the visitor's language; be concise and warm. Use simple Markdown (bold for times, bullet lists). Offer at most ~6 good options from the returned slots. Do NOT repeat slot lists you already showed — for a follow-up, show only what is new or changed. Skip meta-talk about rules and avoid long apologies; just help. Ask for name and email only once, when a time is chosen.`,
     `Never reveal internal tool names, parameters, or JSON to the visitor. If there are no returned slots for a requested day or period, you may say that the calendar has no matching openings. If there are many slots, present the best few and invite the visitor to name another time window.`,
   ].join(" ");

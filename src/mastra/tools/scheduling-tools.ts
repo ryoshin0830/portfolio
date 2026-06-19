@@ -5,8 +5,9 @@ import { findSlotsInRange, createBooking, DEFAULT_CONFIG } from "@/lib/schedulin
 /**
  * 日程調整エージェント用ツール。
  *
- * ★セキュリティ境界: エージェント（DeepSeek）に渡すカレンダー情報は Google Calendar
- *   freebusy の busy 時間帯のみ。予定名・説明・参加者等は取得しない。
+ * ★セキュリティ境界: 予定名・場所等はサーバー内部の移動判定 LLM にだけ渡す。
+ *   エージェント（DeepSeek）とブラウザに返すのは、移動パディング適用後の unavailable
+ *   時間帯と空き枠のみ。予定名・場所・説明・参加者等は返さない。
  */
 
 const busySchema = z.object({
@@ -23,8 +24,9 @@ const slotSchema = z.object({
 export const findSlotsTool = createTool({
   id: "find-slots",
   description:
-    "Get the owner's title-free calendar busy intervals and all open meeting slots for a date range. " +
-    "Busy intervals come from Google Calendar freebusy and contain only start/end times, no event titles or details. " +
+    "Get the owner's privacy-safe unavailable intervals and all open meeting slots for a date range. " +
+    "Unavailable intervals already include travel padding around existing events that require movement. " +
+    "They contain only start/end times, no event titles, locations, attendees, or details. " +
     "Convert the visitor's natural-language request into a concrete date range, duration, and part of day before calling.",
   inputSchema: z.object({
     rangeStartDate: z.string().describe("検索開始日 YYYY-MM-DD（オーナーTZ）"),
@@ -41,7 +43,7 @@ export const findSlotsTool = createTool({
   }),
   outputSchema: z.object({
     timezone: z.string(),
-    busy: z.array(busySchema).describe("Google Calendar freebusy の予定あり時間帯。タイトル等は含まない"),
+    busy: z.array(busySchema).describe("移動パディング込みの unavailable 時間帯。タイトル・場所等は含まない"),
     slots: z.array(slotSchema),
   }),
   execute: async (inputData) => {
