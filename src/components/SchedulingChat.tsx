@@ -67,7 +67,7 @@ export default function SchedulingChat() {
   const showThinking = busy && (!last || last.role === "user" || textOf(last).trim() === "");
 
   return (
-    <div className="relative mx-auto flex h-[75dvh] max-h-[800px] min-h-[500px] w-full max-w-4xl flex-col overflow-hidden bg-white/70 shadow-[0_8px_40px_rgb(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150 rounded-3xl border border-black/5 dark:border-white/10 dark:bg-[color:var(--color-bg)]/50">
+    <div className="relative mx-auto flex h-[75dvh] max-h-[800px] min-h-[500px] w-full max-w-5xl flex-col overflow-hidden bg-white/70 shadow-[0_8px_40px_rgb(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150 rounded-3xl border border-black/5 dark:border-white/10 dark:bg-[color:var(--color-bg)]/50">
       {/* ヘッダー */}
       <div className="absolute top-0 z-20 flex w-full items-center gap-3 border-b border-black/5 bg-white/60 px-6 py-4 backdrop-blur-md dark:border-white/5 dark:bg-black/60">
         <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] text-white shadow-lg shadow-[color:var(--color-accent)]/20">
@@ -97,16 +97,21 @@ export default function SchedulingChat() {
                     className={
                       isUser
                         ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-4 text-[0.95rem] leading-relaxed text-white shadow-lg shadow-[color:var(--color-accent)]/20"
-                        : "max-w-[90%] sm:max-w-[95%] has-[ul]:w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 [&>*]:m-0 [&>*+*]:mt-4 [&_li]:my-1 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-4 [&_ul]:list-none [&_ul]:pl-0"
+                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)]"
                     }
                   >
                     {isUser ? text : (
                       <ReactMarkdown
                         components={{
+                          p: ({ children }) => (
+                            <p className="w-fit max-w-[90%] sm:max-w-[85%] rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 [&_strong]:font-semibold">
+                              {children}
+                            </p>
+                          ),
                           ul: function MarkdownUl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="my-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 p-0 list-none" {...props}>
+                                <ul className="my-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
@@ -115,7 +120,7 @@ export default function SchedulingChat() {
                           ol: function MarkdownOl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ol">
-                                <ol className="my-1 list-decimal pl-5" {...props}>
+                                <ol className="w-fit max-w-[90%] sm:max-w-[85%] rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 list-decimal pl-9 [&_li]:my-1" {...props}>
                                   {children}
                                 </ol>
                               </ListContext.Provider>
