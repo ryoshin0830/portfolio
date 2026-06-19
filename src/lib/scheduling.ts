@@ -46,7 +46,7 @@ export const DEFAULT_CONFIG: SchedulingConfig = {
 };
 
 /** 会議時間の上限（分）。エージェントが極端に長い枠を返すのを防ぐ安全弁。 */
-const MAX_SLOT_MINUTES = 240;
+const MAX_SLOT_MINUTES = 720;
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 

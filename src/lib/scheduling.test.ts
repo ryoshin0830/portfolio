@@ -123,10 +123,10 @@ describe("computeOpenSlots — 可変長(duration)", () => {
     slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBe(60 * 60_000));
   });
 
-  it("duration は MAX(240分) にクランプされる", () => {
+  it("duration は MAX(720分) にクランプされる", () => {
     const slots = computeOpenSlots("2026-06-25", [], cfg(), FAR_PAST, { durationMinutes: 9999 });
     expect(slots.length).toBeGreaterThan(0);
-    slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBeLessThanOrEqual(240 * 60_000));
+    slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBeLessThanOrEqual(720 * 60_000));
   });
 });
 
@@ -327,7 +327,7 @@ describe("createBooking — 入力検証（insert を呼ばない）", () => {
     ["ハニーポット", { ...good, company: "bot" }, "spam_detected"],
     ["名前なし", { ...good, name: "  " }, "name_required"],
     ["end<=start", { ...good, end: good.start }, "invalid_slot"],
-    ["長すぎ(>240分)", { ...good, end: "2026-06-22T18:00:00+09:00" }, "invalid_slot"],
+    ["長すぎ(>720分)", { ...good, end: "2026-06-23T02:00:00+09:00" }, "invalid_slot"],
     ["リード内", { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T10:30:00+09:00", name: "A" }, "slot_in_past"],
   ])("%s → %s", async (_label, req, expected) => {
     const res = await createBooking(req, cfg(), now);
