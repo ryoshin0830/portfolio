@@ -12,6 +12,23 @@ export interface BusyInterval {
   end: string;
 }
 
+/**
+ * 移動パディング判定だけに使う、サーバー内部用の最小予定情報。
+ * 参加者・説明・URL は含めない。ブラウザや訪問者向け応答には出さない。
+ */
+export interface CalendarEventContext {
+  id: string;
+  start: string;
+  end: string;
+  /** 短くサニタイズした予定名。移動判定の補助用で、外部表示は禁止。 */
+  summary?: string;
+  /** 短くサニタイズした場所。移動判定の補助用で、外部表示は禁止。 */
+  location?: string;
+  eventType?: string;
+  transparency?: string;
+  hasConference: boolean;
+}
+
 /** 予約可能な 1 枠。label はオーナー TZ で整形済み（例 "10:00"）。 */
 export interface Slot {
   /** 開始 ISO8601（オフセット付き、例 2026-06-25T10:00:00+09:00） */
@@ -92,6 +109,10 @@ export interface SchedulingConfig {
   slotMinutes: number;
   /** 直近この分数以内の枠は予約不可（移動・準備のリードタイム） */
   leadMinutes: number;
+  /** 移動が必要な既存予定の前に確保する時間（分） */
+  travelPaddingBeforeMinutes: number;
+  /** 移動が必要な既存予定の後に確保する時間（分） */
+  travelPaddingAfterMinutes: number;
   /** 土日を除外するか */
   excludeWeekends: boolean;
   /** 今日から何日先まで予約を受け付けるか */
