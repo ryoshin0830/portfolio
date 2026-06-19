@@ -106,7 +106,7 @@ export default function SchedulingChat() {
                           ul: function MarkdownUl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
+                                <ul className="my-3 grid grid-cols-1 sm:grid-cols-2 gap-2 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
@@ -137,11 +137,11 @@ export default function SchedulingChat() {
                             };
                             const rawText = extractText(children);
                             return (
-                              <li className="m-0 p-0" {...props}>
+                              <li className="m-0 p-0 h-full" {...props}>
                                 <button
                                   type="button"
                                   onClick={() => submit(rawText)}
-                                  className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-[color:var(--color-rule-soft)] bg-white px-4 py-3 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:-translate-y-[2px] hover:border-[color:var(--color-accent)] hover:shadow-lg hover:shadow-[color:var(--color-accent)]/10 active:scale-[0.98] dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg)]"
+                                  className="group flex w-full h-full items-center justify-between gap-3 rounded-2xl border border-[color:var(--color-rule-soft)] bg-white px-4 py-3 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-[0_2px_10px_rgb(0,0,0,0.02)] transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] hover:-translate-y-[2px] hover:border-[color:var(--color-accent)] hover:shadow-lg hover:shadow-[color:var(--color-accent)]/10 active:scale-[0.98] dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg)]"
                                 >
                                   <span>{children}</span>
                                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-opacity group-hover:opacity-100">
