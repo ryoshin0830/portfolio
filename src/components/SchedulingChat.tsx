@@ -37,6 +37,14 @@ export default function SchedulingChat() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, status]);
 
+  const initRef = useRef(false);
+  useEffect(() => {
+    if (!initRef.current && messages.length === 0) {
+      initRef.current = true;
+      sendMessage({ text: "PROPOSE_INITIAL_SLOTS" });
+    }
+  }, [messages.length, sendMessage]);
+
   const submit = (text: string) => {
     const clean = text.trim();
     if (!clean || busy) return;
@@ -94,7 +102,7 @@ export default function SchedulingChat() {
 
         {messages.map((m) => {
           const text = textOf(m);
-          if (!text) return null; // ツールのみのアシスタント中間メッセージは表示しない
+          if (!text || text === "PROPOSE_INITIAL_SLOTS") return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
           const isUser = m.role === "user";
           return (
             <div key={m.id} className={isUser ? "self-end" : "self-start"}>
