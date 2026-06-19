@@ -830,6 +830,7 @@
     "chatSend": "Send",
     "chatThinking": "Thinking…",
     "chatPhaseCalendar": "Checking Google Calendar…",
+    "chatPhases": ["Reading your request", "Checking Google Calendar availability", "Looking for open times", "Putting the options together"],
     "chatExamples": ["30 min next week afternoon", "Any time tomorrow", "Earliest this week"],
     "chatError": "Something went wrong. Please try again.",
     "timezoneNote": "Japan Standard Time (JST)",

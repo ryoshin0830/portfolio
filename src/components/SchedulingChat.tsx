@@ -42,6 +42,7 @@ export default function SchedulingChat() {
   const [input, setInput] = useState("");
   const [thinking, setThinking] = useState(false);
   const [statusElapsed, setStatusElapsed] = useState(0);
+  const [typedStatus, setTypedStatus] = useState("");
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
 
   const [name, setName] = useState("");
@@ -54,8 +55,13 @@ export default function SchedulingChat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // 初回グリーティング（API を叩かず静的に出す）。
+  // 初回グリーティング（API を叩かず静的に出す）。マウント時に一度だけ。
+  // ※ [t] 依存で再発火すると会話履歴（ユーザー吹き出し等）を消してしまうため、
+  //    ref で初期化を 1 回に固定する。
+  const greetedRef = useRef(false);
   useEffect(() => {
+    if (greetedRef.current) return;
+    greetedRef.current = true;
     setBubbles([{ id: nextId(), role: "assistant", text: t("chatGreeting") }]);
   }, [t]);
 
@@ -65,6 +71,38 @@ export default function SchedulingChat() {
   }, [bubbles, thinking, selectedSlot]);
 
   const examples = useMemo(() => t.raw("chatExamples") as string[], [t]);
+
+  // 待機中のライブ・ナレーション。モデルの思考そのものは Hermes が途中出力しない
+  // ため取得できないので、進行フェーズ（要望解釈→カレンダー確認→…）を巡回させて
+  // 1 文字ずつタイプ表示し「ずっと動いている」状態にする（＝状況表示であって AI の
+  // 発話ではない）。経過秒(statusElapsed, サーバー由来)で 4 秒ごとに次の文へ。
+  const phases = useMemo(() => {
+    const raw = t.raw("chatPhases");
+    return Array.isArray(raw) && raw.length ? (raw as string[]) : [t("chatThinking")];
+  }, [t]);
+  const phaseText = phases[Math.floor(statusElapsed / 4) % phases.length];
+
+  useEffect(() => {
+    if (!thinking) {
+      setTypedStatus("");
+      return;
+    }
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setTypedStatus(phaseText);
+      return;
+    }
+    setTypedStatus("");
+    let i = 0;
+    const id = setInterval(() => {
+      i += 1;
+      setTypedStatus(phaseText.slice(0, i));
+      if (i >= phaseText.length) clearInterval(id); // 打ち切り（無限ループにしない）
+    }, 38);
+    return () => clearInterval(id);
+  }, [thinking, phaseText]);
 
   const fmtSlot = useCallback(
     (iso: string) =>
@@ -310,7 +348,7 @@ export default function SchedulingChat() {
                 <span className="h-2 w-2 animate-bounce rounded-full bg-[color:var(--color-ink-muted)]" />
               </span>
               <span className="text-sm">
-                {statusElapsed >= 6 ? t("chatPhaseCalendar") : t("chatThinking")}
+                {typedStatus}
                 {statusElapsed > 0 ? ` · ${statusElapsed}s` : ""}
               </span>
             </div>
