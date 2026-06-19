@@ -54,8 +54,8 @@ export interface BookingRequest {
   start: string;
   /** 選択枠の終了 ISO8601 */
   end: string;
+  /** 訪問者の名前（または仮称） */
   name: string;
-  email: string;
   note?: string;
   /** ハニーポット。ボットだけが埋める隠しフィールド。空であることを必須とする。 */
   company?: string;

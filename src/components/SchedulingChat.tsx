@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useMemo, useRef, useState, createContext, useContext } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
+
+const ListContext = createContext<"ul" | "ol">("ul");
 
 /**
  * AI ネイティブな会話型日程調整（クライアント）。
@@ -17,6 +19,7 @@ import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
  */
 export default function SchedulingChat() {
   const t = useTranslations("scheduling");
+  const locale = useLocale();
 
   const transport = useMemo(
     () => new DefaultChatTransport({ api: "/api/schedule/chat" }),
@@ -26,7 +29,6 @@ export default function SchedulingChat() {
 
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
-  const examples = useMemo(() => t.raw("chatExamples") as string[], [t]);
 
   const busy = status === "submitted" || status === "streaming";
 
@@ -34,6 +36,14 @@ export default function SchedulingChat() {
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, status]);
+
+  const initRef = useRef(false);
+  useEffect(() => {
+    if (!initRef.current && messages.length === 0) {
+      initRef.current = true;
+      sendMessage({ text: `PROPOSE_INITIAL_SLOTS_IN_${locale.toUpperCase()}` });
+    }
+  }, [messages.length, sendMessage, locale]);
 
   const submit = (text: string) => {
     const clean = text.trim();
@@ -66,33 +76,11 @@ export default function SchedulingChat() {
 
       {/* 会話 */}
       <div ref={scrollRef} className="flex h-[26rem] flex-col gap-4 overflow-y-auto px-5 py-5">
-        {/* 初回グリーティング（API を叩かず静的に） */}
-        <div className="self-start">
-          <div className="max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)]">
-            {t("chatGreeting")}
-          </div>
-        </div>
 
-        {/* 例示プロンプト（会話開始前のみ） */}
-        {messages.length === 0 && !busy && (
-          <ul className="flex flex-wrap gap-2 self-start">
-            {examples.map((ex) => (
-              <li key={ex}>
-                <button
-                  type="button"
-                  onClick={() => submit(ex)}
-                  className="rounded-full border border-[color:var(--color-rule)] px-3.5 py-2 text-sm text-[color:var(--color-ink-soft)] transition-colors hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
-                >
-                  {ex}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
 
         {messages.map((m) => {
           const text = textOf(m);
-          if (!text) return null; // ツールのみのアシスタント中間メッセージは表示しない
+          if (!text || text.startsWith("PROPOSE_INITIAL_SLOTS")) return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
           const isUser = m.role === "user";
           return (
             <div key={m.id} className={isUser ? "self-end" : "self-start"}>
@@ -101,10 +89,62 @@ export default function SchedulingChat() {
                   isUser
                     ? "ml-auto max-w-[80%] whitespace-pre-wrap rounded-2xl bg-[color:var(--color-accent)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-white"
                     : // アシスタントは Markdown 描画（太字・箇条書き）。bubble 内を詰めて整形。
-                      "max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] [&>*]:m-0 [&>*+*]:mt-2 [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-disc [&_ul]:pl-5"
+                      "max-w-[80%] rounded-2xl bg-[color:var(--color-bg-soft)] px-4 py-2.5 text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] [&>*]:m-0 [&>*+*]:mt-2 [&_li]:my-0.5 [&_ol]:my-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_strong]:font-semibold [&_ul]:my-1 [&_ul]:list-none [&_ul]:pl-0"
                 }
               >
-                {isUser ? text : <ReactMarkdown>{text}</ReactMarkdown>}
+                {isUser ? text : (
+                  <ReactMarkdown
+                    components={{
+                      ul: function MarkdownUl({ children, ...props }) {
+                        return (
+                          <ListContext.Provider value="ul">
+                            <ul className="my-3 flex flex-col gap-2 p-0 list-none" {...props}>
+                              {children}
+                            </ul>
+                          </ListContext.Provider>
+                        );
+                      },
+                      ol: function MarkdownOl({ children, ...props }) {
+                        return (
+                          <ListContext.Provider value="ol">
+                            <ol className="my-1 list-decimal pl-5" {...props}>
+                              {children}
+                            </ol>
+                          </ListContext.Provider>
+                        );
+                      },
+                      li: function MarkdownLi({ children, ...props }) {
+                        const listType = useContext(ListContext);
+
+                        if (listType === "ol") {
+                          return <li className="my-0.5" {...props}>{children}</li>;
+                        }
+
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        const extractText = (child: any): string => {
+                          if (typeof child === "string" || typeof child === "number") return String(child);
+                          if (Array.isArray(child)) return child.map(extractText).join("");
+                          if (child && child.props && child.props.children) return extractText(child.props.children);
+                          return "";
+                        };
+                        const rawText = extractText(children);
+                        return (
+                          <li className="m-0 p-0" {...props}>
+                            <button
+                              type="button"
+                              onClick={() => submit(rawText)}
+                              className="w-full text-left rounded-xl border border-[color:var(--color-accent-soft)] bg-[color:var(--color-bg)] px-4 py-3 text-[0.95rem] text-[color:var(--color-ink)] shadow-sm transition-all hover:border-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white hover:shadow-md"
+                            >
+                              {children}
+                            </button>
+                          </li>
+                        );
+                      },
+                    }}
+                  >
+                    {text}
+                  </ReactMarkdown>
+                )}
               </div>
             </div>
           );

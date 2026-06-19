@@ -345,8 +345,9 @@ export function computeOpenSlots(
   const slots: Slot[] = [];
   const startMin = cfg.startHour * 60;
   const endMin = cfg.endHour * 60;
-  // ステップは枠の刻み（cfg.slotMinutes）。枠長は duration（刻みより長くてもよい）。
-  for (let m = startMin; m + duration <= endMin; m += cfg.slotMinutes) {
+  // ステップは 30 分刻み固定とする。枠長は duration（刻みより長くてもよい）。
+  const stepMinutes = 30;
+  for (let m = startMin; m + duration <= endMin; m += stepMinutes) {
     if (!inPartOfDay(m, part)) continue;
     const startIso = minutesToIso(date, m, cfg);
     const endIso = minutesToIso(date, m + duration, cfg);
@@ -434,8 +435,6 @@ export async function findSlotsInRange(
   return { timezone: cfg.timezone, busy, slots: out };
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 /**
  * 予約を確定する。確定前にその枠がまだ空いているか再検証し（二重予約防止）、
  * 問題なければ Hermes に Google Calendar イベント作成を依頼する。
@@ -450,8 +449,7 @@ export async function createBooking(
   if (req.company && req.company.trim() !== "") {
     return { ok: false, error: "spam_detected" };
   }
-  if (!req.name?.trim()) return { ok: false, error: "name_required" };
-  if (!EMAIL_RE.test(req.email ?? "")) return { ok: false, error: "invalid_email" };
+  if (!req.name.trim()) return { ok: false, error: "name_required" };
   const startMs = Date.parse(req.start);
   const endMs = Date.parse(req.end);
   if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) {
@@ -484,7 +482,6 @@ export async function createBooking(
       startIso: req.start,
       endIso: req.end,
       timeZone: cfg.timezone,
-      attendeeEmail: req.email,
       description: safeNote || undefined,
     });
     return { ok: true, htmlLink: ev.htmlLink, meetUrl: ev.meetUrl };

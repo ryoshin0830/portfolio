@@ -74,9 +74,9 @@ describe("isValidDateString", () => {
 });
 
 describe("computeOpenSlots — 基本", () => {
-  it("予定無しなら営業時間ぶんの60分枠を全部返す（10-12時）", () => {
+  it("予定無しなら営業時間ぶんの60分枠を30分刻みで全部返す（10-12時）", () => {
     const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
-    expect(labels(slots)).toEqual(["10:00", "11:00"]);
+    expect(labels(slots)).toEqual(["10:00", "10:30", "11:00"]);
     expect(slots[0].start).toBe("2026-06-25T10:00:00+09:00");
     expect(slots[0].end).toBe("2026-06-25T11:00:00+09:00");
   });
@@ -115,10 +115,10 @@ describe("computeOpenSlots — 週末", () => {
 });
 
 describe("computeOpenSlots — 可変長(duration)", () => {
-  it("既定では 60分枠を60分刻みで返す", () => {
+  it("既定では 60分枠を30分刻みで返す", () => {
     const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 10, endHour: 12 }), FAR_PAST);
-    // 10:00-11:00, 11:00-12:00
-    expect(labels(slots)).toEqual(["10:00", "11:00"]);
+    // 10:00-11:00, 10:30-11:30, 11:00-12:00
+    expect(labels(slots)).toEqual(["10:00", "10:30", "11:00"]);
     expect(slots[0].end).toBe("2026-06-25T11:00:00+09:00");
     slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBe(60 * 60_000));
   });
@@ -136,12 +136,12 @@ describe("computeOpenSlots — 時間帯(partOfDay)", () => {
     const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "morning" });
     expect(slots.every((s) => Number(s.label.slice(0, 2)) < 12)).toBe(true);
     expect(labels(slots)[0]).toBe("09:00");
-    expect(labels(slots).at(-1)).toBe("11:00");
+    expect(labels(slots).at(-1)).toBe("11:30");
   });
   it("afternoon は 12:00〜16:59 開始", () => {
     const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "afternoon" });
     expect(labels(slots)[0]).toBe("12:00");
-    expect(labels(slots).at(-1)).toBe("16:00");
+    expect(labels(slots).at(-1)).toBe("16:30");
   });
   it("evening は 17:00 以降", () => {
     const slots = computeOpenSlots("2026-06-25", [], base, FAR_PAST, { partOfDay: "evening" });
@@ -190,8 +190,10 @@ describe("findSlotsInRange", () => {
     );
     expect(labels(res.slots)).toEqual([
       "10:00",
+      "10:30",
       "11:00",
       "10:00",
+      "10:30",
       "11:00",
     ]);
   });
@@ -258,7 +260,7 @@ describe("findSlotsInRange", () => {
       now,
     );
     expect(res.busy).toEqual(busy);
-    expect(labels(res.slots)).toEqual(["09:00", "11:00"]);
+    expect(labels(res.slots)).toEqual(["09:00", "09:30", "11:00"]);
   });
 
   it("範囲を [今日, 今日+horizon] にクランプ（過去開始は今日に）", async () => {
@@ -319,16 +321,14 @@ describe("createBooking — 入力検証（insert を呼ばない）", () => {
     start: "2026-06-22T13:00:00+09:00",
     end: "2026-06-22T13:30:00+09:00",
     name: "山田太郎",
-    email: "yamada@example.com",
   };
 
   it.each([
     ["ハニーポット", { ...good, company: "bot" }, "spam_detected"],
     ["名前なし", { ...good, name: "  " }, "name_required"],
-    ["不正メール", { ...good, email: "nope" }, "invalid_email"],
     ["end<=start", { ...good, end: good.start }, "invalid_slot"],
     ["長すぎ(>240分)", { ...good, end: "2026-06-22T18:00:00+09:00" }, "invalid_slot"],
-    ["リード内", { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T10:30:00+09:00", name: "A", email: "a@b.co" }, "slot_in_past"],
+    ["リード内", { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T10:30:00+09:00", name: "A" }, "slot_in_past"],
   ])("%s → %s", async (_label, req, expected) => {
     const res = await createBooking(req, cfg(), now);
     expect(res.ok).toBe(false);
@@ -343,7 +343,6 @@ describe("createBooking — 競合・作成・失敗", () => {
     start: "2026-06-22T13:00:00+09:00",
     end: "2026-06-22T13:30:00+09:00",
     name: "山田太郎",
-    email: "yamada@example.com",
     note: "相談",
   };
 
@@ -392,7 +391,6 @@ describe("createBooking — 競合・作成・失敗", () => {
       startIso: good.start,
       endIso: good.end,
       timeZone: "Asia/Tokyo",
-      attendeeEmail: good.email,
       description: "相談",
     });
   });

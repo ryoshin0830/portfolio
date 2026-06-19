@@ -856,7 +856,7 @@
     "errorGeneric": "予約に失敗しました。時間をおいて再度お試しください。",
     "errorSlotTaken": "この枠はちょうど埋まってしまいました。別の時間を選んでください。",
     "successTitle": "予約が完了しました",
-    "successBody": "招待メールをお送りしました。当日お会いできるのを楽しみにしています。",
+    "successBody": "ご予約ありがとうございます！当日お会いできるのを楽しみにしています。",
     "successMeet": "Google Meet に参加",
     "successCalendar": "カレンダーで見る"
   },

@@ -128,20 +128,20 @@ export async function insertEvent(args: {
   startIso: string;
   endIso: string;
   timeZone: string;
-  attendeeEmail: string;
+  attendeeEmail?: string;
   description?: string;
 }): Promise<CreatedEvent> {
   const cal = getClient();
   const res = await cal.events.insert({
     calendarId: getCalendarId(),
     conferenceDataVersion: 1, // Meet 生成にはクエリパラメータで必須
-    sendUpdates: "all", // 参加者へ招待メール送信
+    sendUpdates: args.attendeeEmail ? "all" : "none", // 参加者がいる場合のみ招待メール送信
     requestBody: {
       summary: args.summary,
       description: args.description || undefined,
       start: { dateTime: args.startIso, timeZone: args.timeZone },
       end: { dateTime: args.endIso, timeZone: args.timeZone },
-      attendees: [{ email: args.attendeeEmail }],
+      ...(args.attendeeEmail ? { attendees: [{ email: args.attendeeEmail }] } : {}),
       conferenceData: {
         createRequest: {
           // 冪等キー（同じ requestId なら重複生成しない）。crypto はランタイム標準。
