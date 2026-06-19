@@ -5,10 +5,14 @@ import { findSlotsInRange, createBooking, DEFAULT_CONFIG } from "@/lib/schedulin
 /**
  * 日程調整エージェント用ツール。
  *
- * ★セキュリティ境界: これらのツールが返すのは「空き時刻」と「予約結果」だけ。エージェント
- *   （DeepSeek）にカレンダーの中身（予定名・参加者等）は一切渡らないので、プロンプト
- *   インジェクションされても漏洩しない。カレンダー読み取りは freebusy のみ（src/lib）。
+ * ★セキュリティ境界: エージェント（DeepSeek）に渡すカレンダー情報は Google Calendar
+ *   freebusy の busy 時間帯のみ。予定名・説明・参加者等は取得しない。
  */
+
+const busySchema = z.object({
+  start: z.string().describe("ISO8601 +09:00"),
+  end: z.string().describe("ISO8601 +09:00"),
+});
 
 const slotSchema = z.object({
   start: z.string().describe("ISO8601 +09:00"),
@@ -19,7 +23,8 @@ const slotSchema = z.object({
 export const findSlotsTool = createTool({
   id: "find-slots",
   description:
-    "Find OPEN meeting slots in the owner's calendar for a date range. Returns only free time slots (no event details). " +
+    "Get the owner's title-free calendar busy intervals and all open meeting slots for a date range. " +
+    "Busy intervals come from Google Calendar freebusy and contain only start/end times, no event titles or details. " +
     "Convert the visitor's natural-language request into a concrete date range, duration, and part of day before calling.",
   inputSchema: z.object({
     rangeStartDate: z.string().describe("検索開始日 YYYY-MM-DD（オーナーTZ）"),
@@ -34,17 +39,20 @@ export const findSlotsTool = createTool({
       .optional()
       .describe("時間帯フィルタ"),
   }),
-  outputSchema: z.object({ slots: z.array(slotSchema) }),
+  outputSchema: z.object({
+    timezone: z.string(),
+    busy: z.array(busySchema).describe("Google Calendar freebusy の予定あり時間帯。タイトル等は含まない"),
+    slots: z.array(slotSchema),
+  }),
   execute: async (inputData) => {
     const { rangeStartDate, rangeEndDate, durationMin, partOfDay } = inputData;
-    const { slots } = await findSlotsInRange(
+    return findSlotsInRange(
       rangeStartDate,
       rangeEndDate,
       DEFAULT_CONFIG,
       new Date(),
       { durationMinutes: durationMin, partOfDay },
     );
-    return { slots };
   },
 });
 
