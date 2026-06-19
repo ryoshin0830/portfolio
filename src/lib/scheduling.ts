@@ -435,8 +435,6 @@ export async function findSlotsInRange(
   return { timezone: cfg.timezone, busy, slots: out };
 }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 /**
  * 予約を確定する。確定前にその枠がまだ空いているか再検証し（二重予約防止）、
  * 問題なければ Hermes に Google Calendar イベント作成を依頼する。
