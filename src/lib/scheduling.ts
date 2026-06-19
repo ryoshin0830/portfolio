@@ -4,6 +4,8 @@ import type {
   BookingRequest,
   BookingResult,
   BusyInterval,
+  ChatMessage,
+  ChatResponse,
   SchedulingConfig,
   Slot,
 } from "@/types/scheduling";
@@ -215,5 +217,89 @@ export async function createBooking(
     ok: true,
     htmlLink: typeof parsed.htmlLink === "string" ? parsed.htmlLink : undefined,
     meetUrl: typeof parsed.meetUrl === "string" && parsed.meetUrl ? parsed.meetUrl : undefined,
+  };
+}
+
+/** オーナー TZ での今日（YYYY-MM-DD）と曜日英名を返す。 */
+function ownerToday(cfg: SchedulingConfig, now: Date): { date: string; weekday: string } {
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: cfg.timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    weekday: "long",
+  });
+  const parts = fmt.formatToParts(now);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+  return { date: `${get("year")}-${get("month")}-${get("day")}`, weekday: get("weekday") };
+}
+
+const LOCALE_NAMES: Record<string, string> = {
+  ja: "Japanese",
+  en: "English",
+  zh: "Chinese",
+};
+
+/**
+ * AI ネイティブな会話日程調整。訪問者の自然言語リクエスト（会話履歴）を Hermes に渡し、
+ * Google カレンダーを実際に読んで「空いている枠の提案」と「返答メッセージ」を JSON で返す。
+ *
+ * ここが「AI を生かす」中核: 何日・どの時間帯・何分かといった曖昧な要望の解釈を LLM に任せ、
+ * 営業ルール（平日 / 10–18 / 30分 / リードタイム / 期限）を制約として渡す。確定（書き込み）は
+ * 従来どおり createBooking の決定論パスで安全に行う。
+ */
+export async function getChatSuggestion(
+  messages: ChatMessage[],
+  locale: string,
+  cfg: SchedulingConfig = DEFAULT_CONFIG,
+  now: Date = new Date(),
+): Promise<ChatResponse> {
+  const { date: today, weekday } = ownerToday(cfg, now);
+  const lang = LOCALE_NAMES[locale] ?? "the visitor's language";
+  const lastWindow = new Date(now.getTime() + cfg.horizonDays * 86_400_000);
+  const horizonDate = ownerToday(cfg, lastWindow).date;
+
+  const system =
+    `You are the scheduling assistant on the site owner's personal website, chatting with a ` +
+    `visitor who wants to book a short meeting. Today is ${today} (${weekday}) in ${cfg.timezone}. ` +
+    `Booking rules: ${cfg.excludeWeekends ? "weekdays (Mon-Fri) only, " : ""}` +
+    `between ${cfg.startHour}:00 and ${cfg.endHour}:00 ${cfg.timezone}, ${cfg.slotMinutes}-minute slots, ` +
+    `at least ${cfg.leadMinutes} minutes from now, no later than ${horizonDate}. ` +
+    `Use the Google Calendar tool to read the owner's PRIMARY calendar and find slots that are ACTUALLY FREE ` +
+    `(not overlapping any existing event) and satisfy every rule. Interpret the visitor's natural-language ` +
+    `request (e.g. "next week afternoon", "30 min tomorrow morning") and propose at most 6 concrete options. ` +
+    `Write the "reply" in ${lang}, warm and concise (1-2 sentences). ` +
+    `Respond with ONLY a minified JSON object, no prose, no code fences: ` +
+    `{"reply":"<message in ${lang}>","slots":[{"start":"<ISO8601 with +09:00>","end":"<ISO8601 with +09:00>"}]}. ` +
+    `If nothing fits or you need clarification, return "slots":[] and ask in "reply".`;
+
+  const convo = messages
+    .slice(-8) // keep the prompt bounded
+    .map((m) => `${m.role === "user" ? "Visitor" : "Assistant"}: ${m.content}`)
+    .join("\n");
+
+  const text = await hermesChat([
+    { role: "system", content: system },
+    { role: "user", content: convo },
+  ]);
+  const parsed = extractJson<{ reply?: string; slots?: { start?: string; end?: string }[] }>(text);
+
+  const earliest = now.getTime() + cfg.leadMinutes * 60_000;
+  const latest = lastWindow.getTime();
+  const slots: Slot[] = (parsed.slots ?? [])
+    .map((s) => ({ start: String(s.start ?? ""), end: String(s.end ?? "") }))
+    .filter((s) => {
+      const a = Date.parse(s.start);
+      const b = Date.parse(s.end);
+      return (
+        Number.isFinite(a) && Number.isFinite(b) && b > a && a >= earliest && a <= latest
+      );
+    })
+    .slice(0, 6)
+    .map((s) => ({ start: s.start, end: s.end, label: s.start.slice(11, 16) }));
+
+  return {
+    reply: typeof parsed.reply === "string" && parsed.reply.trim() ? parsed.reply.trim() : "",
+    slots,
   };
 }

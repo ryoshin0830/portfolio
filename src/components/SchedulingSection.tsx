@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
-import SchedulingCalendar from "./SchedulingCalendar";
+import SchedulingChat from "./SchedulingChat";
 
 /**
  * AI 日程調整セクション（#scheduling）。
  *
- * Server Component。見出しはサーバーで描画し、対話的なカレンダー本体だけを
- * クライアント（SchedulingCalendar）に委ねる。空き状況の取得・予約確定は
+ * Server Component。見出しはサーバーで描画し、対話的なチャット本体だけを
+ * クライアント（SchedulingChat）に委ねる。訪問者は自然言語で要望を書き、
  * /api/schedule/* 経由でサーバー側 → Hermes(自宅Mac) → Google Calendar と流れる。
  */
 export default async function SchedulingSection() {
@@ -21,7 +21,7 @@ export default async function SchedulingSection() {
             {t("subtitle")}
           </p>
         </header>
-        <SchedulingCalendar />
+        <SchedulingChat />
       </div>
     </section>
   );

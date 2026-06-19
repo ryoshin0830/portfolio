@@ -55,6 +55,20 @@ export interface BookingResult {
   error?: string;
 }
 
+/** 会話 1 ターン（AI ネイティブなチャット日程調整用）。 */
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+/** POST /api/schedule/chat のレスポンス。AI の返答＋提案された予約枠。 */
+export interface ChatResponse {
+  /** 訪問者の言語で書かれた AI の返答メッセージ */
+  reply: string;
+  /** AI が提案した予約可能枠（クリックで予約に進む）。無ければ空配列。 */
+  slots: Slot[];
+}
+
 /** 営業時間・枠長などの設定（サーバー側で空き枠を決定論的に計算するための入力）。 */
 export interface SchedulingConfig {
   /** IANA タイムゾーン（固定 +09:00 前提、Asia/Tokyo は DST 無し） */
