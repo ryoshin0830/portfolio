@@ -27,8 +27,13 @@ export function isHermesConfigured(): boolean {
   return Boolean(process.env.HERMES_API_URL && process.env.HERMES_API_KEY);
 }
 
-/** LLM/カレンダー往復のタイムアウト（ms）。ツール実行を挟むので長めに取る。 */
-const HERMES_TIMEOUT_MS = 45_000;
+/**
+ * LLM/カレンダー往復のタイムアウト（ms）。ツール実行を挟むので長めに取る。
+ * 「直近の空き」のようなオープンな探索だと、予定が埋まっている日を前方に走査して
+ * 最初の空き日へ到達するまで時間がかかる（実測 ~60s）ため、それを吸収できる長さ。
+ * ※ Vercel の関数実行上限（route の maxDuration）より短く保つこと。
+ */
+const HERMES_TIMEOUT_MS = 90_000;
 
 /**
  * Hermes の /v1/chat/completions を 1 往復叩いて、アシスタントのテキストを返す。

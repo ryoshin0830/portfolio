@@ -266,7 +266,11 @@ export async function getChatSuggestion(
     `between ${cfg.startHour}:00 and ${cfg.endHour}:00 ${cfg.timezone}, ${cfg.slotMinutes}-minute slots, ` +
     `at least ${cfg.leadMinutes} minutes from now, no later than ${horizonDate}. ` +
     `Use the Google Calendar tool to read the owner's PRIMARY calendar and find slots that are ACTUALLY FREE ` +
-    `(not overlapping any existing event) and satisfy every rule. Interpret the visitor's natural-language ` +
+    `(not overlapping any existing event) and satisfy every rule. ` +
+    `IMPORTANT for speed: query free/busy for the WHOLE relevant date range in as FEW calls as possible ` +
+    `(ideally a single free/busy range query), then compute matching slots yourself — do NOT scan day by day. ` +
+    `For open-ended requests like "earliest available", query free/busy across the entire allowed window at once ` +
+    `and return the first matching slots. Interpret the visitor's natural-language ` +
     `request (e.g. "next week afternoon", "30 min tomorrow morning") and propose at most 6 concrete options. ` +
     `Write the "reply" in ${lang}, warm and concise (1-2 sentences). ` +
     `Respond with ONLY a minified JSON object, no prose, no code fences: ` +

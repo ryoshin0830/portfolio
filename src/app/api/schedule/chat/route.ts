@@ -5,7 +5,9 @@ import { rateLimit, clientIp } from "@/lib/rate-limit";
 import type { ChatMessage } from "@/types/scheduling";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+// 「直近の空き」等のオープン探索は ~60s かかることがあるため余裕を持たせる。
+// 注: 60s 超は Vercel の Pro 以上のプランが必要（Hobby は 60s で打ち切られる）。
+export const maxDuration = 120;
 export const dynamic = "force-dynamic";
 
 /**
