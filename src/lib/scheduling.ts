@@ -181,9 +181,11 @@ function heuristicNeedsTravel(event: CalendarEventContext): boolean {
   const location = event.location ?? "";
   const combined = `${summary} ${location}`;
 
-  if (location && !ONLINE_SIGNAL_RE.test(location)) return true;
-  if (PHYSICAL_SIGNAL_RE.test(combined)) return true;
   if (event.hasConference || ONLINE_SIGNAL_RE.test(combined)) return false;
+  if (PHYSICAL_SIGNAL_RE.test(combined)) return true;
+  
+  // LLM fallback: default to false to prevent phantom blocking of bookings
+  // (Previously, any non-online location forced needsTravel=true, which caused slot_taken bugs)
   return false;
 }
 
