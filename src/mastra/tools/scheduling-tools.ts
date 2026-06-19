@@ -66,7 +66,6 @@ export const bookSlotTool = createTool({
     start: z.string().describe("ISO8601 +09:00"),
     end: z.string().describe("ISO8601 +09:00"),
     name: z.string().describe("予約者の名前"),
-    email: z.string().describe("予約者のメール"),
     note: z.string().optional().describe("用件（任意）"),
   }),
   outputSchema: z.object({

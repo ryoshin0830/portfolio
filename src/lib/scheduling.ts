@@ -451,8 +451,7 @@ export async function createBooking(
   if (req.company && req.company.trim() !== "") {
     return { ok: false, error: "spam_detected" };
   }
-  if (!req.name?.trim()) return { ok: false, error: "name_required" };
-  if (!EMAIL_RE.test(req.email ?? "")) return { ok: false, error: "invalid_email" };
+  if (!req.name.trim()) return { ok: false, error: "name_required" };
   const startMs = Date.parse(req.start);
   const endMs = Date.parse(req.end);
   if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) {
@@ -485,7 +484,6 @@ export async function createBooking(
       startIso: req.start,
       endIso: req.end,
       timeZone: cfg.timezone,
-      attendeeEmail: req.email,
       description: safeNote || undefined,
     });
     return { ok: true, htmlLink: ev.htmlLink, meetUrl: ev.meetUrl };

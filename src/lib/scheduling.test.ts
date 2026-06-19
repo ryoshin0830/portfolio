@@ -321,16 +321,14 @@ describe("createBooking — 入力検証（insert を呼ばない）", () => {
     start: "2026-06-22T13:00:00+09:00",
     end: "2026-06-22T13:30:00+09:00",
     name: "山田太郎",
-    email: "yamada@example.com",
   };
 
   it.each([
     ["ハニーポット", { ...good, company: "bot" }, "spam_detected"],
     ["名前なし", { ...good, name: "  " }, "name_required"],
-    ["不正メール", { ...good, email: "nope" }, "invalid_email"],
     ["end<=start", { ...good, end: good.start }, "invalid_slot"],
     ["長すぎ(>240分)", { ...good, end: "2026-06-22T18:00:00+09:00" }, "invalid_slot"],
-    ["リード内", { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T10:30:00+09:00", name: "A", email: "a@b.co" }, "slot_in_past"],
+    ["リード内", { start: "2026-06-22T10:00:00+09:00", end: "2026-06-22T10:30:00+09:00", name: "A" }, "slot_in_past"],
   ])("%s → %s", async (_label, req, expected) => {
     const res = await createBooking(req, cfg(), now);
     expect(res.ok).toBe(false);
@@ -345,7 +343,6 @@ describe("createBooking — 競合・作成・失敗", () => {
     start: "2026-06-22T13:00:00+09:00",
     end: "2026-06-22T13:30:00+09:00",
     name: "山田太郎",
-    email: "yamada@example.com",
     note: "相談",
   };
 
@@ -394,7 +391,6 @@ describe("createBooking — 競合・作成・失敗", () => {
       startIso: good.start,
       endIso: good.end,
       timeZone: "Asia/Tokyo",
-      attendeeEmail: good.email,
       description: "相談",
     });
   });
