@@ -97,21 +97,21 @@ export default function SchedulingChat() {
                     className={
                       isUser
                         ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-4 text-[0.95rem] leading-relaxed text-white shadow-lg shadow-[color:var(--color-accent)]/20"
-                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)]"
+                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] grid grid-cols-1 md:gap-x-8 items-start md:has-[ul]:grid-cols-[minmax(300px,38%)_1fr] lg:has-[ul]:grid-cols-[minmax(350px,35%)_1fr]"
                     }
                   >
                     {isUser ? text : (
                       <ReactMarkdown
                         components={{
                           p: ({ children }) => (
-                            <p className="w-fit max-w-[90%] sm:max-w-[85%] rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 [&_strong]:font-semibold">
+                            <p className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 [&_strong]:font-semibold">
                               {children}
                             </p>
                           ),
                           ul: function MarkdownUl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="my-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-0 list-none" {...props}>
+                                <ul className="md:col-start-2 md:row-start-1 md:row-span-12 my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
@@ -120,7 +120,7 @@ export default function SchedulingChat() {
                           ol: function MarkdownOl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ol">
-                                <ol className="w-fit max-w-[90%] sm:max-w-[85%] rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 list-decimal pl-9 [&_li]:my-1" {...props}>
+                                <ol className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 list-decimal pl-9 [&_li]:my-1" {...props}>
                                   {children}
                                 </ol>
                               </ListContext.Provider>
@@ -180,7 +180,7 @@ export default function SchedulingChat() {
                                   onClick={() => submit(rawText)}
                                   className="group flex w-full h-full items-center justify-between gap-4 rounded-[1.25rem] border border-[color:var(--color-rule-soft)] bg-white/60 px-5 py-4 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-sm backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[color:var(--color-accent)]/40 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] dark:border-[color:var(--color-rule-soft)] dark:bg-white/5 dark:hover:border-[color:var(--color-accent)]/40 dark:hover:bg-white/10 dark:hover:shadow-[0_12px_40px_-12px_rgba(255,255,255,0.05)]"
                                 >
-                                  <span className="leading-relaxed">{children}</span>
+                                  <span className="leading-relaxed break-words min-w-0 flex-1">{children}</span>
                                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 shadow-sm">
                                     <LuSendHorizontal size={14} className="translate-x-[1px]" />
                                   </span>
