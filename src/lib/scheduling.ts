@@ -173,8 +173,6 @@ function inPartOfDay(startMin: number, part: PartOfDay): boolean {
 
 const ONLINE_SIGNAL_RE =
   /(online|remote|video|call|phone|zoom|google\s*meet|\bmeet\b|teams|webex|slack huddle|オンライン|リモート|在宅|電話|通話|ビデオ|视讯|视频|线上|在线|远程)/i;
-const PHYSICAL_SIGNAL_RE =
-  /(in[-\s]?person|onsite|office|visit|commute|clinic|hospital|dentist|gym|restaurant|lunch|dinner|airport|station|train|flight|taxi|school|university|errand|出社|オフィス|訪問|来社|外出|移動|通勤|病院|歯医者|整体|美容院|ジム|ランチ|ディナー|会食|空港|駅|新幹線|飛行機|電車|タクシー|学校|大学|会社|面谈|面談|线下|線下|医院|机场|车站|電車|地铁|高铁)/i;
 
 function heuristicNeedsTravel(event: CalendarEventContext): boolean {
   const summary = event.summary ?? "";
