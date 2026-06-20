@@ -1,12 +1,25 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { isGoogleConfigured } from "@/lib/google-calendar";
 import { createBooking } from "@/lib/scheduling";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
-import type { BookingRequest } from "@/types/scheduling";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
 export const dynamic = "force-dynamic";
+
+/**
+ * 予約リクエストのランタイム検証。生のクライアント JSON を信頼しないための境界。
+ * 以前は `as BookingRequest` キャストのみで、name 欠落時に createBooking 内で
+ * TypeError → 502 になっていた。ここで弾いて 400 を返す。
+ */
+const bookingSchema = z.object({
+  start: z.string().min(1),
+  end: z.string().min(1),
+  name: z.string().min(1).max(80),
+  note: z.string().max(500).optional(),
+  company: z.string().optional(), // ハニーポット（空であることは createBooking が判定）
+});
 
 /**
  * POST /api/schedule/book
@@ -22,15 +35,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
   }
 
-  let body: BookingRequest;
+  let raw: unknown;
   try {
-    body = (await req.json()) as BookingRequest;
+    raw = await req.json();
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
   }
 
+  const parsed = bookingSchema.safeParse(raw);
+  if (!parsed.success) {
+    return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
+  }
+
   try {
-    const result = await createBooking(body);
+    const result = await createBooking(parsed.data);
     // 検証エラー（不正入力・枠埋まり・スパム）は 400、成功は 200。
     const status = result.ok ? 200 : result.error === "slot_taken" ? 409 : 400;
     return NextResponse.json(result, { status });
