@@ -1,19 +1,41 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
-import { findSlotsInRange, createBooking, DEFAULT_CONFIG } from "@/lib/scheduling";
+import {
+  findSlotsInRange,
+  createBooking,
+  DEFAULT_CONFIG,
+  type FindSlotsResult,
+} from "@/lib/scheduling";
+import type { Slot } from "@/types/scheduling";
 
 /**
  * 日程調整エージェント用ツール。
  *
  * ★セキュリティ境界: 予定名・場所等はサーバー内部の移動判定 LLM にだけ渡す。
- *   エージェント（DeepSeek）とブラウザに返すのは、移動パディング適用後の unavailable
- *   時間帯と空き枠のみ。予定名・場所・説明・参加者等は返さない。
+ *   エージェント（DeepSeek）とブラウザに返すのは、移動パディング適用後の空き枠のみ。
+ *   予定名・場所・説明・参加者等は返さない。
  */
 
-const busySchema = z.object({
-  start: z.string().describe("ISO8601 +09:00"),
-  end: z.string().describe("ISO8601 +09:00"),
-});
+/**
+ * find-slots の結果をエージェント向けに軽量化する純関数（トークン削減）。
+ *  - `busy`（unavailable 区間）はエージェントの提示判断に不要なので落とす。
+ *    空き枠 `slots` は既に busy/移動パディングを差し引き済みで、これだけで十分。
+ *  - `slots` は先頭（＝最も早い日時順）から `limit` 件までに制限する。エージェントは
+ *    ~6 件しか提示しないため、数百件を文脈に載せるのは純粋な無駄。
+ */
+export const MAX_AGENT_SLOTS = 40;
+
+export function slimSlotsForAgent(
+  result: FindSlotsResult,
+  limit: number = MAX_AGENT_SLOTS,
+): { timezone: string; slots: Slot[]; truncated: boolean } {
+  const slots = result.slots.slice(0, Math.max(0, limit));
+  return {
+    timezone: result.timezone,
+    slots,
+    truncated: result.slots.length > slots.length,
+  };
+}
 
 const slotSchema = z.object({
   start: z.string().describe("ISO8601 +09:00"),
@@ -24,9 +46,10 @@ const slotSchema = z.object({
 export const findSlotsTool = createTool({
   id: "find-slots",
   description:
-    "Get the owner's privacy-safe unavailable intervals and all open meeting slots for a date range. " +
-    "Unavailable intervals already include travel padding around existing events that require movement. " +
-    "They contain only start/end times, no event titles, locations, attendees, or details. " +
+    "Get the owner's privacy-safe open meeting slots for a date range. " +
+    "Slots already exclude calendar conflicts and travel padding around existing events. " +
+    "They contain only start/end times and a label, no event titles, locations, attendees, or details. " +
+    "If 'truncated' is true, more slots exist than were returned; narrow the range or part of day. " +
     "Convert the visitor's natural-language request into a concrete date range, duration, and part of day before calling.",
   inputSchema: z.object({
     rangeStartDate: z.string().describe("検索開始日 YYYY-MM-DD（オーナーTZ）"),
@@ -43,18 +66,19 @@ export const findSlotsTool = createTool({
   }),
   outputSchema: z.object({
     timezone: z.string(),
-    busy: z.array(busySchema).describe("移動パディング込みの unavailable 時間帯。タイトル・場所等は含まない"),
     slots: z.array(slotSchema),
+    truncated: z.boolean().describe("上限件数で切り詰められたか（さらに空きがある）"),
   }),
   execute: async (inputData) => {
     const { rangeStartDate, rangeEndDate, durationMin, partOfDay } = inputData;
-    return findSlotsInRange(
+    const result = await findSlotsInRange(
       rangeStartDate,
       rangeEndDate,
       DEFAULT_CONFIG,
       new Date(),
       { durationMinutes: durationMin, partOfDay },
     );
+    return slimSlotsForAgent(result);
   },
 });
 

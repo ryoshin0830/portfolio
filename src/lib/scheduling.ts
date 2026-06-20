@@ -434,6 +434,43 @@ export async function findSlotsInRange(
 }
 
 /**
+ * 予約要求の (start, end) が「実際に提示されうる枠」かを決定論的に検証する。
+ *
+ * 営業時間・30分グリッド・枠長・週末除外・リードタイム・horizon を一括で担保するため、
+ * busy 無しで構造的な候補枠を生成し、要求が**厳密一致**するかを照合する。これにより
+ * find-slots が生成しない時刻（深夜・グリッド外・営業時間外・遠い未来）を `/api/schedule/book`
+ * に直接 POST して予約する濫用を防ぐ。実際の空き(busy 競合)は createBooking が別途 slot_taken で扱う。
+ */
+export function isOfferableSlot(
+  startIso: string,
+  endIso: string,
+  cfg: SchedulingConfig = DEFAULT_CONFIG,
+  now: Date = new Date(),
+): boolean {
+  const startMs = Date.parse(startIso);
+  const endMs = Date.parse(endIso);
+  if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) return false;
+
+  const durationMinutes = Math.round((endMs - startMs) / 60_000);
+  if (durationMinutes < 5 || durationMinutes > MAX_SLOT_MINUTES) return false;
+
+  // 開始時刻(オーナー TZ)から対象日を求める。
+  const date = timestampToIso(startMs, cfg).slice(0, 10);
+
+  // horizon（今日〜今日+horizonDays）の範囲内か。
+  const today = ownerToday(cfg, now).date;
+  const horizon = ownerToday(cfg, new Date(now.getTime() + cfg.horizonDays * 86_400_000)).date;
+  if (date < today || date > horizon) return false;
+
+  // busy 無しで「営業時間 × 30分グリッド × 枠長 − 過去/リード − 週末」の候補を生成し、
+  // 要求枠が ISO で厳密一致する候補を持つか確認する。
+  const candidates = computeOpenSlots(date, [], cfg, now, { durationMinutes });
+  return candidates.some(
+    (s) => Date.parse(s.start) === startMs && Date.parse(s.end) === endMs,
+  );
+}
+
+/**
  * 予約を確定する。確定前にその枠がまだ空いているか再検証し（二重予約防止）、
  * 問題なければ Hermes に Google Calendar イベント作成を依頼する。
  */
@@ -447,7 +484,13 @@ export async function createBooking(
   if (req.company && req.company.trim() !== "") {
     return { ok: false, error: "spam_detected" };
   }
-  if (!req.name.trim()) return { ok: false, error: "name_required" };
+  // name は型ガード（route が zod 検証しても、ツール経路・直接呼び出しに備える）。
+  if (typeof req.name !== "string" || !req.name.trim()) {
+    return { ok: false, error: "name_required" };
+  }
+  if (typeof req.start !== "string" || typeof req.end !== "string") {
+    return { ok: false, error: "invalid_slot" };
+  }
   const startMs = Date.parse(req.start);
   const endMs = Date.parse(req.end);
   if (!Number.isFinite(startMs) || !Number.isFinite(endMs) || endMs <= startMs) {
@@ -458,6 +501,10 @@ export async function createBooking(
   }
   if (startMs < now.getTime() + cfg.leadMinutes * 60_000) {
     return { ok: false, error: "slot_in_past" };
+  }
+  // 提示されうる枠か（営業時間・グリッド・週末・horizon）。直 POST 濫用を防ぐ。
+  if (!isOfferableSlot(req.start, req.end, cfg, now)) {
+    return { ok: false, error: "slot_not_offered" };
   }
 
   // ── 二重予約チェック（確定直前に移動パディング込みで取り直す）──────────────

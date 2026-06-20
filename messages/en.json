@@ -833,6 +833,7 @@
     "chatPhases": ["Reading your request", "Checking Google Calendar availability", "Looking for open times", "Putting the options together"],
     "chatExamples": ["1 hour this weekend", "Weekday evening, 30 min", "Earliest opening"],
     "chatError": "Something went wrong. Please try again.",
+    "chatRetry": "Retry",
     "chatReplyOk": "Here are the closest open times — pick one below.",
     "chatReplyNone": "I couldn't find an opening in that range. Could you suggest another time?",
     "chatReplyNeedInfo": "Could you tell me a date or time range? For example: 30 min next week afternoon.",
