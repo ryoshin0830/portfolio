@@ -126,10 +126,11 @@ export default function SchedulingChat() {
                             
                             childrenArray.forEach(child => {
                               const rawText = extractText(child).trim();
-                              const timeSlotRegex = /^(?:\d{4}\/)?(\d{1,2}\/\d{1,2})\s*\((.+?)\)\s*(\d{1,2}:\d{2})\s*[-~]\s*(\d{1,2}:\d{2})$/;
+                              const timeSlotRegex = /^(?:\d{4}[年/])?\s*(\d{1,2}[/月]\d{1,2})日?\s*[(（](.+?)[)）]\s*(\d{1,2}:\d{2})\s*[-~〜～ー]\s*(\d{1,2}:\d{2})/;
                               const match = rawText.match(timeSlotRegex);
                               if (match) {
-                                slots.push({ rawText, date: match[1], day: match[2], start: match[3], end: match[4] });
+                                const dateMatch = match[1].replace('月', '/');
+                                slots.push({ rawText, date: dateMatch, day: match[2], start: match[3], end: match[4] });
                               } else {
                                 if (rawText) nonSlots.push(child);
                               }
@@ -228,11 +229,14 @@ export default function SchedulingChat() {
 
                             const rawText = extractText(children);
 
-                            const timeSlotRegex = /^(?:\d{4}\/)?(\d{1,2}\/\d{1,2})\s*\((.+?)\)\s*(\d{1,2}:\d{2})\s*[-~]\s*(\d{1,2}:\d{2})$/;
+                            const timeSlotRegex = /^(?:\d{4}[年/])?\s*(\d{1,2}[/月]\d{1,2})日?\s*[(（](.+?)[)）]\s*(\d{1,2}:\d{2})\s*[-~〜～ー]\s*(\d{1,2}:\d{2})/;
                             const match = rawText.match(timeSlotRegex);
 
                             if (match) {
-                              const [, date, day, start, end] = match;
+                              const dateMatch = match[1].replace('月', '/');
+                              const day = match[2];
+                              const start = match[3];
+                              const end = match[4];
                               return (
                                 <li className="m-0 p-0 h-full" {...props}>
                                   <button
@@ -242,7 +246,7 @@ export default function SchedulingChat() {
                                   >
                                     <div className="flex items-center justify-between w-full mb-3">
                                       <span className="text-[0.75rem] font-bold uppercase tracking-widest text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors duration-300">
-                                        {date} <span className="opacity-70">({day})</span>
+                                        {dateMatch} <span className="opacity-70">({day})</span>
                                       </span>
                                       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 shadow-sm">
                                         <LuSendHorizontal size={14} className="translate-x-[1px]" />
