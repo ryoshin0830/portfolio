@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
 import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
@@ -111,12 +112,33 @@ export default function SchedulingChat() {
                   >
                     {isUser ? text : (
                       <ReactMarkdown
+                        rehypePlugins={[rehypeRaw]}
                         components={{
                           p: ({ children }) => (
                             <p className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full text-[0.95rem] text-[color:var(--color-ink)] leading-relaxed mb-4 last:mb-0 [&_strong]:font-semibold">
                               {children}
                             </p>
                           ),
+                          a: ({ href, children, ...props }) => {
+                            if (href === "action:suggest") {
+                              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                              const textToSubmit = (props as any)["data-text"] || extractText(children);
+                              return (
+                                <button
+                                  type="button"
+                                  onClick={() => submit(textToSubmit)}
+                                  className={props.className || "inline-block px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium"}
+                                >
+                                  {children}
+                                </button>
+                              );
+                            }
+                            return (
+                              <a href={href} className="text-[color:var(--color-accent)] hover:underline" {...props}>
+                                {children}
+                              </a>
+                            );
+                          },
                           ul: function MarkdownUl({ children, ...props }) {
                             const childrenArray = React.Children.toArray(children);
                             
