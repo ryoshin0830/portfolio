@@ -164,7 +164,9 @@ export default function SchedulingChat() {
                                         const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
                                         relativeText = rtf.format(diffDays, 'day');
                                         if (relativeText) relativeText = relativeText.charAt(0).toUpperCase() + relativeText.slice(1);
-                                      } catch(e) {}
+                                      } catch {
+                                        // Ignore formatting errors
+                                      }
                                     }
                                     
                                     return (
