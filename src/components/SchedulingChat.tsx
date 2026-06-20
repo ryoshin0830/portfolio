@@ -107,7 +107,7 @@ export default function SchedulingChat() {
                     className={
                       isUser
                         ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-4 text-[0.95rem] leading-relaxed text-white shadow-lg shadow-[color:var(--color-accent)]/20"
-                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] grid grid-cols-1 md:gap-x-8 items-start md:has-[ul]:grid-cols-[minmax(300px,38%)_1fr] lg:has-[ul]:grid-cols-[minmax(350px,35%)_1fr]"
+                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] grid grid-cols-1 md:gap-x-8 items-start md:has-[ul]:grid-cols-[minmax(300px,38%)_1fr] lg:has-[ul]:grid-cols-[minmax(350px,35%)_1fr] md:grid-flow-dense"
                     }
                   >
                     {isUser ? text : (
@@ -169,7 +169,7 @@ export default function SchedulingChat() {
                               const today = new Date();
                               
                               return (
-                                <div className="md:col-start-2 md:row-start-1 md:row-span-12 w-full flex flex-col gap-6 my-6 md:my-0">
+                                <div className="md:col-start-2 w-full flex flex-col gap-6 my-6 md:my-0">
                                   {Object.entries(groups).map(([groupKey, groupSlots]) => {
                                     const [dateStr] = groupKey.split(' ');
                                     const [m, d] = dateStr.split('/').map(Number);
@@ -227,7 +227,7 @@ export default function SchedulingChat() {
 
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="md:col-start-2 md:row-start-1 md:row-span-12 my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-0 list-none" {...props}>
+                                <ul className="md:col-start-2 my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
