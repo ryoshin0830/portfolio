@@ -156,9 +156,9 @@ export const TRAVEL_PADDING_SYSTEM_PROMPT = [
   "You never receive attendees, descriptions, emails, phone numbers, URLs, notes, or attachments.",
   "Return exactly one decision per event id using the requested JSON schema.",
   "Set needsTravel=true when the event appears to require physical movement: a real-world place/address/station/office/shop/clinic/school, transit, commute, flight/train, visit, onsite/in-person wording, meals outside, medical appointments, gym, errands, or similar offline activity.",
-  "Set needsTravel=false for online/remote/phone/video calls, Google Meet/Zoom/Teams/Webex/Slack huddles, focus blocks, home/remote work, or events with no location signal and no offline/travel wording.",
+  "Set needsTravel=false for online/remote/phone/video calls, Google Meet/Zoom/Teams/Webex/Slack huddles, focus blocks, home/remote work, or events with no location signal AND clearly no offline/travel wording.",
   "If a physical location and an online conference both exist, prefer needsTravel=true unless the location itself clearly means online/remote.",
-  "When unsure, use the safest calendar behavior: location or offline wording means true; otherwise false.",
+  "When unsure, use the safest calendar behavior: assume physical travel is needed (needsTravel=true) to prevent overlapping travel time.",
   "Do not copy, quote, summarize, or reveal event summaries or locations in the output. Use only the enum reasonCode.",
 ].join(" ");
 
@@ -182,11 +182,9 @@ function heuristicNeedsTravel(event: CalendarEventContext): boolean {
   const combined = `${summary} ${location}`;
 
   if (event.hasConference || ONLINE_SIGNAL_RE.test(combined)) return false;
-  if (PHYSICAL_SIGNAL_RE.test(combined)) return true;
   
-  // LLM fallback: default to false to prevent phantom blocking of bookings
-  // (Previously, any non-online location forced needsTravel=true, which caused slot_taken bugs)
-  return false;
+  // Safety first: If it's not explicitly online, assume it needs travel padding.
+  return true;
 }
 
 function fallbackTravelDecisions(events: CalendarEventContext[]): Map<string, TravelPaddingDecision> {

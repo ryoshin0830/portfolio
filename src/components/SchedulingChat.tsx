@@ -104,7 +104,7 @@ export default function SchedulingChat() {
                       <ReactMarkdown
                         components={{
                           p: ({ children }) => (
-                            <p className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 [&_strong]:font-semibold">
+                            <p className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full text-[0.95rem] text-[color:var(--color-ink)] leading-relaxed mb-4 last:mb-0 [&_strong]:font-semibold">
                               {children}
                             </p>
                           ),
@@ -120,7 +120,7 @@ export default function SchedulingChat() {
                           ol: function MarkdownOl({ children, ...props }) {
                             return (
                               <ListContext.Provider value="ol">
-                                <ol className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/50 px-5 sm:px-6 py-4 sm:py-5 shadow-[0_8px_32px_rgba(0,0,0,0.03)] backdrop-blur-2xl dark:border-white/5 dark:bg-[color:var(--color-bg-soft)]/50 mb-4 last:mb-0 list-decimal pl-9 [&_li]:my-1" {...props}>
+                                <ol className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full text-[0.95rem] text-[color:var(--color-ink)] leading-relaxed mb-4 last:mb-0 list-decimal pl-5 [&_li]:my-1" {...props}>
                                   {children}
                                 </ol>
                               </ListContext.Provider>
