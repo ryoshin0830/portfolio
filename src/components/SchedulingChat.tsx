@@ -30,14 +30,30 @@ function rehypeWrapColumns() {
     const hasUl = tree.children.some((n: any) => n.type === 'element' && n.tagName === 'ul');
     if (!hasUl) return;
 
+    const timeSlotRegex = /(?:\d{4}[年/])?\s*\d{1,2}[/月]\d{1,2}日?\s*[(（].+?[)）]\s*\d{1,2}:\d{2}\s*[-~〜～ー]\s*\d{1,2}:\d{2}/;
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tree.children.forEach((node: any) => {
       if (node.type === 'element' && node.tagName === 'ul') {
-        rightNodes.push(node);
+        // Check if any li contains a slot
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const hasSlot = node.children?.some((li: any) => {
+          if (li.type !== 'element' || li.tagName !== 'li') return false;
+          const text = extractText(li);
+          return timeSlotRegex.test(text);
+        });
+
+        if (hasSlot) {
+          rightNodes.push(node);
+        } else {
+          leftNodes.push(node);
+        }
       } else {
         leftNodes.push(node);
       }
     });
+
+    if (rightNodes.length === 0) return; // Nothing to split
 
     tree.children = [
       {
@@ -63,7 +79,7 @@ function rehypeWrapColumns() {
   };
 }
 
-const ListContext = createContext<"ul" | "ol">("ul");
+const ListContext = createContext<"ul" | "ol" | "slot-ul">("ul");
 
 /**
  * AI ネイティブな会話型日程調整（クライアント）。
@@ -272,7 +288,7 @@ export default function SchedulingChat() {
 
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 p-0 list-none" {...props}>
+                                <ul className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full text-[0.95rem] text-[color:var(--color-ink)] leading-relaxed mb-4 last:mb-0 list-disc pl-5 [&_li]:my-1" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
@@ -289,59 +305,10 @@ export default function SchedulingChat() {
                           },
                           li: function MarkdownLi({ children, ...props }) {
                             const listType = useContext(ListContext);
-
-                            if (listType === "ol") {
-                              return <li className="my-0.5" {...props}>{children}</li>;
-                            }
-
-                            const rawText = extractText(children);
-
-                            const timeSlotRegex = /^(?:\d{4}[年/])?\s*(\d{1,2}[/月]\d{1,2})日?\s*[(（](.+?)[)）]\s*(\d{1,2}:\d{2})\s*[-~〜～ー]\s*(\d{1,2}:\d{2})/;
-                            const match = rawText.match(timeSlotRegex);
-
-                            if (match) {
-                              const dateMatch = match[1].replace('月', '/');
-                              const day = match[2];
-                              const start = match[3];
-                              const end = match[4];
-                              return (
-                                <li className="m-0 p-0 h-full" {...props}>
-                                  <button
-                                    type="button"
-                                    onClick={() => submit(rawText)}
-                                    className="group relative flex w-full h-full flex-col justify-between overflow-hidden rounded-[1.25rem] border border-[color:var(--color-rule-soft)] bg-white/60 px-5 py-4 text-left shadow-sm backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[color:var(--color-accent)]/40 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] dark:border-white/5 dark:bg-white/5 dark:hover:border-[color:var(--color-accent)]/40 dark:hover:bg-white/10 dark:hover:shadow-[0_12px_40px_-12px_rgba(255,255,255,0.05)]"
-                                  >
-                                    <div className="flex items-center justify-between w-full mb-3">
-                                      <span className="text-[0.75rem] font-bold uppercase tracking-widest text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)] transition-colors duration-300">
-                                        {dateMatch} <span className="opacity-70">({day})</span>
-                                      </span>
-                                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 shadow-sm">
-                                        <LuSendHorizontal size={14} className="translate-x-[1px]" />
-                                      </span>
-                                    </div>
-                                    <div className="flex items-baseline gap-1.5">
-                                      <span className="text-2xl sm:text-3xl font-light tracking-tighter text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors duration-300">{start}</span>
-                                      <span className="text-sm font-medium text-[color:var(--color-ink-muted)] px-1">-</span>
-                                      <span className="text-lg sm:text-xl font-light tracking-tight text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)]/80 transition-colors duration-300">{end}</span>
-                                    </div>
-                                    <div className="absolute -right-8 -top-8 -z-10 h-24 w-24 rounded-full bg-[color:var(--color-accent)]/10 blur-2xl transition-all duration-700 group-hover:bg-[color:var(--color-accent)]/20 group-hover:scale-150" />
-                                  </button>
-                                </li>
-                              );
-                            }
-
+                            const isOl = listType === "ol";
                             return (
-                              <li className="m-0 p-0 h-full" {...props}>
-                                <button
-                                  type="button"
-                                  onClick={() => submit(rawText)}
-                                  className="group flex w-full h-full items-center justify-between gap-4 rounded-[1.25rem] border border-[color:var(--color-rule-soft)] bg-white/60 px-5 py-4 text-left text-[0.95rem] font-medium text-[color:var(--color-ink)] shadow-sm backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-[color:var(--color-accent)]/40 hover:bg-white hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] dark:border-[color:var(--color-rule-soft)] dark:bg-white/5 dark:hover:border-[color:var(--color-accent)]/40 dark:hover:bg-white/10 dark:hover:shadow-[0_12px_40px_-12px_rgba(255,255,255,0.05)]"
-                                >
-                                  <span className="leading-relaxed break-words min-w-0 flex-1">{children}</span>
-                                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-bg-soft)] text-[color:var(--color-accent)] opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-110 shadow-sm">
-                                    <LuSendHorizontal size={14} className="translate-x-[1px]" />
-                                  </span>
-                                </button>
+                              <li className={`my-0.5 ${isOl ? "" : "leading-relaxed"}`} {...props}>
+                                {children}
                               </li>
                             );
                           },
