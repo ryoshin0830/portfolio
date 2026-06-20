@@ -18,6 +18,51 @@ function extractText(child: any): string {
   return "";
 }
 
+function rehypeWrapColumns() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (tree: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const leftNodes: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rightNodes: any[] = [];
+    
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const hasUl = tree.children.some((n: any) => n.type === 'element' && n.tagName === 'ul');
+    if (!hasUl) return;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    tree.children.forEach((node: any) => {
+      if (node.type === 'element' && node.tagName === 'ul') {
+        rightNodes.push(node);
+      } else {
+        leftNodes.push(node);
+      }
+    });
+
+    tree.children = [
+      {
+        type: 'element',
+        tagName: 'div',
+        properties: { className: ['flex', 'flex-col', 'md:flex-row', 'gap-x-8', 'gap-y-6', 'w-full', 'items-start'] },
+        children: [
+          {
+            type: 'element',
+            tagName: 'div',
+            properties: { className: ['flex-1', 'min-w-[250px]', 'flex', 'flex-col', 'w-full'] },
+            children: leftNodes
+          },
+          {
+            type: 'element',
+            tagName: 'div',
+            properties: { className: ['w-full', 'md:w-[45%]', 'lg:w-[40%]', 'min-w-[300px]', 'flex', 'flex-col'] },
+            children: rightNodes
+          }
+        ]
+      }
+    ];
+  };
+}
+
 const ListContext = createContext<"ul" | "ol">("ul");
 
 /**
@@ -88,7 +133,7 @@ export default function SchedulingChat() {
       </div>
 
       {/* 会話 */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 pb-28 pt-24 sm:px-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 dark:[&::-webkit-scrollbar-thumb]:bg-white/10 custom-scrollbar">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 pb-36 pt-24 sm:px-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 dark:[&::-webkit-scrollbar-thumb]:bg-white/10 custom-scrollbar">
         <div className="flex flex-col gap-6">
           <AnimatePresence initial={false}>
             {messages.map((m) => {
@@ -107,15 +152,15 @@ export default function SchedulingChat() {
                     className={
                       isUser
                         ? "max-w-[85%] whitespace-pre-wrap rounded-3xl rounded-tr-sm bg-gradient-to-br from-[color:var(--color-accent)] to-[color:var(--color-accent-hover)] px-5 py-4 text-[0.95rem] leading-relaxed text-white shadow-lg shadow-[color:var(--color-accent)]/20"
-                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)] grid grid-cols-1 md:gap-x-8 items-start md:has-[ul]:grid-cols-[minmax(300px,38%)_1fr] lg:has-[ul]:grid-cols-[minmax(350px,35%)_1fr] md:grid-flow-dense"
+                        : "w-full text-[0.95rem] leading-relaxed text-[color:var(--color-ink)]"
                     }
                   >
                     {isUser ? text : (
                       <ReactMarkdown
-                        rehypePlugins={[rehypeRaw]}
+                        rehypePlugins={[rehypeRaw, rehypeWrapColumns]}
                         components={{
                           p: ({ children }) => (
-                            <p className="md:col-start-1 w-fit max-w-[90%] sm:max-w-[85%] md:max-w-full text-[0.95rem] text-[color:var(--color-ink)] leading-relaxed mb-4 last:mb-0 [&_strong]:font-semibold">
+                            <p className="w-full text-[0.95rem] text-[color:var(--color-ink)] leading-relaxed mb-4 last:mb-0 [&_strong]:font-semibold">
                               {children}
                             </p>
                           ),
@@ -169,7 +214,7 @@ export default function SchedulingChat() {
                               const today = new Date();
                               
                               return (
-                                <div className="md:col-start-2 w-full flex flex-col gap-6 my-6 md:my-0">
+                                <div className="w-full flex flex-col gap-6 my-6 md:my-0">
                                   {Object.entries(groups).map(([groupKey, groupSlots]) => {
                                     const [dateStr] = groupKey.split(' ');
                                     const [m, d] = dateStr.split('/').map(Number);
@@ -204,7 +249,7 @@ export default function SchedulingChat() {
                                             {groupKey}
                                           </span>
                                         </div>
-                                        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
+                                        <div className="grid grid-cols-2 gap-2 sm:gap-3">
                                           {groupSlots.map((slot, i) => (
                                             <button
                                               key={i}
@@ -227,7 +272,7 @@ export default function SchedulingChat() {
 
                             return (
                               <ListContext.Provider value="ul">
-                                <ul className="md:col-start-2 my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-0 list-none" {...props}>
+                                <ul className="my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 p-0 list-none" {...props}>
                                   {children}
                                 </ul>
                               </ListContext.Provider>
