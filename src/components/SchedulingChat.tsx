@@ -7,6 +7,15 @@ import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
 import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function extractText(child: any): string {
+  if (typeof child === "string" || typeof child === "number") return String(child);
+  if (Array.isArray(child)) return child.map(extractText).join("");
+  if (child && child.props && child.props.children) return extractText(child.props.children);
+  return "";
+}
 
 const ListContext = createContext<"ul" | "ol">("ul");
 
@@ -109,6 +118,88 @@ export default function SchedulingChat() {
                             </p>
                           ),
                           ul: function MarkdownUl({ children, ...props }) {
+                            const childrenArray = React.Children.toArray(children);
+                            
+                            type SlotItem = { rawText: string; date: string; day: string; start: string; end: string };
+                            const slots: SlotItem[] = [];
+                            const nonSlots: React.ReactNode[] = [];
+                            
+                            childrenArray.forEach(child => {
+                              const rawText = extractText(child).trim();
+                              const timeSlotRegex = /^(?:\d{4}\/)?(\d{1,2}\/\d{1,2})\s*\((.+?)\)\s*(\d{1,2}:\d{2})\s*[-~]\s*(\d{1,2}:\d{2})$/;
+                              const match = rawText.match(timeSlotRegex);
+                              if (match) {
+                                slots.push({ rawText, date: match[1], day: match[2], start: match[3], end: match[4] });
+                              } else {
+                                if (rawText) nonSlots.push(child);
+                              }
+                            });
+
+                            if (slots.length > 0 && nonSlots.length <= slots.length / 2) {
+                              const groups: Record<string, SlotItem[]> = {};
+                              slots.forEach(slot => {
+                                const key = `${slot.date} (${slot.day})`;
+                                if (!groups[key]) groups[key] = [];
+                                groups[key].push(slot);
+                              });
+
+                              const today = new Date();
+                              
+                              return (
+                                <div className="md:col-start-2 md:row-start-1 md:row-span-12 w-full flex flex-col gap-6 my-6 md:my-0">
+                                  {Object.entries(groups).map(([groupKey, groupSlots]) => {
+                                    const [dateStr] = groupKey.split(' ');
+                                    const [m, d] = dateStr.split('/').map(Number);
+                                    const slotDate = new Date(today.getFullYear(), m - 1, d);
+                                    if (today.getMonth() === 11 && m === 1) {
+                                      slotDate.setFullYear(today.getFullYear() + 1);
+                                    }
+                                    
+                                    const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                                    const diffDays = Math.round((slotDate.getTime() - todayDate.getTime()) / (1000 * 60 * 60 * 24));
+                                    
+                                    let relativeText = "";
+                                    if (diffDays >= 0 && diffDays <= 2) {
+                                      try {
+                                        const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+                                        relativeText = rtf.format(diffDays, 'day');
+                                        if (relativeText) relativeText = relativeText.charAt(0).toUpperCase() + relativeText.slice(1);
+                                      } catch(e) {}
+                                    }
+                                    
+                                    return (
+                                      <div key={groupKey} className="flex flex-col gap-3">
+                                        <div className="flex items-center gap-2 px-1">
+                                          {relativeText && (
+                                            <span className="text-sm font-bold text-[color:var(--color-accent)] bg-[color:var(--color-accent)]/10 px-2 py-0.5 rounded-md">
+                                              {relativeText}
+                                            </span>
+                                          )}
+                                          <span className="text-[0.95rem] font-semibold text-[color:var(--color-ink)]">
+                                            {groupKey}
+                                          </span>
+                                        </div>
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
+                                          {groupSlots.map((slot, i) => (
+                                            <button
+                                              key={i}
+                                              type="button"
+                                              onClick={() => submit(slot.rawText)}
+                                              className="group flex items-center justify-center gap-1.5 w-full rounded-[1rem] border border-[color:var(--color-rule-soft)] bg-white/60 py-3 shadow-[0_2px_10px_rgba(0,0,0,0.02)] backdrop-blur-md transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-[color:var(--color-accent)]/40 hover:bg-white hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.08)] dark:border-white/5 dark:bg-white/5 dark:hover:border-[color:var(--color-accent)]/40 dark:hover:bg-white/10"
+                                            >
+                                              <span className="text-[1.05rem] font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors">{slot.start}</span>
+                                              <span className="text-[0.8rem] font-medium text-[color:var(--color-ink-muted)] opacity-50">-</span>
+                                              <span className="text-[1.05rem] font-semibold tracking-tight text-[color:var(--color-ink-muted)] group-hover:text-[color:var(--color-accent)]/80 transition-colors">{slot.end}</span>
+                                            </button>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            }
+
                             return (
                               <ListContext.Provider value="ul">
                                 <ul className="md:col-start-2 md:row-start-1 md:row-span-12 my-6 md:my-0 w-full grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 p-0 list-none" {...props}>
@@ -133,13 +224,6 @@ export default function SchedulingChat() {
                               return <li className="my-0.5" {...props}>{children}</li>;
                             }
 
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            const extractText = (child: any): string => {
-                              if (typeof child === "string" || typeof child === "number") return String(child);
-                              if (Array.isArray(child)) return child.map(extractText).join("");
-                              if (child && child.props && child.props.children) return extractText(child.props.children);
-                              return "";
-                            };
                             const rawText = extractText(children);
 
                             const timeSlotRegex = /^(?:\d{4}\/)?(\d{1,2}\/\d{1,2})\s*\((.+?)\)\s*(\d{1,2}:\d{2})\s*[-~]\s*(\d{1,2}:\d{2})$/;
