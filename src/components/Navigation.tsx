@@ -240,7 +240,7 @@ const Navigation = () => {
                 type="button"
                 onClick={toggleTheme}
                 className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
-                aria-label="Toggle dark mode"
+                aria-label={t("toggleDarkMode")}
                 aria-pressed={mounted ? theme === "dark" : undefined}
               >
                 {mounted ? (
@@ -279,7 +279,7 @@ const Navigation = () => {
                   className="inline-flex items-center gap-1.5 min-h-11 px-2.5 text-sm font-medium text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                   aria-haspopup="menu"
                   aria-expanded={showLangMenu}
-                  aria-label={`Language: ${getLanguageName(locale)}`}
+                  aria-label={t("languageLabel", { lang: getLanguageName(locale) })}
                 >
                   <span className="text-base" aria-hidden>{languages.find((l) => l.code === locale)?.flag}</span>
                   <span className="hidden sm:inline">
@@ -324,7 +324,7 @@ const Navigation = () => {
                 type="button"
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
                 className="lg:hidden inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
-                aria-label="Open menu"
+                aria-label={t("openMenu")}
                 aria-haspopup="dialog"
                 aria-expanded={showMoreMenu}
                 aria-controls="mobile-menu"
@@ -355,7 +355,7 @@ const Navigation = () => {
                 type="button"
                 onClick={() => setShowMoreMenu(false)}
                 className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
-                aria-label="Close menu"
+                aria-label={t("closeMenu")}
               >
                 <X size={20} />
               </button>
