@@ -8,6 +8,9 @@ import { LuMenu as Menu, LuX as X, LuMoon as Moon, LuSun as Sun } from "react-ic
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 import { useTheme } from "@/contexts/ThemeContext";
 
+const LANGUAGE_FALLBACK: Record<string, string> = { ja: "日本語", en: "English", zh: "中文" };
+const LOCALE_FLAGS: Record<string, string> = { ja: "🇯🇵", en: "🇬🇧", zh: "🇨🇳" };
+
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -91,15 +94,13 @@ const Navigation = () => {
       } catch (e) {
         console.warn(`Translation error for ${code}:`, e);
       }
-      const fallback = { ja: "日本語", en: "English", zh: "中文" };
-      return fallback[code as keyof typeof fallback] || code;
+      return LANGUAGE_FALLBACK[code] || code;
     },
     [langT],
   );
 
   const getFlag = useCallback((code: string): string => {
-    const flags = { ja: "🇯🇵", en: "🇬🇧", zh: "🇨🇳" };
-    return flags[code as keyof typeof flags] || "🌍";
+    return LOCALE_FLAGS[code] || "🌍";
   }, []);
 
   const languages = [
