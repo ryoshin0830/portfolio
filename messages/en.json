@@ -31,7 +31,7 @@
     "title": "LIANG ZHEN (RYO SHIN)",
     "subtitle": "Research. Build. Ship. All through language.",
     "description": "PhD, Kyoto University",
-    "currentlyAt": "GMO Pepabo / Engineer",
+    "currentlyAt": "GMO Pepabo / Lolipop! Rental Server",
     "learnMore": "Learn more",
     "viewWork": "See the results",
     "role": "ML Engineer & Researcher",
@@ -66,7 +66,7 @@
     "title": "About Me",
     "subtitle": "A language-education researcher who builds AI.",
     "kicker": "About",
-    "pr": "I earned my PhD at Kyoto University researching educational applications of large language models (LLMs). From NINJAL's Vocabulary Profiler to medical ASR fine-tuning and a bid-extraction PoC, I move between research and implementation single-handedly to ship working products. Since April 2026 I have been an engineer at GMO Pepabo.",
+    "pr": "I earned my PhD at Kyoto University researching educational applications of large language models (LLMs). From NINJAL's Vocabulary Profiler to medical ASR fine-tuning and a bid-extraction PoC, I move between research and implementation single-handedly to ship working products. Since April 2026 I have been an engineer at GMO Pepabo, working on Lolipop! Rental Server.",
     "education": "Education",
     "experience": "Experience",
     "teaching": "Teaching",
@@ -203,7 +203,7 @@
       {
         "year": "2026",
         "title": "Joined GMO Pepabo",
-        "description": "Joined GMO Pepabo as an Engineer (April 2026)",
+        "description": "Joined as a full-time engineer; assigned to the Rental Server Team, Lolipop & Muumuu Domain Division (2026)",
         "icon": "home"
       }
     ]
@@ -250,9 +250,9 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo, Inc.",
-        "product": "Engineer track",
+        "product": "Lolipop! Rental Server",
         "industry": "IT / Internet",
-        "role": "Engineer (Full-time)",
+        "role": "Lolipop & Muumuu Domain Division, Rental Server Team / Engineer",
         "teamOverall": 362,
         "teamSection": null,
         "scope": [],
@@ -895,7 +895,7 @@
   "metadata": {
     "title": "LIANG ZHEN (RYO SHIN) | ML Engineer & Researcher",
     "description": "Research. Build. Ship. All through language. ML engineer and researcher with a PhD from Kyoto University, working across LLM, ASR and LangGraph in medical, educational and language-processing domains.",
-    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo",
+    "keywords": "LIANG ZHEN, RYO SHIN, Kyoto University, AI Research, Engineer, Language Education, Second Language Acquisition, LLM, Large Language Models, Machine Learning, ASR, Speech Recognition, LangGraph, LangChain, LoRA, Japanese Education, Natural Language Processing, NLP, Educational Technology, EdTech, ML Engineer, Medical AI, GMO Pepabo, Lolipop, Muumuu Domain, Rental Server, Hosting",
     "author": "LIANG ZHEN (RYO SHIN)",
     "creator": "LIANG ZHEN (RYO SHIN)",
     "publisher": "LIANG ZHEN (RYO SHIN)",

@@ -31,7 +31,7 @@
     "title": "梁震",
     "subtitle": "研究、构建、落地——皆围绕语言。",
     "description": "京都大学博士",
-    "currentlyAt": "GMO Pepabo ／ 工程师",
+    "currentlyAt": "GMO Pepabo ／ Lolipop! 租用服务器",
     "learnMore": "了解更多",
     "viewWork": "查看成果",
     "role": "ML 工程师 ・ 研究者",
@@ -66,7 +66,7 @@
     "title": "个人简介",
     "subtitle": "语言教育研究者，亦是打造 AI 的工程师。",
     "kicker": "About",
-    "pr": "在京都大学研究大规模语言模型（LLM）的教育应用并取得博士学位。从国立国语研究所的词汇分析器、医疗语音识别（ASR）的精度优化，到招投标信息抽取 PoC，我在研究与工程实现之间独自往返，把想法变成可用的产品。2026 年 4 月起作为工程师加入 GMO Pepabo。",
+    "pr": "在京都大学研究大规模语言模型（LLM）的教育应用并取得博士学位。从国立国语研究所的词汇分析器、医疗语音识别（ASR）的精度优化，到招投标信息抽取 PoC，我在研究与工程实现之间独自往返，把想法变成可用的产品。2026 年 4 月起作为工程师加入 GMO Pepabo，负责 Lolipop! 租用服务器的开发与运维。",
     "education": "教育",
     "experience": "经历",
     "teaching": "教学活动",
@@ -203,7 +203,7 @@
       {
         "year": "2026",
         "title": "加入 GMO Pepabo",
-        "description": "以工程师身份加入 GMO Pepabo（2026 年 4 月）",
+        "description": "以正式员工工程师身份入职，配属于 Lolipop・Muumuu Domain 事业部 租用服务器团队（2026 年）",
         "icon": "home"
       }
     ]
@@ -250,9 +250,9 @@
         "isCurrent": true,
         "employmentType": "fulltime",
         "company": "GMO Pepabo",
-        "product": "工程师岗位",
+        "product": "Lolipop! Rental Server",
         "industry": "IT・互联网",
-        "role": "工程师（正式员工）",
+        "role": "Lolipop・Muumuu Domain 事业部 租用服务器团队 ／ 工程师",
         "teamOverall": 362,
         "teamSection": null,
         "scope": [],
@@ -895,7 +895,7 @@
   "metadata": {
     "title": "梁震 | ML 工程师・研究者",
     "description": "研究、构建、落地——皆围绕语言。京都大学博士、ML 工程师／研究者，使用 LLM、ASR、LangGraph 在医疗、教育与语言处理领域进行研发与实施。",
-    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo",
+    "keywords": "梁震, Liang Zhen, 京都大学, AI 研究, 工程师, 语言教育, 第二语言习得, LLM, 大规模语言模型, 机器学习, ASR, 语音识别, LangGraph, LangChain, LoRA, 日语教育, 自然语言处理, NLP, 教育技术, EdTech, ML 工程师, 医疗 AI, GMO Pepabo, Lolipop, Muumuu Domain, 租用服务器, Hosting",
     "author": "梁震",
     "creator": "梁震",
     "publisher": "梁震",
