@@ -15,7 +15,11 @@
     "more": "More",
     "scrollToNext": "Next Section:",
     "scrollToPrevious": "Previous Section:",
-    "navigating": "Navigating..."
+    "navigating": "Navigating...",
+    "toggleDarkMode": "Toggle dark mode",
+    "languageLabel": "Language: {lang}",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "languages": {
     "ja": "Japanese",
@@ -830,8 +834,17 @@
     "chatSend": "Send",
     "chatThinking": "Thinking…",
     "chatPhaseCalendar": "Checking Google Calendar…",
-    "chatPhases": ["Reading your request", "Checking Google Calendar availability", "Looking for open times", "Putting the options together"],
-    "chatExamples": ["1 hour this weekend", "Weekday evening, 30 min", "Earliest opening"],
+    "chatPhases": [
+      "Reading your request",
+      "Checking Google Calendar availability",
+      "Looking for open times",
+      "Putting the options together"
+    ],
+    "chatExamples": [
+      "1 hour this weekend",
+      "Weekday evening, 30 min",
+      "Earliest opening"
+    ],
     "chatError": "Something went wrong. Please try again.",
     "chatRetry": "Retry",
     "chatReplyOk": "Here are the closest open times — pick one below.",

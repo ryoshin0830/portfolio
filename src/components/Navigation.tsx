@@ -8,6 +8,9 @@ import { LuMenu as Menu, LuX as X, LuMoon as Moon, LuSun as Sun } from "react-ic
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
 import { useTheme } from "@/contexts/ThemeContext";
 
+const LANGUAGE_FALLBACK: Record<string, string> = { ja: "日本語", en: "English", zh: "中文" };
+const LOCALE_FLAGS: Record<string, string> = { ja: "🇯🇵", en: "🇬🇧", zh: "🇨🇳" };
+
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -91,15 +94,13 @@ const Navigation = () => {
       } catch (e) {
         console.warn(`Translation error for ${code}:`, e);
       }
-      const fallback = { ja: "日本語", en: "English", zh: "中文" };
-      return fallback[code as keyof typeof fallback] || code;
+      return LANGUAGE_FALLBACK[code] || code;
     },
     [langT],
   );
 
   const getFlag = useCallback((code: string): string => {
-    const flags = { ja: "🇯🇵", en: "🇬🇧", zh: "🇨🇳" };
-    return flags[code as keyof typeof flags] || "🌍";
+    return LOCALE_FLAGS[code] || "🌍";
   }, []);
 
   const languages = [
@@ -240,7 +241,7 @@ const Navigation = () => {
                 type="button"
                 onClick={toggleTheme}
                 className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
-                aria-label="Toggle dark mode"
+                aria-label={t("toggleDarkMode")}
                 aria-pressed={mounted ? theme === "dark" : undefined}
               >
                 {mounted ? (
@@ -279,7 +280,7 @@ const Navigation = () => {
                   className="inline-flex items-center gap-1.5 min-h-11 px-2.5 text-sm font-medium text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
                   aria-haspopup="menu"
                   aria-expanded={showLangMenu}
-                  aria-label={`Language: ${getLanguageName(locale)}`}
+                  aria-label={t("languageLabel", { lang: getLanguageName(locale) })}
                 >
                   <span className="text-base" aria-hidden>{languages.find((l) => l.code === locale)?.flag}</span>
                   <span className="hidden sm:inline">
@@ -324,7 +325,7 @@ const Navigation = () => {
                 type="button"
                 onClick={() => setShowMoreMenu(!showMoreMenu)}
                 className="lg:hidden inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)] transition-colors"
-                aria-label="Open menu"
+                aria-label={t("openMenu")}
                 aria-haspopup="dialog"
                 aria-expanded={showMoreMenu}
                 aria-controls="mobile-menu"
@@ -355,7 +356,7 @@ const Navigation = () => {
                 type="button"
                 onClick={() => setShowMoreMenu(false)}
                 className="inline-flex items-center justify-center min-h-11 min-w-11 text-[color:var(--color-ink-soft)] hover:text-[color:var(--color-ink)]"
-                aria-label="Close menu"
+                aria-label={t("closeMenu")}
               >
                 <X size={20} />
               </button>

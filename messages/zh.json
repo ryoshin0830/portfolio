@@ -15,7 +15,11 @@
     "more": "更多",
     "scrollToNext": "下一部分:",
     "scrollToPrevious": "上一部分:",
-    "navigating": "正在切换..."
+    "navigating": "正在切换...",
+    "toggleDarkMode": "切换深色模式",
+    "languageLabel": "语言: {lang}",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单"
   },
   "languages": {
     "ja": "日本語",
@@ -830,8 +834,17 @@
     "chatSend": "发送",
     "chatThinking": "正在思考…",
     "chatPhaseCalendar": "正在查看 Google 日历…",
-    "chatPhases": ["正在理解你的请求", "正在查看 Google 日历的空闲情况", "正在寻找空闲时段", "正在整理候选时间"],
-    "chatExamples": ["周末1小时", "工作日晚上30分钟", "最近的空闲"],
+    "chatPhases": [
+      "正在理解你的请求",
+      "正在查看 Google 日历的空闲情况",
+      "正在寻找空闲时段",
+      "正在整理候选时间"
+    ],
+    "chatExamples": [
+      "周末1小时",
+      "工作日晚上30分钟",
+      "最近的空闲"
+    ],
     "chatError": "连接出现问题，请重试。",
     "chatRetry": "重试",
     "chatReplyOk": "以下是最接近的空闲时段，请在下方选择。",

@@ -15,7 +15,11 @@
     "more": "その他",
     "scrollToNext": "次のセクション：",
     "scrollToPrevious": "前のセクション：",
-    "navigating": "遷移中..."
+    "navigating": "遷移中...",
+    "toggleDarkMode": "ダークモード切り替え",
+    "languageLabel": "言語: {lang}",
+    "openMenu": "メニューを開く",
+    "closeMenu": "メニューを閉じる"
   },
   "languages": {
     "ja": "日本語",
@@ -830,8 +834,17 @@
     "chatSend": "送信",
     "chatThinking": "考えています",
     "chatPhaseCalendar": "Google カレンダーを確認しています",
-    "chatPhases": ["ご要望を読み取っています", "Google カレンダーの空き状況を確認しています", "空いている時間を探しています", "候補をまとめています"],
-    "chatExamples": ["週末に1時間", "平日の夜で30分", "直近の空き"],
+    "chatPhases": [
+      "ご要望を読み取っています",
+      "Google カレンダーの空き状況を確認しています",
+      "空いている時間を探しています",
+      "候補をまとめています"
+    ],
+    "chatExamples": [
+      "週末に1時間",
+      "平日の夜で30分",
+      "直近の空き"
+    ],
     "chatError": "うまくつながりませんでした。もう一度お試しください。",
     "chatRetry": "再試行",
     "chatReplyOk": "ご希望に近い空き枠です。下のボタンから選んでください。",
