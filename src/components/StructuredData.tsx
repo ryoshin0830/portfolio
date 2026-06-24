@@ -39,13 +39,17 @@ const StructuredData = ({ locale }: StructuredDataProps) => {
           "@type": "Organization",
           name: "GMO Pepabo, Inc.",
           url: "https://pepabo.com/",
+          department: {
+            "@type": "Organization",
+            name: "Lolipop & Muumuu Domain Division, Rental Server Team",
+          },
         },
       ],
 
       hasOccupation: [
         {
           "@type": "Occupation",
-          name: "Engineer",
+          name: "Engineer — Lolipop! Rental Server",
           occupationLocation: {
             "@type": "Place",
             name: "GMO Pepabo, Inc.",

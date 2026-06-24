@@ -37,7 +37,7 @@ const LOC_SEQ: Loc[] = [
   "japan", // 2025 Massey University（SUIREN）
   "japan", // 2026 Sapeet
   "japan", // 2026 博士課程修了
-  "japan", // 2026 GMO ペパボ
+  "japan", // 2026 GMO ペパボ（ロリポップ レンタルサーバー）
 ];
 
 const RAIL_X = 11; // px — the spine's horizontal centre
