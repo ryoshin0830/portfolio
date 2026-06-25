@@ -521,13 +521,16 @@ export async function createBooking(
   // ── イベント作成（オーナー本人として実行＝招待メール＋Meet が効く）──────
   const safeName = req.name.trim().slice(0, 80);
   const safeNote = (req.note ?? "").trim().slice(0, 500);
+  const description = safeNote
+    ? `${safeNote}\n---\nCreated via ryosh.in scheduling`
+    : "Created via ryosh.in scheduling";
   try {
     const ev = await insertEvent({
-      summary: `Meeting with ${safeName}`,
+      summary: `[ryosh.in] Meeting with ${safeName}`,
       startIso: req.start,
       endIso: req.end,
       timeZone: cfg.timezone,
-      description: safeNote || undefined,
+      description,
     });
     return { ok: true, htmlLink: ev.htmlLink, meetUrl: ev.meetUrl };
   } catch (err) {

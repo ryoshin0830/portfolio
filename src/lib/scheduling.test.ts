@@ -387,11 +387,11 @@ describe("createBooking — 競合・作成・失敗", () => {
     expect(res).toEqual({ ok: true, htmlLink: "https://cal/x", meetUrl: "https://meet/y" });
     expect(mockInsert).toHaveBeenCalledTimes(1);
     expect(mockInsert).toHaveBeenCalledWith({
-      summary: "Meeting with 山田太郎",
+      summary: "[ryosh.in] Meeting with 山田太郎",
       startIso: good.start,
       endIso: good.end,
       timeZone: "Asia/Tokyo",
-      description: "相談",
+      description: "相談\n---\nCreated via ryosh.in scheduling",
     });
   });
 
