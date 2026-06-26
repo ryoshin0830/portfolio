@@ -29,20 +29,31 @@ import type {
  * 展開する場合はここを Intl ベースに作り直すこと。
  */
 
+function parseEnvInt(key: string, fallback: number): number {
+  const raw = process.env[key];
+  if (raw === undefined || raw === '') return fallback;
+  const n = Number(raw);
+  if (!Number.isFinite(n)) {
+    console.warn('[scheduling] env ' + key + '="' + raw + '" is not a number, using default ' + fallback);
+    return fallback;
+  }
+  return n;
+}
+
 export const DEFAULT_CONFIG: SchedulingConfig = {
   timezone: process.env.SCHEDULING_TIMEZONE || "Asia/Tokyo",
   utcOffset: process.env.SCHEDULING_UTC_OFFSET || "+09:00",
-  startHour: Number(process.env.SCHEDULING_START_HOUR ?? 9),
+  startHour: parseEnvInt("SCHEDULING_START_HOUR", 9),
   // 夜も受け付ける（24 = 深夜0時まで。既定の最終枠は 23:00–24:00）。
-  endHour: Number(process.env.SCHEDULING_END_HOUR ?? 24),
+  endHour: parseEnvInt("SCHEDULING_END_HOUR", 24),
   // 既定の会議時間（要望で長さ指定が無いときのフォールバック）。
-  slotMinutes: Number(process.env.SCHEDULING_SLOT_MINUTES ?? 60),
-  leadMinutes: Number(process.env.SCHEDULING_LEAD_MINUTES ?? 120),
-  travelPaddingBeforeMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_BEFORE_MINUTES ?? 60),
-  travelPaddingAfterMinutes: Number(process.env.SCHEDULING_TRAVEL_PADDING_AFTER_MINUTES ?? 60),
+  slotMinutes: parseEnvInt("SCHEDULING_SLOT_MINUTES", 60),
+  leadMinutes: parseEnvInt("SCHEDULING_LEAD_MINUTES", 120),
+  travelPaddingBeforeMinutes: parseEnvInt("SCHEDULING_TRAVEL_PADDING_BEFORE_MINUTES", 60),
+  travelPaddingAfterMinutes: parseEnvInt("SCHEDULING_TRAVEL_PADDING_AFTER_MINUTES", 60),
   // 週末も受け付ける（除外したいときだけ SCHEDULING_EXCLUDE_WEEKENDS=true）。
   excludeWeekends: process.env.SCHEDULING_EXCLUDE_WEEKENDS === "true",
-  horizonDays: Number(process.env.SCHEDULING_HORIZON_DAYS ?? 30),
+  horizonDays: parseEnvInt("SCHEDULING_HORIZON_DAYS", 30),
 };
 
 /** 会議時間の上限（分）。エージェントが極端に長い枠を返すのを防ぐ安全弁。 */
@@ -83,7 +94,10 @@ function minutesToLabel(minutesFromMidnight: number): string {
 /** "+09:00" → 540（分）。 */
 function parseOffsetMinutes(offset: string): number {
   const m = offset.match(/^([+-])(\d{2}):(\d{2})$/);
-  if (!m) return 0;
+  if (!m) {
+    console.warn('[scheduling] Invalid utcOffset="' + offset + '", expected +HH:MM or -HH:MM format');
+    return 0;
+  }
   return (m[1] === "-" ? -1 : 1) * (Number(m[2]) * 60 + Number(m[3]));
 }
 
