@@ -47,7 +47,7 @@ export const schedulingSanitizeSchema = {
   tagNames: [...new Set([...(defaultSchema.tagNames ?? []), "div", "span"])],
   attributes: {
     ...defaultSchema.attributes,
-    "*": [...stripClassName(defaultSchema.attributes?.["*"]), "className"],
+    "*": [...stripClassName(defaultSchema.attributes?.["*"])],
     a: [...stripClassName(defaultSchema.attributes?.a), "className", "dataText", "href"],
     div: [...stripClassName(defaultSchema.attributes?.div), "className"],
     span: [...stripClassName(defaultSchema.attributes?.span), "className"],
