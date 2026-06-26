@@ -16,17 +16,17 @@ export const dynamic = "force-dynamic";
  */
 export async function POST(req: Request) {
   if (!isGoogleConfigured() || !process.env.DEEPSEEK_API_KEY) {
-    return NextResponse.json({ error: "not_configured" }, { status: 503 });
+    return NextResponse.json({ ok: false, error: "not_configured" }, { status: 503 });
   }
   if (!rateLimit(`chat:${clientIp(req)}`, 15, 60_000)) {
-    return NextResponse.json({ error: "rate_limited" }, { status: 429 });
+    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
   }
 
   let params;
   try {
     params = await req.json(); // useChat の body（{ messages, trigger, ... }）。型は any。
   } catch {
-    return NextResponse.json({ error: "invalid_body" }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
   }
 
   try {
@@ -39,6 +39,6 @@ export async function POST(req: Request) {
     return createUIMessageStreamResponse({ stream });
   } catch (err) {
     console.error("[schedule] chat failed:", err);
-    return NextResponse.json({ error: "upstream_error" }, { status: 502 });
+    return NextResponse.json({ ok: false, error: "upstream_error" }, { status: 502 });
   }
 }
