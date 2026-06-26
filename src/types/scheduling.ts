@@ -72,29 +72,6 @@ export interface BookingResult {
   error?: string;
 }
 
-/** 会話 1 ターン（AI ネイティブなチャット日程調整用）。 */
-export interface ChatMessage {
-  role: "user" | "assistant";
-  content: string;
-}
-
-/**
- * 会話日程調整のサーバー内部結果。
- *
- * セキュリティ上、エージェント（Hermes）の自由記述テキストは**一切ユーザーに見せない**。
- * カレンダーの中身（予定名・参加者・詳細）が injection で漏れるのを防ぐため、エージェント
- * からは「予約可能枠（時刻のみ）」と「状態」だけを受け取り、ユーザー向け文言はサーバーの
- * テンプレートで生成する。
- */
-export type ChatStatus = "ok" | "none" | "need_info";
-
-export interface ChatResult {
-  /** ok=枠あり / none=範囲内に空き無し / need_info=要望が曖昧で要確認 */
-  status: ChatStatus;
-  /** 予約可能枠（時刻のみ。予定の中身は一切含めない）。 */
-  slots: Slot[];
-}
-
 /** 営業時間・枠長などの設定（サーバー側で空き枠を決定論的に計算するための入力）。 */
 export interface SchedulingConfig {
   /** IANA タイムゾーン（固定 +09:00 前提、Asia/Tokyo は DST 無し） */
