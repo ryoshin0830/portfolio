@@ -470,6 +470,10 @@ export function isOfferableSlot(
   );
 }
 
+function stripBidiAndControlChars(s: string): string {
+  return s.replace(/[​-‏‪-‮⁦-⁩﻿­]/g, '');
+}
+
 /**
  * 予約を確定する。確定前にその枠がまだ空いているか再検証し（二重予約防止）、
  * 問題なければ Hermes に Google Calendar イベント作成を依頼する。
@@ -519,8 +523,8 @@ export async function createBooking(
   if (conflict) return { ok: false, error: "slot_taken" };
 
   // ── イベント作成（オーナー本人として実行＝招待メール＋Meet が効く）──────
-  const safeName = req.name.trim().slice(0, 80);
-  const safeNote = (req.note ?? "").trim().slice(0, 500);
+  const safeName = stripBidiAndControlChars(req.name.trim()).slice(0, 80);
+  const safeNote = stripBidiAndControlChars((req.note ?? "").trim()).slice(0, 500);
   const description = safeNote
     ? `${safeNote}\n---\nCreated via ryosh.in scheduling`
     : "Created via ryosh.in scheduling";
