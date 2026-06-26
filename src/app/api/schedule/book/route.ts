@@ -24,7 +24,7 @@ const bookingSchema = z.object({
 /**
  * POST /api/schedule/book
  * body: BookingRequest（start/end/name/note + ハニーポット company）
- * 確定直前に空き状況を再検証してから Hermes に Google Calendar イベントを作らせる。
+ * 確定直前に空き状況を再検証してから Google Calendar にイベントを作成する。
  */
 export async function POST(req: Request) {
   if (!isGoogleConfigured()) {
