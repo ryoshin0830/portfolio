@@ -1,12 +1,12 @@
 /**
  * AI 日程調整機能の型契約。
  *
- * データフロー: ブラウザ ──/api/schedule/*──▶ Next.js(サーバー) ──▶ Hermes(自宅Mac)
- * ──▶ Google Calendar。秘密情報（Hermes の API キー / Google 資格情報）は一切
+ * データフロー: ブラウザ ──/api/schedule/*──▶ Next.js(サーバー) ──▶ Google Calendar API
+ * (OAuth2 直接)。秘密情報（Google 資格情報）は一切
  * クライアントに出さず、ブラウザには「空き枠リスト」と「予約結果」だけ返す。
  */
 
-/** Hermes（= Google Calendar）から取得した予定済み区間。ISO8601（オフセット付き）。 */
+/** Google Calendar から取得した予定済み区間。ISO8601（オフセット付き）。 */
 export interface BusyInterval {
   start: string;
   end: string;

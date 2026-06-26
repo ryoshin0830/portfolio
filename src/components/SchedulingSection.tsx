@@ -6,7 +6,7 @@ import SchedulingChat from "./SchedulingChat";
  *
  * Server Component。見出しはサーバーで描画し、対話的なチャット本体だけを
  * クライアント（SchedulingChat）に委ねる。訪問者は自然言語で要望を書き、
- * /api/schedule/* 経由でサーバー側 → Hermes(自宅Mac) → Google Calendar と流れる。
+ * /api/schedule/* 経由でサーバー側 → Google Calendar API (OAuth2 直接) と流れる。
  */
 export default async function SchedulingSection() {
   const t = await getTranslations("scheduling");
