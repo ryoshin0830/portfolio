@@ -24,7 +24,12 @@ export async function POST(req: Request) {
 
   let params;
   try {
-    params = await req.json(); // useChat の body（{ messages, trigger, ... }）。型は any。
+    const body = await req.json();
+    const messages = body?.messages;
+    if (!Array.isArray(messages) || messages.length > 50) {
+      return NextResponse.json({ error: "invalid_body" }, { status: 400 });
+    }
+    params = { messages, trigger: body?.trigger };
   } catch {
     return NextResponse.json({ error: "invalid_body" }, { status: 400 });
   }
