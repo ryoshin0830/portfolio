@@ -14,6 +14,7 @@ import { fetchBusy, fetchCalendarEventContexts, insertEvent } from "@/lib/google
 import {
   computeOpenSlots,
   isValidDateString,
+  isOfferableSlot,
   findSlotsInRange,
   createBooking,
   ownerToday,
@@ -409,5 +410,181 @@ describe("ownerToday", () => {
     const { date, weekday } = ownerToday(cfg(), new Date("2026-06-21T16:00:00Z"));
     expect(date).toBe("2026-06-22");
     expect(weekday).toBe("Monday");
+  });
+
+  it("月境界を正しく跨ぐ（1/31 23:30 UTC → JST 2/1）", () => {
+    const { date, weekday } = ownerToday(cfg(), new Date("2026-01-31T23:30:00Z"));
+    // 2026-01-31T23:30Z = 2026-02-01T08:30 JST(日)
+    expect(date).toBe("2026-02-01");
+    expect(weekday).toBe("Sunday");
+  });
+});
+
+describe("computeOpenSlots — 最小duration(5分)", () => {
+  it("slotMinutes=5 なら5分枠を30分刻みで返す", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ slotMinutes: 5, startHour: 10, endHour: 11 }), FAR_PAST);
+    expect(labels(slots)).toEqual(["10:00", "10:30"]);
+    // 各枠は5分間
+    slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBe(5 * 60_000));
+  });
+});
+
+describe("computeOpenSlots — MAX_SLOT_MINUTES(720分)", () => {
+  it("slotMinutes=720(12時間) で 0-24 時なら枠を返す", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ slotMinutes: 720, startHour: 0, endHour: 24 }), FAR_PAST);
+    expect(slots.length).toBeGreaterThan(0);
+    slots.forEach((s) => expect(Date.parse(s.end) - Date.parse(s.start)).toBe(720 * 60_000));
+  });
+});
+
+describe("computeOpenSlots — startHour=0", () => {
+  it("startHour=0 なら 00:00 始まりの枠を返す", () => {
+    const slots = computeOpenSlots("2026-06-25", [], cfg({ startHour: 0, endHour: 3, slotMinutes: 60 }), FAR_PAST);
+    expect(labels(slots)).toEqual(["00:00", "00:30", "01:00", "01:30", "02:00"]);
+    expect(slots[0].start).toBe("2026-06-25T00:00:00+09:00");
+  });
+});
+
+describe("findSlotsInRange — horizonDays=1", () => {
+  it("horizonDays=1 なら今日は含むが明後日は含まない", async () => {
+    mockFetchBusy.mockResolvedValue([]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const config = cfg({ horizonDays: 1, startHour: 10, endHour: 11 });
+
+    // 今日 (6/22) を含むリクエスト → 枠あり
+    const res1 = await findSlotsInRange("2026-06-22", "2026-06-22", config, now);
+    expect(res1.slots.length).toBeGreaterThan(0);
+
+    // 明後日 (6/24) だけリクエスト → horizon(6/23) を超えるので枠なし
+    const res2 = await findSlotsInRange("2026-06-24", "2026-06-24", config, now);
+    expect(res2.slots).toEqual([]);
+  });
+});
+
+describe("isOfferableSlot — excludeWeekends=true", () => {
+  it("土曜の枠は false を返す", () => {
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    // 2026-06-27 は土曜
+    const result = isOfferableSlot(
+      "2026-06-27T10:00:00+09:00",
+      "2026-06-27T11:00:00+09:00",
+      cfg({ excludeWeekends: true }),
+      now,
+    );
+    expect(result).toBe(false);
+  });
+});
+
+describe("createBooking — excludeWeekends=true", () => {
+  it("土曜の枠は slot_not_offered を返す", async () => {
+    const now = new Date("2026-06-22T09:00:00+09:00");
+    // 2026-06-27 は土曜
+    const res = await createBooking(
+      {
+        start: "2026-06-27T13:00:00+09:00",
+        end: "2026-06-27T14:00:00+09:00",
+        name: "Test User",
+      },
+      cfg({ excludeWeekends: true }),
+      now,
+    );
+    expect(res.ok).toBe(false);
+    expect(res.error).toBe("slot_not_offered");
+    expect(mockInsert).not.toHaveBeenCalled();
+  });
+});
+
+describe("heuristicNeedsTravel — 日本語/中国語オンラインキーワード（間接テスト）", () => {
+  // heuristicNeedsTravel は export されていないため、findSlotsInRange 経由で検証する。
+  // DEEPSEEK_API_KEY='' (beforeEach で設定済み) なので fallback ヒューリスティックが使われる。
+  // オンラインキーワードを含む予定は移動パディングが付かない＝前後の枠が空く。
+  // 物理的な予定は移動パディングが付く＝前後の枠が埋まる。
+
+  it("'オンライン' を含む予定は移動パディングなし", async () => {
+    mockFetchBusy.mockResolvedValue([
+      { start: "2026-06-22T11:00:00+09:00", end: "2026-06-22T11:30:00+09:00" },
+    ]);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "online-ja",
+        start: "2026-06-22T11:00:00+09:00",
+        end: "2026-06-22T11:30:00+09:00",
+        summary: "オンライン面談",
+        location: "",
+        hasConference: false,
+      },
+    ]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-22", cfg({ startHour: 10, endHour: 13 }), now);
+    // パディングなし → 10:00 と 11:30 以降の枠が残る
+    expect(labels(res.slots)).toContain("10:00");
+    expect(labels(res.slots)).toContain("11:30");
+  });
+
+  it("'在宅' を含む予定は移動パディングなし", async () => {
+    mockFetchBusy.mockResolvedValue([
+      { start: "2026-06-22T11:00:00+09:00", end: "2026-06-22T11:30:00+09:00" },
+    ]);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "remote-ja",
+        start: "2026-06-22T11:00:00+09:00",
+        end: "2026-06-22T11:30:00+09:00",
+        summary: "在宅勤務",
+        location: "",
+        hasConference: false,
+      },
+    ]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-22", cfg({ startHour: 10, endHour: 13 }), now);
+    expect(labels(res.slots)).toContain("10:00");
+    expect(labels(res.slots)).toContain("11:30");
+  });
+
+  it("'线上' を含む予定は移動パディングなし", async () => {
+    mockFetchBusy.mockResolvedValue([
+      { start: "2026-06-22T11:00:00+09:00", end: "2026-06-22T11:30:00+09:00" },
+    ]);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "online-zh",
+        start: "2026-06-22T11:00:00+09:00",
+        end: "2026-06-22T11:30:00+09:00",
+        summary: "线上会议",
+        location: "",
+        hasConference: false,
+      },
+    ]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-22", cfg({ startHour: 10, endHour: 13 }), now);
+    expect(labels(res.slots)).toContain("10:00");
+    expect(labels(res.slots)).toContain("11:30");
+  });
+
+  it("'歯医者' は移動パディングあり（前後の枠が潰れる）", async () => {
+    mockFetchBusy.mockResolvedValue([
+      { start: "2026-06-22T11:00:00+09:00", end: "2026-06-22T11:30:00+09:00" },
+    ]);
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "dentist",
+        start: "2026-06-22T11:00:00+09:00",
+        end: "2026-06-22T11:30:00+09:00",
+        summary: "歯医者",
+        location: "渋谷デンタルクリニック",
+        hasConference: false,
+      },
+    ]);
+    const now = new Date("2026-06-22T00:00:00+09:00");
+    const res = await findSlotsInRange("2026-06-22", "2026-06-22", cfg({ startHour: 9, endHour: 14 }), now);
+    // 60分パディング前 (10:00-11:00) + 本体 (11:00-11:30) + 60分パディング後 (11:30-12:30)
+    // → busy は 10:00-12:30。9:00-10:00 の枠と 12:30 以降の枠のみ。
+    expect(labels(res.slots)).toContain("09:00");
+    expect(labels(res.slots)).not.toContain("10:00");
+    expect(labels(res.slots)).not.toContain("10:30");
+    expect(labels(res.slots)).not.toContain("11:00");
+    expect(labels(res.slots)).not.toContain("11:30");
+    expect(labels(res.slots)).not.toContain("12:00");
+    expect(labels(res.slots)).toContain("12:30");
   });
 });
