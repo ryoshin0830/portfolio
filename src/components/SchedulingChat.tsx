@@ -74,6 +74,13 @@ function extractText(child: any): string {
   return "";
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function hastToText(node: any): string {
+  if (node.type === 'text') return node.value || '';
+  if (Array.isArray(node.children)) return node.children.map(hastToText).join('');
+  return '';
+}
+
 function rehypeWrapColumns() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (tree: any) => {
@@ -95,7 +102,7 @@ function rehypeWrapColumns() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const hasSlot = node.children?.some((li: any) => {
           if (li.type !== 'element' || li.tagName !== 'li') return false;
-          const text = extractText(li);
+          const text = hastToText(li);
           return timeSlotRegex.test(text);
         });
 
