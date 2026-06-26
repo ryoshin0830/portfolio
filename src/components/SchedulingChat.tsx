@@ -281,7 +281,7 @@ export default function SchedulingChat() {
                             const dataText = (props as any)["data-text"] as string | undefined;
                             // href ("action:suggest") と data-text の両方でクイック返信を判定する。
                             // urlTransform / sanitize の挙動変化に対する多重防御。
-                            if (href === "action:suggest" || dataText != null) {
+                            if (href === "action:suggest") {
                               const textToSubmit = dataText || extractText(children);
                               return (
                                 <button
