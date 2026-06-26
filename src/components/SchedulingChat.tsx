@@ -93,7 +93,7 @@ function rehypeWrapColumns() {
     const hasUl = tree.children.some((n: any) => n.type === 'element' && n.tagName === 'ul');
     if (!hasUl) return;
 
-    const timeSlotRegex = /(?:\d{4}[年/])?\s*\d{1,2}[/月]\d{1,2}日?\s*[(（].+?[)）]\s*\d{1,2}:\d{2}\s*[-~〜～ー]\s*\d{1,2}:\d{2}/;
+    const timeSlotRegex = /(?:\d{4}[年/])?\s*\d{1,2}[/月]\d{1,2}日?\s*[(（].+?[)）]\s*\d{1,2}:\d{2}\s*[-~〜～ー—–]\s*\d{1,2}:\d{2}/;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tree.children.forEach((node: any) => {
@@ -316,7 +316,7 @@ export default function SchedulingChat() {
                             
                             childrenArray.forEach(child => {
                               const rawText = extractText(child).trim();
-                              const timeSlotRegex = /^(?:\d{4}[年/])?\s*(\d{1,2}[/月]\d{1,2})日?\s*[(（](.+?)[)）]\s*(\d{1,2}:\d{2})\s*[-~〜～ー]\s*(\d{1,2}:\d{2})/;
+                              const timeSlotRegex = /^(?:\d{4}[年/])?\s*(\d{1,2}[/月]\d{1,2})日?\s*[(（](.+?)[)）]\s*(\d{1,2}:\d{2})\s*[-~〜～ー—–]\s*(\d{1,2}:\d{2})/;
                               const match = rawText.match(timeSlotRegex);
                               if (match) {
                                 const dateMatch = match[1].replace('月', '/');
