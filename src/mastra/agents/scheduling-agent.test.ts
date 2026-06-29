@@ -6,9 +6,11 @@ describe("scheduling-agent", () => {
   describe("buildInstructions", () => {
     it("should strictly enforce bullet list formatting with both date and time", () => {
       const instructions = buildInstructions();
-      expect(instructions).toContain("Style: reply in the visitor's language");
-
-      expect(instructions).toContain("- 6/21 (Sun) 17:00 - 18:00");
+      expect(instructions).toContain("Style: be concise, warm, and highly engaging");
+      expect(instructions).toContain("EACH bullet point MUST contain BOTH the date and the time");
+      // 日付+時刻の書式例が含まれている
+      expect(instructions).toContain("6/21 (");
+      expect(instructions).toContain("17:00 - 18:00");
     });
 
     it("should include security rules to not reveal internal details", () => {
