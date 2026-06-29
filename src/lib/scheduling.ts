@@ -162,6 +162,42 @@ const travelPaddingDecisionSchema = z.object({
 
 type TravelPaddingDecision = z.infer<typeof travelPaddingDecisionSchema>["decisions"][number];
 
+/**
+ * 移動パディング判定の短期キャッシュ。
+ * findSlotsInRange と createBooking が同じイベントを独立して分類するため、
+ * LLM の非決定性やクエリ範囲の差でバッチコンテキストが異なり、同じイベントに
+ * 異なる判定が出る（find 時: needsTravel=false → 枠を提示、book 時: needsTravel=true
+ * → slot_taken）。キャッシュで判定を統一し、提示した枠が予約できないバグを防ぐ。
+ */
+const travelPaddingCache = new Map<string, { decision: TravelPaddingDecision; expiresAt: number }>();
+const TRAVEL_CACHE_TTL_MS = 5 * 60_000;
+
+function getCachedDecisions(events: CalendarEventContext[]): {
+  cached: Map<string, TravelPaddingDecision>;
+  uncached: CalendarEventContext[];
+} {
+  const now = Date.now();
+  const cached = new Map<string, TravelPaddingDecision>();
+  const uncached: CalendarEventContext[] = [];
+  for (const event of events) {
+    const entry = travelPaddingCache.get(event.id);
+    if (entry && now < entry.expiresAt) {
+      cached.set(event.id, entry.decision);
+    } else {
+      if (entry) travelPaddingCache.delete(event.id);
+      uncached.push(event);
+    }
+  }
+  return { cached, uncached };
+}
+
+function cacheDecisions(decisions: Map<string, TravelPaddingDecision>): void {
+  const expiresAt = Date.now() + TRAVEL_CACHE_TTL_MS;
+  for (const [id, decision] of decisions) {
+    travelPaddingCache.set(id, { decision, expiresAt });
+  }
+}
+
 export const TRAVEL_PADDING_SYSTEM_PROMPT = [
   "You are a privacy-preserving calendar travel classifier.",
   "Your only job is to decide whether each existing calendar event requires travel padding before and after it.",
@@ -220,12 +256,30 @@ async function classifyTravelPadding(
   cfg: SchedulingConfig,
 ): Promise<Map<string, TravelPaddingDecision>> {
   if (events.length === 0) return new Map();
+
+  const { cached, uncached } = getCachedDecisions(events);
+  if (uncached.length === 0) return cached;
+
+  const fresh = await classifyTravelPaddingUncached(uncached, cfg);
+  cacheDecisions(fresh);
+
+  for (const [id, decision] of cached) {
+    fresh.set(id, decision);
+  }
+  return fresh;
+}
+
+async function classifyTravelPaddingUncached(
+  events: CalendarEventContext[],
+  cfg: SchedulingConfig,
+): Promise<Map<string, TravelPaddingDecision>> {
   if (!process.env.DEEPSEEK_API_KEY) return fallbackTravelDecisions(events);
 
   try {
     const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
     const { output } = await generateText({
       model: deepseek("deepseek-chat"),
+      temperature: 0,
       output: Output.object({ schema: travelPaddingDecisionSchema }),
       system: TRAVEL_PADDING_SYSTEM_PROMPT,
       prompt: JSON.stringify({
@@ -307,7 +361,11 @@ async function applyTravelPadding(
 
   for (const event of events) {
     const decision = decisions.get(event.id);
-    if (!decision?.needsTravel) continue;
+    // LLM が needsTravel=false でも heuristic が true なら安全側に倒す。
+    // LLM は場所名だけでは物理移動を見落とすことがあり、パディング欠落で
+    // 「提示した枠が予約できない」バグを起こすため。
+    const needsTravel = decision?.needsTravel || heuristicNeedsTravel(event);
+    if (!needsTravel) continue;
 
     const start = Date.parse(event.start);
     const end = Date.parse(event.end);
@@ -525,9 +583,13 @@ export async function createBooking(
   }
 
   // ── 二重予約チェック（確定直前に移動パディング込みで取り直す）──────────────
+  // findSlotsInRange と同じ日単位の範囲で問い合わせる。スロット前後だけの狭い範囲だと
+  // LLM に渡すイベントバッチが findSlotsInRange と異なり、同一イベントの移動判定が
+  // 変わって「提示した枠が予約できない」バグを起こす。
+  const slotDate = timestampToIso(startMs, cfg).slice(0, 10);
   const busy = await getUnavailableIntervals(
-    timestampToIso(startMs - cfg.travelPaddingAfterMinutes * 60_000, cfg),
-    timestampToIso(endMs + cfg.travelPaddingBeforeMinutes * 60_000, cfg),
+    minutesToIso(slotDate, -cfg.travelPaddingAfterMinutes, cfg),
+    minutesToIso(slotDate, 24 * 60 + cfg.travelPaddingBeforeMinutes, cfg),
     cfg,
   );
   const conflict = busy.some(
@@ -568,6 +630,11 @@ export function ownerToday(cfg: SchedulingConfig, now: Date): { date: string; we
   const parts = fmt.formatToParts(now);
   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
   return { date: `${get("year")}-${get("month")}-${get("day")}`, weekday: get("weekday") };
+}
+
+/** テスト用: 移動パディングキャッシュをクリアする。 */
+export function clearTravelPaddingCache(): void {
+  travelPaddingCache.clear();
 }
 
 // 自然言語の解釈（旧 getChatSuggestion）は Mastra エージェント（src/mastra）へ移行した。
