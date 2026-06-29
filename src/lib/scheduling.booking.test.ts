@@ -17,7 +17,6 @@ import {
   computeOpenSlots,
   findSlotsInRange,
   DEFAULT_CONFIG,
-  clearTravelPaddingCache,
 } from "./scheduling";
 
 const mockFetchBusy = vi.mocked(fetchBusy);
@@ -52,7 +51,6 @@ beforeEach(() => {
   vi.clearAllMocks();
   vi.stubEnv("DEEPSEEK_API_KEY", "");
   mockFetchEventContexts.mockResolvedValue([]);
-  clearTravelPaddingCache();
 });
 
 afterEach(() => {
