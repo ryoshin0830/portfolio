@@ -226,6 +226,7 @@ async function classifyTravelPadding(
     const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
     const { output } = await generateText({
       model: deepseek("deepseek-chat"),
+      temperature: 0,
       output: Output.object({ schema: travelPaddingDecisionSchema }),
       system: TRAVEL_PADDING_SYSTEM_PROMPT,
       prompt: JSON.stringify({
@@ -307,7 +308,11 @@ async function applyTravelPadding(
 
   for (const event of events) {
     const decision = decisions.get(event.id);
-    if (!decision?.needsTravel) continue;
+    // LLM が needsTravel=false でも heuristic が true なら安全側に倒す。
+    // LLM は場所名だけでは物理移動を見落とすことがあり、パディング欠落で
+    // 「提示した枠が予約できない」バグを起こすため。
+    const needsTravel = decision?.needsTravel || heuristicNeedsTravel(event);
+    if (!needsTravel) continue;
 
     const start = Date.parse(event.start);
     const end = Date.parse(event.end);
@@ -525,9 +530,13 @@ export async function createBooking(
   }
 
   // ── 二重予約チェック（確定直前に移動パディング込みで取り直す）──────────────
+  // findSlotsInRange と同じ日単位の範囲で問い合わせる。スロット前後だけの狭い範囲だと
+  // LLM に渡すイベントバッチが findSlotsInRange と異なり、同一イベントの移動判定が
+  // 変わって「提示した枠が予約できない」バグを起こす。
+  const slotDate = timestampToIso(startMs, cfg).slice(0, 10);
   const busy = await getUnavailableIntervals(
-    timestampToIso(startMs - cfg.travelPaddingAfterMinutes * 60_000, cfg),
-    timestampToIso(endMs + cfg.travelPaddingBeforeMinutes * 60_000, cfg),
+    minutesToIso(slotDate, -cfg.travelPaddingAfterMinutes, cfg),
+    minutesToIso(slotDate, 24 * 60 + cfg.travelPaddingBeforeMinutes, cfg),
     cfg,
   );
   const conflict = busy.some(
