@@ -44,6 +44,7 @@ describe("scheduling model", () => {
     const source = fs.readFileSync(path.join(ROOT, file), "utf8");
 
     expect(source).toContain("createSchedulingModel");
+    expect(source).not.toContain("createDeepSeek");
     expect(source).not.toContain("deepseek-chat");
   });
 });
