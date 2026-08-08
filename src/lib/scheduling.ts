@@ -225,7 +225,8 @@ async function classifyTravelPadding(
   try {
     const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
     const { output } = await generateText({
-      model: deepseek("deepseek-chat"),
+      model: deepseek("deepseek-v4-flash"),
+      providerOptions: { deepseek: { thinking: { type: "disabled" } } },
       temperature: 0,
       output: Output.object({ schema: travelPaddingDecisionSchema }),
       system: TRAVEL_PADDING_SYSTEM_PROMPT,
