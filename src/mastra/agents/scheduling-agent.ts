@@ -1,12 +1,12 @@
 import { Agent } from "@mastra/core/agent";
+import { createDeepSeek } from "@ai-sdk/deepseek";
 import { DEFAULT_CONFIG, ownerToday } from "@/lib/scheduling";
-import { createSchedulingModel } from "@/lib/scheduling-model";
 import { findSlotsTool, bookSlotTool } from "../tools/scheduling-tools";
 
-const schedulingModel = createSchedulingModel(process.env.DEEPSEEK_API_KEY);
+const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
 
 /**
- * 日程調整エージェント。DeepSeek(`deepseek-v4-flash`, 高速・非推論)。
+ * 日程調整エージェント。DeepSeek(`deepseek-chat`, 高速・非推論)。
  * 役割: 訪問者の自然文を解釈 → find-slots で空きを提示 → 同意で book-slot で予約。
  * エージェントに渡すのは移動パディング適用後の空き枠と unavailable 時間帯のみ。
  * 予定名・場所・説明・参加者は渡さない。
@@ -58,6 +58,6 @@ export const schedulingAgent = new Agent({
   id: "scheduling",
   name: "Scheduling Agent",
   instructions: buildInstructions,
-  model: schedulingModel,
+  model: deepseek("deepseek-chat"),
   tools: { findSlotsTool, bookSlotTool },
 });

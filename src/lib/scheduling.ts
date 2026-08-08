@@ -1,7 +1,7 @@
+import { createDeepSeek } from "@ai-sdk/deepseek";
 import { generateText, Output } from "ai";
 import { z } from "zod";
 import { fetchBusy, fetchCalendarEventContexts, insertEvent } from "@/lib/google-calendar";
-import { createSchedulingModel } from "@/lib/scheduling-model";
 import type {
   AvailabilityResponse,
   BookingRequest,
@@ -223,8 +223,9 @@ async function classifyTravelPadding(
   if (!process.env.DEEPSEEK_API_KEY) return fallbackTravelDecisions(events);
 
   try {
+    const deepseek = createDeepSeek({ apiKey: process.env.DEEPSEEK_API_KEY });
     const { output } = await generateText({
-      model: createSchedulingModel(process.env.DEEPSEEK_API_KEY),
+      model: deepseek("deepseek-chat"),
       temperature: 0,
       output: Output.object({ schema: travelPaddingDecisionSchema }),
       system: TRAVEL_PADDING_SYSTEM_PROMPT,
