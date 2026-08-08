@@ -59,5 +59,8 @@ export const schedulingAgent = new Agent({
   name: "Scheduling Agent",
   instructions: buildInstructions,
   model: deepseek("deepseek-v4-flash"),
+  defaultOptions: {
+    providerOptions: { deepseek: { thinking: { type: "disabled" } } },
+  },
   tools: { findSlotsTool, bookSlotTool },
 });
