@@ -113,8 +113,8 @@ Expected: 依存追加だけを含むコミットが作成される。
 
 **Interfaces:**
 
-- Consumes: @openrouter/ai-sdk-provider の createOpenRouter、AI SDKの LanguageModel 型。
-- Produces: SCHEDULING_MODEL_ID: "openai/gpt-5.6-luna"、SCHEDULING_REASONING_EFFORT: "xhigh"、createSchedulingModel(apiKey: string | undefined): LanguageModel。
+- Consumes: @openrouter/ai-sdk-provider の createOpenRouter、LanguageModelV3 型。
+- Produces: SCHEDULING_MODEL_ID: "openai/gpt-5.6-luna"、SCHEDULING_REASONING_EFFORT: "xhigh"、createSchedulingModel(apiKey: string | undefined): LanguageModelV3。
 
 - [ ] **Step 1: 共有ファクトリの失敗するテストを書く**
 
@@ -155,9 +155,10 @@ describe("scheduling model", () => {
     expect(createOpenRouterMock).toHaveBeenCalledWith({
       apiKey: "test-api-key",
       compatibility: "strict",
+    });
+    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna", {
       reasoning: { effort: "xhigh" },
     });
-    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna");
     expect(model).toBe(expectedModel);
   });
 
@@ -169,6 +170,8 @@ describe("scheduling model", () => {
     expect(createOpenRouterMock).toHaveBeenCalledWith({
       apiKey: undefined,
       compatibility: "strict",
+    });
+    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna", {
       reasoning: { effort: "xhigh" },
     });
   });
@@ -187,21 +190,22 @@ Create src/lib/scheduling-model.ts:
 
 ~~~typescript
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import type { LanguageModel } from "ai";
+import type { LanguageModelV3 } from "@openrouter/ai-sdk-provider";
 
 export const SCHEDULING_MODEL_ID = "openai/gpt-5.6-luna";
 export const SCHEDULING_REASONING_EFFORT = "xhigh" as const;
 
-export function createSchedulingModel(apiKey: string | undefined): LanguageModel {
+export function createSchedulingModel(apiKey: string | undefined): LanguageModelV3 {
   const openrouter = createOpenRouter({
     apiKey,
     compatibility: "strict",
+  });
+
+  return openrouter(SCHEDULING_MODEL_ID, {
     reasoning: {
       effort: SCHEDULING_REASONING_EFFORT,
     },
   });
-
-  return openrouter(SCHEDULING_MODEL_ID);
 }
 ~~~
 
@@ -234,7 +238,7 @@ Expected: 共有モデル設定とそのunit testだけを含むコミットが�
 
 **Interfaces:**
 
-- Consumes: createSchedulingModel(apiKey: string | undefined): LanguageModel。
+- Consumes: createSchedulingModel(apiKey: string | undefined): LanguageModelV3。
 - Produces: schedulingAgent.modelに共有モデルを設定し、chat routeがOPENROUTER_API_KEYを必須とする。chat routeのmaxDurationは60。
 
 - [ ] **Step 1: chat routeとagent配線の失敗するテストを書く**
@@ -452,7 +456,7 @@ Expected: agent、chat route、配線テストだけを含むコミットが作�
 
 **Interfaces:**
 
-- Consumes: createSchedulingModel(apiKey: string | undefined): LanguageModel、既存の travelPaddingDecisionSchema、findSlotsInRange。
+- Consumes: createSchedulingModel(apiKey: string | undefined): LanguageModelV3、既存の travelPaddingDecisionSchema、findSlotsInRange。
 - Produces: classifyTravelPaddingがOPENROUTER_API_KEYで共有モデルを生成し、temperatureを送らず、失敗時にfallbackTravelDecisionsへ戻る。
 
 - [ ] **Step 1: OpenRouter失敗時のfallbackテストを書く**
@@ -769,10 +773,15 @@ Expected: 旧provider、旧環境変数、コメント更新だけを含むコ�
 
 - [ ] **Step 1: OpenRouterキーを1PasswordからVercelへ標準入力で登録する**
 
-Run exactly:
+Vercel CLI 58.4.4は標準入力を短時間だけ読み取って終了するため、1Passwordの読み取り完了を待ってからVercel CLIへ値を渡す。APIキーはコマンドライン引数・ログへ出さず、作業用の変数へ一時的に保持して処理後にunsetする。
+
+Run:
 
 ~~~bash
-zsh -lc 'source /Users/shin-ryo/.zshrc; OP_SERVICE_ACCOUNT_TOKEN="$OPSA" op read "op://agent/OpenRouter API Key - portfolio/credential"' | vercel env add OPENROUTER_API_KEY production,preview --project portfolio --scope eastlinker --sensitive --force --yes
+set -o errexit -o pipefail
+openrouter_key_value=$(zsh -lc 'source /Users/shin-ryo/.zshrc; OP_SERVICE_ACCOUNT_TOKEN="$OPSA" op read "op://agent/OpenRouter API Key - portfolio/credential"')
+printf '%s\n' "$openrouter_key_value" | vercel env add OPENROUTER_API_KEY production,preview --project portfolio --scope eastlinker --sensitive --force --yes
+unset openrouter_key_value
 ~~~
 
 Expected: Vercel CLI reports successful creation or update of OPENROUTER_API_KEY for Preview and Production. The API key value must not appear in terminal output.
@@ -826,8 +835,8 @@ Run:
 ~~~bash
 smoke_dir=$(mktemp -d)
 curl --no-buffer -sS -D "$smoke_dir/headers" -H 'content-type: application/json' -H 'accept: text/event-stream' --data '{"messages":[{"id":"openrouter-smoke","role":"user","parts":[{"type":"text","text":"PROPOSE_INITIAL_SLOTS_IN_EN"}]}]}' https://www.ryosh.in/api/schedule/chat -o "$smoke_dir/stream"
-status=$(awk 'NR == 1 { print $2; exit }' "$smoke_dir/headers")
-test "$status" = "200"
+http_status=$(awk 'NR == 1 { print $2; exit }' "$smoke_dir/headers")
+test "$http_status" = "200"
 if rg -n -i 'type:error|deepseek|insufficient balance' "$smoke_dir/stream"; then exit 1; fi
 rg -n 'data:|text-delta|find-slots|slot|finish' "$smoke_dir/stream"
 ~~~
@@ -956,5 +965,8 @@ Expected: whitespace errorがなく、意図しない未追跡・未コミット
 
 - 実装者が埋める未確定欄を残さない。
 - 共有モデルファクトリのインターフェースをTask 2で定義し、Task 3とTask 4が同じ関数シグネチャを使う。
+- 実際の@openrouter/ai-sdk-provider@2.9.1の型定義に従い、reasoningをprovider設定ではなくモデル設定へ渡す。
 - 移動分類のtemperature削除、OpenRouter strict設定、Vercel旧キー削除の順序をspecと一致させている。
+- Vercel CLIの標準入力タイムアウトを考慮し、1Password読み取り完了後にVercelへ値を渡す手順にしている。
+- 本番スモークのHTTPステータス変数はzshの予約済み変数名と衝突しない。
 - 対象は一つのprovider移行であり、独立した実装計画への分割は不要である。

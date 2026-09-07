@@ -56,7 +56,7 @@ DeepSeekへの実行時フォールバックは実装しない。移動パディ
 
 | 対象 | 現行のDeepSeek依存 | 移行後の扱い |
 |------|--------------------|--------------|
-| src/mastra/agents/scheduling-agent.ts | createDeepSeek と deepseek-chat をモジュールレベルで生成 | 共有モデルファクトリが返すLanguageModelへ差し替える |
+| src/mastra/agents/scheduling-agent.ts | createDeepSeek と deepseek-chat をモジュールレベルで生成 | 共有モデルファクトリが返すLanguageModelV3へ差し替える |
 | src/lib/scheduling.ts | classifyTravelPadding が DEEPSEEK_API_KEY を確認し、deepseek-chatで generateText / structured outputを実行 | 同じ共有モデルファクトリを使い、reasoning xhighを適用する |
 | src/app/api/schedule/chat/route.ts | DEEPSEEK_API_KEYがない場合に503 | OPENROUTER_API_KEYの確認へ差し替える |
 | package.json / package-lock.json | @ai-sdk/deepseek 2.0.39 | AI SDK v6互換のOpenRouter providerへ置換する |
@@ -118,7 +118,7 @@ provider移行の対象外とし、既存テストで回帰を確認する。
 
 ### 案A: 公式OpenRouter AI SDK providerを共有ファクトリで使う（採用）
 
-AI SDK v6互換の @openrouter/ai-sdk-provider@2.9.1 を導入し、createOpenRouterでサーバー専用の共有モデルを生成する。OpenRouter APIへ直接接続するため compatibility: strict を明示し、provider生成時の reasoning に effort: xhigh を設定して、agentとgenerateTextの両経路へ同じ設定を適用する。
+AI SDK v6互換の @openrouter/ai-sdk-provider@2.9.1 を導入し、createOpenRouterでサーバー専用の共有モデルを生成する。OpenRouter APIへ直接接続するため compatibility: strict を明示し、モデル生成時の reasoning に effort: xhigh を設定して、agentとgenerateTextの両経路へ同じ設定を適用する。
 
 採用理由は、現在のMastra・AI SDKストリーム・tool calling・structured outputの境界を保ったまま、providerだけを交換できるためである。共有ファクトリをテストすれば、モデルとreasoningの設定漏れを1箇所で検出できる。
 
@@ -154,35 +154,39 @@ flowchart LR
     E --> M
 ~~~
 
-共有モデルファクトリはモデルID、reasoning、APIキーを所有する。呼び出し元はprovider固有の生成処理を持たず、LanguageModelだけを受け取る。Google Calendarと予約ドメインはAI providerから独立する。
+共有モデルファクトリはモデルID、reasoning、APIキーを所有する。呼び出し元はprovider固有の生成処理を持たず、LanguageModelV3だけを受け取る。Google Calendarと予約ドメインはAI providerから独立する。
 
 ### 5.2 共有モデルファクトリ
 
 実装時の責務は次の最小単位にする。
 
 ~~~typescript
+import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import type { LanguageModelV3 } from "@openrouter/ai-sdk-provider";
+
 const SCHEDULING_MODEL_ID = "openai/gpt-5.6-luna";
 const SCHEDULING_REASONING_EFFORT = "xhigh";
 
-function createSchedulingModel(apiKey: string | undefined) {
+function createSchedulingModel(apiKey: string | undefined): LanguageModelV3 {
   const openrouter = createOpenRouter({
     apiKey,
     compatibility: "strict",
+  });
+
+  return openrouter(SCHEDULING_MODEL_ID, {
     reasoning: {
       effort: SCHEDULING_REASONING_EFFORT,
     },
   });
-
-  return openrouter(SCHEDULING_MODEL_ID);
 }
 ~~~
 
 実際のファイル名は実装計画で確定するが、モデル生成は一つのサーバー専用モジュールへ集約する。テストからAPIキーを注入できるようにし、モジュールのテストで次を検証する。
 
 - createOpenRouterへ受け取ったAPIキーが渡る。
-- provider設定の reasoning.effort = xhigh が渡る。
+- モデル設定の reasoning.effort = xhigh が渡る。
 - providerへ正確なモデルIDが渡る。
-- providerから返されたLanguageModelをそのまま返す。
+- providerから返されたLanguageModelV3をそのまま返す。
 - DeepSeek providerや旧モデルIDを参照しない。
 
 ### 5.3 予約エージェント
@@ -275,7 +279,7 @@ flowchart TD
 
 ### 7.2 単体テスト
 
-- 共有モデルファクトリ: provider、APIキー、モデルID、reasoning effortをモックで検証する。
+- 共有モデルファクトリ: provider、APIキー、モデルID、モデル設定のreasoning effortをモックで検証する。
 - scheduling agent: instructions、agent ID、tool登録を維持し、共有モデルを使用することを確認する。
 - scheduling: OPENROUTER_API_KEY未設定時のheuristic、OpenRouter失敗時のheuristic、structured outputの既存スキーマを確認する。
 - scheduling: GPT-5.6 Lunaがサポートしないtemperatureオプションを分類リクエストへ追加しないことを確認する。
