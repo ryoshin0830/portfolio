@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { describe, it, expect } from "vitest";
 import { buildInstructions } from "./scheduling-agent";
 import { DEFAULT_CONFIG } from "@/lib/scheduling";
@@ -40,5 +42,14 @@ describe("scheduling-agent", () => {
         expect(instructions).toContain(`${DEFAULT_CONFIG.endHour}:00`);
       }
     });
+  });
+
+  it("uses the shared OpenRouter scheduling model", () => {
+    const source = fs.readFileSync(path.resolve(__dirname, "scheduling-agent.ts"), "utf8");
+
+    expect(source).toContain("createSchedulingModel");
+    expect(source).toContain("process.env.OPENROUTER_API_KEY");
+    expect(source).not.toContain("createDeepSeek");
+    expect(source).not.toContain("deepseek-chat");
   });
 });
