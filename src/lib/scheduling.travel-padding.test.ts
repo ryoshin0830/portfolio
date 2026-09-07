@@ -96,4 +96,41 @@ describe("travel padding OpenRouter fallback", () => {
     expect(result.slots.map((slot) => slot.label)).not.toContain("11:30");
     expect(result.slots.map((slot) => slot.label)).toContain("12:30");
   });
+
+  it("uses successful structured output from the shared OpenRouter model", async () => {
+    generateTextMock.mockResolvedValue({
+      output: {
+        decisions: [
+          {
+            eventId: "physical-event",
+            needsTravel: true,
+            confidence: "high",
+            reasonCode: "physical_location",
+          },
+        ],
+      },
+    });
+
+    const result = await findSlotsInRange(
+      "2026-06-22",
+      "2026-06-22",
+      cfg(),
+      new Date("2026-06-22T00:00:00+09:00"),
+    );
+
+    const request = generateTextMock.mock.calls[0][0] as {
+      model: unknown;
+      output: unknown;
+      prompt: string;
+      system: string;
+    };
+    expect(request.model).toBe(modelMock);
+    expect(request.output).toBeDefined();
+    expect(request.system).toContain("privacy-preserving calendar travel classifier");
+    expect(request.prompt).toContain("physical-event");
+    const unsupportedOption = ["temp", "erature"].join("");
+    expect(request).not.toHaveProperty(unsupportedOption);
+    expect(result.slots.map((slot) => slot.label)).not.toContain("11:30");
+    expect(result.slots.map((slot) => slot.label)).toContain("12:30");
+  });
 });
