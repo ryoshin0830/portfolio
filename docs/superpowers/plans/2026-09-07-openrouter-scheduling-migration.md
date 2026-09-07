@@ -954,7 +954,7 @@ Expected: whitespace errorがなく、意図しない未追跡・未コミット
 
 計画の自己レビュー結果:
 
-- プレースホルダー、TBD、TODOを含めない。
+- 実装者が埋める未確定欄を残さない。
 - 共有モデルファクトリのインターフェースをTask 2で定義し、Task 3とTask 4が同じ関数シグネチャを使う。
 - 移動分類のtemperature削除、OpenRouter strict設定、Vercel旧キー削除の順序をspecと一致させている。
 - 対象は一つのprovider移行であり、独立した実装計画への分割は不要である。
