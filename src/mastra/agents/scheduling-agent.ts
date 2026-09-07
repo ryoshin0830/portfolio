@@ -6,7 +6,7 @@ import { findSlotsTool, bookSlotTool } from "../tools/scheduling-tools";
 const schedulingModel = createSchedulingModel(process.env.OPENROUTER_API_KEY);
 
 /**
- * 日程調整エージェント。OpenRouter（openai/gpt-5.6-luna、reasoning xhigh）。
+ * 日程調整エージェント。OpenRouter（z-ai/glm-5.3-flash、reasoningはデフォルト設定）。
  * 役割: 訪問者の自然文を解釈 → find-slots で空きを提示 → 同意で book-slot で予約。
  * エージェントに渡すのは移動パディング適用後の空き枠と unavailable 時間帯のみ。
  * 予定名・場所・説明・参加者は渡さない。
