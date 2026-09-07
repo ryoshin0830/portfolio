@@ -250,7 +250,17 @@ Expected: モデル切り替え、reasoning未指定、対応テスト、コメ�
 Run:
 
 ~~~bash
-if rg -n 'openai/gpt-5\\.6-luna|SCHEDULING_REASONING_EFFORT|reasoning:\\s*\\{' src/lib/scheduling-model.ts src/lib/scheduling-model.test.ts src/lib/scheduling-model.integration.test.ts src/mastra/agents/scheduling-agent.ts; then exit 1; else printf '%s\\n' 'scheduling model source is aligned'; fi
+if rg -n 'openai/gpt-5\.6-luna|SCHEDULING_REASONING_EFFORT|reasoning:\s*\{' src/lib/scheduling-model.ts src/lib/scheduling-model.test.ts src/lib/scheduling-model.integration.test.ts src/mastra/agents/scheduling-agent.ts; then
+  exit 1
+else
+  rg_status=$?
+  if [ "$rg_status" -eq 1 ]; then
+    printf '%s\n' 'scheduling model source is aligned'
+  else
+    printf 'rg failed with exit status %s\n' "$rg_status" >&2
+    exit "$rg_status"
+  fi
+fi
 ~~~
 
 Expected: scheduling model source is aligned が表示される。
