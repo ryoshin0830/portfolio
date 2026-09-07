@@ -102,7 +102,7 @@ describe("travel padding OpenRouter fallback", () => {
       output: {
         decisions: [
           {
-            eventId: "physical-event",
+            eventId: "online-event",
             needsTravel: true,
             confidence: "high",
             reasonCode: "physical_location",
@@ -110,6 +110,17 @@ describe("travel padding OpenRouter fallback", () => {
         ],
       },
     });
+
+    mockFetchEventContexts.mockResolvedValue([
+      {
+        id: "online-event",
+        start: "2026-06-22T11:00:00+09:00",
+        end: "2026-06-22T11:30:00+09:00",
+        summary: "Remote conference at an offsite venue",
+        location: "Tokyo office",
+        hasConference: true,
+      },
+    ]);
 
     const result = await findSlotsInRange(
       "2026-06-22",
@@ -127,7 +138,7 @@ describe("travel padding OpenRouter fallback", () => {
     expect(request.model).toBe(modelMock);
     expect(request.output).toBeDefined();
     expect(request.system).toContain("privacy-preserving calendar travel classifier");
-    expect(request.prompt).toContain("physical-event");
+    expect(request.prompt).toContain("online-event");
     const unsupportedOption = ["temp", "erature"].join("");
     expect(request).not.toHaveProperty(unsupportedOption);
     expect(result.slots.map((slot) => slot.label)).not.toContain("11:30");
