@@ -46,10 +46,12 @@ describe("scheduling-agent", () => {
 
   it("uses the shared OpenRouter scheduling model", () => {
     const source = fs.readFileSync(path.resolve(__dirname, "scheduling-agent.ts"), "utf8");
+    const legacyFactory = ["create", "Deep", "Seek"].join("");
+    const legacyModel = ["deep", "seek", "-chat"].join("");
 
     expect(source).toContain("createSchedulingModel");
     expect(source).toContain("process.env.OPENROUTER_API_KEY");
-    expect(source).not.toContain("createDeepSeek");
-    expect(source).not.toContain("deepseek-chat");
+    expect(source).not.toContain(legacyFactory);
+    expect(source).not.toContain(legacyModel);
   });
 });

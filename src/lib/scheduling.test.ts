@@ -47,7 +47,7 @@ const FAR_PAST = new Date("2026-06-01T00:00:00+09:00");
 
 beforeEach(() => {
   vi.clearAllMocks();
-  vi.stubEnv("DEEPSEEK_API_KEY", "");
+  vi.stubEnv("OPENROUTER_API_KEY", "");
   mockFetchEventContexts.mockResolvedValue([]);
 });
 
@@ -496,7 +496,7 @@ describe("createBooking — excludeWeekends=true", () => {
 
 describe("heuristicNeedsTravel — 日本語/中国語オンラインキーワード（間接テスト）", () => {
   // heuristicNeedsTravel は export されていないため、findSlotsInRange 経由で検証する。
-  // DEEPSEEK_API_KEY='' (beforeEach で設定済み) なので fallback ヒューリスティックが使われる。
+  // OPENROUTER_API_KEY='' (beforeEach で設定済み) なので fallback ヒューリスティックが使われる。
   // オンラインキーワードを含む予定は移動パディングが付かない＝前後の枠が空く。
   // 物理的な予定は移動パディングが付く＝前後の枠が埋まる。
 

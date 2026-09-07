@@ -49,7 +49,7 @@ const NOW = new Date("2026-06-20T09:00:00+09:00");
 
 beforeEach(() => {
   vi.clearAllMocks();
-  vi.stubEnv("DEEPSEEK_API_KEY", "");
+  vi.stubEnv("OPENROUTER_API_KEY", "");
   mockFetchEventContexts.mockResolvedValue([]);
 });
 

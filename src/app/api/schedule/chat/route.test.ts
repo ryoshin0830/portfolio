@@ -60,7 +60,6 @@ function request() {
 describe("POST /api/schedule/chat", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.stubEnv("DEEPSEEK_API_KEY", "");
     isGoogleConfiguredMock.mockReturnValue(true);
     rateLimitMock.mockReturnValue(true);
     clientIpMock.mockReturnValue("test-ip");

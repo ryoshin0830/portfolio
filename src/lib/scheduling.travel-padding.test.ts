@@ -53,7 +53,6 @@ function cfg(overrides: Partial<SchedulingConfig> = {}): SchedulingConfig {
 describe("travel padding OpenRouter fallback", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.stubEnv("DEEPSEEK_API_KEY", "");
     vi.stubEnv("OPENROUTER_API_KEY", "test-openrouter-key");
     mockFetchBusy.mockResolvedValue([
       {

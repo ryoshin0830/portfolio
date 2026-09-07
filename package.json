@@ -22,7 +22,6 @@
     "*.{ts,tsx}": "eslint --fix"
   },
   "dependencies": {
-    "@ai-sdk/deepseek": "2.0.39",
     "@ai-sdk/react": "3.0.210",
     "@googleapis/calendar": "15.0.0",
     "@mastra/ai-sdk": "1.5.0",
