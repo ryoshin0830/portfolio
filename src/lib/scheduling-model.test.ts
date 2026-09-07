@@ -21,7 +21,7 @@ describe("scheduling model", () => {
     createOpenRouterMock.mockReturnValue(providerMock);
   });
 
-  it("creates GPT-5.6 Luna with strict OpenRouter reasoning settings", () => {
+  it("creates GPT-5.6 Luna with strict provider and model reasoning settings", () => {
     const expectedModel = { modelId: "test-model" };
     providerMock.mockReturnValue(expectedModel);
 
@@ -32,9 +32,10 @@ describe("scheduling model", () => {
     expect(createOpenRouterMock).toHaveBeenCalledWith({
       apiKey: "test-api-key",
       compatibility: "strict",
+    });
+    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna", {
       reasoning: { effort: "xhigh" },
     });
-    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna");
     expect(model).toBe(expectedModel);
   });
 
@@ -46,6 +47,8 @@ describe("scheduling model", () => {
     expect(createOpenRouterMock).toHaveBeenCalledWith({
       apiKey: undefined,
       compatibility: "strict",
+    });
+    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna", {
       reasoning: { effort: "xhigh" },
     });
   });
