@@ -22,11 +22,11 @@
     "*.{ts,tsx}": "eslint --fix"
   },
   "dependencies": {
-    "@ai-sdk/deepseek": "2.0.39",
     "@ai-sdk/react": "3.0.210",
     "@googleapis/calendar": "15.0.0",
     "@mastra/ai-sdk": "1.5.0",
     "@mastra/core": "1.45.0",
+    "@openrouter/ai-sdk-provider": "2.9.1",
     "@tailwindcss/postcss": "^4",
     "ai": "6.0.208",
     "framer-motion": "^12.16.0",

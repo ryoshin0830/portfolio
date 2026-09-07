@@ -25,7 +25,7 @@ export function schedulingUrlTransform(url: string): string {
 }
 
 /**
- * AI(DeepSeek) が生成する生 HTML を `rehype-raw` で描画するため、XSS 面を
+ * AI(OpenRouter) が生成する生 HTML を `rehype-raw` で描画するため、XSS 面を
  * `rehype-sanitize` で塞ぐ。クイック返信チップに必要な要素・class・`data-text`・
  * `action:` href のみ許可し、`iframe`(srcdoc)/`script`/`style`/イベントハンドラ等は除去する。
  *
@@ -147,7 +147,7 @@ const ListContext = createContext<"ul" | "ol" | "slot-ul">("ul");
 /**
  * AI ネイティブな会話型日程調整（クライアント）。
  *
- * Mastra エージェント（DeepSeek）を `useChat` 経由で叩く。応答は本物のトークン
+ * OpenRouterのMastraエージェントを `useChat` 経由で叩く。応答は本物のトークン
  * ストリーミング（サーバーが /api/schedule/chat で UIMessage ストリームを返す）。
  * エージェントが find-slots / book-slot ツールを呼び、空き提案〜予約までを会話で行う。
  * カレンダーの中身はブラウザに渡らない（パディング適用後の空き時刻のみ）＝漏洩しない。
