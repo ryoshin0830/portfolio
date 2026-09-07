@@ -82,6 +82,8 @@ provider移行の対象外とし、既存テストで回帰を確認する。
 
 現在のAI SDKは6.0.208である。OpenRouter providerの最新版はAI SDK v7向けのため、今回の移行ではAI SDK v6互換の @openrouter/ai-sdk-provider 2.9.1 を固定採用する。AI SDKやMastraのメジャーアップデートは同時に行わない。
 
+指定モデルのOpenRouter metadataには reasoning、tools、structured_outputs があるが temperature はない。現行の移動パディング分類にある temperature: 0 はprovider移行時に引き継がず、GPT-5.6 Lunaが受け付けるリクエストだけを送る。
+
 ## 3. 要件
 
 ### 3.1 機能要件
@@ -94,6 +96,7 @@ provider移行の対象外とし、既存テストで回帰を確認する。
 - FR-06: 移動パディング分類はOpenRouterのキー未設定または呼び出し失敗時、別providerではなく既存ヒューリスティックへフォールバックする。
 - FR-07: DeepSeekへの自動フォールバック、再送、並列provider実行は行わない。
 - FR-08: AI SDKのUI Message / SSE契約、Mastraのagent ID、既存tool IDを変更しない。
+- FR-09: 指定モデルがサポートしない temperature: 0 を移動パディング分類のOpenRouterリクエストへ送らない。
 
 ### 3.2 秘密管理要件
 
@@ -115,7 +118,7 @@ provider移行の対象外とし、既存テストで回帰を確認する。
 
 ### 案A: 公式OpenRouter AI SDK providerを共有ファクトリで使う（採用）
 
-AI SDK v6互換の @openrouter/ai-sdk-provider@2.9.1 を導入し、createOpenRouterでサーバー専用の共有モデルを生成する。provider生成時のextraBodyに reasoning: { effort: xhigh } を設定し、agentとgenerateTextの両経路へ同じ設定を適用する。
+AI SDK v6互換の @openrouter/ai-sdk-provider@2.9.1 を導入し、createOpenRouterでサーバー専用の共有モデルを生成する。OpenRouter APIへ直接接続するため compatibility: strict を明示し、provider生成時の reasoning に effort: xhigh を設定して、agentとgenerateTextの両経路へ同じ設定を適用する。
 
 採用理由は、現在のMastra・AI SDKストリーム・tool calling・structured outputの境界を保ったまま、providerだけを交換できるためである。共有ファクトリをテストすれば、モデルとreasoningの設定漏れを1箇所で検出できる。
 
@@ -164,10 +167,9 @@ const SCHEDULING_REASONING_EFFORT = "xhigh";
 function createSchedulingModel(apiKey: string | undefined) {
   const openrouter = createOpenRouter({
     apiKey,
-    extraBody: {
-      reasoning: {
-        effort: SCHEDULING_REASONING_EFFORT,
-      },
+    compatibility: "strict",
+    reasoning: {
+      effort: SCHEDULING_REASONING_EFFORT,
     },
   });
 
@@ -178,7 +180,7 @@ function createSchedulingModel(apiKey: string | undefined) {
 実際のファイル名は実装計画で確定するが、モデル生成は一つのサーバー専用モジュールへ集約する。テストからAPIキーを注入できるようにし、モジュールのテストで次を検証する。
 
 - createOpenRouterへ受け取ったAPIキーが渡る。
-- extraBodyに reasoning.effort = xhigh が渡る。
+- provider設定の reasoning.effort = xhigh が渡る。
 - providerへ正確なモデルIDが渡る。
 - providerから返されたLanguageModelをそのまま返す。
 - DeepSeek providerや旧モデルIDを参照しない。
@@ -191,7 +193,7 @@ scheduling-agent は既存のinstructions、agent ID scheduling、find-slots、b
 
 classifyTravelPadding は OPENROUTER_API_KEY を確認し、存在する場合に共有モデルファクトリでモデルを生成して既存のstructured outputスキーマへ渡す。キーがない場合、またはOpenRouter呼び出しが失敗した場合は、現行のキーワードベースのfallbackTravelDecisionsを使う。
 
-分類のための推論結果は保存しない。移動パディングの最終値はこれまでどおり空き枠計算へ渡し、予約直前にも同じルールで再検証する。
+現行の temperature: 0 はDeepSeek向けのprovider設定だったため移植しない。分類のための推論結果は保存しない。移動パディングの最終値はこれまでどおり空き枠計算へ渡し、予約直前にも同じルールで再検証する。
 
 ### 5.5 チャットAPI
 
@@ -276,6 +278,7 @@ flowchart TD
 - 共有モデルファクトリ: provider、APIキー、モデルID、reasoning effortをモックで検証する。
 - scheduling agent: instructions、agent ID、tool登録を維持し、共有モデルを使用することを確認する。
 - scheduling: OPENROUTER_API_KEY未設定時のheuristic、OpenRouter失敗時のheuristic、structured outputの既存スキーマを確認する。
+- scheduling: GPT-5.6 Lunaがサポートしないtemperatureオプションを分類リクエストへ追加しないことを確認する。
 - chat route: OPENROUTER_API_KEY欠落時に503となることを確認する。
 - 既存のslot計算、booking、tool、SchedulingChatテストを変更理由の範囲内で更新し、目的を維持する。
 
@@ -331,6 +334,7 @@ flowchart TD
 - [ ] 予約エージェントがOpenRouterの openai/gpt-5.6-luna を使う。
 - [ ] 移動パディング分類が同じモデルを使う。
 - [ ] 両方に reasoning effort xhigh が適用される。
+- [ ] 移動パディング分類へ temperature: 0 を送らない。
 - [ ] OPENROUTER_API_KEYがないchat routeは503になる。
 - [ ] 移動パディング分類はprovider障害時にheuristicへフォールバックする。
 - [ ] DeepSeek依存、旧モデル、旧環境変数参照がアクティブなコードとlockfileから消える。
