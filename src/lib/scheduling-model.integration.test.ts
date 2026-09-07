@@ -10,7 +10,7 @@ describe("scheduling model OpenRouter request", () => {
       new Response(
         JSON.stringify({
           id: "test-response",
-          model: "openai/gpt-5.6-luna",
+          model: "z-ai/glm-5.3-flash",
           provider: "openai",
           choices: [
             {
@@ -29,7 +29,7 @@ describe("scheduling model OpenRouter request", () => {
     vi.unstubAllGlobals();
   });
 
-  it("sends the configured model, reasoning, and structured output without temperature", async () => {
+  it("sends the configured model and structured output without reasoning or temperature", async () => {
     const model = createSchedulingModel("test-openrouter-key");
 
     await model.doGenerate({
@@ -53,13 +53,13 @@ describe("scheduling model OpenRouter request", () => {
 
     const body = JSON.parse(String(init.body)) as Record<string, unknown>;
     expect(body).toMatchObject({
-      model: "openai/gpt-5.6-luna",
-      reasoning: { effort: "xhigh" },
+      model: "z-ai/glm-5.3-flash",
       response_format: {
         type: "json_schema",
         json_schema: { name: "test_response", strict: true },
       },
     });
+    expect(body).not.toHaveProperty("reasoning");
     expect(body).not.toHaveProperty("temperature");
   });
 });

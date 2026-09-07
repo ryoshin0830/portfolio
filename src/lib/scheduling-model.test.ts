@@ -9,11 +9,7 @@ vi.mock("@openrouter/ai-sdk-provider", () => ({
   createOpenRouter: createOpenRouterMock,
 }));
 
-import {
-  createSchedulingModel,
-  SCHEDULING_MODEL_ID,
-  SCHEDULING_REASONING_EFFORT,
-} from "./scheduling-model";
+import { createSchedulingModel, SCHEDULING_MODEL_ID } from "./scheduling-model";
 
 describe("scheduling model", () => {
   beforeEach(() => {
@@ -21,21 +17,18 @@ describe("scheduling model", () => {
     createOpenRouterMock.mockReturnValue(providerMock);
   });
 
-  it("creates GPT-5.6 Luna with strict provider and model reasoning settings", () => {
+  it("creates GLM-5.3-Flash with strict provider settings and default reasoning", () => {
     const expectedModel = { modelId: "test-model" };
     providerMock.mockReturnValue(expectedModel);
 
     const model = createSchedulingModel("test-api-key");
 
-    expect(SCHEDULING_MODEL_ID).toBe("openai/gpt-5.6-luna");
-    expect(SCHEDULING_REASONING_EFFORT).toBe("xhigh");
+    expect(SCHEDULING_MODEL_ID).toBe("z-ai/glm-5.3-flash");
     expect(createOpenRouterMock).toHaveBeenCalledWith({
       apiKey: "test-api-key",
       compatibility: "strict",
     });
-    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna", {
-      reasoning: { effort: "xhigh" },
-    });
+    expect(providerMock.mock.calls[0]).toEqual(["z-ai/glm-5.3-flash"]);
     expect(model).toBe(expectedModel);
   });
 
@@ -48,8 +41,6 @@ describe("scheduling model", () => {
       apiKey: undefined,
       compatibility: "strict",
     });
-    expect(providerMock).toHaveBeenCalledWith("openai/gpt-5.6-luna", {
-      reasoning: { effort: "xhigh" },
-    });
+    expect(providerMock.mock.calls[0]).toEqual(["z-ai/glm-5.3-flash"]);
   });
 });
