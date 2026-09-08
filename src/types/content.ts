@@ -64,6 +64,17 @@ export interface Expertise {
   description: string;
 }
 
+/**
+ * 日程調整チャットのクイック返信チップ。
+ * `label` が画面に出る文字、`text` がクリック時にエージェントへ送る本文。
+ * 以前は LLM に Tailwind 付きの HTML を毎ターン生成させていたが、内容は静的なので
+ * 翻訳ファイル＋クライアント描画に移した（prefill / decode の削減）。
+ */
+export interface SchedulingQuickReply {
+  label: string;
+  text: string;
+}
+
 export type Translator = (key: string) => unknown;
 
 export function getRaw<T>(t: { raw: (key: string) => unknown }, key: string): T {

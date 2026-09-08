@@ -17,7 +17,7 @@ describe("scheduling model", () => {
     createOpenRouterMock.mockReturnValue(providerMock);
   });
 
-  it("creates GLM-5.3-Flash with strict provider settings and default reasoning", () => {
+  it("creates GLM-5.3-Flash with strict provider settings and minimal reasoning effort", () => {
     const expectedModel = { modelId: "test-model" };
     providerMock.mockReturnValue(expectedModel);
 
@@ -28,7 +28,10 @@ describe("scheduling model", () => {
       apiKey: "test-api-key",
       compatibility: "strict",
     });
-    expect(providerMock.mock.calls[0]).toEqual(["z-ai/glm-5.3-flash"]);
+    expect(providerMock.mock.calls[0]).toEqual([
+      "z-ai/glm-5.3-flash",
+      { reasoning: { effort: "minimal" } },
+    ]);
     expect(model).toBe(expectedModel);
   });
 
@@ -41,6 +44,9 @@ describe("scheduling model", () => {
       apiKey: undefined,
       compatibility: "strict",
     });
-    expect(providerMock.mock.calls[0]).toEqual(["z-ai/glm-5.3-flash"]);
+    expect(providerMock.mock.calls[0]).toEqual([
+      "z-ai/glm-5.3-flash",
+      { reasoning: { effort: "minimal" } },
+    ]);
   });
 });

@@ -845,6 +845,20 @@
       "Weekday evening, 30 min",
       "Earliest opening"
     ],
+    "chatQuickReplies": [
+      {
+        "label": "1-hour meeting!",
+        "text": "I'd like a 1-hour slot"
+      },
+      {
+        "label": "Lunch together! 🍱",
+        "text": "Let's grab lunch!"
+      },
+      {
+        "label": "Dinner together! 🍷",
+        "text": "Let's have dinner!"
+      }
+    ],
     "chatError": "Something went wrong. Please try again.",
     "chatRetry": "Retry",
     "chatReplyOk": "Here are the closest open times — pick one below.",
