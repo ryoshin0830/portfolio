@@ -9,6 +9,7 @@ import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
 import { m, AnimatePresence } from "framer-motion";
+import { getRaw, type SchedulingQuickReply } from "@/types/content";
 import React from "react";
 
 /**
@@ -231,6 +232,23 @@ export default function SchedulingChat() {
   const last = messages[messages.length - 1];
   const showThinking = busy && (!last || last.role === "user" || textOf(last).trim() === "");
 
+  // クイック返信チップ。以前は「毎ターン Tailwind 付きの HTML を出力せよ」と
+  // instructions で LLM に指示していたが、内容は静的なので prefill も decode も
+  // 無駄だった。翻訳ファイルを正としてここで描画する。
+  // （LLM が独自に action:suggest の HTML を返してきた場合の描画経路は
+  //   多重防御として残してある。）
+  const quickReplies = getRaw<SchedulingQuickReply[]>(t, "chatQuickReplies");
+  const lastIsEmptyAssistant =
+    Boolean(last) && last.role === "assistant" && textOf(last).trim() === "";
+  const showQuickReplies = !busy && Boolean(last) && last.role === "assistant" && !lastIsEmptyAssistant;
+
+  // 応答が途中で切れた（＝本文の無いアシスタントメッセージだけが残って止まった）。
+  // Vercel の関数タイムアウトでストリームが殺されると HTTP は 200 のまま無言で
+  // 終わるため useChat の error は立たず、以前はここが行き止まりになっていた。
+  // 原因（関数タイムアウト／回線切断／上流の中断）を問わず同じ症状なので、
+  // 状態から判定してエラーとリトライを出す。
+  const truncated = !busy && !error && lastIsEmptyAssistant;
+
   return (
     <div className="relative mx-auto flex h-[75dvh] max-h-[800px] min-h-[500px] w-full max-w-5xl flex-col overflow-hidden bg-white/70 shadow-[0_8px_40px_rgb(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150 rounded-3xl border border-black/5 dark:border-white/10 dark:bg-[color:var(--color-bg)]/50">
       {/* ヘッダー */}
@@ -431,6 +449,27 @@ export default function SchedulingChat() {
             })}
           </AnimatePresence>
 
+          {/* クイック返信（クライアント描画。LLM には出力させない） */}
+          {showQuickReplies && (
+            <m.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="flex flex-wrap gap-2"
+            >
+              {quickReplies.map((reply) => (
+                <button
+                  key={reply.text}
+                  type="button"
+                  onClick={() => submit(reply.text)}
+                  className="rounded-full border border-[color:var(--color-accent)] bg-white/30 px-4 py-2 text-sm font-medium text-[color:var(--color-accent)] backdrop-blur-md transition-all hover:bg-[color:var(--color-accent)] hover:text-white dark:bg-black/30"
+                >
+                  {reply.label}
+                </button>
+              ))}
+            </m.div>
+          )}
+
           {/* 思考／ツール実行インジケータ */}
           {showThinking && (
             <m.div
@@ -450,7 +489,7 @@ export default function SchedulingChat() {
             </m.div>
           )}
 
-          {error && (
+          {(error || truncated) && (
             <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

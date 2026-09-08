@@ -227,3 +227,67 @@ describe("SchedulingChat — XSS サニタイズ", () => {
     expect(btn.className).toContain("rounded-full");
   });
 });
+
+describe("SchedulingChat — クイック返信（クライアント描画）", () => {
+  const quickReplies = ja.scheduling.chatQuickReplies;
+
+  it("アシスタントの応答後に翻訳ファイル由来のクイック返信を描画する", () => {
+    mockMessages = [assistantMsg("候補はこちらです。")];
+    renderChat();
+
+    for (const reply of quickReplies) {
+      expect(screen.getByRole("button", { name: reply.label })).toBeTruthy();
+    }
+  });
+
+  it("クイック返信のクリックで label ではなく text が送信される", () => {
+    mockMessages = [assistantMsg("候補はこちらです。")];
+    renderChat();
+
+    fireEvent.click(screen.getByRole("button", { name: quickReplies[0].label }));
+
+    expect(sendMessage).toHaveBeenCalledTimes(1);
+    expect(sendMessage).toHaveBeenCalledWith({ text: quickReplies[0].text });
+  });
+
+  it("アシスタントの応答がまだ無いときは描画しない", () => {
+    mockMessages = [{ id: "u1", role: "user" as const, parts: [{ type: "text" as const, text: "こんにちは" }] }];
+    renderChat();
+
+    expect(screen.queryByRole("button", { name: quickReplies[0].label })).toBeNull();
+  });
+});
+
+describe("SchedulingChat — 応答が途中で切れたとき", () => {
+  // Vercel の関数タイムアウトでストリームが殺されると HTTP は 200 のまま無言で
+  // 終わり、本文の無いアシスタントメッセージだけが残る。useChat の error は
+  // 立たないので、以前は「延々と待って何も出てこない」行き止まりになっていた。
+  const truncated = () => [
+    { id: "u1", role: "user" as const, parts: [{ type: "text" as const, text: "週末に1時間" }] },
+    { id: "a1", role: "assistant" as const, parts: [{ type: "text" as const, text: "" }] },
+  ];
+
+  it("本文が空のまま終わったらエラーとリトライを出す", () => {
+    mockMessages = truncated();
+    renderChat();
+
+    expect(screen.getByRole("alert")).toBeTruthy();
+    expect(screen.getByRole("button", { name: ja.scheduling.chatRetry })).toBeTruthy();
+  });
+
+  it("リトライで直前のユーザー発話を再送する", () => {
+    mockMessages = truncated();
+    renderChat();
+
+    fireEvent.click(screen.getByRole("button", { name: ja.scheduling.chatRetry }));
+
+    expect(sendMessage).toHaveBeenCalledWith({ text: "週末に1時間" });
+  });
+
+  it("本文があるときはエラーを出さない", () => {
+    mockMessages = [assistantMsg("候補はこちらです。")];
+    renderChat();
+
+    expect(screen.queryByRole("alert")).toBeNull();
+  });
+});

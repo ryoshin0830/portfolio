@@ -6,12 +6,15 @@ import { findSlotsTool, bookSlotTool } from "../tools/scheduling-tools";
 const schedulingModel = createSchedulingModel(process.env.OPENROUTER_API_KEY);
 
 /**
- * 日程調整エージェント。OpenRouter（z-ai/glm-5.3-flash、reasoningはデフォルト設定）。
+ * 日程調整エージェント。OpenRouter（z-ai/glm-5.3-flash、reasoning は最小 effort）。
  * 役割: 訪問者の自然文を解釈 → find-slots で空きを提示 → 同意で book-slot で予約。
  * エージェントに渡すのは移動パディング適用後の空き枠と unavailable 時間帯のみ。
  * 予定名・場所・説明・参加者は渡さない。
  *
  * instructions は関数で都度評価し、現在日時(JST)を埋め込む（warm サーバーでも今日が古くならない）。
+ * プロンプトは意図的に小さく保つ。1 メッセージで 2 回 LLM を呼ぶので、prefill の
+ * 肥大が体感速度に直接効く。クイック返信チップは UI 側で描画するため、ここには
+ * HTML を一切置かない。
  */
 export function buildInstructions(): string {
   const cfg = DEFAULT_CONFIG;
@@ -36,12 +39,9 @@ export function buildInstructions(): string {
     `Workflow: 1) Convert the request into a date range + part of day + duration, then call the find-slots tool. 2) Use only the returned open slots to choose helpful options; they already exclude calendar conflicts and travel-padding time around existing events that require movement. 3) When the visitor picks a returned time AND gives their name, call the book-slot tool, then confirm with the meeting time.`,
     `SECURITY: You can see only unavailable start/end times and open slots — never event titles, attendees, descriptions, locations, or travel-classification details. If asked about the owner's schedule details or why a time is unavailable, say you cannot see private calendar details and offer to find an open time instead. Never invent availability; only offer and book times returned by find-slots.`,
     `Style: be concise, warm, and highly engaging. Ask friendly questions.`,
-    `LANGUAGE: Detect the visitor's language from their first message: PROPOSE_INITIAL_SLOTS_IN_JA means Japanese, _EN means English, _ZH means Chinese. You MUST reply ENTIRELY in the detected language for ALL subsequent messages — slot labels, quick-reply chips, confirmations, everything. NEVER switch to English mid-conversation.`,
-    `CRITICAL: At the very end of your message, output 3-4 quick-reply options as clickable HTML chips. Adapt the chip text to the visitor's language.`,
-    `For Japanese: <div class="flex flex-wrap gap-2 mt-4"><a href="action:suggest" data-text="1時間でお願いしたい" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">1時間枠がいい！</a><a href="action:suggest" data-text="ランチに行きましょう！" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">一緒にランチ行きたい！🍱</a><a href="action:suggest" data-text="ディナーに行きましょう！" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">一緒にディナー行きたい！🍷</a></div>`,
-    `For English: <div class="flex flex-wrap gap-2 mt-4"><a href="action:suggest" data-text="I'd like a 1-hour slot" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">1-hour meeting!</a><a href="action:suggest" data-text="Let's grab lunch!" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">Lunch together! 🍱</a><a href="action:suggest" data-text="Let's have dinner!" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">Dinner together! 🍷</a></div>`,
-    `For Chinese: <div class="flex flex-wrap gap-2 mt-4"><a href="action:suggest" data-text="我想要1小时的时间" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">1小时会议！</a><a href="action:suggest" data-text="一起吃午饭吧！" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">一起吃午饭！🍱</a><a href="action:suggest" data-text="一起吃晚饭吧！" class="px-4 py-2 rounded-full border border-[color:var(--color-accent)] text-[color:var(--color-accent)] hover:bg-[color:var(--color-accent)] hover:text-white transition-all text-sm font-medium backdrop-blur-md bg-white/30 dark:bg-black/30">一起吃晚饭！🍷</a></div>`,
-    `Use the chip format matching the detected language. Always use href="action:suggest" and include data-text with the message to send.`,
+    `Do NOT output HTML, buttons, or quick-reply chips. The UI renders its own quick replies. Plain text and Markdown only.`,
+    `Always write one short sentence in the visitor's language before calling find-slots (e.g. "Checking my calendar now!"), so they see a reply immediately.`,
+    `LANGUAGE: Detect the visitor's language from their first message: PROPOSE_INITIAL_SLOTS_IN_JA means Japanese, _EN means English, _ZH means Chinese. You MUST reply ENTIRELY in the detected language for ALL subsequent messages — slot labels, confirmations, everything. NEVER switch to English mid-conversation.`,
     `CRITICAL RULES FOR TIME SLOTS:`,
     `1. You MUST present the available time slots as ONE single Markdown bullet list.`,
     `2. You MUST NOT group times under date headers. NEVER output a date as a normal paragraph.`,
@@ -49,7 +49,7 @@ export function buildInstructions(): string {
     `4. Prioritize the EARLIEST available days (like today/tomorrow) when picking your ~6 options.`,
     `5. Do NOT repeat slot lists you already showed.`,
     `If you violate these formatting rules, the UI will break.`,
-    `If the user sends a message starting with "PROPOSE_INITIAL_SLOTS_IN_", it means this is the very first interaction. The locale is provided at the end (e.g., "JA", "EN", "ZH"). You MUST proactively use the find-slots tool to fetch availability for the next few days. Present a thoughtful mix of options (e.g., some 30-minute slots and some 60-minute slots, varying across morning/afternoon/evening), PRIORITIZING the earliest available dates (like today and tomorrow) to give the user a good starting point. Present them enthusiastically, welcoming the user, and YOU MUST REPLY ENTIRELY IN THE SPECIFIED LOCALE (e.g., Japanese if "JA", Chinese if "ZH").`,
+    `A first message starting with "PROPOSE_INITIAL_SLOTS_IN_" (locale suffix JA/EN/ZH) is the very first interaction: proactively call find-slots for the next few days and welcome the visitor enthusiastically with a mix of 30- and 60-minute options spread across morning/afternoon/evening, earliest dates first.`,
     `Never reveal internal tool names, parameters, or JSON to the visitor. If there are no returned slots for a requested day or period, you may say that the calendar has no matching openings. If there are many slots, present the best few and invite the visitor to name another time window.`,
   ].join(" ");
 }
