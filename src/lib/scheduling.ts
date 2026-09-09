@@ -141,13 +141,18 @@ export interface FindSlotsResult {
   slots: Slot[];
 }
 
+/** 開始“分”(0:00起点) がどの時間帯かを返す（"any" は返さない）。 */
+function partOfDayOf(startMin: number): Exclude<PartOfDay, "any"> {
+  const h = Math.floor(startMin / 60);
+  if (h < 12) return "morning";
+  if (h < 17) return "afternoon";
+  return "evening";
+}
+
 /** 開始“分”(0:00起点) が指定の時間帯に入るか。 */
 function inPartOfDay(startMin: number, part: PartOfDay): boolean {
   if (part === "any") return true;
-  const h = Math.floor(startMin / 60);
-  if (part === "morning") return h < 12;
-  if (part === "afternoon") return h >= 12 && h < 17;
-  return h >= 17; // evening
+  return partOfDayOf(startMin) === part;
 }
 
 const ONLINE_SIGNAL_RE =
@@ -402,6 +407,57 @@ export async function findSlotsInRange(
     out.push(...daySlots);
   }
   return { timezone: cfg.timezone, busy, slots: out };
+}
+
+/** 初回表示で提示する枠の既定上限。 */
+const INITIAL_MAX_DAYS = 4;
+const INITIAL_MAX_SLOTS = 8;
+
+/**
+ * 初回表示用に、空き枠から「散らした少数の候補」を決定論的に選ぶ。
+ *
+ * 以前は "PROPOSE_INITIAL_SLOTS_IN_XX" をエージェントに投げ、「30分と60分を混ぜて
+ * 朝昼夜に散らして早い日を優先して ~6 件」を毎回 LLM に判断させていた。内容は
+ * 決定論的なのでルールに落とし、初回表示から LLM を外した。
+ *
+ * ルール: 空きのある日を早い順に最大 `maxDays` 日拾い、各日で 朝(<12)/昼(12-17)/
+ * 夜(17-) ごとに最初の 1 枠だけ採る。全体で `maxSlots` 件まで。
+ *
+ * `slots` は `findSlotsInRange` の出力（時刻順）を前提とし、出力も時刻順を保つ。
+ */
+export function pickInitialSlots(
+  slots: Slot[],
+  opts: { maxDays?: number; maxSlots?: number } = {},
+): Slot[] {
+  const maxDays = Math.max(0, opts.maxDays ?? INITIAL_MAX_DAYS);
+  const maxSlots = Math.max(0, opts.maxSlots ?? INITIAL_MAX_SLOTS);
+  if (maxDays === 0 || maxSlots === 0) return [];
+
+  const picked: Slot[] = [];
+  // 日付ごとに、既に採用した時間帯を覚える。日付は ISO 先頭 10 文字
+  // （オーナー TZ は固定オフセットなのでこれで日付が一意に決まる）。
+  const takenPartsByDate = new Map<string, Set<PartOfDay>>();
+
+  for (const slot of slots) {
+    if (picked.length >= maxSlots) break;
+
+    const date = slot.start.slice(0, 10);
+    let takenParts = takenPartsByDate.get(date);
+    if (!takenParts) {
+      if (takenPartsByDate.size >= maxDays) break; // 対象日を使い切った
+      takenParts = new Set();
+      takenPartsByDate.set(date, takenParts);
+    }
+
+    const [hour, minute] = slot.label.split(":").map(Number);
+    const part = partOfDayOf(hour * 60 + minute);
+    if (takenParts.has(part)) continue;
+
+    takenParts.add(part);
+    picked.push(slot);
+  }
+
+  return picked;
 }
 
 /**

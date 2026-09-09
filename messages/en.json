@@ -830,6 +830,7 @@
     "subtitle": "Just tell the AI assistant what works for you. It checks my Google Calendar in real time and suggests open times.",
     "aiLabel": "AI assistant",
     "chatGreeting": "Hi! When would you like to talk? Any day or time works — weekdays or weekends, day or night. Just type something like \"1 hour this weekend evening\" or \"30 min next week afternoon\".",
+    "chatInitialLead": "Hi! Here are my nearest open times. Pick one, or just tell me what works for you (e.g. 1 hour this weekend evening).",
     "chatPlaceholder": "e.g. 1 hour this weekend evening / 30 min next week afternoon",
     "chatSend": "Send",
     "chatThinking": "Thinking…",

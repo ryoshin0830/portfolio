@@ -10,6 +10,8 @@ import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
 import { m, AnimatePresence } from "framer-motion";
 import { getRaw, type SchedulingQuickReply } from "@/types/content";
+import { parseSuggestions } from "@/lib/scheduling-suggestions";
+import type { Slot } from "@/types/scheduling";
 import React from "react";
 
 /**
@@ -143,6 +145,40 @@ function rehypeWrapColumns() {
   };
 }
 
+/**
+ * 初回提案として注入するアシスタントメッセージの ID。
+ * 「LLM が SUGGEST を省いた応答」と「LLM を通っていない初回提案」を区別し、
+ * 初回だけ翻訳ファイルの固定チップを出すために使う。
+ */
+export const INITIAL_PROPOSAL_ID = "initial-proposal";
+
+const INTL_LOCALES: Record<string, string> = { ja: "ja-JP", en: "en-US", zh: "zh-CN" };
+
+/** ISO(固定オフセット) から "HH:mm"。日跨ぎの終端は 00:00 ではなく 24:00 と書く。 */
+function endLabelOf(slot: Slot): string {
+  const label = slot.end.slice(11, 16);
+  const crossesMidnight = slot.end.slice(0, 10) !== slot.start.slice(0, 10);
+  return crossesMidnight && label === "00:00" ? "24:00" : label;
+}
+
+/**
+ * 空き枠を、エージェントが出していたのと同じ Markdown 箇条書きに整形する。
+ * 形式を合わせることで、既存の描画（rehypeWrapColumns / ul レンダラ /
+ * スロットボタン / 今日・明日の相対表記）がそのまま動く。
+ */
+export function formatSlotsMarkdown(slots: Slot[], locale: string, timeZone: string): string {
+  const intlLocale = INTL_LOCALES[locale] ?? locale;
+  const weekdayFmt = new Intl.DateTimeFormat(intlLocale, { weekday: "short", timeZone });
+  return slots
+    .map((slot) => {
+      const month = Number(slot.start.slice(5, 7));
+      const day = Number(slot.start.slice(8, 10));
+      const weekday = weekdayFmt.format(new Date(slot.start));
+      return `- ${month}/${day} (${weekday}) ${slot.label} - ${endLabelOf(slot)}`;
+    })
+    .join("\n");
+}
+
 const ListContext = createContext<"ul" | "ol" | "slot-ul">("ul");
 
 /**
@@ -161,7 +197,7 @@ export default function SchedulingChat() {
     () => new DefaultChatTransport({ api: "/api/schedule/chat" }),
     [],
   );
-  const { messages, sendMessage, status, error } = useChat({ transport });
+  const { messages, sendMessage, setMessages, status, error } = useChat({ transport });
 
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -185,17 +221,45 @@ export default function SchedulingChat() {
     }
   }, [messages, status]);
 
-  const sendInitialPrompt = useCallback(() => {
-    sendMessage({ text: `PROPOSE_INITIAL_SLOTS_IN_${locale.toUpperCase()}` });
-  }, [sendMessage, locale]);
+  // 初回提案の取得失敗（LLM 経路のエラーとは別に持つ）。
+  const [initialFailed, setInitialFailed] = useState(false);
+
+  /**
+   * 初回表示は LLM を通さない。以前は "PROPOSE_INITIAL_SLOTS_IN_XX" を
+   * エージェントに送っており、LLM 2 回で実測 15 秒かかっていた。内容は
+   * 決定論的なので、決定論エンドポイントから取って会話履歴に注入する。
+   *
+   * アシスタントメッセージとして注入するので、2 ターン目以降の LLM 呼び出しには
+   * 「自分が提示した枠」として履歴で渡る。
+   */
+  const loadInitialProposal = useCallback(async () => {
+    setInitialFailed(false);
+    try {
+      const res = await fetch("/api/schedule/initial-slots");
+      if (!res.ok) throw new Error(`initial-slots ${res.status}`);
+      const data = (await res.json()) as { timezone: string; slots: Slot[] };
+      const body =
+        data.slots.length > 0
+          ? `${t("chatInitialLead")}\n\n${formatSlotsMarkdown(data.slots, locale, data.timezone)}`
+          : t("chatReplyNone");
+      setMessages([
+        {
+          id: INITIAL_PROPOSAL_ID,
+          role: "assistant",
+          parts: [{ type: "text", text: body }],
+        },
+      ]);
+    } catch {
+      setInitialFailed(true);
+    }
+  }, [locale, setMessages, t]);
 
   const initRef = useRef(false);
   useEffect(() => {
-    if (!initRef.current && messages.length === 0) {
-      initRef.current = true;
-      sendInitialPrompt();
-    }
-  }, [messages.length, sendInitialPrompt]);
+    if (initRef.current) return;
+    initRef.current = true;
+    void loadInitialProposal();
+  }, [loadInitialProposal]);
 
   const submit = (text: string) => {
     const clean = text.trim();
@@ -205,13 +269,13 @@ export default function SchedulingChat() {
     sendMessage({ text: clean });
   };
 
-  // エラー後のリトライ。初期提案がまだ無ければ初期プロンプトを、
+  // エラー後のリトライ。初期提案がまだ無ければ決定論エンドポイントから取り直し、
   // 会話途中なら直近のユーザー発話を再送する（永久空白・行き止まりを防ぐ）。
   const retry = () => {
     if (busy) return;
     const lastUser = [...messages].reverse().find((mm) => mm.role === "user");
     if (messages.length === 0 || !lastUser) {
-      sendInitialPrompt();
+      void loadInitialProposal();
       return;
     }
     const text = lastUser.parts
@@ -221,26 +285,48 @@ export default function SchedulingChat() {
     if (text) sendMessage({ text });
   };
 
-  // 各メッセージのテキストパートを連結（ツールパートは UI では伏せる）。
-  const textOf = (msg: (typeof messages)[number]) =>
+  // 各メッセージの生テキスト（ツールパートは UI では伏せる）。
+  const rawTextOf = (msg: (typeof messages)[number]) =>
     msg.parts
       .filter((p): p is { type: "text"; text: string } => p.type === "text")
       .map((p) => p.text)
       .join("");
 
+  // 画面に出すテキスト。SUGGEST 行（クイック返信のマーカー）は本文から除去する。
+  const textOf = (msg: (typeof messages)[number]) => parseSuggestions(rawTextOf(msg)).text;
+
   // 最後がアシスタントでまだ本文が無い（＝考え中 or ツール実行中）か。
   const last = messages[messages.length - 1];
   const showThinking = busy && (!last || last.role === "user" || textOf(last).trim() === "");
 
-  // クイック返信チップ。以前は「毎ターン Tailwind 付きの HTML を出力せよ」と
-  // instructions で LLM に指示していたが、内容は静的なので prefill も decode も
-  // 無駄だった。翻訳ファイルを正としてここで描画する。
-  // （LLM が独自に action:suggest の HTML を返してきた場合の描画経路は
-  //   多重防御として残してある。）
-  const quickReplies = getRaw<SchedulingQuickReply[]>(t, "chatQuickReplies");
+  /**
+   * クイック返信チップ。
+   *
+   * 以前は「毎ターン Tailwind 付きの HTML を出力せよ」と instructions で LLM に
+   * 指示していた（3 言語ぶんベタ書き = 固定内容なのに毎回 ~700 トークン）。今は
+   * エージェントが末尾に出す `SUGGEST: a | b | c`（~25 トークン）を使うので、
+   * 文脈に応じた候補になる。
+   *
+   * 初回提案は LLM を通らないので SUGGEST が無い。訪問者が何を書けばよいか
+   * 分からない瞬間なので、ここだけ翻訳ファイルの固定チップを出す。
+   * それ以外で SUGGEST が無い応答ではチップを出さない。
+   *
+   * （LLM が独自に action:suggest の HTML を返してきた場合の描画経路は
+   *   多重防御として残してある。）
+   */
+  const initialQuickReplies = getRaw<SchedulingQuickReply[]>(t, "chatQuickReplies");
+  // 「途中で切れた」の判定は **生テキスト** で行う。SUGGEST 除去後の本文で見ると、
+  // 提案行だけの応答が空本文に見えて誤ってエラーバナーが出る。
   const lastIsEmptyAssistant =
-    Boolean(last) && last.role === "assistant" && textOf(last).trim() === "";
-  const showQuickReplies = !busy && Boolean(last) && last.role === "assistant" && !lastIsEmptyAssistant;
+    Boolean(last) && last.role === "assistant" && rawTextOf(last).trim() === "";
+  const suggested = last && last.role === "assistant" ? parseSuggestions(rawTextOf(last)).suggestions : [];
+  const quickReplies: SchedulingQuickReply[] =
+    suggested.length > 0
+      ? suggested.map((textValue) => ({ label: textValue, text: textValue }))
+      : last?.id === INITIAL_PROPOSAL_ID
+        ? initialQuickReplies
+        : [];
+  const showQuickReplies = !busy && Boolean(last) && last.role === "assistant" && quickReplies.length > 0;
 
   // 応答が途中で切れた（＝本文の無いアシスタントメッセージだけが残って止まった）。
   // Vercel の関数タイムアウトでストリームが殺されると HTTP は 200 のまま無言で
@@ -248,6 +334,9 @@ export default function SchedulingChat() {
   // 原因（関数タイムアウト／回線切断／上流の中断）を問わず同じ症状なので、
   // 状態から判定してエラーとリトライを出す。
   const truncated = !busy && !error && lastIsEmptyAssistant;
+
+  // 初回提案の取得失敗も同じバナーで扱う（訪問者にとっては同じ「出てこない」）。
+  const showError = Boolean(error) || truncated || initialFailed;
 
   return (
     <div className="relative mx-auto flex h-[75dvh] max-h-[800px] min-h-[500px] w-full max-w-5xl flex-col overflow-hidden bg-white/70 shadow-[0_8px_40px_rgb(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150 rounded-3xl border border-black/5 dark:border-white/10 dark:bg-[color:var(--color-bg)]/50">
@@ -274,7 +363,7 @@ export default function SchedulingChat() {
           <AnimatePresence initial={false}>
             {messages.map((mItem) => {
               const text = textOf(mItem);
-              if (!text || text.startsWith("PROPOSE_INITIAL_SLOTS")) return null; // ツールのみのアシスタント中間メッセージや初期プロンプトは表示しない
+              if (!text) return null; // ツールのみのアシスタント中間メッセージは表示しない
               const isUser = mItem.role === "user";
               return (
                 <m.div
@@ -489,7 +578,7 @@ export default function SchedulingChat() {
             </m.div>
           )}
 
-          {(error || truncated) && (
+          {showError && (
             <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import MotionProvider from "./MotionProvider";
 import ja from "../../messages/ja.json";
@@ -22,6 +22,7 @@ Element.prototype.scrollTo = () => {};
 
 // useChat をモックして、決め打ちの messages / sendMessage(spy) を返す。
 const sendMessage = vi.fn();
+const setMessages = vi.fn();
 let mockMessages: Array<{
   id: string;
   role: "user" | "assistant";
@@ -32,6 +33,7 @@ vi.mock("@ai-sdk/react", () => ({
   useChat: () => ({
     messages: mockMessages,
     sendMessage,
+    setMessages,
     status: "ready" as const,
     error: undefined,
   }),
@@ -61,9 +63,26 @@ function assistantMsg(text: string) {
   return { id: "a1", role: "assistant" as const, parts: [{ type: "text" as const, text }] };
 }
 
+const fetchMock = vi.fn();
+
 beforeEach(() => {
   sendMessage.mockClear();
+  setMessages.mockClear();
+  fetchMock.mockReset();
   mockMessages = [];
+  // 既定は「初期提案の取得に成功」。個別テストで上書きする。
+  fetchMock.mockResolvedValue(
+    new Response(
+      JSON.stringify({
+        timezone: "Asia/Tokyo",
+        slots: [
+          { start: "2026-09-09T10:00:00+09:00", end: "2026-09-09T11:00:00+09:00", label: "10:00" },
+        ],
+      }),
+      { status: 200, headers: { "content-type": "application/json" } },
+    ),
+  );
+  vi.stubGlobal("fetch", fetchMock);
 });
 
 // vitest.config に globals:true が無いため Testing Library の自動 cleanup が
@@ -71,6 +90,7 @@ beforeEach(() => {
 // 重複描画 → getByRole の multiple match）を防ぐ。
 afterEach(() => {
   cleanup();
+  vi.unstubAllGlobals();
 });
 
 describe("schedulingUrlTransform（単体）", () => {
@@ -231,8 +251,18 @@ describe("SchedulingChat — XSS サニタイズ", () => {
 describe("SchedulingChat — クイック返信（クライアント描画）", () => {
   const quickReplies = ja.scheduling.chatQuickReplies;
 
-  it("アシスタントの応答後に翻訳ファイル由来のクイック返信を描画する", () => {
-    mockMessages = [assistantMsg("候補はこちらです。")];
+  function initialProposal() {
+    return [
+      {
+        id: "initial-proposal",
+        role: "assistant" as const,
+        parts: [{ type: "text" as const, text: "直近の空き枠です。\n\n- 9/9 (水) 10:00 - 11:00" }],
+      },
+    ];
+  }
+
+  it("初回提案には翻訳ファイル由来のクイック返信を描画する", () => {
+    mockMessages = initialProposal();
     renderChat();
 
     for (const reply of quickReplies) {
@@ -241,7 +271,7 @@ describe("SchedulingChat — クイック返信（クライアント描画）", 
   });
 
   it("クイック返信のクリックで label ではなく text が送信される", () => {
-    mockMessages = [assistantMsg("候補はこちらです。")];
+    mockMessages = initialProposal();
     renderChat();
 
     fireEvent.click(screen.getByRole("button", { name: quickReplies[0].label }));
@@ -284,10 +314,142 @@ describe("SchedulingChat — 応答が途中で切れたとき", () => {
     expect(sendMessage).toHaveBeenCalledWith({ text: "週末に1時間" });
   });
 
+  it("本文が SUGGEST 行だけの応答は「途中で切れた」扱いにしない", () => {
+    // truncated 判定を SUGGEST 除去後のテキストで行うと、提案だけの応答が
+    // 空本文に見えて誤ってエラーバナーが出る。判定は生テキストで行う。
+    mockMessages = [assistantMsg("SUGGEST: 30分で十分 | 夜の枠がいい")];
+    renderChat();
+
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.getByRole("button", { name: "30分で十分" })).toBeTruthy();
+  });
+
   it("本文があるときはエラーを出さない", () => {
     mockMessages = [assistantMsg("候補はこちらです。")];
     renderChat();
 
     expect(screen.queryByRole("alert")).toBeNull();
+  });
+});
+
+describe("SchedulingChat — 初回表示（LLM を経由しない）", () => {
+  it("初回は LLM ではなく /api/schedule/initial-slots を叩く", async () => {
+    renderChat();
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+
+    expect(String(fetchMock.mock.calls[0][0])).toContain("/api/schedule/initial-slots");
+    expect(sendMessage).not.toHaveBeenCalled();
+  });
+
+  it("取得した枠を日付+時刻の Markdown としてアシスタントメッセージに注入する", async () => {
+    renderChat();
+
+    await waitFor(() => expect(setMessages).toHaveBeenCalled());
+
+    const injected = setMessages.mock.calls[0][0] as Array<{
+      role: string;
+      parts: Array<{ type: string; text: string }>;
+    }>;
+    expect(injected).toHaveLength(1);
+    expect(injected[0].role).toBe("assistant");
+    const text = injected[0].parts.map((part) => part.text).join("");
+    expect(text).toContain(ja.scheduling.chatInitialLead);
+    expect(text).toContain("- 9/9 (水) 10:00 - 11:00");
+  });
+
+  it("日を跨ぐ終端は 24:00 と表記する（00:00 にしない）", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          timezone: "Asia/Tokyo",
+          slots: [
+            { start: "2026-09-08T23:00:00+09:00", end: "2026-09-09T00:00:00+09:00", label: "23:00" },
+          ],
+        }),
+        { status: 200, headers: { "content-type": "application/json" } },
+      ),
+    );
+    renderChat();
+
+    await waitFor(() => expect(setMessages).toHaveBeenCalled());
+
+    const injected = setMessages.mock.calls[0][0] as Array<{
+      parts: Array<{ type: string; text: string }>;
+    }>;
+    expect(injected[0].parts.map((p) => p.text).join("")).toContain("23:00 - 24:00");
+  });
+
+  it("空きが 0 件なら空き無しの案内を出す", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(JSON.stringify({ timezone: "Asia/Tokyo", slots: [] }), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      }),
+    );
+    renderChat();
+
+    await waitFor(() => expect(setMessages).toHaveBeenCalled());
+
+    const injected = setMessages.mock.calls[0][0] as Array<{
+      parts: Array<{ type: string; text: string }>;
+    }>;
+    expect(injected[0].parts.map((p) => p.text).join("")).toContain(ja.scheduling.chatReplyNone);
+  });
+
+  it("取得に失敗したらエラーとリトライを出し、メッセージは注入しない", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(JSON.stringify({ ok: false, error: "upstream_error" }), { status: 502 }),
+    );
+    renderChat();
+
+    await waitFor(() => expect(screen.getByRole("alert")).toBeTruthy());
+
+    expect(screen.getByRole("button", { name: ja.scheduling.chatRetry })).toBeTruthy();
+    expect(setMessages).not.toHaveBeenCalled();
+  });
+
+  it("リトライで初期提案を取り直す", async () => {
+    fetchMock.mockResolvedValue(
+      new Response(JSON.stringify({ ok: false, error: "upstream_error" }), { status: 502 }),
+    );
+    renderChat();
+    await waitFor(() => expect(screen.getByRole("alert")).toBeTruthy());
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole("button", { name: ja.scheduling.chatRetry }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    expect(sendMessage).not.toHaveBeenCalled();
+  });
+});
+
+describe("SchedulingChat — LLM 提案のクイック返信（SUGGEST 行）", () => {
+  it("SUGGEST 行は本文に出さず、チップとして描画する", () => {
+    mockMessages = [assistantMsg("候補はこちらです。\nSUGGEST: 30分で十分 | 夜の枠がいい")];
+    const { container } = renderChat();
+
+    expect(container.textContent).not.toContain("SUGGEST");
+    expect(screen.getByRole("button", { name: "30分で十分" })).toBeTruthy();
+    expect(screen.getByRole("button", { name: "夜の枠がいい" })).toBeTruthy();
+  });
+
+  it("SUGGEST 由来のチップはその文字列をそのまま送信する", () => {
+    mockMessages = [assistantMsg("候補はこちらです。\nSUGGEST: 30分で十分 | 夜の枠がいい")];
+    renderChat();
+
+    fireEvent.click(screen.getByRole("button", { name: "夜の枠がいい" }));
+
+    expect(sendMessage).toHaveBeenCalledTimes(1);
+    expect(sendMessage).toHaveBeenCalledWith({ text: "夜の枠がいい" });
+  });
+
+  it("SUGGEST が無い LLM 応答ではチップを出さない", () => {
+    mockMessages = [assistantMsg("承知しました。お名前を教えてください。")];
+    renderChat();
+
+    for (const reply of ja.scheduling.chatQuickReplies) {
+      expect(screen.queryByRole("button", { name: reply.label })).toBeNull();
+    }
   });
 });
