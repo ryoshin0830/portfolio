@@ -10,6 +10,7 @@ import WritingFeed from "@/components/WritingFeed";
 import { setRequestLocale } from "next-intl/server";
 import { getArticles } from "@/lib/articles";
 import { getPosts } from "@/lib/posts";
+import { getNotionNotes } from "@/lib/notion";
 import { buildFeed } from "@/lib/feed";
 
 // ISR: ビルド時にプリレンダリングし、60 秒ごとにバックグラウンド再生成する。
@@ -30,7 +31,7 @@ export default async function Home({
   // them into one date-sorted feed handed to consumers as props: no duplicate
   // client requests, content in the initial HTML. Both degrade to an empty list
   // on failure; the sections handle the empty state.
-  const [articles, posts] = await Promise.all([
+  const [articles, posts, notes] = await Promise.all([
     getArticles().catch((err) => {
       console.error("[feed] articles fetch failed:", err);
       return [];
@@ -39,11 +40,19 @@ export default async function Home({
       console.error("[feed] X posts fetch failed:", err);
       return [];
     }),
+    // Notion is an undocumented API behind Cloudflare; a failure must not take
+    // the page down, so it degrades to an empty list like the other sources.
+    getNotionNotes().catch((err) => {
+      console.error("[feed] Notion notes fetch failed:", err);
+      return [];
+    }),
   ]);
-  const feed = buildFeed(articles, posts);
-  // Hero teaser: surface the latest substantial writing (Zenn/Qiita articles);
-  // fall back to X posts only when there are no articles. The full date-sorted
-  // archive lives in WritingFeed (#blog) — the single dedicated 発信 section.
+  const feed = buildFeed(articles, posts, notes);
+  // Hero teaser: surface the latest substantial writing (Zenn/Qiita/note
+  // articles); fall back to X posts only when there are no articles. Notion
+  // notes are deliberately excluded — they use kind "notion", so this filter
+  // leaves them out. The full date-sorted archive lives in WritingFeed (#blog)
+  // — the single dedicated 発信 section.
   const latestArticles = feed.filter((i) => i.kind === "article").slice(0, 3);
   const latestPosts = feed.filter((i) => i.kind === "post").slice(0, 3);
   const heroLatest = latestArticles.length > 0 ? latestArticles : latestPosts;

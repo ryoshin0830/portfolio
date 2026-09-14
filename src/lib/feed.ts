@@ -1,12 +1,23 @@
-import type { FeedItem, FeedSource, MergedArticle, XPost } from "@/types/articles";
+import type {
+  FeedItem,
+  FeedSource,
+  MergedArticle,
+  NotionNote,
+  XPost,
+} from "@/types/articles";
 
-// Merge the (already-deduplicated) Zenn/Qiita articles with the X posts into one
-// date-sorted feed. Pure function — the upstream fetches are cached separately
-// (articles hourly, posts daily) in their own modules; this just combines their
-// outputs for the Hero and the activity section.
+// Merge the (already-deduplicated) Zenn/Qiita articles, the X posts and the
+// Notion notes into one date-sorted feed. Pure function — the upstream fetches
+// are cached separately in their own modules; this just combines their outputs
+// for the Hero and the activity section.
+//
+// Notion notes get their own kind ("notion") rather than reusing "article".
+// That is load-bearing: the Hero teaser in page.tsx selects kind === "article",
+// so a distinct kind keeps casual notes out of the Hero with no extra filter.
 export function buildFeed(
   articles: MergedArticle[],
   posts: XPost[],
+  notes: NotionNote[] = [],
 ): FeedItem[] {
   const items: FeedItem[] = [];
 
@@ -39,7 +50,19 @@ export function buildFeed(
     });
   }
 
+  for (const n of notes) {
+    items.push({
+      id: n.id,
+      kind: "notion",
+      text: n.title,
+      summary: n.summary,
+      date: n.date,
+      url: n.url,
+      sources: ["notion"],
+    });
+  }
+
   // Most recent first. Parse timestamps — Zenn is UTC ("Z"), Qiita "+09:00",
-  // X also ISO-Z; string comparison would mis-order across sources.
+  // X also ISO-Z, Notion ISO-Z; string comparison would mis-order across sources.
   return items.sort((x, y) => Date.parse(y.date) - Date.parse(x.date));
 }

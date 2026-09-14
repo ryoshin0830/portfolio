@@ -907,7 +907,7 @@
   "writingFeed": {
     "title": "Activity",
     "kicker": "Writing",
-    "subtitle": "Articles on Zenn, Qiita and note, and posts on X.",
+    "subtitle": "Articles on Zenn, Qiita and note, posts on X, and notes on Notion.",
     "filterAll": "All",
     "searchPlaceholder": "Search articles and posts…",
     "searchLabel": "Search activity",
@@ -918,6 +918,7 @@
     "viewOnQiita": "View on Qiita",
     "viewOnNote": "View on note",
     "viewOnX": "View on X",
+    "viewOnNotion": "View on Notion",
     "empty": "Nothing to show."
   },
   "metadata": {
