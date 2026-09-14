@@ -12,8 +12,10 @@ export interface MergedArticle {
 
 export type ArticleSource = "zenn" | "qiita" | "note";
 
-// A platform a feed item lives on. Articles come from Zenn/Qiita/note; posts from X.
-export type FeedSource = "zenn" | "qiita" | "note" | "x";
+// A platform a feed item lives on. Articles come from Zenn/Qiita/note; posts
+// from X; notes from the Notion site. NOTE: "note" is note.com — "notion" is the
+// Notion site. They are different platforms; do not conflate them.
+export type FeedSource = "zenn" | "qiita" | "note" | "x" | "notion";
 
 // One row in the unified feed (Hero + the activity section). Articles and X
 // posts are merged into a single date-sorted stream. `kind` distinguishes them
@@ -23,8 +25,11 @@ export type FeedSource = "zenn" | "qiita" | "note" | "x";
 // source-specific filter can still deep-link to the right copy.
 export interface FeedItem {
   id: string;
-  kind: "article" | "post";
+  kind: "article" | "post" | "notion";
   text: string;
+  // Notion notes carry a short summary alongside the title; articles and posts
+  // don't. Rendered as a 2-line clamp under the title and included in search.
+  summary?: string;
   date: string; // ISO 8601
   url: string; // primary link
   sources: FeedSource[];
@@ -41,4 +46,18 @@ export interface XPost {
   text: string;
   date: string; // ISO 8601 (created_at)
   url: string; // https://x.com/<username>/status/<id>
+}
+
+// One row of the public Notion database (ryoshin.notion.site). Fetched
+// server-side from Notion's internal JSON API — see src/lib/notion.ts for why
+// the HTML cannot be used. `date` is the row's creation time: Notion's
+// created_time/last_edited_time are auto-computed properties whose values live
+// on the block itself, not in `properties`, and there is no hand-editable Date
+// property to override the publish date with.
+export interface NotionNote {
+  id: string;
+  title: string;
+  summary?: string;
+  date: string; // ISO 8601 (created_time)
+  url: string; // https://ryoshin.notion.site/<id without dashes>
 }
