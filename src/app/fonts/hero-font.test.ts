@@ -70,4 +70,18 @@ describe("hero subset font", () => {
     );
     expect(magic.toString("ascii")).toBe("wOF2");
   });
+
+  // layout.tsx の unicode-range とマニフェストのずれを弾く。
+  // 併せて next/font/google の Noto_Serif_JP に戻っていないことも見る
+  // (戻すと漢字スライスが preload されず FOUT が再発する)。
+  it("is wired into layout.tsx with a matching unicode-range", () => {
+    const layout = readFileSync(
+      path.join(ROOT, "src/app/[locale]/layout.tsx"),
+      "utf8",
+    );
+
+    expect(layout).not.toMatch(/Noto_Serif_JP/);
+    expect(layout).toContain(`../fonts/${heroFont.file}`);
+    expect(layout).toContain(`value: "${heroFont.codepoints}"`);
+  });
 });

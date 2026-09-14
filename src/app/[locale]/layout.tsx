@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
+import { Inter, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
@@ -29,13 +30,27 @@ const notoSansJP = Noto_Sans_JP({
   weight: ["400", "500", "600", "700"],
 });
 // Hero の名前専用のディスプレイ明朝（Black のみ — 細いウェイトの明朝は超大型
-// サイズで貧弱に見える）。日本語フォントは next/font が unicode-range でスライス
-// 配信するため、使用グリフ分しかダウンロードされない。
-const notoSerifJP = Noto_Serif_JP({
-  subsets: ["latin"],
+// サイズで貧弱に見える）。
+//
+// next/font/google は使わない: Google Fonts の Noto Serif JP には japanese
+// サブセットが無く、preload できるのは latin スライスだけ。漢字のスライスは
+// CSS 適用後にしか要求されないため、名前が一瞬フォールバック明朝で描かれてから
+// 差し替わっていた。「梁震」2 文字だけの単一 @font-face なら preload 対象に
+// なり、初回ペイントで確定する。
+// 生成: npm run build:hero-font（詳細は scripts/build-hero-font.mjs）
+const notoSerifJP = localFont({
+  src: "../fonts/noto-serif-jp-hero-900.woff2",
   variable: "--font-noto-serif-jp",
+  weight: "900",
+  style: "normal",
   display: "swap",
-  weight: ["900"],
+  // 自動生成されるメトリクス補正フォールバックは local("Times New Roman") に
+  // なり漢字を 1 文字も持たない。補正が効かないうえ、この @font-face 自体が
+  // 誤解を招くので切る。実フォールバックは globals.css の --font-display-serif。
+  adjustFontFallback: false,
+  fallback: ["Hiragino Mincho ProN", "Yu Mincho", "Georgia", "serif"],
+  // このファイルは 2 グリフしか持たないことを宣言として残す。
+  declarations: [{ prop: "unicode-range", value: "U+6881, U+9707" }],
 });
 
 // 3 ロケールをビルド時にプリレンダリングする（これがないと全ページが
