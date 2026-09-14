@@ -69,7 +69,9 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
       filter === "all" ? items : items.filter((i) => i.sources.includes(filter));
     if (terms.length === 0) return bySource;
     return bySource.filter((i) => {
-      const haystack = i.text.toLocaleLowerCase(locale);
+      // Notion notes carry a summary; searching only the title would miss the
+      // part of the note that actually describes it.
+      const haystack = `${i.text} ${i.summary ?? ""}`.toLocaleLowerCase(locale);
       return terms.every((term) => haystack.includes(term));
     });
   }, [items, filter, terms, locale]);
@@ -165,6 +167,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
     { key: "qiita", label: "Qiita", source: "qiita" },
     { key: "note", label: "note", source: "note" },
     { key: "x", label: "X", source: "x" },
+    { key: "notion", label: "Notion", source: "notion" },
   ];
 
   // Always render the section so the #blog nav anchor never points at nothing.
@@ -295,15 +298,27 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
                         <SourceMark key={s} source={s} />
                       ))}
                     </span>
-                    <span
-                      className={`flex-1 font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors ${
-                        i.kind === "post"
-                          ? "text-base leading-relaxed line-clamp-2 font-medium"
-                          : "text-lg md:text-xl"
-                      }`}
-                    >
-                      {highlight(i.text)}
-                      <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                    <span className="flex flex-1 flex-col gap-1">
+                      <span
+                        className={`font-semibold tracking-tight text-[color:var(--color-ink)] group-hover:text-[color:var(--color-accent)] transition-colors ${
+                          i.kind === "post"
+                            ? "text-base leading-relaxed line-clamp-2 font-medium"
+                            : "text-lg md:text-xl"
+                        }`}
+                      >
+                        {highlight(i.text)}
+                        <span className="sr-only"> — {tc("opensInNewTab")}</span>
+                      </span>
+                      {/* Notion notes ship a short summary; it is what makes a
+                          terse note title legible in the list. */}
+                      {i.summary && (
+                        <span
+                          data-testid="feed-summary"
+                          className="line-clamp-2 text-sm leading-relaxed text-[color:var(--color-ink-soft)]"
+                        >
+                          {highlight(i.summary)}
+                        </span>
+                      )}
                     </span>
                     <ArrowUpRight
                       size={16}
@@ -377,6 +392,19 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
             className="link-accent text-base"
           >
             {t("viewOnX")}
+            <ArrowUpRight size={16} aria-hidden />
+            <span className="sr-only"> — {tc("opensInNewTab")}</span>
+          </Link>
+          {/* URL は他のプロフィールリンクと同じく直書き。src/lib/notion.ts の
+              NOTION_SITE_URL は next/cache を import するサーバー専用モジュール
+              なので、クライアントコンポーネントから参照しない。 */}
+          <Link
+            href="https://ryoshin.notion.site/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link-accent text-base"
+          >
+            {t("viewOnNotion")}
             <ArrowUpRight size={16} aria-hidden />
             <span className="sr-only"> — {tc("opensInNewTab")}</span>
           </Link>

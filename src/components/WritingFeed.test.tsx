@@ -40,6 +40,15 @@ const items: FeedItem[] = [
     url: "https://example.com/3",
     sources: ["x"],
   },
+  {
+    id: "4",
+    kind: "notion",
+    text: "codex cli のリモート接続",
+    summary: "codex CLI を使って WebSocket アドレスへ接続する手順。",
+    date: "2026-02-01T00:00:00.000Z",
+    url: "https://ryoshin.notion.site/4",
+    sources: ["notion"],
+  },
 ];
 
 function renderFeed() {
@@ -62,7 +71,7 @@ describe("WritingFeed search", () => {
     renderFeed();
     expect(searchBox()).toBeTruthy();
     const list = screen.getByRole("list");
-    expect(within(list).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(list).getAllByRole("listitem")).toHaveLength(4);
   });
 
   it("入力でタイトル/本文を部分一致フィルタする", () => {
@@ -99,7 +108,7 @@ describe("WritingFeed search", () => {
     })[0];
     fireEvent.click(clear);
     expect(searchBox().value).toBe("");
-    expect(within(screen.getByRole("list")).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(screen.getByRole("list")).getAllByRole("listitem")).toHaveLength(4);
   });
 
   it("aria-controls の参照先は該当なしでも存在し続ける（dangling 参照防止）", () => {
@@ -138,5 +147,57 @@ describe("WritingFeed search", () => {
     const list = screen.getByRole("list");
     const mark = list.querySelector("mark");
     expect(mark?.textContent).toBe("TypeScript");
+  });
+});
+
+describe("WritingFeed の Notion 対応", () => {
+  afterEach(cleanup);
+
+  it("Notion フィルタで Notion の項目だけに絞れる", () => {
+    renderFeed();
+    fireEvent.click(screen.getByRole("button", { name: "Notion" }));
+    const list = screen.getByRole("list");
+    const rows = within(list).getAllByRole("listitem");
+    expect(rows).toHaveLength(1);
+    expect(within(list).getByText(/codex cli のリモート接続/)).toBeTruthy();
+  });
+
+  it("Notion 項目は要約を表示する", () => {
+    renderFeed();
+    expect(screen.getByText(/WebSocket アドレスへ接続する手順/)).toBeTruthy();
+  });
+
+  it("要約の語でも検索にヒットする", () => {
+    renderFeed();
+    fireEvent.change(searchBox(), { target: { value: "WebSocket" } });
+    const list = screen.getByRole("list");
+    expect(within(list).getAllByRole("listitem")).toHaveLength(1);
+    expect(within(list).getByText(/codex cli のリモート接続/)).toBeTruthy();
+  });
+
+  it("タイトルと要約にまたがる複数語検索も AND で効く", () => {
+    renderFeed();
+    fireEvent.change(searchBox(), { target: { value: "codex WebSocket" } });
+    expect(
+      within(screen.getByRole("list")).getAllByRole("listitem"),
+    ).toHaveLength(1);
+  });
+
+  it("要約を持たない項目では要約行を描画しない", () => {
+    renderFeed();
+    // X ポスト（id:3）には summary が無い
+    fireEvent.click(screen.getByRole("button", { name: "X" }));
+    const list = screen.getByRole("list");
+    expect(list.querySelectorAll("[data-testid='feed-summary']")).toHaveLength(
+      0,
+    );
+  });
+
+  it("Notion サイトへの入口リンクがある", () => {
+    renderFeed();
+    const link = screen.getByRole("link", {
+      name: new RegExp(ja.writingFeed.viewOnNotion),
+    });
+    expect(link.getAttribute("href")).toBe("https://ryoshin.notion.site/");
   });
 });
