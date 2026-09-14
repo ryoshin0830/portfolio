@@ -907,7 +907,7 @@
   "writingFeed": {
     "title": "発信",
     "kicker": "Writing",
-    "subtitle": "Zenn・Qiita・note での記事と、X でのポスト。",
+    "subtitle": "Zenn・Qiita・note での記事と、X でのポスト、Notion でのメモ。",
     "filterAll": "すべて",
     "searchPlaceholder": "記事・ポストを検索…",
     "searchLabel": "発信を検索",
@@ -918,6 +918,7 @@
     "viewOnQiita": "Qiitaで見る",
     "viewOnNote": "noteで見る",
     "viewOnX": "Xで見る",
+    "viewOnNotion": "Notionで見る",
     "empty": "該当する発信がありません。"
   },
   "metadata": {
