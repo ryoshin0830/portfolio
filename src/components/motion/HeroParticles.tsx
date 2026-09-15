@@ -19,17 +19,24 @@ import {
 } from "three";
 
 /**
- * Hero 背面の粒子フィールド。
+ * ページ全体に常駐する粒子フィールド（position: fixed）。
  *
- * スクロールに応じて トーラス → 球 → らせん と形を変え、最後にほどける。
+ * スクロールに応じて トーラス → 球 → らせん と形を変え、最後にゆるくほどける。
  * 「ことばを扱う機械学習」という主題の視覚化であって、意味のある情報は
  * 持たないので aria-hidden。
  *
+ * 動きの方針:
+ * - **静止していても動き続ける。** 脈動・旋回・ねじれを時間項で常に回し、
+ *   「スクロールしないと何も起きない」状態を作らない。
+ * - **形の変化は 2.5 画面分かけて進める。** 1 画面で終わらせると Hero を
+ *   抜けた時点で見どころが尽きる。
+ * - **Hero を抜けたら不透明度を 0.22 まで落とす。** 固定背景は本文の背後に
+ *   居続けるので、読み物としての可読性をここで守る。
+ *
  * 性能（CLAUDE.md のアニメーション性能ルール）:
- * - IntersectionObserver で画面外に出たら描画を止める
- * - visibilitychange でタブ非表示でも止める
+ * - Hero にいる間は 60fps、抜けて薄くなったら 30fps に落とす
+ * - visibilitychange でタブ非表示なら rAF ループ自体を止める
  * - prefers-reduced-motion では**そもそもループを回さず静止フレームを 1 枚だけ**描く
- * - 30fps に間引く（60fps にする視覚的な意味が無く、電力だけ食う）
  * - devicePixelRatio は 1.6 で頭打ち
  * - WebGL が使えない環境では静かに何も描かない（throw しない）
  *
@@ -55,6 +62,9 @@ export default function HeroParticles({ dark }: Props) {
   useEffect(() => {
     const el = mount.current;
     if (!el) return;
+    // draw() は関数宣言（巻き上げ）なので、そのままだと el の null 絞り込みが
+    // 効かない。絞り込み済みの値を別の const に受け直して閉じ込める。
+    const root: HTMLDivElement = el;
 
     const reduced =
       typeof window.matchMedia === "function" &&
@@ -76,7 +86,7 @@ export default function HeroParticles({ dark }: Props) {
 
     const scene = new Scene();
     const camera = new PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.z = 7.6;
+    camera.position.z = 9.8;
 
     const group = new Group();
     const backdrop = new Group();
@@ -162,17 +172,29 @@ export default function HeroParticles({ dark }: Props) {
     paint(dark);
 
     // ── 入力（スクロール / ポインタ） ───────────────────────
+    // 形の変化は 2.5 画面分かけて進める。1 画面で終わらせると、Hero を
+    // 抜けた時点で「もう何も起きない」状態になってしまう。
+    const MORPH_SPAN = 2.5;
     let scrollTarget = 0;
     let scrollAmount = 0;
+    // 固定背景なので本文の上に重なり続ける。Hero を抜けたら不透明度を
+    // 落として、読み物としての可読性を優先する。
+    let fadeTarget = 1;
+    let fade = 1;
+    let heroInView = true;
+
     const onScroll = () => {
       if (reduced) return;
-      scrollTarget = Math.max(
-        0,
-        Math.min(1, window.scrollY / (window.innerHeight * 1.1))
-      );
+      const vh = window.innerHeight;
+      scrollTarget = Math.max(0, Math.min(1, window.scrollY / (vh * MORPH_SPAN)));
+      heroInView = window.scrollY < vh * 1.2;
+      // Hero 内は 1.0、1 画面ぶん過ぎたら 0.22 まで落とす
+      const past = Math.max(0, Math.min(1, (window.scrollY - vh * 0.35) / (vh * 0.8)));
+      fadeTarget = 1 - past * 0.78;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+    fade = fadeTarget;
 
     const mouse = { x: 0, y: 0 };
     const onMove = (e: PointerEvent) => {
@@ -198,25 +220,38 @@ export default function HeroParticles({ dark }: Props) {
     let last = 0;
     function draw(now: number) {
       raf = requestAnimationFrame(draw);
-      if (now - last < 32) return; // ~30fps に間引く（電力の無駄を削る）
+      // Hero にいる間は主役なので 60fps、抜けて薄くなったら 30fps に落とす。
+      // 常時 60fps だとページ全体をスクロールする間ずっと電力を食う。
+      const interval = heroInView ? 16 : 32;
+      if (now - last < interval) return;
       last = now;
 
       paint(darkRef.current);
-      t += 0.005;
+      // 静止していても形が動き続ける速度。スクロール由来の変化が無い間も
+      // 「生きている」状態を保つのが狙い。
+      t += 0.011;
       scrollAmount += (scrollTarget - scrollAmount) * 0.09;
+      fade += (fadeTarget - fade) * 0.12;
+      root.style.opacity = String(fade);
+
       writePositions(t, scrollAmount);
       applyCamera(t, scrollAmount);
       renderer.render(scene, camera);
     }
 
-    // ── 実行ゲート（画面外 / タブ非表示では回さない） ──────────
-    // 「フレーム内で早期 return」ではなく **rAF ループ自体を止める**。
+    // ── 実行ゲート ─────────────────────────────────────────
+    // position: fixed にしたので、この要素は常にビューポートと交差している。
+    // つまり IntersectionObserver は永久に「画面内」を返すだけで意味を持たない
+    // （以前は Hero の中にあったので機能していた）。残す価値が無いので外し、
+    // タブ非表示だけをゲートにする。画面内での負荷は
+    // 「Hero を抜けたら 30fps に落とす」側で抑える。
+    //
+    // 止め方は「フレーム内で早期 return」ではなく **rAF ループ自体の停止**。
     // 早期 return だと毎フレームのコールバック予約が残り続けるため。
-    let onScreen = true;
     let tabVisible = true;
     let raf = 0;
 
-    const shouldRun = () => !reduced && onScreen && tabVisible;
+    const shouldRun = () => !reduced && tabVisible;
     const sync = () => {
       if (shouldRun() && raf === 0) {
         last = 0;
@@ -226,12 +261,6 @@ export default function HeroParticles({ dark }: Props) {
         raf = 0;
       }
     };
-
-    const io = new IntersectionObserver((entries) => {
-      onScreen = entries[0].isIntersecting;
-      sync();
-    });
-    io.observe(el);
 
     const onVisibility = () => {
       tabVisible = document.visibilityState === "visible";
@@ -246,33 +275,40 @@ export default function HeroParticles({ dark }: Props) {
         const v = params[i * 3 + 1];
         const r = params[i * 3 + 2];
 
-        // ベース: トーラス（ゆるく脈打つ）
-        const radius = 1.42 + 0.12 * Math.sin(u * 3 + t);
-        const tube = 0.54 + 0.16 * Math.cos(u * 3 + t);
-        let x = (radius + tube * Math.cos(v)) * Math.cos(u);
-        let y = (radius + tube * Math.cos(v)) * Math.sin(u);
-        let z = tube * Math.sin(v) + 0.28 * Math.sin(3 * u + t);
+        // ベース: トーラス。静止していても常に脈打ち、ねじれ、流れる。
+        // 「スクロールしないと何も起きない」状態を作らないのが狙い。
+        const breathe = 1 + 0.09 * Math.sin(t * 0.8);
+        const swirl = u + t * 0.45; // 粒がリングに沿って流れ続ける
+        const radius = (1.42 + 0.18 * Math.sin(swirl * 3 + t * 1.6)) * breathe;
+        const tube = 0.54 + 0.22 * Math.cos(swirl * 3 + t * 1.2);
+        let x = (radius + tube * Math.cos(v + t * 0.6)) * Math.cos(swirl);
+        let y = (radius + tube * Math.cos(v + t * 0.6)) * Math.sin(swirl);
+        let z = tube * Math.sin(v + t * 0.6) + 0.34 * Math.sin(3 * swirl + t * 1.4);
 
-        // → 球
+        // → 球（形が決まってからも表面をゆっくり回し続ける）
         const phi = Math.acos(2 * r - 1);
         const blend = Math.min(1, s * 2);
-        x += (1.85 * Math.sin(phi) * Math.cos(u) - x) * blend;
-        y += (1.85 * Math.cos(phi) - y) * blend;
-        z += (1.85 * Math.sin(phi) * Math.sin(u) - z) * blend;
+        const sphereA = u + t * 0.35;
+        const sr = 1.85 * (1 + 0.05 * Math.sin(t * 1.1 + phi * 4));
+        x += (sr * Math.sin(phi) * Math.cos(sphereA) - x) * blend;
+        y += (sr * Math.cos(phi) - y) * blend;
+        z += (sr * Math.sin(phi) * Math.sin(sphereA) - z) * blend;
 
-        // → らせん
+        // → らせん（軸のまわりを回り続ける）
         const twist = Math.max(0, (s - 0.5) * 2);
         const rr = 0.6 + r * 0.9;
-        x += (rr * Math.cos(u * 2) - x) * twist;
+        const helixA = u * 2 + t * 0.8;
+        x += (rr * Math.cos(helixA) - x) * twist;
         y += ((u / Math.PI - 1) * 2 - y) * twist;
-        z += (rr * Math.sin(u * 2) - z) * twist;
+        z += (rr * Math.sin(helixA) - z) * twist;
 
-        // → ほどける
-        const burst = Math.max(0, (s - 0.73) / 0.27);
-        const drift = burst * burst * (1 + r * 2);
-        x += Math.sin(u * 3 + v) * drift;
-        y += Math.cos(v * 2 + u) * drift;
-        z += Math.sin(v + u * 2) * drift;
+        // → ほどける。本文の背後に広がりすぎるとノイズになるので、
+        // 参考サイトより控えめな振れ幅に留める。
+        const burst = Math.max(0, (s - 0.8) / 0.2);
+        const drift = burst * burst * (0.5 + r);
+        x += Math.sin(u * 3 + v + t) * drift;
+        y += Math.cos(v * 2 + u + t) * drift;
+        z += Math.sin(v + u * 2 + t) * drift;
 
         pos[i * 3] = x;
         pos[i * 3 + 1] = y;
@@ -282,13 +318,18 @@ export default function HeroParticles({ dark }: Props) {
     };
 
     const applyCamera = (t: number, s: number) => {
+      // 形を上に逃がす。固定背景を画面いっぱいに置くと、Hero 右下の
+      // 事実リスト（現職 / 学位 / 連絡先）の真上に重なって読みにくくなる。
+      // 上に寄せると Hero の右上の空きに収まり、スクロール後は本文の
+      // 見出し帯の高さに来るので文字量の多い段落と競合しない。
+      group.position.y = 0.55;
+      backdrop.position.y = 0.55 - mouse.y * 0.7;
       group.rotation.y = t * 0.3 + mouse.x + s * Math.PI;
       group.rotation.x = 0.6 + mouse.y - s * 0.5;
       backdrop.rotation.y = -t * 0.08 - s * 0.35;
       backdrop.rotation.z = t * 0.025;
       backdrop.position.x = -mouse.x * 0.7;
-      backdrop.position.y = -mouse.y * 0.7;
-      camera.position.z = 7.6 - s * 0.8;
+      camera.position.z = 9.8 - s * 1.1;
     };
 
     resize();
@@ -305,7 +346,6 @@ export default function HeroParticles({ dark }: Props) {
     return () => {
       if (raf !== 0) cancelAnimationFrame(raf);
       ro.disconnect();
-      io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onMove);

@@ -201,7 +201,11 @@ hr, .rule {
   position: relative;
   padding-block: 5rem;
   padding-inline: var(--page-pad-x);
-  background: var(--color-bg);
+  /* 背景は body が持つ。ここを不透明にすると、背後に常駐している
+     z-index:-1 の粒子フィールドが完全に隠れてしまう（body と同じ色なので
+     見た目は変わらない）。--soft だけは意図的に不透明にしてあり、
+     粒子を伏せた帯ができて縦のリズムになる。 */
+  background: transparent;
 }
 .section--soft { background: var(--color-bg-soft); }
 .section__inner {
@@ -388,16 +392,16 @@ a:focus-visible {
   pointer-events: none;
 }
 
-/* Hero 背面の粒子フィールド（three.js）。右側に寄せて、名前の組版と
-   重ならないようにする。canvas 自体はリサイズ監視で中身を埋める。 */
+/* 粒子フィールド（three.js）。**ページ全体に常駐する固定背景**。
+   Hero の中に置くと Hero ごとスクロールアウトしてすぐ見えなくなるため、
+   fixed にしてスクロール中もずっと見えるようにしている。
+   本文の可読性は JS 側が不透明度をスクロールに応じて落として守る。 */
 .hero-particles {
-  position: absolute;
-  /* 右カラムの事実リスト（現職 / 学位 / 連絡先）は Hero の下半分にある。
-     粒子はその上、右上の空きに寄せて文字と重ならないようにする。 */
-  top: -12%;
-  right: -10%;
-  width: 58%;
-  height: 76%;
+  position: fixed;
+  top: 0;
+  right: -6%;
+  width: 56%;
+  height: 100svh;
   z-index: -1;
   pointer-events: none;
 }
@@ -408,19 +412,12 @@ a:focus-visible {
 }
 
 @media (min-width: 1600px) {
-  .hero-particles { right: -2%; width: 52%; }
+  .hero-particles { right: 0; width: 50%; }
 }
 
-/* タブレット幅では名前の右にまだ余白があるので、幅をやや狭めて置く。
-   768px 未満は HeroScene 側で読み込み自体を止めている。 */
+/* タブレット幅。768px 未満は HeroScene 側で読み込み自体を止めている。 */
 @media (max-width: 1023px) {
-  .hero-particles {
-    top: -6%;
-    right: -22%;
-    width: 78%;
-    height: 62%;
-    opacity: 0.8;
-  }
+  .hero-particles { right: -18%; width: 78%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

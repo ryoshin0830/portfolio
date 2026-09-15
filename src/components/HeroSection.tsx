@@ -11,7 +11,6 @@ import { SourceIcon } from "@/components/icons/BrandIcons";
 import { formatRelativeTime } from "@/lib/relativeTime";
 import KineticHeading from "@/components/KineticHeading";
 import HeroDepth from "@/components/motion/HeroDepth";
-import HeroScene from "@/components/motion/HeroScene";
 
 /**
  * Editorial, asymmetric hero — fully static (async Server Component).
@@ -81,9 +80,6 @@ const HeroSection = async ({
       {/* 背面の奥行きレイヤー（装飾）。スクロールして初めて動くので
           ファーストビューの描画は静止画と同じ = LCP に影響しない。 */}
       <HeroDepth word={tNames("english")} />
-      {/* 粒子フィールド（three.js）。動的 import で初期バンドルから外して
-          あり、読み込めなくても Hero のテキストはそのまま成立する。 */}
-      <HeroScene />
 
       <div className="grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
         {/* Identity column */}
