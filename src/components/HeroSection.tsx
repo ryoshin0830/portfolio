@@ -73,7 +73,7 @@ const HeroSection = async ({
   return (
     <section
       id="hero"
-      className="relative flex min-h-svh flex-col justify-center bg-[color:var(--color-bg)] gutter-x pb-16 pt-28"
+      className="relative flex min-h-svh flex-col justify-center gutter-x pb-16 pt-28"
     >
       <div className="grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
         {/* Identity column */}

@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
 import ContactModal from "@/components/ContactModal";
+import AmbientGrid from "@/components/motion/AmbientGrid";
+import ScrollProgressBar from "@/components/motion/ScrollProgressBar";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { themeScript } from "../theme-script";
@@ -168,6 +170,10 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
+            {/* 奥行きレイヤー（装飾・全ページ常駐）。格子は z-index:-1 で
+                本文の背後に敷き、スクロールに対してゆっくり視差で流れる。 */}
+            <AmbientGrid />
+            <ScrollProgressBar />
             {/* キーボード/スクリーンリーダー向けのスキップリンク。フォーカス時のみ
                 表示され、ページ本文 (#main) へ直接ジャンプする。 */}
             <a
