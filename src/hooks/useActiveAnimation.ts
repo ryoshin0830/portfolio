@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 import { useInView } from "react-intersection-observer";
 
 /**
@@ -13,12 +13,12 @@ import { useInView } from "react-intersection-observer";
  *   • document visible        — pause when the tab is backgrounded
  *
  * Attach the returned `ref` to the element whose viewport presence gates the
- * animation, then drive looping framer-motion / setInterval / RAF work off
- * `active`: when `active` is false render a static frame and clear timers.
+ * animation, then drive looping GSAP / setInterval / RAF work off `active`:
+ * when `active` is false render a static frame and pause timelines/timers.
  *
  * SSR-safe: `document` is only read inside an effect, `tabVisible` defaults to
- * true (so SSR === first client render), and a null `reduce` (framer-motion's
- * first-paint value) is treated as "not reduced" to match existing components.
+ * true (so SSR === first client render), and `reduce` is false on the first
+ * render (its real value is synced in an effect), so SSR and hydration agree.
  */
 export type UseActiveAnimationOptions = {
   /** IntersectionObserver threshold(s). Default 0 (pause once fully off-screen). */
@@ -36,8 +36,8 @@ export type UseActiveAnimationResult = {
   active: boolean;
   /** Element currently intersecting the viewport (independent of reduced-motion). */
   inView: boolean;
-  /** prefers-reduced-motion. May be null on first paint. */
-  reduce: boolean | null;
+  /** prefers-reduced-motion. False on the first render, synced in an effect. */
+  reduce: boolean;
 };
 
 export function useActiveAnimation(
@@ -45,7 +45,7 @@ export function useActiveAnimation(
 ): UseActiveAnimationResult {
   const { threshold = 0, rootMargin, ignoreTabVisibility = false } = opts;
 
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
 
   // triggerOnce is intentionally omitted — we want a continuous gate that can
   // flip back to false when the element leaves the viewport.
