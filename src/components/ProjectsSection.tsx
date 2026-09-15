@@ -27,7 +27,7 @@ const ProjectsSection = async () => {
 
         <div className="space-y-20 md:space-y-28">
           {projects.map((p, i) => (
-            <article key={i}>
+            <article key={i} className="tilt-card">
               <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
                 {p.title}
               </h3>
