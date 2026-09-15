@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { m, AnimatePresence } from "framer-motion";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { useExitTransition } from "@/hooks/useExitTransition";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import { LuMenu as Menu, LuX as X, LuMoon as Moon, LuSun as Sun } from "react-icons/lu";
 import { useScrollNavigation } from "@/hooks/useScrollNavigation";
@@ -24,6 +25,12 @@ const Navigation = () => {
 
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const themeIconRef = useRef<HTMLSpanElement>(null);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+
+  // 閉じアニメの間だけ DOM に残す（旧 AnimatePresence の役割）。
+  const langMenu = useExitTransition(showLangMenu, { exitMs: 150 });
+  const mobileMenu = useExitTransition(showMoreMenu, { exitMs: 200 });
 
   const params = useParams<{ locale?: string }>();
   const defaultLocale = useLocale();
@@ -85,6 +92,50 @@ const Navigation = () => {
       trigger?.focus();
     };
   }, [showMoreMenu]);
+
+  // テーマトグル: アイコンを差し替えるタイミングで回転フェードさせる。
+  useGSAP(
+    () => {
+      if (!themeIconRef.current) return;
+      gsap.fromTo(
+        themeIconRef.current,
+        { rotate: theme === "dark" ? -90 : 90, opacity: 0 },
+        { rotate: 0, opacity: 1, duration: 0.15, ease: "power2.out" }
+      );
+    },
+    { dependencies: [theme, mounted] }
+  );
+
+  // 言語メニュー / モバイルメニューの開閉。
+  useGSAP(
+    () => {
+      const node = langMenuRef.current;
+      if (!node) return;
+      if (langMenu.state === "entering") {
+        gsap.fromTo(
+          node,
+          { opacity: 0, y: -6 },
+          { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }
+        );
+      } else {
+        gsap.to(node, { opacity: 0, y: -6, duration: 0.15, ease: "power2.in" });
+      }
+    },
+    { dependencies: [langMenu.mounted, langMenu.state] }
+  );
+
+  useGSAP(
+    () => {
+      const node = mobileMenuRef.current;
+      if (!node) return;
+      if (mobileMenu.state === "entering") {
+        gsap.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" });
+      } else {
+        gsap.to(node, { opacity: 0, duration: 0.2, ease: "power2.in" });
+      }
+    },
+    { dependencies: [mobileMenu.mounted, mobileMenu.state] }
+  );
 
   const getLanguageName = useCallback(
     (code: string): string => {
@@ -245,29 +296,9 @@ const Navigation = () => {
                 aria-pressed={mounted ? theme === "dark" : undefined}
               >
                 {mounted ? (
-                  <AnimatePresence mode="wait">
-                    {theme === "dark" ? (
-                      <m.div
-                        key="sun"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                      >
-                        <Sun size={16} />
-                      </m.div>
-                    ) : (
-                      <m.div
-                        key="moon"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.15 }}
-                      >
-                        <Moon size={16} />
-                      </m.div>
-                    )}
-                  </AnimatePresence>
+                  <span ref={themeIconRef} className="inline-flex">
+                    {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                  </span>
                 ) : (
                   <div className="w-4 h-4" />
                 )}
@@ -287,37 +318,32 @@ const Navigation = () => {
                     {locale.toUpperCase()}
                   </span>
                 </button>
-                <AnimatePresence>
-                  {showLangMenu && (
-                    <m.div
-                      initial={{ opacity: 0, y: -6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.15 }}
-                      role="menu"
-                      className="absolute top-full right-0 mt-2 py-1 w-40 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-lg"
-                    >
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          type="button"
-                          role="menuitem"
-                          onClick={() => handleLanguageChange(lang.code)}
-                          className={`w-full text-left px-3 min-h-11 flex items-center text-sm transition-colors ${
-                            locale === lang.code
-                              ? "text-[color:var(--color-accent)]"
-                              : "text-[color:var(--color-ink)] hover:bg-[color:var(--color-bg-soft)]"
-                          }`}
-                        >
-                          <span className="flex items-center gap-2">
-                            <span aria-hidden>{lang.flag}</span>
-                            <span>{lang.name}</span>
-                          </span>
-                        </button>
-                      ))}
-                    </m.div>
-                  )}
-                </AnimatePresence>
+                {langMenu.mounted && (
+                  <div
+                    ref={langMenuRef}
+                    role="menu"
+                    className="absolute top-full right-0 mt-2 py-1 w-40 bg-[color:var(--color-bg)] border border-[color:var(--color-rule)] rounded-lg"
+                  >
+                    {languages.map((lang) => (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        role="menuitem"
+                        onClick={() => handleLanguageChange(lang.code)}
+                        className={`w-full text-left px-3 min-h-11 flex items-center text-sm transition-colors ${
+                          locale === lang.code
+                            ? "text-[color:var(--color-accent)]"
+                            : "text-[color:var(--color-ink)] hover:bg-[color:var(--color-bg-soft)]"
+                        }`}
+                      >
+                        <span className="flex items-center gap-2">
+                          <span aria-hidden>{lang.flag}</span>
+                          <span>{lang.name}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <button
@@ -337,20 +363,15 @@ const Navigation = () => {
         </div>
       </nav>
 
-      <AnimatePresence>
-        {showMoreMenu && (
-          <m.div
-            ref={mobileMenuRef}
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label={namesT("shortName")}
-            className="fixed inset-0 bg-[color:var(--color-bg)] z-[100000]"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
+      {mobileMenu.mounted && (
+        <div
+          ref={mobileMenuRef}
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label={namesT("shortName")}
+          className="fixed inset-0 bg-[color:var(--color-bg)] z-[100000]"
+        >
             <div className="absolute top-4 right-4">
               <button
                 type="button"
@@ -393,9 +414,8 @@ const Navigation = () => {
                 </li>
               </ul>
             </div>
-          </m.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
     </>
   );
 };

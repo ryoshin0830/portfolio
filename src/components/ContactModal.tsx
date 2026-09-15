@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { m, AnimatePresence } from "framer-motion";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { useExitTransition } from "@/hooks/useExitTransition";
 import { LuX as X } from "react-icons/lu";
 import SocialLinks from "./SocialLinks";
 
@@ -30,7 +31,14 @@ export default function ContactModal() {
   const tCommon = useTranslations("common");
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
+
+  // 閉じアニメの間だけ DOM に残す（旧 AnimatePresence の役割）。
+  // フォーカス管理とスクロールロックは `open` ではなく `mounted` に追従させる:
+  // パネルが DOM にあるレンダーで effect が走る必要があり、inert 解除と
+  // フォーカス復帰は閉じアニメが終わってからが正しい。
+  const { mounted, state } = useExitTransition(open, { exitMs: 180 });
 
   const close = useCallback(() => {
     setOpen(false);
@@ -62,17 +70,17 @@ export default function ContactModal() {
 
   // 背景スクロールのロック
   useEffect(() => {
-    if (!open) return;
+    if (!mounted) return;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [open]);
+  }, [mounted]);
 
   // フォーカス管理: 開いたらパネル内へ、Tab をトラップ、閉じたらトリガーへ戻す。
   // Esc で閉じる（ただし内側の QR ダイアログが開いているときはそちらに任せる）。
   useEffect(() => {
-    if (!open) return;
+    if (!mounted) return;
     // 背景（ナビ・本文・フッター）を inert にして、スクリーンリーダーの仮想
     // カーソルやフォーカスがモーダルの外へ漏れないようにする。閉じるときに解除し、
     // トリガーへフォーカスを戻す前に必ず inert を外す（inert な祖先内の要素には
@@ -121,58 +129,79 @@ export default function ContactModal() {
       bgEls.forEach((el) => el.removeAttribute("inert"));
       trigger?.focus();
     };
-  }, [open, close]);
+  }, [mounted, close]);
+
+  // 開き／閉じは state を見て使い分ける。mounted が false のあいだは
+  // 要素が無いので何も登録されない。
+  useGSAP(
+    () => {
+      const overlay = overlayRef.current;
+      const panel = panelRef.current;
+      if (!overlay || !panel) return;
+
+      if (state === "entering") {
+        gsap.fromTo(
+          overlay,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.18, ease: "power2.out" }
+        );
+        gsap.fromTo(
+          panel,
+          { opacity: 0, scale: 0.97, y: 8 },
+          { opacity: 1, scale: 1, y: 0, duration: 0.18, ease: "power2.out" }
+        );
+      } else {
+        gsap.to(overlay, { opacity: 0, duration: 0.18, ease: "power2.in" });
+        gsap.to(panel, {
+          opacity: 0,
+          scale: 0.97,
+          y: 8,
+          duration: 0.18,
+          ease: "power2.in",
+        });
+      }
+    },
+    { scope: overlayRef, dependencies: [mounted, state] }
+  );
+
+  if (!mounted) return null;
 
   return (
-    <AnimatePresence>
-      {open && (
-        <m.div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.18 }}
+    <div
+      ref={overlayRef}
+      className="fixed inset-0 z-[120] flex items-center justify-center p-4"
+    >
+      {/* 背景オーバーレイ — クリックで閉じる */}
+      <div
+        className="absolute inset-0 bg-[color:var(--color-ink)]/40"
+        onClick={close}
+        aria-hidden
+      />
+      <div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-modal-title"
+        className="relative w-[min(44rem,100%)] max-h-[85svh] overflow-y-auto rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg)] px-6 py-10 md:px-10"
+      >
+        <button
+          type="button"
+          onClick={close}
+          className="absolute top-4 right-4 inline-flex min-h-11 min-w-11 items-center justify-center text-[color:var(--color-ink-soft)] transition-colors hover:text-[color:var(--color-ink)]"
+          aria-label={tCommon("close")}
         >
-          {/* 背景オーバーレイ — クリックで閉じる */}
-          <div
-            className="absolute inset-0 bg-[color:var(--color-ink)]/40"
-            onClick={close}
-            aria-hidden
-          />
-          <m.div
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="contact-modal-title"
-            className="relative w-[min(44rem,100%)] max-h-[85svh] overflow-y-auto rounded-2xl border border-[color:var(--color-rule)] bg-[color:var(--color-bg)] px-6 py-10 md:px-10"
-            initial={{ opacity: 0, scale: 0.97, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 8 }}
-            transition={{ duration: 0.18 }}
-          >
-            <button
-              type="button"
-              onClick={close}
-              className="absolute top-4 right-4 inline-flex min-h-11 min-w-11 items-center justify-center text-[color:var(--color-ink-soft)] transition-colors hover:text-[color:var(--color-ink)]"
-              aria-label={tCommon("close")}
-            >
-              <X size={20} />
-            </button>
-            <header className="mb-10 text-center">
-              <h2
-                id="contact-modal-title"
-                className="display display--lg mb-3"
-              >
-                {t("title")}
-              </h2>
-              <p className="prose-body text-[color:var(--color-ink-soft)]">
-                {t("subtitle")}
-              </p>
-            </header>
-            <SocialLinks />
-          </m.div>
-        </m.div>
-      )}
-    </AnimatePresence>
+          <X size={20} />
+        </button>
+        <header className="mb-10 text-center">
+          <h2 id="contact-modal-title" className="display display--lg mb-3">
+            {t("title")}
+          </h2>
+          <p className="prose-body text-[color:var(--color-ink-soft)]">
+            {t("subtitle")}
+          </p>
+        </header>
+        <SocialLinks />
+      </div>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react";
+import { render, renderHook, act } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useExitTransition } from "./useExitTransition";
 
@@ -57,5 +57,28 @@ describe("useExitTransition", () => {
     });
     expect(result.current.mounted).toBe(true);
     expect(result.current.state).toBe("entering");
+  });
+
+  it("閉じる途中で DOM ノードが作り直されない（アンマウント点滅の防止）", () => {
+    // レンダー中に state を更新すると React はその回を commit せずに
+    // 再レンダーする。したがって「点滅したか」はレンダー関数の戻り値ではなく
+    // 実際にコミットされた DOM で確かめる必要がある。
+    function Panel({ open }: { open: boolean }) {
+      const { mounted } = useExitTransition(open, { exitMs: 180 });
+      return mounted ? <div data-testid="panel" /> : null;
+    }
+
+    const { rerender, queryByTestId } = render(<Panel open />);
+    const before = queryByTestId("panel");
+    expect(before).not.toBeNull();
+
+    rerender(<Panel open={false} />);
+    // 閉じアニメ中: 同一の DOM ノードがそのまま残っていること
+    expect(queryByTestId("panel")).toBe(before);
+
+    act(() => {
+      vi.advanceTimersByTime(180);
+    });
+    expect(queryByTestId("panel")).toBeNull();
   });
 });

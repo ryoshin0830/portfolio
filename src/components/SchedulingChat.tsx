@@ -8,7 +8,7 @@ import ReactMarkdown, { defaultUrlTransform } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import { LuSparkles, LuSendHorizontal } from "react-icons/lu";
-import { m, AnimatePresence } from "framer-motion";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { getRaw, type SchedulingQuickReply } from "@/types/content";
 import { parseSuggestions } from "@/lib/scheduling-suggestions";
 import type { Slot } from "@/types/scheduling";
@@ -201,6 +201,8 @@ export default function SchedulingChat() {
 
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messageListRef = useRef<HTMLDivElement>(null);
+  const quickRepliesRef = useRef<HTMLDivElement>(null);
   // ユーザーが履歴を上にスクロールして読んでいる間は、ストリーミングで
   // 最下部へ引き戻さない。最下部付近にいるときだけ追従する。
   const atBottomRef = useRef(true);
@@ -338,6 +340,48 @@ export default function SchedulingChat() {
   // 初回提案の取得失敗も同じバナーで扱う（訪問者にとっては同じ「出てこない」）。
   const showError = Boolean(error) || truncated || initialFailed;
 
+  // 旧 AnimatePresence には exit が無く、純粋な登場アニメだった。
+  // 新しく増えた末尾のメッセージだけを対象にすれば同じ見た目になる
+  // （既存の吹き出しを再アニメーションさせない）。
+  useGSAP(
+    () => {
+      const nodes =
+        messageListRef.current?.querySelectorAll<HTMLElement>("[data-message]");
+      const latest = nodes?.[nodes.length - 1];
+      if (!latest) return;
+      gsap.from(latest, {
+        opacity: 0,
+        y: 15,
+        scale: 0.95,
+        duration: 0.35,
+        ease: "back.out(1.4)",
+      });
+    },
+    { scope: messageListRef, dependencies: [messages.length] }
+  );
+
+  // クイック返信・思考インジケータ・エラーの登場。
+  useGSAP(
+    () => {
+      const targets = messageListRef.current?.querySelectorAll<HTMLElement>(
+        "[data-chat-enter]"
+      );
+      const nodes = [...(targets ?? [])];
+      if (quickRepliesRef.current) nodes.push(quickRepliesRef.current);
+      if (nodes.length === 0) return;
+      gsap.from(nodes, {
+        opacity: 0,
+        y: 10,
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    },
+    {
+      scope: messageListRef,
+      dependencies: [showQuickReplies, showThinking, showError],
+    }
+  );
+
   return (
     <div className="relative mx-auto flex h-[75dvh] max-h-[800px] min-h-[500px] w-full max-w-5xl flex-col overflow-hidden bg-white/70 shadow-[0_8px_40px_rgb(0,0,0,0.06)] backdrop-blur-xl backdrop-saturate-150 rounded-3xl border border-black/5 dark:border-white/10 dark:bg-[color:var(--color-bg)]/50">
       {/* ヘッダー */}
@@ -359,18 +403,16 @@ export default function SchedulingChat() {
         aria-label={t("aiLabel")}
         className="flex-1 overflow-y-auto px-4 pb-36 pt-24 sm:px-8 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-black/10 dark:[&::-webkit-scrollbar-thumb]:bg-white/10 custom-scrollbar"
       >
-        <div className="flex flex-col gap-6">
-          <AnimatePresence initial={false}>
+        <div ref={messageListRef} className="flex flex-col gap-6">
+          <>
             {messages.map((mItem) => {
               const text = textOf(mItem);
               if (!text) return null; // ツールのみのアシスタント中間メッセージは表示しない
               const isUser = mItem.role === "user";
               return (
-                <m.div
+                <div
                   key={mItem.id}
-                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  data-message
                   className={`w-full flex ${isUser ? "justify-end" : "justify-start"}`}
                 >
                   <div
@@ -533,19 +575,14 @@ export default function SchedulingChat() {
                       </ReactMarkdown>
                     )}
                   </div>
-                </m.div>
+                </div>
               );
             })}
-          </AnimatePresence>
+          </>
 
           {/* クイック返信（クライアント描画。LLM には出力させない） */}
           {showQuickReplies && (
-            <m.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className="flex flex-wrap gap-2"
-            >
+            <div ref={quickRepliesRef} className="flex flex-wrap gap-2">
               {quickReplies.map((reply) => (
                 <button
                   key={reply.text}
@@ -556,17 +593,12 @@ export default function SchedulingChat() {
                   {reply.label}
                 </button>
               ))}
-            </m.div>
+            </div>
           )}
 
           {/* 思考／ツール実行インジケータ */}
           {showThinking && (
-            <m.div
-              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ type: "spring", stiffness: 400, damping: 30 }}
-              className="self-start"
-            >
+            <div data-chat-enter className="self-start">
               <div className="flex items-center gap-3 rounded-3xl rounded-tl-sm border border-[color:var(--color-rule-soft)] bg-white/80 px-5 py-3.5 text-[color:var(--color-ink-soft)] shadow-sm backdrop-blur-md dark:border-[color:var(--color-rule-soft)] dark:bg-[color:var(--color-bg-soft)]/80">
                 <span className="flex gap-1.5" aria-hidden>
                   <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[color:var(--color-accent)] opacity-60 [animation-delay:-0.3s] motion-reduce:animate-none" />
@@ -575,16 +607,11 @@ export default function SchedulingChat() {
                 </span>
                 <span className="text-sm font-medium">{t("chatThinking")}</span>
               </div>
-            </m.div>
+            </div>
           )}
 
           {showError && (
-            <m.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="self-start"
-              role="alert"
-            >
+            <div data-chat-enter className="self-start" role="alert">
               <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400">
                 <span>{t("chatError")}</span>
                 <button
@@ -596,7 +623,7 @@ export default function SchedulingChat() {
                   {t("chatRetry")}
                 </button>
               </div>
-            </m.div>
+            </div>
           )}
         </div>
       </div>

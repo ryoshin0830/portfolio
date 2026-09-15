@@ -19,6 +19,12 @@ export type UseExitTransitionResult = {
  * 使われていた。GSAP には同等の仕組みが無いので、閉じアニメの尺だけ
  * アンマウントを遅らせる責務をここに切り出す。
  *
+ * `closing` は **effect ではなくレンダー中に**更新する（React の派生 state
+ * パターン）。effect で更新すると open が false になったレンダーで一度
+ * mounted=false が commit され、DOM が消えてから閉じアニメ用に再生成される
+ * ——つまり一瞬消えて戻る。レンダー中に更新すれば React はその場で
+ * 再レンダーしてから commit するので、DOM は消えずに残る。
+ *
  * prefers-reduced-motion のときは exitMs を 0 として即座にアンマウントする
  * （閉じアニメ自体を再生しないので待つ意味が無い）。
  */
@@ -29,43 +35,26 @@ export function useExitTransition(
   const reduced = usePrefersReducedMotion();
   const exitMs = reduced ? 0 : (opts.exitMs ?? 180);
 
-  const [mounted, setMounted] = useState(open);
-  const [state, setState] = useState<ExitState>(open ? "entering" : "exiting");
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [closing, setClosing] = useState(false);
+  const prevOpen = useRef(open);
+  if (prevOpen.current !== open) {
+    prevOpen.current = open;
+    // 開いた → 閉じ待ちを取り消す / 閉じた → 閉じアニメの間だけ残す
+    setClosing(!open);
+  }
 
   useEffect(() => {
-    if (timer.current !== null) {
-      clearTimeout(timer.current);
-      timer.current = null;
-    }
-
-    if (open) {
-      setMounted(true);
-      setState("entering");
-      return;
-    }
-
-    setState("exiting");
-    if (!mounted) return;
+    if (!closing) return;
     if (exitMs === 0) {
-      setMounted(false);
+      setClosing(false);
       return;
     }
-    timer.current = setTimeout(() => {
-      timer.current = null;
-      setMounted(false);
-    }, exitMs);
+    const id = setTimeout(() => setClosing(false), exitMs);
+    return () => clearTimeout(id);
+  }, [closing, exitMs]);
 
-    return () => {
-      if (timer.current !== null) {
-        clearTimeout(timer.current);
-        timer.current = null;
-      }
-    };
-    // `mounted` は「閉じ待ちを始めるべきか」の判定にだけ使う。依存に入れると
-    // アンマウント確定後にもう一度 effect が走るが、その回は open=false かつ
-    // mounted=false で即 return するので副作用は無い。
-  }, [open, exitMs, mounted]);
-
-  return { mounted, state };
+  return {
+    mounted: open || closing,
+    state: open ? "entering" : "exiting",
+  };
 }
