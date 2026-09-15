@@ -1,70 +1,103 @@
 import { describe, expect, it } from "vitest";
-import { TRIPLETS, layoutTriplet } from "./vocabulary-field";
+import {
+  LAYERS,
+  MAX_LINK_DISTANCE,
+  TILE_RATIO,
+  buildLayers,
+} from "./vocabulary-field";
 
 describe("vocabulary-field", () => {
-  it("すべての組が日中英そろっている", () => {
-    for (const t of TRIPLETS) {
-      expect(t.ja.length).toBeGreaterThan(0);
-      expect(t.zh.length).toBeGreaterThan(0);
-      expect(t.en.length).toBeGreaterThan(0);
+  it("奥から手前まで 4 層ある", () => {
+    expect(LAYERS).toHaveLength(4);
+    expect(LAYERS[0].depth).toBe(0);
+    expect(LAYERS[LAYERS.length - 1].depth).toBe(1);
+  });
+
+  it("移動係数が奥ほど小さい（これが視差の本体）", () => {
+    for (let i = 1; i < LAYERS.length; i++) {
+      expect(LAYERS[i].rate).toBeGreaterThan(LAYERS[i - 1].rate);
     }
   });
 
-  it("座標は 0..1 の割合に収まる", () => {
-    for (const t of TRIPLETS) {
-      expect(t.x).toBeGreaterThanOrEqual(0);
-      expect(t.x).toBeLessThanOrEqual(1);
-      expect(t.y).toBeGreaterThanOrEqual(0);
-      expect(t.y).toBeLessThanOrEqual(1);
+  it("最前面と最奥で移動量が大きく違う（差が小さいと奥行きが見えない）", () => {
+    const far = LAYERS[0].rate;
+    const near = LAYERS[LAYERS.length - 1].rate;
+    expect(near / far).toBeGreaterThan(5);
+  });
+
+  it("奥ほど点が小さく薄い", () => {
+    for (let i = 1; i < LAYERS.length; i++) {
+      expect(LAYERS[i].opacity).toBeGreaterThan(LAYERS[i - 1].opacity);
+      const prevMax = Math.max(...LAYERS[i - 1].points.map((p) => p.r));
+      const curMax = Math.max(...LAYERS[i].points.map((p) => p.r));
+      expect(curMax).toBeGreaterThan(prevMax);
     }
   });
 
-  it("左カラム（名前とタグライン）を避ける", () => {
-    // 左側に置くと Hero の大きな名前組版と重なって可読性を削る
-    for (const t of TRIPLETS) {
-      expect(t.x).toBeGreaterThan(0.44);
+  it("座標はすべて 0..1 の割合に収まる", () => {
+    for (const layer of LAYERS) {
+      for (const p of layer.points) {
+        expect(p.x).toBeGreaterThanOrEqual(0);
+        expect(p.x).toBeLessThanOrEqual(1);
+        expect(p.y).toBeGreaterThanOrEqual(0);
+        expect(p.y).toBeLessThanOrEqual(1);
+      }
     }
   });
 
-  it("Hero 右下の事実リストの帯を避ける", () => {
-    // 現職 / 学位 / 連絡先 がおおよそ x 0.66..0.96 × y 0.50..0.78 にある。
-    // ここに語を置くと小さい文字の上に重なって読みにくくなる。
-    const inFactList = TRIPLETS.filter(
-      (t) => t.x > 0.66 && t.x < 0.96 && t.y > 0.5 && t.y < 0.78,
-    );
-    expect(inFactList).toEqual([]);
+  it("生成は決定的（SSR とクライアントで一致する）", () => {
+    expect(buildLayers()).toEqual(buildLayers());
   });
 
-  it("最下部の発信ティーザーの帯を避ける", () => {
-    for (const t of TRIPLETS) {
-      expect(t.y).toBeLessThan(0.8);
+  it("シードを変えれば配置も変わる", () => {
+    expect(buildLayers(1)[0].points[0]).not.toEqual(buildLayers(2)[0].points[0]);
+  });
+
+  it("リンクは手前 2 層だけに張る（奥まで引くと線が騒がしい）", () => {
+    expect(LAYERS[0].links).toHaveLength(0);
+    expect(LAYERS[1].links).toHaveLength(0);
+    expect(LAYERS[2].links.length).toBeGreaterThan(0);
+    expect(LAYERS[3].links.length).toBeGreaterThan(0);
+  });
+
+  it("リンクは実在する点を指し、自分自身には張らない", () => {
+    for (const layer of LAYERS) {
+      for (const l of layer.links) {
+        expect(l.a).toBeGreaterThanOrEqual(0);
+        expect(l.a).toBeLessThan(layer.points.length);
+        expect(l.b).toBeGreaterThanOrEqual(0);
+        expect(l.b).toBeLessThan(layer.points.length);
+        expect(l.a).not.toBe(l.b);
+      }
     }
   });
 
-  it("実座標へ展開すると 3 語と 2 本のリンクになる", () => {
-    const placed = layoutTriplet(TRIPLETS[0], 0, 1000, 800, 40);
-    expect(placed.words).toHaveLength(3);
-    expect(placed.links).toHaveLength(2);
-    expect(placed.words.map((w) => w.lang)).toEqual(["ja", "zh", "en"]);
+  it("リンクは短いものだけ（長い線は本文を斜めに横切って騒がしい）", () => {
+    for (const layer of LAYERS) {
+      for (const l of layer.links) {
+        const a = layer.points[l.a];
+        const b = layer.points[l.b];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        expect(d).toBeLessThanOrEqual(MAX_LINK_DISTANCE + 1e-9);
+      }
+    }
   });
 
-  it("配置は決定的（SSR とクライアントで一致する）", () => {
-    const a = layoutTriplet(TRIPLETS[2], 2, 1000, 800, 40);
-    const b = layoutTriplet(TRIPLETS[2], 2, 1000, 800, 40);
-    expect(a).toEqual(b);
+  it("点は塊になっている（一様だとただの砂嵐になる）", () => {
+    // 最奥層を 4x4 の格子に割り、密度の偏りを見る。一様分布なら
+    // 最大セルと平均の比は 2 倍程度に収まる。
+    const pts = LAYERS[0].points;
+    const grid = new Array(16).fill(0);
+    for (const p of pts) {
+      const gx = Math.min(3, Math.floor(p.x * 4));
+      const gy = Math.min(3, Math.floor(p.y * 4));
+      grid[gy * 4 + gx]++;
+    }
+    const mean = pts.length / 16;
+    expect(Math.max(...grid) / mean).toBeGreaterThan(2.2);
   });
 
-  it("組ごとに散らす角度を変える（機械的な整列にしない）", () => {
-    const first = layoutTriplet(TRIPLETS[0], 0, 1000, 800, 40);
-    const second = layoutTriplet(TRIPLETS[0], 1, 1000, 800, 40);
-    // 同じ組でも index が違えば中国語の置き場所が変わる
-    expect(second.words[1].x).not.toBeCloseTo(first.words[1].x, 3);
-  });
-
-  it("リンクは日本語を起点に他の 2 語へ引かれる", () => {
-    const p = layoutTriplet(TRIPLETS[0], 0, 1000, 800, 40);
-    const [ja, zh, en] = p.words;
-    expect(p.links[0]).toEqual({ x1: ja.x, y1: ja.y, x2: zh.x, y2: zh.y });
-    expect(p.links[1]).toEqual({ x1: ja.x, y1: ja.y, x2: en.x, y2: en.y });
+  it("タイルはビューポートより高い（剰余で巻き戻しても隙間が出ない）", () => {
+    expect(TILE_RATIO).toBeGreaterThan(1);
   });
 });

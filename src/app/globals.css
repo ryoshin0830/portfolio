@@ -405,24 +405,22 @@ a:focus-visible {
   .kinetic-letter { will-change: auto; }
 }
 
-/* 背景の「語彙空間」。ページ全体に常駐する固定背景。
-   本文の背後に居続けるので、文字量の多い帯では JS 側が
-   不透明度を落として可読性を守る。 */
+/* 背景の「語彙空間」。ページ全体に常駐する固定背景で、中の層が
+   スクロール量に比例して流れる（視差の本体は JS 側）。
+   置くのは点と線だけ。背景に文字を並べると前景の本文と
+   「読もうとする」知覚を奪い合うので、文字は使わない。 */
 .vocab-field {
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  /* 左カラム（名前・タグライン・本文）の上に語が乗らないよう、
-     左端をマスクで抜く。語の配置自体も右寄りにしてある。 */
-  mask-image: linear-gradient(to right, transparent 0%, black 34%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 34%);
+  /* 上下端をフェードさせて、画面の縁で点が唐突に切れないようにする。
+     色ではなくアルファマスクなので「グラデ禁止」には抵触しない。 */
+  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
 }
 .vocab-field svg {
   display: block;
-}
-.vocab-field text {
-  font-family: var(--font-noto-sans-jp), var(--font-inter), sans-serif;
 }
 
 @media (max-width: 767px) {

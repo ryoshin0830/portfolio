@@ -1,106 +1,159 @@
 /**
- * 背景の「語彙空間」に置く語と、その配置を決める。
+ * 背景の「語彙空間」を作る。奥行きの違う 4 層の点群と、最近傍リンク。
  *
- * このサイトの主題は ことば そのもの（応用言語学 × 機械学習）で、
- * 本人は 北京 → 横浜 → 北京 → 京都 と三言語を行き来してきた。
- * なので背景は汎用的な粒子ではなく、**同じ概念の日本語・中国語・英語が
- * 寄り添って漂う空間**にしてある。語の選定も本人の研究領域と経歴から採る
- * （「橋」は名前の「梁」、「響き」は「震」に掛けてある）。
+ * このサイトの主題は ことば そのもの（応用言語学 × 機械学習）で、本人の
+ * 研究は語の難易度を埋め込み空間で測る類のもの。既存の VocabScatter
+ * （語彙プロファイラーの Word2Vec 散布図）と同じ視覚語彙——点と最近傍
+ * リンク——を背景に広げたのがこれで、サイト全体が一つの系統に揃う。
  *
- * 既存の VocabScatter（語彙プロファイラーの Word2Vec 散布図）と同じ語彙
- * ——点と最近傍リンク——を使うので、サイト全体で一つの視覚言語に揃う。
+ * **文字は置かない。** 背景に語を並べると、前景の本文と「読もうとする」
+ * 知覚を奪い合ってしまい、マスクや不透明度で薄めても根本的に解決しない。
+ * 点なら読む対象にならないので、前景の可読性を削らずに密度を出せる。
  *
- * 座標は 0..1 の割合で持ち、描画側が実サイズを掛ける。手置きなのは
- * 疑似乱数だと密度が均一になりすぎて「データ」に見えないため
- * （VocabScatter と同じ方針）。
+ * 座標は割合で持つ:
+ *  - x: 0..1（描画幅に対する割合）
+ *  - y: 0..1（**タイル**の高さに対する割合。描画側はタイルを 2 枚縦に
+ *    並べて、スクロールに合わせて剰余で巻き戻す＝無限に流れる）
+ *
+ * 生成は固定シードの疑似乱数なので、実行のたびに同じ結果になる
+ * （SSR とクライアントで一致し、テストもできる）。
  */
 
-export type Triplet = {
-  /** 日本語 */
-  ja: string;
-  /** 中国語 */
-  zh: string;
-  /** 英語 */
-  en: string;
-  /** 組の中心。0..1 の割合。 */
-  x: number;
-  y: number;
+/** mulberry32。小さく、決定的で、分布が素直。 */
+function makeRandom(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export type FieldPoint = { x: number; y: number; r: number };
+
+/** points 配列への添字の組。 */
+export type FieldLink = { a: number; b: number };
+
+export type FieldLayer = {
+  /** 0 = 最奥、1 = 最前。大きさと濃さを決める。 */
+  depth: number;
+  /**
+   * スクロール量に対する移動係数。層ごとに大きく変えることが視差の本体で、
+   * ここが近いと「動いているのに奥行きが見えない」ことになる。
+   */
+  rate: number;
+  opacity: number;
+  points: FieldPoint[];
+  links: FieldLink[];
 };
 
-/**
- * 画面右寄りに置く。左カラムには名前とタグラインが来るので空ける。
- *
- * さらに Hero 右下の事実リスト（現職 / 学位 / 連絡先。おおよそ
- * x 0.66..0.96 × y 0.50..0.78）と、最下部の発信ティーザー（y > 0.80）も
- * 避けている。下半分は中央の空きカラム（x 0.45..0.62）に逃がす。
- */
-export const TRIPLETS: readonly Triplet[] = [
-  { ja: "ことば", zh: "词语", en: "word", x: 0.72, y: 0.09 },
-  { ja: "意味", zh: "意义", en: "meaning", x: 0.92, y: 0.21 },
-  { ja: "語彙", zh: "词汇", en: "vocabulary", x: 0.63, y: 0.28 },
-  { ja: "難しさ", zh: "难度", en: "difficulty", x: 0.85, y: 0.36 },
-  { ja: "声", zh: "声音", en: "voice", x: 0.95, y: 0.5 },
-  { ja: "学ぶ", zh: "学习", en: "learn", x: 0.52, y: 0.46 },
-  { ja: "橋", zh: "桥", en: "bridge", x: 0.48, y: 0.64 },
-  { ja: "響き", zh: "回响", en: "resonance", x: 0.58, y: 0.77 },
+const LAYER_SPECS = [
+  // depth, rate, opacity, 点数, クラスタ数, 半径の下限/上限
+  { depth: 0, rate: 0.06, opacity: 0.3, count: 110, clusters: 9, r: [0.9, 1.6] },
+  { depth: 0.35, rate: 0.16, opacity: 0.4, count: 70, clusters: 7, r: [1.5, 2.4] },
+  { depth: 0.7, rate: 0.34, opacity: 0.5, count: 46, clusters: 6, r: [2.4, 3.6] },
+  { depth: 1, rate: 0.62, opacity: 0.68, count: 26, clusters: 5, r: [3.4, 5.2] },
 ] as const;
 
-export type PlacedWord = {
-  text: string;
-  /** 三言語のどれか。描画側が字面の大きさを変えるのに使う。 */
-  lang: "ja" | "zh" | "en";
-  x: number;
-  y: number;
-};
-
-export type PlacedTriplet = {
-  words: [PlacedWord, PlacedWord, PlacedWord];
-  /** 日本語を中心に、中国語・英語へ引く線。 */
-  links: ReadonlyArray<{ x1: number; y1: number; x2: number; y2: number }>;
-};
-
 /**
- * 組ごとに散らし方の角度を変えて、機械的な整列に見えないようにする。
- * index から決めるので描画のたびに同じ（SSR とクライアントで一致する）。
+ * クラスタを作ってその周りに散らす。一様乱数だとただの砂嵐になり、
+ * 「意味の近さで集まっている」という埋め込み空間の見え方にならない。
  */
-function spokeAngles(index: number): [number, number] {
-  const base = (index * 2.4) % (Math.PI * 2);
-  return [base, base + 2.1];
+function buildPoints(
+  rand: () => number,
+  count: number,
+  clusters: number,
+  rMin: number,
+  rMax: number,
+): FieldPoint[] {
+  const centers = Array.from({ length: clusters }, () => ({
+    x: rand(),
+    y: rand(),
+  }));
+
+  return Array.from({ length: count }, (_, i) => {
+    // 2 割は散り玉。全部がクラスタに属すると整いすぎる。
+    const stray = i % 5 === 0;
+    if (stray) {
+      return {
+        x: rand(),
+        y: rand(),
+        r: rMin + rand() * (rMax - rMin),
+      };
+    }
+    const c = centers[i % clusters];
+    // 中心寄りに寄せるため乱数を 2 乗する
+    const spread = 0.16;
+    const dx = (rand() - 0.5) * 2;
+    const dy = (rand() - 0.5) * 2;
+    return {
+      x: Math.min(1, Math.max(0, c.x + dx * Math.abs(dx) * spread)),
+      y: Math.min(1, Math.max(0, c.y + dy * Math.abs(dy) * spread)),
+      r: rMin + rand() * (rMax - rMin),
+    };
+  });
 }
 
 /**
- * 1 組を実座標に展開する。`radius` は組の広がり（px）。
+ * 各「起点」から最も近い数点へリンクを張る。VocabScatter が描いている
+ * 「問い合わせ語とその最近傍」そのもの。
+ *
+ * `maxDistance` を超える相手には張らない。点がまばらな層では「最近傍」
+ * でも画面の端から端まで離れていることがあり、そのまま引くと本文を
+ * 斜めに横切る長い線になって騒がしくなる。近い者どうしだけを結べば
+ * 小さな星座がいくつかできて、意図した図に見える。
  */
-export function layoutTriplet(
-  triplet: Triplet,
-  index: number,
-  width: number,
-  height: number,
-  radius: number,
-): PlacedTriplet {
-  const cx = triplet.x * width;
-  const cy = triplet.y * height;
-  const [a1, a2] = spokeAngles(index);
+export const MAX_LINK_DISTANCE = 0.17;
 
-  const ja: PlacedWord = { text: triplet.ja, lang: "ja", x: cx, y: cy };
-  const zh: PlacedWord = {
-    text: triplet.zh,
-    lang: "zh",
-    x: cx + Math.cos(a1) * radius,
-    y: cy + Math.sin(a1) * radius,
-  };
-  const en: PlacedWord = {
-    text: triplet.en,
-    lang: "en",
-    x: cx + Math.cos(a2) * radius * 1.25,
-    y: cy + Math.sin(a2) * radius * 1.25,
-  };
+function buildLinks(
+  points: FieldPoint[],
+  anchors: number,
+  perAnchor: number,
+  maxDistance = MAX_LINK_DISTANCE,
+): FieldLink[] {
+  const links: FieldLink[] = [];
+  const step = Math.max(1, Math.floor(points.length / anchors));
+  const maxSq = maxDistance ** 2;
 
-  return {
-    words: [ja, zh, en],
-    links: [
-      { x1: ja.x, y1: ja.y, x2: zh.x, y2: zh.y },
-      { x1: ja.x, y1: ja.y, x2: en.x, y2: en.y },
-    ],
-  };
+  for (let a = 0; a < points.length; a += step) {
+    const near = points
+      .map((p, i) => ({
+        i,
+        d: (p.x - points[a].x) ** 2 + (p.y - points[a].y) ** 2,
+      }))
+      .filter((n) => n.i !== a && n.d <= maxSq)
+      .sort((x, y) => x.d - y.d)
+      .slice(0, perAnchor);
+
+    for (const n of near) links.push({ a, b: n.i });
+  }
+  return links;
 }
+
+export function buildLayers(seed = 20260915): FieldLayer[] {
+  return LAYER_SPECS.map((spec, li) => {
+    const rand = makeRandom(seed + li * 977);
+    const points = buildPoints(
+      rand,
+      spec.count,
+      spec.clusters,
+      spec.r[0],
+      spec.r[1],
+    );
+    // リンクは手前 2 層だけ。奥まで描くと線が多すぎて騒がしくなる。
+    const links = spec.depth >= 0.7 ? buildLinks(points, 6, 2) : [];
+    return {
+      depth: spec.depth,
+      rate: spec.rate,
+      opacity: spec.opacity,
+      points,
+      links,
+    };
+  });
+}
+
+export const LAYERS: readonly FieldLayer[] = buildLayers();
+
+/** タイルの高さ = ビューポート高 × これ。 */
+export const TILE_RATIO = 1.5;
