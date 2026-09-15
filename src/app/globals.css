@@ -391,27 +391,43 @@ a:focus-visible {
   pointer-events: none;
 }
 
-/* 固定の格子背景。上下をマスクでフェードさせ、y 視差で動かす。 */
-.ambient-grid {
-  position: fixed;
-  inset: -10% 0;
+/* Hero 背面の粒子フィールド（three.js）。右側に寄せて、名前の組版と
+   重ならないようにする。canvas 自体はリサイズ監視で中身を埋める。 */
+.hero-particles {
+  position: absolute;
+  /* 右カラムの事実リスト（現職 / 学位 / 連絡先）は Hero の下半分にある。
+     粒子はその上、右上の空きに寄せて文字と重ならないようにする。 */
+  top: -12%;
+  right: -10%;
+  width: 58%;
+  height: 76%;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.5;
-  background-image:
-    linear-gradient(var(--color-rule-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-rule-soft) 1px, transparent 1px);
-  background-size: 120px 120px;
-  mask-image: linear-gradient(transparent, black 30%, black 70%, transparent);
-  -webkit-mask-image: linear-gradient(transparent, black 30%, black 70%, transparent);
+}
+.hero-particles canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-@media (max-width: 700px) {
-  .ambient-grid { background-size: 80px 80px; opacity: 0.35; }
+@media (min-width: 1600px) {
+  .hero-particles { right: -2%; width: 52%; }
+}
+
+/* タブレット幅では名前の右にまだ余白があるので、幅をやや狭めて置く。
+   768px 未満は HeroScene 側で読み込み自体を止めている。 */
+@media (max-width: 1023px) {
+  .hero-particles {
+    top: -6%;
+    right: -22%;
+    width: 78%;
+    height: 62%;
+    opacity: 0.8;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scroll-progress, .ambient-grid { display: none; }
+  .scroll-progress { display: none; }
 }
 
 /* 1 文字 span。inline-block にするだけで、字送り(letter-spacing)と
