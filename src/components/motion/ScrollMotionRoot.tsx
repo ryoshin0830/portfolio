@@ -23,10 +23,13 @@ export default function ScrollMotionRoot({ children }: { children: ReactNode }) 
       const mm = gsap.matchMedia();
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        // 見出し: scrub で左から寄る
-        gsap.utils.toArray<HTMLElement>("[data-reveal-head]").forEach((el) => {
+        // 見出し: scrub で横から寄る。**1 つおきに向きを入れ替える**ので、
+        // ページを下るにつれて左・右・左…とリズムが生まれる。
+        // 振れ幅は 40px に抑えてあり、横スクロールは発生しない
+        // （親が overflow-x: hidden で、かつ寄せは内側方向）。
+        gsap.utils.toArray<HTMLElement>("[data-reveal-head]").forEach((el, i) => {
           gsap.from(el, {
-            x: -40,
+            x: i % 2 === 0 ? -40 : 40,
             opacity: 0.25,
             ease: "none",
             scrollTrigger: {
@@ -173,7 +176,29 @@ export default function ScrollMotionRoot({ children }: { children: ReactNode }) 
         document.fonts.ready.then(() => ScrollTrigger.refresh());
       }
 
-      return () => mm.revert();
+      // **ページの高さが変わったら必ず取り直す。**
+      // このページはハイドレーション後にも伸びる（TimelineSection は
+      // ssr:false で後からマウントし、発信フィードは段階的に描画される）。
+      // 取り直さないと、フォールドより下のトリガは「短かった頃」の座標を
+      // 持ったままになり、到達する前に進捗が 1 になってしまう
+      // ——実際にそれでセクション間の帯が最初から終端に張り付いていた。
+      let lastHeight = document.documentElement.scrollHeight;
+      let pending = 0;
+      const ro = new ResizeObserver(() => {
+        const h = document.documentElement.scrollHeight;
+        if (h === lastHeight) return;
+        lastHeight = h;
+        // 連続する伸長で何度も走らせない
+        window.clearTimeout(pending);
+        pending = window.setTimeout(() => ScrollTrigger.refresh(), 120);
+      });
+      ro.observe(document.body);
+
+      return () => {
+        window.clearTimeout(pending);
+        ro.disconnect();
+        mm.revert();
+      };
     },
     { scope }
   );

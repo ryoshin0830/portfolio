@@ -405,31 +405,50 @@ a:focus-visible {
   .kinetic-letter { will-change: auto; }
 }
 
-/* 背景の「語彙空間」。ページ全体に常駐する固定背景で、中の層が
-   スクロール量に比例して流れる（視差の本体は JS 側）。
-   置くのは点と線だけ。背景に文字を並べると前景の本文と
-   「読もうとする」知覚を奪い合うので、文字は使わない。 */
-.vocab-field {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+/* セクション間の空白帯に置く、横に流れる「語彙空間の断面」。
+   全面に敷く背景はどれだけ薄めても本文の裏に回るので作らない。
+   ここは元から空いている帯なので、本文と competing しない。 */
+.scroll-rail {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 120px;
   pointer-events: none;
-  /* 上下端をフェードさせて、画面の縁で点が唐突に切れないようにする。
+  user-select: none;
+  /* 左右端をフェードさせ、流れが画面の縁で唐突に切れないようにする。
      色ではなくアルファマスクなので「グラデ禁止」には抵触しない。 */
-  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
-.vocab-field svg {
+.scroll-rail__track {
   display: block;
+  /* 画面より広くして中央寄せ。JS が左右対称に振るので、どちらの向きでも
+     端が見えない。 */
+  width: 160%;
+  margin-left: -30%;
+  height: 100%;
+  will-change: transform;
+}
+.scroll-rail__label {
+  position: absolute;
+  left: var(--page-pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding-right: 1rem;
+  background: var(--color-bg);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-muted);
 }
 
 @media (max-width: 767px) {
-  /* 狭い画面では出さない。Hero は名前・肩書き・タグライン・連絡先が
-     縦に詰まっていて語を逃がす余白が無く、薄くしても本文の上に重なって
-     ただのノイズになる。スマホは強い組版だけで十分成立する。
-     アニメーションの側も matchMedia で同じ閾値を切っているので、
-     見えない要素のために GSAP が回り続けることはない。 */
-  .vocab-field { display: none; }
+  .scroll-rail { height: 88px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-rail__track { will-change: auto; }
 }
 
 /* ─── 横断的なインタラクション ──────────────────────────────── */

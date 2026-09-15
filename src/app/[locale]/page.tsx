@@ -7,6 +7,7 @@ import ResearchSection from "@/components/ResearchSection";
 import SkillsSection from "@/components/SkillsSection";
 import SchedulingSection from "@/components/SchedulingSection";
 import WritingFeed from "@/components/WritingFeed";
+import ScrollRail from "@/components/motion/ScrollRail";
 import { setRequestLocale } from "next-intl/server";
 import { getArticles } from "@/lib/articles";
 import { getPosts } from "@/lib/posts";
@@ -60,14 +61,21 @@ export default async function Home({
   return (
     <main>
       <HeroSection latestItems={heroLatest} />
+      {/* セクション間の空白帯に置く横流れの帯。本文の裏には入らないので
+          可読性を削らず、縦スクロールが横の動きに変換される。
+          向きを交互にすると（左→右→左）ページを下るリズムが出る。 */}
+      <ScrollRail direction="left" seed={11} />
       {/* 自己紹介(about)→数字で見る成果(highlights)→経歴…と、初見でも文脈が
           積み上がる物語順。発信(WritingFeed)はページ末尾の単一セクションに集約。 */}
       <AboutSection />
       <HighlightsStrip />
+      <ScrollRail direction="right" seed={23} />
       <ExperienceSection />
       <ProjectsSection />
+      <ScrollRail direction="left" seed={37} />
       <ResearchSection />
       <SkillsSection />
+      <ScrollRail direction="right" seed={53} />
       <SchedulingSection />
       <WritingFeed items={feed} />
     </main>
