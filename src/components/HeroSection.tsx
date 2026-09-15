@@ -9,6 +9,8 @@ import { SiX } from "react-icons/si";
 import type { FeedItem } from "@/types/articles";
 import { SourceIcon } from "@/components/icons/BrandIcons";
 import { formatRelativeTime } from "@/lib/relativeTime";
+import KineticHeading from "@/components/KineticHeading";
+import HeroDepth from "@/components/motion/HeroDepth";
 
 /**
  * Editorial, asymmetric hero — fully static (async Server Component).
@@ -75,6 +77,10 @@ const HeroSection = async ({
       id="hero"
       className="relative flex min-h-svh flex-col justify-center gutter-x pb-16 pt-28"
     >
+      {/* 背面の奥行きレイヤー（装飾）。スクロールして初めて動くので
+          ファーストビューの描画は静止画と同じ = LCP に影響しない。 */}
+      <HeroDepth word={tNames("english")} />
+
       <div className="grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
         {/* Identity column */}
         <div className="lg:col-span-8">
@@ -87,11 +93,17 @@ const HeroSection = async ({
             ))}
           </p>
 
+          {/* 1 文字ずつの span 分割はサーバー側で静的に行う（KineticHeading）。
+              初期 HTML に確定テキストが入るので LCP 要素の内容は変わらず、
+              inline-block 化だけなので字送り・行送りも現状のまま = CLS ゼロ。
+              飛散アニメーションは ScrollMotionRoot がスクロール時にだけ掛ける。 */}
           <h1 className="display-serif hero-name mb-6 whitespace-nowrap">
             {nameParts.map((part, i) => (
-              <span key={part} className={i > 0 ? "ml-[0.16em]" : undefined}>
-                {part}
-              </span>
+              <KineticHeading
+                key={part}
+                text={part}
+                className={i > 0 ? "ml-[0.16em]" : undefined}
+              />
             ))}
           </h1>
 

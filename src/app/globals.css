@@ -413,3 +413,67 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .scroll-progress, .ambient-grid { display: none; }
 }
+
+/* 1 文字 span。inline-block にするだけで、字送り(letter-spacing)と
+   行送りは .hero-name の現行値をそのまま継承する = CLS ゼロ。 */
+.kinetic-letter {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-letter { will-change: auto; }
+}
+
+/* Hero 背面の奥行き。巨大なアウトライン文字と破線の軌道円。 */
+.hero-depth {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.depth-word {
+  position: absolute;
+  left: -2%;
+  bottom: 0;
+  font-size: clamp(180px, 30vw, 520px);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: transparent;
+  /* 最下部の「最新の発信」リンクがこの上に載る。線が濃いと小さい文字の
+     可読性を削るので、rule ではなく rule-soft + 低 opacity に抑える。 */
+  -webkit-text-stroke: 1px var(--color-rule-soft);
+  opacity: 0.55;
+  white-space: nowrap;
+}
+.depth-orbit {
+  position: absolute;
+  border: 1px solid var(--color-rule);
+  border-radius: 50%;
+  width: 60vw;
+  height: 60vw;
+  right: -14%;
+  top: -12%;
+  opacity: 0.45;
+}
+.depth-orbit--two {
+  width: 44vw;
+  height: 44vw;
+  top: 4%;
+  right: -4%;
+  border-style: dashed;
+  opacity: 0.35;
+}
+
+@media (max-width: 700px) {
+  .depth-word { font-size: 60vw; bottom: 18%; }
+  .depth-orbit { width: 120vw; height: 120vw; right: -40%; top: 24%; }
+  .depth-orbit--two { width: 100vw; height: 100vw; top: 30%; right: -28%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-depth { display: none; }
+}
