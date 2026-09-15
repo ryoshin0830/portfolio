@@ -7,7 +7,6 @@ import ResearchSection from "@/components/ResearchSection";
 import SkillsSection from "@/components/SkillsSection";
 import SchedulingSection from "@/components/SchedulingSection";
 import WritingFeed from "@/components/WritingFeed";
-import MarqueeRibbon from "@/components/motion/MarqueeRibbon";
 import { setRequestLocale } from "next-intl/server";
 import { getArticles } from "@/lib/articles";
 import { getPosts } from "@/lib/posts";
@@ -68,9 +67,6 @@ export default async function Home({
       <ExperienceSection />
       <ProjectsSection />
       <ResearchSection />
-      {/* 装飾の帯（セクションではないので id を持たせない = SECTION_IDS に
-          影響しない）。研究 → スキルの境目に横方向の運動を一度だけ入れる。 */}
-      <MarqueeRibbon words={["AI", "LANGUAGE", "RESEARCH", "ENGINEERING"]} />
       <SkillsSection />
       <SchedulingSection />
       <WritingFeed items={feed} />

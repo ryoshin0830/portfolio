@@ -392,40 +392,9 @@ a:focus-visible {
   pointer-events: none;
 }
 
-/* 粒子フィールド（three.js）。**ページ全体に常駐する固定背景**。
-   Hero の中に置くと Hero ごとスクロールアウトしてすぐ見えなくなるため、
-   fixed にしてスクロール中もずっと見えるようにしている。
-   本文の可読性は JS 側が不透明度をスクロールに応じて落として守る。 */
-.hero-particles {
-  position: fixed;
-  top: 0;
-  right: -6%;
-  width: 56%;
-  height: 100svh;
-  z-index: -1;
-  pointer-events: none;
-}
-.hero-particles canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-@media (min-width: 1600px) {
-  .hero-particles { right: 0; width: 50%; }
-}
-
-/* タブレット幅。768px 未満は HeroScene 側で読み込み自体を止めている。 */
-@media (max-width: 1023px) {
-  .hero-particles { right: -18%; width: 78%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scroll-progress { display: none; }
-}
-
-/* 1 文字 span。inline-block にするだけで、字送り(letter-spacing)と
-   行送りは .hero-name の現行値をそのまま継承する = CLS ゼロ。 */
+/* Hero の名前を 1 文字ずつ動かすための span。inline-block にするだけで、
+   字送り(letter-spacing)と行送りは .hero-name の現行値をそのまま継承する
+   = CLS ゼロ。飛散アニメーションは ScrollMotionRoot が掛ける。 */
 .kinetic-letter {
   display: inline-block;
   transform-origin: 50% 100%;
@@ -436,59 +405,33 @@ a:focus-visible {
   .kinetic-letter { will-change: auto; }
 }
 
-/* Hero 背面の奥行き。巨大なアウトライン文字と破線の軌道円。 */
-.hero-depth {
-  position: absolute;
+/* 背景の「語彙空間」。ページ全体に常駐する固定背景。
+   本文の背後に居続けるので、文字量の多い帯では JS 側が
+   不透明度を落として可読性を守る。 */
+.vocab-field {
+  position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  overflow: hidden;
+  /* 左カラム（名前・タグライン・本文）の上に語が乗らないよう、
+     左端をマスクで抜く。語の配置自体も右寄りにしてある。 */
+  mask-image: linear-gradient(to right, transparent 0%, black 34%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 34%);
 }
-.depth-word {
-  position: absolute;
-  left: -2%;
-  bottom: 2%;
-  width: 104%;
-  height: clamp(160px, 26vw, 420px);
-  opacity: 0.55;
+.vocab-field svg {
+  display: block;
 }
-.depth-word text {
-  fill: none;
-  /* 最下部の「最新の発信」リンクがこの上に載る。線が濃いと小さい文字の
-     可読性を削るので、rule ではなく rule-soft のハーフトーンに抑える。 */
-  stroke: var(--color-rule-soft);
-  stroke-width: 1;
-  font-family: inherit;
-  font-size: 200px;
-  font-weight: 700;
-}
-.depth-orbit {
-  position: absolute;
-  border: 1px solid var(--color-rule);
-  border-radius: 50%;
-  width: 60vw;
-  height: 60vw;
-  right: -14%;
-  top: -12%;
-  opacity: 0.45;
-}
-.depth-orbit--two {
-  width: 44vw;
-  height: 44vw;
-  top: 4%;
-  right: -4%;
-  border-style: dashed;
-  opacity: 0.35;
+.vocab-field text {
+  font-family: var(--font-noto-sans-jp), var(--font-inter), sans-serif;
 }
 
-@media (max-width: 700px) {
-  .depth-word { height: 42vw; bottom: 18%; }
-  .depth-orbit { width: 120vw; height: 120vw; right: -40%; top: 24%; }
-  .depth-orbit--two { width: 100vw; height: 100vw; top: 30%; right: -28%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-depth { display: none; }
+@media (max-width: 767px) {
+  /* 狭い画面では出さない。Hero は名前・肩書き・タグライン・連絡先が
+     縦に詰まっていて語を逃がす余白が無く、薄くしても本文の上に重なって
+     ただのノイズになる。スマホは強い組版だけで十分成立する。
+     アニメーションの側も matchMedia で同じ閾値を切っているので、
+     見えない要素のために GSAP が回り続けることはない。 */
+  .vocab-field { display: none; }
 }
 
 /* ─── 横断的なインタラクション ──────────────────────────────── */
@@ -530,36 +473,3 @@ a:focus-visible {
   .tilt-card::after { display: none; }
   .wipe-row::before { transition: none; }
 }
-
-/* 巨大文字の帯。上段と下段が逆方向に流れる。
-   セリフは Hero の漢字名 1 箇所だけなので、ここは sans で組む。 */
-.motion-ribbon {
-  padding: 3rem 0 4rem;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-}
-.ribbon-line {
-  display: flex;
-  gap: 4vw;
-  width: max-content;
-  white-space: nowrap;
-  font-size: clamp(3rem, 9vw, 8rem);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.04em;
-  will-change: transform;
-}
-.ribbon-line--forward { color: var(--color-accent); transform: translateX(-10%); }
-.ribbon-line--back { color: var(--color-ink); transform: translateX(-22%); }
-.ribbon-word--outline {
-  color: transparent;
-  -webkit-text-stroke: 1px var(--color-ink-muted);
-  opacity: 0.6;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ribbon-line { will-change: auto; transform: none; }
-  .motion-ribbon { padding: 2rem 0; }
-}
-

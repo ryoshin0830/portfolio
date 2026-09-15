@@ -10,7 +10,6 @@ import type { FeedItem } from "@/types/articles";
 import { SourceIcon } from "@/components/icons/BrandIcons";
 import { formatRelativeTime } from "@/lib/relativeTime";
 import KineticHeading from "@/components/KineticHeading";
-import HeroDepth from "@/components/motion/HeroDepth";
 
 /**
  * Editorial, asymmetric hero — fully static (async Server Component).
@@ -77,10 +76,6 @@ const HeroSection = async ({
       id="hero"
       className="relative flex min-h-svh flex-col justify-center gutter-x pb-16 pt-28"
     >
-      {/* 背面の奥行きレイヤー（装飾）。スクロールして初めて動くので
-          ファーストビューの描画は静止画と同じ = LCP に影響しない。 */}
-      <HeroDepth word={tNames("english")} />
-
       <div className="grid w-full items-end gap-14 lg:grid-cols-12 lg:gap-10">
         {/* Identity column */}
         <div className="lg:col-span-8">

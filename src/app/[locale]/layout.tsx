@@ -5,7 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
 import ContactModal from "@/components/ContactModal";
 import ScrollProgressBar from "@/components/motion/ScrollProgressBar";
-import HeroScene from "@/components/motion/HeroScene";
+import VocabularyField from "@/components/motion/VocabularyField";
 import ScrollMotionRoot from "@/components/motion/ScrollMotionRoot";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -171,10 +171,10 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
-            {/* 粒子フィールド（three.js）。position: fixed でページ全体に
-                常駐する。Hero の中に置くと Hero ごとスクロールアウトして
-                すぐ見えなくなるため、レイアウト側に出している。 */}
-            <HeroScene />
+            {/* 背景の「語彙空間」。同じ概念の日中英が寄り添って漂い、
+                ときどきひと組だけが灯る。position: fixed でページ全体に
+                常駐する（Hero の中に置くとすぐスクロールアウトするため）。 */}
+            <VocabularyField />
             <ScrollProgressBar />
             {/* キーボード/スクリーンリーダー向けのスキップリンク。フォーカス時のみ
                 表示され、ページ本文 (#main) へ直接ジャンプする。 */}
