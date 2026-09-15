@@ -24,6 +24,7 @@
   "dependencies": {
     "@ai-sdk/react": "3.0.210",
     "@googleapis/calendar": "15.0.0",
+    "@gsap/react": "^2.1.2",
     "@mastra/ai-sdk": "1.5.0",
     "@mastra/core": "1.45.0",
     "@openrouter/ai-sdk-provider": "2.9.1",
@@ -31,6 +32,7 @@
     "ai": "6.0.208",
     "framer-motion": "^12.16.0",
     "google-auth-library": "10.7.0",
+    "gsap": "^3.15.0",
     "next": "^15.5.9",
     "next-intl": "^4.1.0",
     "react": "19.2.7",

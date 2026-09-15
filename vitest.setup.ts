@@ -33,4 +33,30 @@ globalThis.IntersectionObserver =
 // jsdom は scrollIntoView を実装していない（呼ぶと TypeError）。
 Element.prototype.scrollIntoView = () => {};
 
+// jsdom には matchMedia が無い。GSAP の gsap.matchMedia() と
+// usePrefersReducedMotion が使うので、常に「マッチしない」スタブを入れる。
+// （テストでは reduced-motion / hover 条件を全て false 扱いにして、
+//  スクロール演出を登録させない = DOM 構造だけを検証する）
+if (!window.matchMedia) {
+  window.matchMedia = ((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
+}
+
+// ScrollTrigger が参照する。observe/unobserve を記録しないダミーで十分。
+if (!globalThis.ResizeObserver) {
+  globalThis.ResizeObserver = class {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  } as unknown as typeof ResizeObserver;
+}
+
 export { IntersectionObserverStub };
