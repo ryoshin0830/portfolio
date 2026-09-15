@@ -38,28 +38,43 @@ export default function ScrollMotionRoot({ children }: { children: ReactNode }) 
           });
         });
 
-        // 汎用リビール（一度きり）
+        // 汎用リビール（一度きり）。
+        // gsap.from ではなく fromTo + immediateRender: false を使う。from は
+        // トゥイーン生成の瞬間に開始状態(opacity: 0)を適用してしまうため、
+        // 何らかの理由でトリガが発火しないと**本文が永久に見えなくなる**。
+        // fromTo + immediateRender: false なら、トリガが来るまで要素は素の
+        // 状態のままなので、最悪でも「アニメーションしないだけ」で済む。
         gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
-          gsap.from(el, {
-            y: 40,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 88%" },
-          });
+          gsap.fromTo(
+            el,
+            { y: 40, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.6,
+              ease: "power2.out",
+              immediateRender: false,
+              scrollTrigger: { trigger: el, start: "top 88%", once: true },
+            }
+          );
         });
 
         // stagger グループ（chip 群など）
         gsap.utils.toArray<HTMLElement>("[data-stagger]").forEach((group) => {
-          gsap.from(group.children, {
-            y: 20,
-            scale: 0.9,
-            opacity: 0,
-            duration: 0.45,
-            stagger: 0.04,
-            ease: "power2.out",
-            scrollTrigger: { trigger: group, start: "top 90%" },
-          });
+          gsap.fromTo(
+            group.children,
+            { y: 20, scale: 0.9, opacity: 0 },
+            {
+              y: 0,
+              scale: 1,
+              opacity: 1,
+              duration: 0.45,
+              stagger: 0.04,
+              ease: "power2.out",
+              immediateRender: false,
+              scrollTrigger: { trigger: group, start: "top 90%", once: true },
+            }
+          );
         });
 
         // Hero の kinetic タイポ: スクロールアウトで飛散する。

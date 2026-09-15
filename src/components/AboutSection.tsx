@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
-import { gsap, useGSAP } from "@/lib/gsap";
 import dynamic from "next/dynamic";
 import { FaGithub } from "react-icons/fa";
 import type { Expertise } from "@/types/content";
@@ -23,26 +22,6 @@ const AboutSection = () => {
     education: string;
     github: string;
   };
-
-  // 画面に入った要素を一度だけ持ち上げる。scrub ではないので
-  // スクロール中に回り続けることはない。
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from("[data-reveal]", {
-          opacity: 0,
-          y: 16,
-          duration: 0.6,
-          stagger: 0.08,
-          ease: "power2.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 85%" },
-        });
-      });
-      return () => mm.revert();
-    },
-    { scope: sectionRef }
-  );
 
   return (
     <section id="about" ref={sectionRef} className="section section--pt-tight section--pb-tight">
