@@ -49,7 +49,7 @@ const AboutSection = () => {
       <div className="section__inner">
         <header className="mb-16">
           <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+          <h2 data-reveal-head className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -79,7 +79,7 @@ const AboutSection = () => {
           <p className="text-base font-medium text-[color:var(--color-ink-muted)] mb-4">
             {t("capabilitiesLabel")}
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div data-stagger className="flex flex-wrap gap-2">
             {capabilities.map((c) => (
               <span key={c} className="chip">{c}</span>
             ))}

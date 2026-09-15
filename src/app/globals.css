@@ -477,3 +477,43 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .hero-depth { display: none; }
 }
+
+/* ─── 横断的なインタラクション ──────────────────────────────── */
+
+/* pointer 追従のスポットライト。インクの薄い重ねであって色相を持った
+   装飾グラデーションではないので、「グラデ禁止」の趣旨には反しない。 */
+.tilt-card { position: relative; }
+.tilt-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+    color-mix(in srgb, var(--color-ink) 6%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.tilt-card:hover::after { opacity: 1; }
+
+/* リスト行のワイプ hover。 */
+.wipe-row { position: relative; isolation: isolate; }
+.wipe-row::before {
+  content: "";
+  position: absolute;
+  inset: 0 -0.75rem;
+  border-radius: 0.5rem;
+  background: var(--color-bg-soft);
+  transform: translateX(-102%);
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+.wipe-row:hover::before { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card::after { display: none; }
+  .wipe-row::before { transition: none; }
+}

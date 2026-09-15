@@ -11,17 +11,23 @@ describe("KineticHeading", () => {
     expect(letters[1].textContent).toBe("震");
   });
 
-  it("読み上げ用に元のテキストを保持する", () => {
-    const { container } = render(<KineticHeading text="梁 震" />);
-    // 分割した側は aria-hidden、読み上げは元テキスト 1 つだけ
-    expect(container.querySelector("[aria-hidden]")).not.toBeNull();
-    expect(container.textContent).toContain("梁");
-  });
-
   it("空白を nbsp に置き換えて折り返しを防ぐ", () => {
     const { container } = render(<KineticHeading text="a b" />);
     const letters = container.querySelectorAll(".kinetic-letter");
     expect(letters).toHaveLength(3);
     expect(letters[1].textContent).toBe(" ");
+  });
+
+  it("テキストを重複させない（コピーしても壊れない）", () => {
+    // sr-only の複製を併置すると textContent が「梁梁震震」になり、
+    // 見出しをコピーしたときに壊れた文字列が取れてしまう。
+    const { container } = render(<KineticHeading text="梁震" />);
+    expect(container.textContent).toBe("梁震");
+  });
+
+  it("分割側は読み上げから隠す（1 文字ずつ読まれるのを防ぐ）", () => {
+    // 読み上げ名は呼び出し側が親の aria-label で与える契約。
+    const { container } = render(<KineticHeading text="梁震" />);
+    expect(container.firstElementChild?.getAttribute("aria-hidden")).toBe("true");
   });
 });

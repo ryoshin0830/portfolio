@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import ContactModal from "@/components/ContactModal";
 import AmbientGrid from "@/components/motion/AmbientGrid";
 import ScrollProgressBar from "@/components/motion/ScrollProgressBar";
+import ScrollMotionRoot from "@/components/motion/ScrollMotionRoot";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { themeScript } from "../theme-script";
@@ -186,13 +187,17 @@ export default async function RootLayout({
             {/* page.tsx 側に唯一の <main> ランドマークがある。ここはレイアウトの
                 ラッパ兼スキップリンクの着地点（id="main"）として div にしておく
                 （main を二重に出すとランドマークが壊れる）。 */}
-            <div
-              id="main"
-              tabIndex={-1}
-              className="min-h-screen w-full overflow-x-hidden focus:outline-none"
-            >
-              {children}
-            </div>
+            {/* 横断的なスクロール演出はここ 1 箇所に集約する。ナビと
+                連絡先モーダルは固定要素なので視差の対象外（外に置く）。 */}
+            <ScrollMotionRoot>
+              <div
+                id="main"
+                tabIndex={-1}
+                className="min-h-screen w-full overflow-x-hidden focus:outline-none"
+              >
+                {children}
+              </div>
+            </ScrollMotionRoot>
             <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden">
               <div
                 className="w-full gutter-x flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"

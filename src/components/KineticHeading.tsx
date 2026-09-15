@@ -9,8 +9,10 @@
  * スクロール時にだけ変形させる）ので、ファーストビューの描画は
  * 分割前とピクセル等価になる。
  *
- * 読み上げは分割前の文字列 1 つだけを露出させ、分割側は aria-hidden にする
- * （1 文字ずつ読み上げられるのを防ぐ）。
+ * アクセシビリティ: 分割した文字列は aria-hidden にし、読み上げ名は
+ * **呼び出し側が親要素の aria-label で与える**。sr-only の複製テキストを
+ * 併置する手もあるが、それだと textContent が「梁梁震震」のように重複し、
+ * 見出しをコピーしたときに壊れた文字列が取れてしまう。
  */
 export default function KineticHeading({
   text,
@@ -20,15 +22,12 @@ export default function KineticHeading({
   className?: string;
 }) {
   return (
-    <span className={className}>
-      <span className="sr-only">{text}</span>
-      <span aria-hidden="true">
-        {Array.from(text).map((ch, i) => (
-          <span className="kinetic-letter" key={`${ch}-${i}`}>
-            {ch === " " || ch === "　" ? " " : ch}
-          </span>
-        ))}
-      </span>
+    <span className={className} aria-hidden="true">
+      {Array.from(text).map((ch, i) => (
+        <span className="kinetic-letter" key={`${ch}-${i}`}>
+          {ch === " " || ch === "　" ? " " : ch}
+        </span>
+      ))}
     </span>
   );
 }

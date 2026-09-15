@@ -17,7 +17,7 @@ const HighlightsStrip = async () => {
             single-metric section isn't a number floating without a frame). */}
         <header className="mb-16">
           <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--lg mb-4">{t("title")}</h2>
+          <h2 data-reveal-head className="display display--lg mb-4">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl mx-auto">
             {t("subtitle")}
           </p>

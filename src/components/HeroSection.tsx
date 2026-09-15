@@ -97,7 +97,10 @@ const HeroSection = async ({
               初期 HTML に確定テキストが入るので LCP 要素の内容は変わらず、
               inline-block 化だけなので字送り・行送りも現状のまま = CLS ゼロ。
               飛散アニメーションは ScrollMotionRoot がスクロール時にだけ掛ける。 */}
-          <h1 className="display-serif hero-name mb-6 whitespace-nowrap">
+          <h1
+            className="display-serif hero-name mb-6 whitespace-nowrap"
+            aria-label={tNames("japanese")}
+          >
             {nameParts.map((part, i) => (
               <KineticHeading
                 key={part}
@@ -120,7 +123,7 @@ const HeroSection = async ({
               about を読み飛ばしてしまうため、それは控えめなセカンダリの
               テキストリンク（抜け道）に降格する。 */}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-            <a href="#about" className="btn-pill">
+            <a href="#about" data-magnetic className="btn-pill">
               {t("learnMore")}
               <ArrowDown size={16} aria-hidden />
             </a>

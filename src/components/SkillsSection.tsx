@@ -32,7 +32,7 @@ const SkillsSection = async () => {
       <div className="section__inner">
         <header className="mb-20">
           <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+          <h2 data-reveal-head className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -62,7 +62,7 @@ const SkillsSection = async () => {
                       <span className="text-sm text-[color:var(--color-ink-muted)] pt-1.5">
                         {tier.label}
                       </span>
-                      <div className="flex flex-wrap gap-2">
+                      <div data-stagger className="flex flex-wrap gap-2">
                         {items.map((item) => (
                           <span
                             key={item.name}

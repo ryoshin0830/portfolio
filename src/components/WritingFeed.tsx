@@ -176,7 +176,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
       <div className="section__inner">
         <header className="mb-12 md:mb-16">
           <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
-          <h2 className="display display--xl mb-6">{t("title")}</h2>
+          <h2 data-reveal-head className="display display--xl mb-6">{t("title")}</h2>
           <p className="prose-body text-[color:var(--color-ink-soft)] max-w-2xl">
             {t("subtitle")}
           </p>
@@ -282,7 +282,7 @@ export default function WritingFeed({ items }: { items: FeedItem[] }) {
                   href={linkFor(i)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col gap-1.5 border-t border-[color:var(--color-rule-soft)] py-6 last:border-b last:border-[color:var(--color-rule-soft)] md:grid md:grid-cols-[8rem_1fr] md:items-baseline md:gap-12"
+                  className="wipe-row group flex flex-col gap-1.5 border-t border-[color:var(--color-rule-soft)] py-6 last:border-b last:border-[color:var(--color-rule-soft)] md:grid md:grid-cols-[8rem_1fr] md:items-baseline md:gap-12"
                 >
                   <span
                     className="text-sm text-[color:var(--color-ink-muted)] num"

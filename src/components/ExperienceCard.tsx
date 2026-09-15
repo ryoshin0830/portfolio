@@ -69,7 +69,7 @@ export default function ExperienceCard({
   const [heroAchievement, ...restAchievements] = e.achievements;
 
   return (
-    <article className="border-t border-[color:var(--color-rule-soft)] py-16 md:py-24">
+    <article className="tilt-card border-t border-[color:var(--color-rule-soft)] py-16 md:py-24">
       <div className="grid grid-cols-1 md:grid-cols-[12rem_1fr] gap-6 md:gap-16">
         {/* Period column — led by an editorial ordinal. The big rule-colored
             numeral gives each card an identity in the rail without competing
