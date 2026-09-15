@@ -517,3 +517,35 @@ a:focus-visible {
   .tilt-card::after { display: none; }
   .wipe-row::before { transition: none; }
 }
+
+/* 巨大文字の帯。上段と下段が逆方向に流れる。
+   セリフは Hero の漢字名 1 箇所だけなので、ここは sans で組む。 */
+.motion-ribbon {
+  padding: 3rem 0 4rem;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.ribbon-line {
+  display: flex;
+  gap: 4vw;
+  width: max-content;
+  white-space: nowrap;
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  will-change: transform;
+}
+.ribbon-line--forward { color: var(--color-accent); transform: translateX(-10%); }
+.ribbon-line--back { color: var(--color-ink); transform: translateX(-22%); }
+.ribbon-word--outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-ink-muted);
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-line { will-change: auto; transform: none; }
+  .motion-ribbon { padding: 2rem 0; }
+}
