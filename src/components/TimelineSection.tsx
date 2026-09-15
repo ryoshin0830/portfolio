@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { m, useReducedMotion, useScroll } from "framer-motion";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { useInView } from "react-intersection-observer";
 
 type TimelineEvent = {
@@ -53,9 +54,9 @@ const PLANE_UP_D =
  * viewport's vertical centre — the line the accent rail draws to. Reverses on
  * scroll-up so it always matches the drawn rail.
  */
-const SpineDot = ({ reduce }: { reduce: boolean | null }) => {
+const SpineDot = ({ reduce }: { reduce: boolean }) => {
   const [ref, inView] = useInView({ rootMargin: "9999px 0px -50% 0px" });
-  const lit = reduce === true || inView;
+  const lit = reduce || inView;
   return (
     <span
       ref={ref}
@@ -68,12 +69,13 @@ const SpineDot = ({ reduce }: { reduce: boolean | null }) => {
           className="absolute inset-0 block rounded-full"
           style={{ background: "var(--color-rule)" }}
         />
-        <m.span
-          className="absolute inset-0 block rounded-full"
-          style={{ background: "var(--color-accent)" }}
-          initial={false}
-          animate={{ opacity: lit ? 1 : 0, scale: lit ? 1 : 0.5 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+        <span
+          className="absolute inset-0 block rounded-full transition-[opacity,transform] duration-400 ease-out"
+          style={{
+            background: "var(--color-accent)",
+            opacity: lit ? 1 : 0,
+            transform: lit ? "scale(1)" : "scale(0.5)",
+          }}
         />
       </span>
     </span>
@@ -93,14 +95,14 @@ const FlightDown = ({
 }: {
   from: Loc;
   to: Loc;
-  reduce: boolean | null;
+  reduce: boolean;
 }) => {
   const tLoc = useTranslations("locations");
   const [ref, inView] = useInView({
     triggerOnce: true,
     rootMargin: "0px 0px -15% 0px",
   });
-  const lit = reduce === true || inView;
+  const lit = reduce || inView;
   const dur = reduce ? 0 : 1.1;
 
   const TRACK = 28; // px of vertical travel (compact)
@@ -126,20 +128,24 @@ const FlightDown = ({
           }}
         />
         {/* contrail, drawn as the plane descends */}
-        <m.span
+        <span
           className="absolute left-1/2 top-0 -translate-x-1/2 origin-top"
-          style={{ width: 1, height: "100%", background: "var(--color-accent)" }}
-          initial={{ scaleY: 0 }}
-          animate={{ scaleY: lit ? 1 : 0 }}
-          transition={{ duration: dur, ease: "easeInOut" }}
+          style={{
+            width: 1,
+            height: "100%",
+            background: "var(--color-accent)",
+            transform: `scaleY(${lit ? 1 : 0})`,
+            transition: `transform ${dur}s ease-in-out`,
+          }}
         />
         {/* the airplane, nosing straight down */}
-        <m.span
+        <span
           className="absolute left-1/2 -translate-x-1/2"
-          style={{ top: -4 }}
-          initial={{ y: reduce ? TRACK - 8 : 0 }}
-          animate={{ y: lit ? TRACK - 8 : 0 }}
-          transition={{ duration: dur, ease: "easeInOut" }}
+          style={{
+            top: -4,
+            transform: `translateX(-50%) translateY(${lit ? TRACK - 8 : 0}px)`,
+            transition: `transform ${dur}s ease-in-out`,
+          }}
         >
           <svg
             width={15}
@@ -150,7 +156,7 @@ const FlightDown = ({
           >
             <path d={PLANE_UP_D} style={{ fill: "var(--color-accent)" }} />
           </svg>
-        </m.span>
+        </span>
       </div>
       <span className="text-[11px] font-semibold tracking-[0.08em] text-[color:var(--color-accent)] leading-none">
         {tLoc(to)}
@@ -162,22 +168,10 @@ const FlightDown = ({
 const TimelineSection = () => {
   const t = useTranslations("about");
   const tLoc = useTranslations("locations");
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
 
   const olRef = useRef<HTMLOListElement>(null);
-  const [revealRef, inView] = useInView({ threshold: 0.05, triggerOnce: true });
-
-  // Accent rail front tracks the viewport centre (0 when the list top reaches
-  // it, 1 when its bottom does) — matching where the dots light.
-  const { scrollYProgress } = useScroll({
-    target: olRef,
-    offset: ["start center", "end center"],
-  });
-
-  const [dynamic, setDynamic] = useState(false);
-  useEffect(() => {
-    if (!reduce) setDynamic(true);
-  }, [reduce]);
+  const railRef = useRef<HTMLSpanElement>(null);
 
   // End the rail at the last node instead of the list's bottom, so it doesn't
   // dangle into the section padding below the final event.
@@ -198,15 +192,43 @@ const TimelineSection = () => {
 
   const events = t.raw("timelineEvents") as TimelineEvent[];
 
+  // アクセントのレールはビューポート中央に追従する（リスト上端が中央に
+  // 来たとき 0、下端が来たとき 1）。ドットが灯る位置と一致させている。
+  // scrub なのでスクロールしていない間は 1 フレームも進まない。
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.fromTo(
+          railRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: olRef.current,
+              start: "top center",
+              end: "bottom center",
+              scrub: 0.3,
+            },
+          }
+        );
+        gsap.from("[data-timeline-item]", {
+          opacity: 0,
+          y: 12,
+          duration: 0.4,
+          stagger: 0.04,
+          ease: "power2.out",
+          scrollTrigger: { trigger: olRef.current, start: "top 95%" },
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: olRef }
+  );
+
   return (
-    <ol
-      ref={(node) => {
-        revealRef(node);
-        (olRef as React.MutableRefObject<HTMLOListElement | null>).current =
-          node;
-      }}
-      className="relative"
-    >
+    <ol ref={olRef} className="relative">
       {/* faint rail + accent fill drawn from the top as you scroll; the rail
           ends at the last node so it doesn't trail into the section padding */}
       <span
@@ -219,7 +241,8 @@ const TimelineSection = () => {
           background: "var(--color-rule-soft)",
         }}
       />
-      <m.span
+      <span
+        ref={railRef}
         aria-hidden="true"
         className="absolute top-0 -translate-x-1/2"
         style={{
@@ -228,7 +251,6 @@ const TimelineSection = () => {
           height: railH ?? "100%",
           background: "var(--color-accent)",
           transformOrigin: "top",
-          scaleY: dynamic ? scrollYProgress : 1,
         }}
       />
 
@@ -238,13 +260,7 @@ const TimelineSection = () => {
         const from = LOC_SEQ[i - 1] ?? loc;
 
         return (
-          <m.li
-            key={i}
-            initial={{ opacity: 0, y: 12 }}
-            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={{ duration: 0.4, delay: 0.04 * i }}
-            className="relative"
-          >
+          <li key={i} data-timeline-item className="relative">
             <SpineDot reduce={reduce} />
             <div
               className={`ml-7 md:ml-9 ${
@@ -285,7 +301,7 @@ const TimelineSection = () => {
                 </div>
               </div>
             </div>
-          </m.li>
+          </li>
         );
       })}
     </ol>

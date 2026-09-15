@@ -1,7 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import MotionProvider from "./MotionProvider";
 import ContactModal from "./ContactModal";
 import ja from "../../messages/ja.json";
 
@@ -16,9 +15,7 @@ import ja from "../../messages/ja.json";
 function renderModal() {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <MotionProvider>
-        <ContactModal />
-      </MotionProvider>
+      <ContactModal />
     </NextIntlClientProvider>
   );
 }

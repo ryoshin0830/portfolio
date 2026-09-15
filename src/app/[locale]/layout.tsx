@@ -4,7 +4,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Navigation from "@/components/Navigation";
 import ContactModal from "@/components/ContactModal";
-import MotionProvider from "@/components/MotionProvider";
 import StructuredData from "@/components/StructuredData";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { themeScript } from "../theme-script";
@@ -169,41 +168,39 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
-            <MotionProvider>
-              {/* キーボード/スクリーンリーダー向けのスキップリンク。フォーカス時のみ
-                  表示され、ページ本文 (#main) へ直接ジャンプする。 */}
-              <a
-                href="#main"
-                className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:rounded-md focus:border focus:border-[color:var(--color-rule)] focus:bg-[color:var(--color-bg)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[color:var(--color-ink)]"
-              >
-                {messages.nav.skipToContent}
-              </a>
-              <Navigation />
-              {/* page.tsx 側に唯一の <main> ランドマークがある。ここはレイアウトの
-                  ラッパ兼スキップリンクの着地点（id="main"）として div にしておく
-                  （main を二重に出すとランドマークが壊れる）。 */}
+            {/* キーボード/スクリーンリーダー向けのスキップリンク。フォーカス時のみ
+                表示され、ページ本文 (#main) へ直接ジャンプする。 */}
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[200] focus:rounded-md focus:border focus:border-[color:var(--color-rule)] focus:bg-[color:var(--color-bg)] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-[color:var(--color-ink)]"
+            >
+              {messages.nav.skipToContent}
+            </a>
+            <Navigation />
+            {/* page.tsx 側に唯一の <main> ランドマークがある。ここはレイアウトの
+                ラッパ兼スキップリンクの着地点（id="main"）として div にしておく
+                （main を二重に出すとランドマークが壊れる）。 */}
+            <div
+              id="main"
+              tabIndex={-1}
+              className="min-h-screen w-full overflow-x-hidden focus:outline-none"
+            >
+              {children}
+            </div>
+            <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden">
               <div
-                id="main"
-                tabIndex={-1}
-                className="min-h-screen w-full overflow-x-hidden focus:outline-none"
+                className="w-full gutter-x flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
               >
-                {children}
+                <p className="meta">
+                  {messages.footer.copyright}
+                </p>
+                <p className="meta">
+                  {messages.footer.builtWith}
+                </p>
               </div>
-              <footer className="relative z-10 border-t border-[color:var(--color-rule)] py-10 w-full overflow-x-hidden">
-                <div
-                  className="w-full gutter-x flex flex-col sm:flex-row items-start sm:items-baseline justify-between gap-3"
-                >
-                  <p className="meta">
-                    {messages.footer.copyright}
-                  </p>
-                  <p className="meta">
-                    {messages.footer.builtWith}
-                  </p>
-                </div>
-              </footer>
-              {/* #contact ハッシュで開く連絡先モーダル（全ページ常駐） */}
-              <ContactModal />
-            </MotionProvider>
+            </footer>
+            {/* #contact ハッシュで開く連絡先モーダル（全ページ常駐） */}
+            <ContactModal />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

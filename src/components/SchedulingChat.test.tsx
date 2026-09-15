@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
-import MotionProvider from "./MotionProvider";
 import ja from "../../messages/ja.json";
 
 // jsdom は Element.scrollTo を実装していない（SchedulingChat の自動スクロールが呼ぶ）。
@@ -52,9 +51,7 @@ import SchedulingChat, {
 function renderChat() {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <MotionProvider>
-        <SchedulingChat />
-      </MotionProvider>
+      <SchedulingChat />
     </NextIntlClientProvider>,
   );
 }

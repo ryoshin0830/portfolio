@@ -2,15 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
-import {
-  m,
-  useMotionValue,
-  useMotionValueEvent,
-  useSpring,
-  useTransform,
-  animate,
-  type MotionValue,
-} from "framer-motion";
+import { gsap, useGSAP } from "@/lib/gsap";
 import { useActiveAnimation } from "@/hooks/useActiveAnimation";
 
 /**
@@ -120,33 +112,24 @@ function parseRange(value: string): { from: number; to: number } | null {
   return { from, to };
 }
 
-/* --------- input neuron: continuous excitation from cursor Y --------- */
-function InputNeuron({
-  node,
-  smoothY,
-  reduce,
-}: {
-  node: GNode;
-  smoothY: MotionValue<number>;
-  reduce: boolean | null;
-}) {
-  const activation = useTransform(smoothY, (y) => {
-    const p = Math.max(0, 1 - Math.abs(y - node.y) / 110);
-    return p * p;
-  });
-  const opacity = useTransform(activation, [0, 1], [0.32, 1]);
-  const scale = useTransform(activation, [0, 1], [1, 1.18]);
-
+/* --------- input neuron: continuous excitation from cursor Y ---------
+   静的な <circle> を描くだけで、励起（opacity/scale）は親が
+   gsap.quickTo で駆動する。ポインタが動いたときだけ補間が走るので、
+   常時ループにはならない。 */
+function InputNeuron({ node, reduce }: { node: GNode; reduce: boolean }) {
   if (reduce) {
     return <circle cx={node.x} cy={node.y} r={4.5} fill="var(--color-accent)" opacity={0.4} />;
   }
   return (
-    <m.circle
+    <circle
+      data-input-neuron
+      data-node-y={node.y}
       cx={node.x}
       cy={node.y}
       r={4.5}
       fill="var(--color-accent)"
-      style={{ opacity, scale, transformBox: "fill-box", transformOrigin: "center" }}
+      opacity={0.32}
+      style={{ transformBox: "fill-box", transformOrigin: "center" }}
     />
   );
 }
@@ -160,13 +143,14 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
   const range = useMemo(() => parseRange(value), [value]);
   const canCountUp = range !== null && !reduce;
 
-  const mv = useMotionValue(range ? range.from : 0);
   const [display, setDisplay] = useState(range ? range.to.toFixed(2) : "");
-  useMotionValueEvent(mv, "change", (v) => setDisplay(v.toFixed(2)));
 
-  // Cursor → input excitation (vertical position only; network never moves).
-  const pointerY = useMotionValue(VIEW_H / 2);
-  const smoothY = useSpring(pointerY, { stiffness: 400, damping: 34, mass: 0.4 });
+  // SVG ルート。useGSAP のスコープであり、セレクタの基準でもある。
+  const svgRef = useRef<SVGSVGElement>(null);
+  // 入力ニューロンの励起セッター（quickTo）。ポインタ移動のたびに呼ぶ。
+  const exciteRef = useRef<
+    Array<{ y: number; opacity: (v: number) => void; scale: (v: number) => void }>
+  >([]);
 
   const [fine, setFine] = useState(false); // fine pointer (mouse) available
   const [activeInput, setActiveInput] = useState(0);
@@ -182,7 +166,13 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
     if (!fine || reduce) return;
     const r = e.currentTarget.getBoundingClientRect();
     const svgY = ((e.clientY - r.top) / r.height) * VIEW_H;
-    pointerY.set(svgY);
+    // 近いニューロンほど強く光らせる（ネットワーク自体は動かさない）。
+    exciteRef.current.forEach((n) => {
+      const p = Math.max(0, 1 - Math.abs(svgY - n.y) / 110);
+      const a = p * p;
+      n.opacity(0.32 + a * 0.68);
+      n.scale(1 + a * 0.18);
+    });
     movedRecentlyRef.current = true;
 
     let best = activeRef.current;
@@ -211,9 +201,18 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
   useEffect(() => {
     if (!canCountUp || !inView || !range || hasCountedUp.current) return;
     hasCountedUp.current = true;
-    const controls = animate(mv, range.to, { duration: 1.6, ease: [0.16, 1, 0.3, 1] });
-    return () => controls.stop();
-  }, [canCountUp, inView, mv, range]);
+    const counter = { value: range.from };
+    const tween = gsap.to(counter, {
+      value: range.to,
+      duration: 1.6,
+      ease: "expo.out",
+      onUpdate: () => setDisplay(counter.value.toFixed(2)),
+      onComplete: () => setDisplay(range.to.toFixed(2)),
+    });
+    return () => {
+      tween.kill();
+    };
+  }, [canCountUp, inView, range]);
 
   // Idle / touch auto-fire: cycle the inputs so the net keeps "inferring".
   // Skips a tick if the user moved the pointer recently (so it doesn't fight
@@ -232,6 +231,116 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
     }, AUTO_MS);
     return () => window.clearInterval(id);
   }, [active]);
+
+  // 入力ニューロンの励起セッターを用意する（ポインタ移動のたびに呼ぶ）。
+  // quickTo は 1 本のトゥイーンを使い回すので、移動のたびに生成しない。
+  useGSAP(
+    () => {
+      const nodes =
+        svgRef.current?.querySelectorAll<SVGCircleElement>("[data-input-neuron]");
+      exciteRef.current = [...(nodes ?? [])].map((el) => ({
+        y: Number(el.dataset.nodeY),
+        opacity: gsap.quickTo(el, "opacity", { duration: 0.35, ease: "power3.out" }),
+        scale: gsap.quickTo(el, "scale", { duration: 0.35, ease: "power3.out" }),
+      }));
+    },
+    { scope: svgRef, dependencies: [reduce] }
+  );
+
+  // ベースのエッジ／ノードの描き込み。画面に入ったとき一度だけ。
+  // 直線の length は座標から求まるので、dasharray で描画を表現する
+  // （DrawSVG プラグインに依存しない）。
+  useGSAP(
+    () => {
+      if (!inView || reduce) return;
+      const edges =
+        svgRef.current?.querySelectorAll<SVGLineElement>("[data-base-edge]");
+      edges?.forEach((el) => {
+        const len = Math.hypot(
+          Number(el.getAttribute("x2")) - Number(el.getAttribute("x1")),
+          Number(el.getAttribute("y2")) - Number(el.getAttribute("y1"))
+        );
+        gsap.fromTo(
+          el,
+          { strokeDasharray: len, strokeDashoffset: len },
+          {
+            strokeDashoffset: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            delay: Number(el.dataset.delay),
+          }
+        );
+      });
+
+      const baseNodes =
+        svgRef.current?.querySelectorAll<SVGCircleElement>("[data-base-node]");
+      baseNodes?.forEach((el) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0, scale: 0 },
+          {
+            opacity: Number(el.dataset.opacity),
+            scale: 1,
+            duration: 0.4,
+            ease: "power2.out",
+            delay: Number(el.dataset.delay),
+          }
+        );
+      });
+    },
+    { scope: svgRef, dependencies: [inView, reduce] }
+  );
+
+  // 前向き伝播のカスケード。fireKey が変わるたびに 1 回再生する。
+  // `active` が false（画面外・タブ非表示・reduced-motion）のときは
+  // そもそも <g> が描画されないので、タイムラインも作られない。
+  useGSAP(
+    () => {
+      if (!active) return;
+      const root = svgRef.current;
+      if (!root) return;
+
+      root.querySelectorAll<SVGLineElement>("[data-hop-edge]").forEach((el) => {
+        gsap
+          .timeline({ delay: Number(el.dataset.delay) })
+          .to(el, {
+            strokeOpacity: 0.6,
+            duration: (PULSE_DUR + 0.15) / 2,
+            ease: "power2.out",
+          })
+          .to(el, { strokeOpacity: 0, duration: (PULSE_DUR + 0.15) / 2, ease: "power2.out" });
+      });
+
+      root.querySelectorAll<SVGCircleElement>("[data-hop-pulse]").forEach((el) => {
+        const delay = Number(el.dataset.delay);
+        gsap.fromTo(
+          el,
+          { x: 0, y: 0 },
+          {
+            x: Number(el.dataset.dx),
+            y: Number(el.dataset.dy),
+            duration: PULSE_DUR,
+            delay,
+            ease: "power1.inOut",
+          }
+        );
+        gsap
+          .timeline({ delay })
+          .to(el, { opacity: 0.95, duration: PULSE_DUR / 2, ease: "power1.inOut" })
+          .to(el, { opacity: 0, duration: PULSE_DUR / 2, ease: "power1.inOut" });
+      });
+
+      root.querySelectorAll<SVGCircleElement>("[data-node-flash]").forEach((el) => {
+        const peak = Number(el.dataset.peak);
+        const peakScale = Number(el.dataset.scale);
+        gsap
+          .timeline({ delay: Number(el.dataset.delay) })
+          .to(el, { opacity: peak, scale: peakScale, duration: 0.275, ease: "power2.out" })
+          .to(el, { opacity: 0, scale: 1, duration: 0.275, ease: "power2.out" });
+      });
+    },
+    { scope: svgRef, dependencies: [fireKey, active] }
+  );
 
   /* number: "82.26% → " static prefix + counting tail */
   const renderNumber = () => {
@@ -283,6 +392,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
         className="pointer-events-none absolute inset-0 -z-0 flex items-center justify-center"
       >
         <svg
+          ref={svgRef}
           className="h-[125%] w-full"
           viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
           preserveAspectRatio="xMidYMid meet"
@@ -304,16 +414,11 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
             };
             if (reduce) return <line key={i} {...common} />;
             return (
-              <m.line
+              <line
                 key={i}
                 {...common}
-                initial={{ pathLength: 0 }}
-                animate={inView ? { pathLength: 1 } : { pathLength: 0 }}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeOut",
-                  delay: e.layer * 0.2 + (i % 6) * 0.02,
-                }}
+                data-base-edge
+                data-delay={e.layer * 0.2 + (i % 6) * 0.02}
               />
             );
           })}
@@ -322,7 +427,7 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
               outputs (accent). */}
           {NODES.map((n, i) => {
             if (isInput(n)) {
-              return <InputNeuron key={i} node={n} smoothY={smoothY} reduce={reduce} />;
+              return <InputNeuron key={i} node={n} reduce={reduce} />;
             }
             const accent = isOutput(n);
             const fill = accent ? "var(--color-accent)" : "var(--color-ink-muted)";
@@ -332,16 +437,16 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
               return <circle key={i} cx={n.x} cy={n.y} r={r} fill={fill} opacity={op} />;
             }
             return (
-              <m.circle
+              <circle
                 key={i}
                 cx={n.x}
                 cy={n.y}
                 r={r}
                 fill={fill}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={inView ? { opacity: op, scale: 1 } : { opacity: 0, scale: 0 }}
+                data-base-node
+                data-opacity={op}
+                data-delay={n.layer * 0.2 + 0.15}
                 style={{ transformBox: "fill-box", transformOrigin: "center" }}
-                transition={{ duration: 0.4, ease: "easeOut", delay: n.layer * 0.2 + 0.15 }}
               />
             );
           })}
@@ -357,26 +462,28 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
                 const delay = hop * HOP_STEP;
                 return (
                   <Fragment key={`hop-${hop}`}>
-                    <m.line
+                    <line
+                      data-hop-edge
+                      data-delay={delay}
                       x1={a.x}
                       y1={a.y}
                       x2={b.x}
                       y2={b.y}
                       stroke="var(--color-accent)"
                       strokeWidth={1.5}
+                      strokeOpacity={0}
                       vectorEffect="non-scaling-stroke"
-                      initial={{ strokeOpacity: 0 }}
-                      animate={{ strokeOpacity: [0, 0.6, 0] }}
-                      transition={{ duration: PULSE_DUR + 0.15, delay, ease: "easeOut" }}
                     />
-                    <m.circle
+                    <circle
+                      data-hop-pulse
+                      data-delay={delay}
+                      data-dx={b.x - a.x}
+                      data-dy={b.y - a.y}
                       cx={a.x}
                       cy={a.y}
                       r={3.5}
                       fill="var(--color-accent)"
-                      initial={{ x: 0, y: 0, opacity: 0 }}
-                      animate={{ x: [0, b.x - a.x], y: [0, b.y - a.y], opacity: [0, 0.95, 0] }}
-                      transition={{ duration: PULSE_DUR, delay, ease: "easeInOut" }}
+                      opacity={0}
                     />
                   </Fragment>
                 );
@@ -389,19 +496,18 @@ export default function HighlightsHeroMetric({ value, unit, label, context }: Pr
                 const out = isOutput(n);
                 const delay = (k - 1) * HOP_STEP + PULSE_DUR * 0.7;
                 return (
-                  <m.circle
+                  <circle
                     key={`flash-${k}`}
+                    data-node-flash
+                    data-delay={delay}
+                    data-peak={out ? 1 : 0.85}
+                    data-scale={out ? 1.5 : 1.3}
                     cx={n.x}
                     cy={n.y}
                     r={out ? 5 : 4}
                     fill="var(--color-accent)"
+                    opacity={0}
                     style={{ transformBox: "fill-box", transformOrigin: "center" }}
-                    initial={{ opacity: 0, scale: 1 }}
-                    animate={{
-                      opacity: [0, out ? 1 : 0.85, 0],
-                      scale: [1, out ? 1.5 : 1.3, 1],
-                    }}
-                    transition={{ duration: 0.55, delay, ease: "easeOut" }}
                   />
                 );
               })}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { m } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { useRef } from "react";
+import { gsap, useGSAP } from "@/lib/gsap";
 import dynamic from "next/dynamic";
 import { FaGithub } from "react-icons/fa";
 import type { Expertise } from "@/types/content";
@@ -14,7 +14,7 @@ const TimelineSection = dynamic(() => import("./TimelineSection"), {
 
 const AboutSection = () => {
   const t = useTranslations("about");
-  const [ref, inView] = useInView({ threshold: 0.05, triggerOnce: true });
+  const sectionRef = useRef<HTMLElement>(null);
 
   const fields = t.raw("fields") as string[];
   const expertise = t.raw("expertise") as Expertise[];
@@ -24,8 +24,28 @@ const AboutSection = () => {
     github: string;
   };
 
+  // 画面に入った要素を一度だけ持ち上げる。scrub ではないので
+  // スクロール中に回り続けることはない。
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from("[data-reveal]", {
+          opacity: 0,
+          y: 16,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: "power2.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 85%" },
+        });
+      });
+      return () => mm.revert();
+    },
+    { scope: sectionRef }
+  );
+
   return (
-    <section id="about" ref={ref} className="section section--pt-tight section--pb-tight">
+    <section id="about" ref={sectionRef} className="section section--pt-tight section--pb-tight">
       <div className="section__inner">
         <header className="mb-16">
           <p className="meta text-[color:var(--color-accent)] mb-3">{t("kicker")}</p>
@@ -35,12 +55,7 @@ const AboutSection = () => {
           </p>
         </header>
 
-        <m.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mb-16"
-        >
+        <div data-reveal className="max-w-3xl mb-16">
           <p className="prose-body text-[color:var(--color-ink)] mb-10">
             {t("pr")}
           </p>
@@ -57,7 +72,7 @@ const AboutSection = () => {
             <FaGithub className="w-4 h-4 shrink-0" aria-hidden />
             <span className="num">{credentials.github}</span>
           </a>
-        </m.div>
+        </div>
 
         {/* Capabilities — strengths chips */}
         <div className="mb-24">
@@ -77,13 +92,8 @@ const AboutSection = () => {
             {t("expertiseLabel")}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
-            {expertise.map((e, i) => (
-              <m.article
-                key={e.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-              >
+            {expertise.map((e) => (
+              <article key={e.id} data-reveal>
                 <ExpertiseIcon
                   id={e.id}
                   className="mb-5 h-8 w-8 text-[color:var(--color-accent)]"
@@ -94,7 +104,7 @@ const AboutSection = () => {
                 <p className="text-base text-[color:var(--color-ink-soft)] leading-relaxed">
                   {e.description}
                 </p>
-              </m.article>
+              </article>
             ))}
           </div>
         </div>
