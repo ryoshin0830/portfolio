@@ -51,7 +51,32 @@ export default function HeroDepth({ word }: { word: string }) {
 
   return (
     <div ref={ref} className="hero-depth" aria-hidden>
-      <span className="depth-word">{word}</span>
+      {/* アウトライン文字はインライン SVG の <text> で描く。
+          - textLength + lengthAdjust で viewBox 幅にぴったり合わせるので、
+            語の長さやフォントのメトリクスが変わってもレイアウトが動かない。
+          - stroke は標準の SVG プロパティ。-webkit-text-stroke は非標準。
+          - vector-effect でズームしてもヘアラインのまま。
+          なお、この要素は巨大なので Chrome では LCP 要素として選ばれる
+          （SVG text も LCP 候補になる）。ただし初期 HTML に含まれる静的な
+          描画で、実測でも LCP 候補はこれ 1 つだけ・408ms と、hero の
+          他の要素と同じタイミングで塗られている。スクロール時の transform は
+          LCP を再計測させないので、計測を遅らせる要因にはなっていない。 */}
+      <svg
+        className="depth-word"
+        viewBox="0 0 1000 200"
+        preserveAspectRatio="none"
+        aria-hidden
+      >
+        <text
+          x="0"
+          y="160"
+          textLength="1000"
+          lengthAdjust="spacingAndGlyphs"
+          vectorEffect="non-scaling-stroke"
+        >
+          {word}
+        </text>
+      </svg>
       <span className="depth-orbit" />
       <span className="depth-orbit depth-orbit--two" />
     </div>

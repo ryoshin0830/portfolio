@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Portfolio Project
 
 Next.js 15 / React 19 / TypeScript 5 / Tailwind CSS 4 のポートフォリオサイト（ryosh.in）。
-next-intl による多言語対応（ja/en/zh）、framer-motion によるアニメーション、Vercel にデプロイ。
+next-intl による多言語対応（ja/en/zh）、GSAP + ScrollTrigger によるアニメーション、Vercel にデプロイ。
 
 ## Commands
 
@@ -114,7 +114,7 @@ const engagements = t.raw("engagements") as Engagement[];
 新しいアニメーションを足すときは必ず以下を守る。実測（Chrome DevTools MCP / 本番ビルド /
 モバイル 4x CPU スロットリング）で検証した方針:
 
-- **ループ系は必ず `useActiveAnimation` でゲートする。** `repeat: Infinity` の framer-motion や
+- **ループ系は必ず `useActiveAnimation` でゲートする。** `repeat: -1` の GSAP タイムラインや
   `setInterval` / `requestAnimationFrame` ループは、`src/hooks/useActiveAnimation.ts` が返す `active`
   （= prefers-reduced-motion ∧ in-view ∧ document可視）で制御し、`active` が false のときは
   **静止フレームを描画**してループ／タイマーを破棄する。画面外やタブ非表示で回し続けない
@@ -129,9 +129,30 @@ const engagements = t.raw("engagements") as Engagement[];
 - **LCP テキストは LCP 計測ウィンドウ中に差し替えない。** Hero（名前・肩書き・タグライン）は
   完全に静的なサーバーレンダリング（async Server Component、タイマー無し）に揃えてある。
   Hero に動的演出を戻す場合もテキスト LCP 候補は静止させたままにする。
-- framer-motion は `LazyMotion`(`domAnimation`) 経由（`MotionProvider`）で使い、`m.*` を用いる。
-- 検証は `npm run build && npm run typecheck && npm run lint` + MCP 再トレースで CLS < 0.1・LCP 安定・
-  画面外 RAF 停止を確認する。
+- **そもそも scrub を優先する。** ScrollTrigger の `scrub` アニメーションはスクロール時にしか
+  進まないので、常時ループが要らなくなる。`repeat: -1` を足す前に scrub で表現できないか考える。
+
+### モーションの作法（GSAP に一本化）
+
+- **`src/lib/gsap.ts` が GSAP の唯一の入口。** ここで `registerPlugin(useGSAP, ScrollTrigger)` を
+  1 回だけ行う。各ファイルで `gsap` を直接 import しない（登録漏れと二重登録の両方を防ぐ）。
+- **アニメーションは必ず `useGSAP(() => {...}, { scope })` の中で定義する。** `useGSAP` は内部で
+  `gsap.context()` を張るので、アンマウント時にトゥイーン・ScrollTrigger・インライン style が
+  まとめて revert される。手書きの cleanup を増やさないための中核。
+- **分岐は `gsap.matchMedia()` で宣言する。** reduced-motion / ブレークポイント / hover 可否は
+  `mm.add("(prefers-reduced-motion: no-preference)", ...)` のように条件付きで登録し、条件から
+  外れたら自動で revert させる。手動の teardown を書かない。
+- **横断的な演出は `ScrollMotionRoot` に集約する。** セクション側は `data-reveal-head` /
+  `data-reveal` / `data-stagger` / `tilt-card` / `wipe-row` / `data-magnetic` を付けるだけでよく、
+  Server Component のままでいられる。セクション固有で内部状態を持つものだけ各コンポーネントに置く。
+- **`AnimatePresence` の代わりは `useExitTransition`。** 閉じアニメの尺だけアンマウントを遅らせる。
+  `closing` は effect ではなく**レンダー中に**更新すること（effect だと一度 DOM が消えて
+  再生成され、閉じアニメが飛ぶ）。
+- **pin はセクション要素に当てない。** `<section id="...">` を pin すると `position: fixed` になり、
+  `getBoundingClientRect().top` が固定されて `src/lib/scroll.ts` の settle スクロールが nudge を
+  繰り返す。pin するなら必ず内側のラッパーにする。
+- 検証は `npm run build && npm run typecheck && npm run lint` + Playwright MCP で CLS < 0.1・LCP 安定・
+  画面外でループ停止を確認する。
 
 ### SEO
 
